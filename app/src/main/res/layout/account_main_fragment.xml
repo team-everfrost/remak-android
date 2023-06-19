@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.remak.AccountMainFragment">
 
 
     <ImageView
@@ -35,24 +36,30 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="이메일"
-            android:textSize="13sp"/>
+            android:textStyle="bold"
+
+            android:textSize="10sp"/>
 
 
         <EditText
             android:id="@+id/idEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:background="@drawable/edit_text_round"
-            android:hint="아이디"
+            android:hint="@string/emailHint"
+            android:layout_marginTop="5dp"
+
             android:paddingHorizontal="20dp"
             android:textColorHint="@color/silver"
             android:textSize="20dp" />
 
         <TextView
+            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="31dp"
+            android:textSize="10sp"
 
             android:text="비밀번호"
             />
@@ -60,9 +67,10 @@
         <EditText
             android:id="@+id/pwEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_height="45dp"
             android:background="@drawable/edit_text_round"
-            android:hint="비밀번호"
+            android:hint="@string/passwordHint"
             android:inputType="textPassword"
             android:paddingHorizontal="20dp"
             android:textColorHint="@color/silver"
@@ -71,13 +79,14 @@
         <Button
             android:id="@+id/signInBtn"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height= "50dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/gray"
+            android:backgroundTint="@color/whiteGray"
             android:gravity="center"
+            android:enabled="false"
             android:text="로그인"
-            android:textSize="20dp" />
+            android:textSize="15dp" />
     </LinearLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -92,14 +101,13 @@
         app:layout_constraintVertical_bias="0.058">
 
         <TextView
-            android:layout_marginLeft="20dp"
             android:id="@+id/signUpBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:text="아직 회원이 아니신가요?"
+            android:text="계정 정보를 잊으셨나요??"
             android:textColor="@color/silver"
-            android:textSize="15dp" />
+            android:textSize="10sp" />
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -113,9 +121,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginLeft="10dp"
-            android:text="계정 찾기"
+            android:text="회원가입하기"
             android:textColor="@color/silver"
-            android:textSize="15dp" />
+            android:textSize="10dp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <ImageButton
