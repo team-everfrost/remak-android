@@ -30,8 +30,10 @@
         <action
             android:id="@+id/action_accountSignUp1Fragment2_to_accountMainFragment"
             app:destination="@id/accountMainFragment"
-            app:enterAnim="@anim/form_left"
-            app:exitAnim="@anim/to_right" />
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/accountSignUp2Fragment2"

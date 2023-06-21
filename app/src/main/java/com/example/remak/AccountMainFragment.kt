@@ -30,6 +30,9 @@ class AccountMainFragment : BaseFragment() {
         binding.signUpBtn.setOnClickListener{
             findNavController().navigate(R.id.action_accountMainFragment_to_accountSignUp1Fragment2)
         }
+        binding.findAccountBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_accountMainFragment_to_accountFindPassword1Fragment)
+        }
     }
 
 

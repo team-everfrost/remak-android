@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -25,6 +26,7 @@ class AccountSignUp1Fragment : BaseFragment() {
         binding.root.setOnClickListener {
             hideKeyboard()
         }
+
         return binding.root
     }
 
@@ -38,6 +40,13 @@ class AccountSignUp1Fragment : BaseFragment() {
             findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountSignUp2Fragment2)
         }
         emailTextChange()
+
+        //기기의 뒤로가기 버튼 재정의
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountMainFragment)
+        }
+
+
     }
 
 
@@ -70,5 +79,7 @@ class AccountSignUp1Fragment : BaseFragment() {
     fun isEmailValid(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
+
+
 
 }
