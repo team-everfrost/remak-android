@@ -23,7 +23,8 @@
         tools:layout="@layout/account_signup1_fragment" >
         <action
             android:id="@+id/action_accountSignUp1Fragment2_to_accountSignUp2Fragment2"
-            app:destination="@id/accountSignUp2Fragment2" />
+            app:destination="@id/accountSignUp2Fragment2"
+            app:enterAnim="@anim/slide_in_right" />
         <action
             android:id="@+id/action_accountSignUp1Fragment2_to_accountMainFragment"
             app:destination="@id/accountMainFragment" />
@@ -33,9 +34,6 @@
         android:name="com.example.remak.AccountSignUp2Fragment"
         android:label="account_signup2_fragment"
         tools:layout="@layout/account_signup2_fragment" >
-        <action
-            android:id="@+id/action_accountSignUp2Fragment2_self"
-            app:destination="@id/accountSignUp2Fragment2" />
         <action
             android:id="@+id/action_accountSignUp2Fragment2_to_accountSignUp3Fragment"
             app:destination="@id/accountSignUp3Fragment" />

@@ -5,11 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.remak.databinding.AccountMainFragmentBinding
 
-class AccountMainFragment : Fragment() {
+class AccountMainFragment : BaseFragment() {
 
     private lateinit var binding : AccountMainFragmentBinding
 
@@ -18,6 +19,9 @@ class AccountMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = AccountMainFragmentBinding.inflate(inflater, container, false)
+        binding.root.setOnClickListener{
+            hideKeyboard()
+        }
         return binding.root
     }
 
@@ -25,8 +29,9 @@ class AccountMainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.signUpBtn.setOnClickListener{
             findNavController().navigate(R.id.action_accountMainFragment_to_accountSignUp1Fragment2)
-            Log.d("test", "test")
         }
     }
+
+
 
 }

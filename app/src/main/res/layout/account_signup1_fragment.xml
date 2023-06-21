@@ -43,6 +43,7 @@
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/emailEditText"
+        android:singleLine="true"
         android:layout_width="358dp"
         android:layout_height="45dp"
         android:layout_marginTop="240dp"
@@ -73,6 +74,7 @@
         android:layout_marginTop="348dp"
         android:background="@drawable/custom_ripple_effect"
         android:gravity="center"
+        android:enabled="false"
         android:text="다음"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
