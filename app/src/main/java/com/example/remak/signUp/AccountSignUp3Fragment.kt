@@ -1,4 +1,4 @@
-package com.example.remak
+package com.example.remak.signUp
 
 import android.os.Bundle
 import android.view.LayoutInflater

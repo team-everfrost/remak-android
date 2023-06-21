@@ -1,4 +1,4 @@
-package com.example.remak
+package com.example.remak.signUp
 
 import android.graphics.Color
 import android.os.Bundle
@@ -10,9 +10,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.remak.BaseFragment
+import com.example.remak.R
 import com.example.remak.databinding.AccountSignup1FragmentBinding
 
-class AccountSignUp1Fragment : Fragment() {
+class AccountSignUp1Fragment : BaseFragment() {
     private lateinit var binding : AccountSignup1FragmentBinding
 
     override fun onCreateView(
@@ -21,6 +23,7 @@ class AccountSignUp1Fragment : Fragment() {
     ): View? {
         binding = AccountSignup1FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
+            hideKeyboard()
         }
         return binding.root
     }
@@ -45,7 +48,9 @@ class AccountSignUp1Fragment : Fragment() {
                 if(isEmailValid(s.toString())){
                     binding.nextBtn.setBackgroundColor(Color.parseColor("#FF0000"))
                     binding.nextBtn.isEnabled = true
-                    val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.custom_ripple_effect)
+                    val drawable = ContextCompat.getDrawable(requireContext(),
+                        R.drawable.custom_ripple_effect
+                    )
                     binding.nextBtn.background = drawable
                 }else{
 

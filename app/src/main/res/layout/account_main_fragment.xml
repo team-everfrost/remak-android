@@ -44,7 +44,7 @@
         <EditText
             android:id="@+id/idEditText"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/edit_text_round"
             android:hint="@string/emailHint"
@@ -67,7 +67,7 @@
             android:id="@+id/pwEditText"
             android:layout_width="match_parent"
             android:layout_marginTop="5dp"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:background="@drawable/edit_text_round"
             android:hint="@string/passwordHint"
             android:inputType="textPassword"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="AccountSignUp2Fragment"
+    tools:context=".signUp.AccountSignUp2Fragment"
     >
 
     <androidx.constraintlayout.utils.widget.ImageFilterButton
@@ -59,7 +59,7 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/passwordEditText"
         android:layout_width="358dp"
-        android:layout_height="37dp"
+        android:layout_height="50dp"
         android:layout_marginTop="204dp"
         android:background="@drawable/edit_text_round"
         android:hint="@string/passwordHint"
@@ -75,7 +75,7 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/passwordCheckEditText"
         android:layout_width="358dp"
-        android:layout_height="37dp"
+        android:layout_height="50dp"
         android:layout_marginTop="304dp"
         android:hint="@string/passwordRepeatHint"
         android:background="@drawable/edit_text_round"
@@ -91,10 +91,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:textStyle="bold"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:text="비밀번호 확인"
         android:textSize="15dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
 
