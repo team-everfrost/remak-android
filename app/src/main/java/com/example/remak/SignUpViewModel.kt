@@ -11,6 +11,9 @@ class SignUpViewModel : ViewModel() {
     private val _userEmail = MutableLiveData<String>()
     val userEmail : LiveData<String> = _userEmail
 
+    private val _userPassword = MutableLiveData<String>()
+    val userPassword : LiveData<String> = _userPassword
+
 
     init {
         resetData()
