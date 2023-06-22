@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.remak.AccountMainFragment">
+    tools:context="com.example.remak.AccountMainFragment"
+    android:background="@color/white">
 
 
     <ImageView
@@ -43,6 +44,7 @@
 
         <EditText
             android:id="@+id/idEditText"
+            android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="5dp"

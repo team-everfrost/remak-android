@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,10 +46,13 @@ class AccountSignUp1Fragment : BaseFragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountMainFragment)
         }
-
-
     }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("destroy", "onDestroy:")
+    }
 
     //emailText변경감지
     fun emailTextChange(){
@@ -79,6 +83,8 @@ class AccountSignUp1Fragment : BaseFragment() {
     fun isEmailValid(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
+
+
 
 
 

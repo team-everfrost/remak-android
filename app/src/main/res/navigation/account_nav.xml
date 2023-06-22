@@ -13,7 +13,9 @@
             android:id="@+id/action_accountMainFragment_to_accountSignUp1Fragment2"
             app:destination="@id/accountSignUp1Fragment2"
             app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left" />
+            app:exitAnim="@anim/to_left"
+            app:popUpTo="@id/accountMainFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_accountMainFragment_to_accountFindPassword1Fragment"
             app:destination="@id/accountFindPassword1Fragment" />
@@ -33,7 +35,9 @@
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
+            app:popExitAnim="@anim/to_right"
+            app:popUpTo="@id/accountSignUp1Fragment2"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/accountSignUp2Fragment2"

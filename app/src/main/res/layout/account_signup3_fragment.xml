@@ -60,6 +60,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="204dp"
         android:background="@drawable/edit_text_round"
+        android:inputType="number"
         android:padding="10dp"
         android:textSize="15dp"
         android:hint="@string/authNumberHint"
