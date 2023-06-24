@@ -1,19 +1,19 @@
 package com.example.remak
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.addCallback
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.remak.databinding.AccountMainFragmentBinding
+import com.example.remak.signIn.SignInViewModel
 
 class AccountMainFragment : BaseFragment() {
 
     private lateinit var binding : AccountMainFragmentBinding
+    private val viewModel : SignInViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +33,11 @@ class AccountMainFragment : BaseFragment() {
         }
         binding.findAccountBtn.setOnClickListener {
             findNavController().navigate(R.id.action_accountMainFragment_to_accountFindPassword1Fragment)
+        }
+
+        binding.kakaoBtn.setOnClickListener {
+            viewModel.kakaoLogin(requireActivity())
+
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             requireActivity().finish()

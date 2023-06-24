@@ -9,13 +9,18 @@
 
 
     <ImageView
+
+
         android:id="@+id/logo"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="426dp"
+        android:layout_height="149dp"
+        android:src="@drawable/main_logo"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.388"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
 
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
@@ -131,6 +136,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <ImageButton
+        android:id="@+id/kakaoBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
