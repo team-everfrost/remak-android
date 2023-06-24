@@ -18,7 +18,9 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_accountMainFragment_to_accountFindPassword1Fragment"
-            app:destination="@id/accountFindPassword1Fragment" />
+            app:destination="@id/accountFindPassword1Fragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left" />
     </fragment>
     <fragment
         android:id="@+id/accountSignUp1Fragment2"
@@ -72,15 +74,17 @@
         android:name="com.example.remak.AccountFindPassword1Fragment"
         android:label="find_password1_fragment"
         tools:layout="@layout/find_password1_fragment" >
-        <action
-            android:id="@+id/action_accountFindPassword1Fragment_to_accountMainFragment"
-            app:destination="@id/accountMainFragment" />
+         />
         <action
             android:id="@+id/action_accountFindPassword1Fragment_to_accountFindPassword2Fragment"
-            app:destination="@id/accountFindPassword2Fragment" />
+            app:destination="@id/accountFindPassword2Fragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left" />
         <action
             android:id="@+id/action_accountFindPassword1Fragment_to_accountMainFragment2"
-            app:destination="@id/accountMainFragment" />
+            app:destination="@id/accountMainFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/accountFindPassword2Fragment"
@@ -89,10 +93,14 @@
         tools:layout="@layout/find_password2_fragment" >
         <action
             android:id="@+id/action_accountFindPassword2Fragment_to_accountFindPassword3Fragment"
-            app:destination="@id/accountFindPassword3Fragment" />
+            app:destination="@id/accountFindPassword3Fragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left" />
         <action
             android:id="@+id/action_accountFindPassword2Fragment_to_accountFindPassword1Fragment"
-            app:destination="@id/accountFindPassword1Fragment" />
+            app:destination="@id/accountFindPassword1Fragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/accountFindPassword3Fragment"
@@ -101,6 +109,8 @@
         tools:layout="@layout/find_password3_fragment" >
         <action
             android:id="@+id/action_accountFindPassword3Fragment_to_accountFindPassword2Fragment"
-            app:destination="@id/accountFindPassword2Fragment" />
+            app:destination="@id/accountFindPassword2Fragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"/>
     </fragment>
 </navigation>

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
+import androidx.navigation.fragment.findNavController
 import com.example.remak.databinding.FindPassword2FragmentBinding
 
 class AccountFindPassword2Fragment : BaseFragment() {
@@ -19,6 +21,13 @@ class AccountFindPassword2Fragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.root.setOnClickListener {
+            hideKeyboard()
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            findNavController().navigate(R.id.action_accountFindPassword2Fragment_to_accountFindPassword1Fragment)
+        }
 
 
     }

@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.example.remak.databinding.FindPassword1FragmentBinding
@@ -29,7 +30,14 @@ class AccountFindPassword1Fragment : BaseFragment() {
             findNavController().navigate(R.id.action_accountFindPassword1Fragment_to_accountFindPassword2Fragment)
         }
 
-        hideKeyboard()
+        binding.root.setOnClickListener {
+            hideKeyboard()
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            findNavController().navigate(R.id.action_accountFindPassword1Fragment_to_accountMainFragment2)
+        }
+
         emailCheck(binding.emailEditText, binding.nextBtn)
 
 

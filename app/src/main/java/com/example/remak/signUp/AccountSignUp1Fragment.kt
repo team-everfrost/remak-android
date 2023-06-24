@@ -55,10 +55,4 @@ class AccountSignUp1Fragment : BaseFragment() {
         Log.d("destroy", "onDestroy:")
     }
 
-
-
-
-
-
-
 }
