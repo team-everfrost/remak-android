@@ -49,8 +49,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:2.6.0"
-    implementation "androidx.navigation:navigation-ui-ktx:2.6.0"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
+    implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -78,6 +78,9 @@ dependencies {
     implementation "com.kakao.sdk:v2-talk:2.14.0" // 친구, 메시지(카카오톡)
     implementation "com.kakao.sdk:v2-share:2.14.0" // 메시지(카카오톡 공유)
     implementation "com.kakao.sdk:v2-friend:2.14.0" // 카카오톡 소셜 피커, 리소스 번들 파일 포함
+
+    //구글 로그인
+    implementation 'com.google.android.gms:play-services-auth:20.5.0'
 
 
 }
