@@ -1,9 +1,10 @@
 package com.example.remak
 
-import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
@@ -26,15 +27,20 @@ abstract class BaseFragment : Fragment() {
 
     }
 
-    fun emailCheck(email : AppCompatEditText, btn : AppCompatButton) {
+    fun emailCheck(email: AppCompatEditText, btn: AppCompatButton, emailErrorMessage: TextView) {
         email.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 if (isEmailValid(email.text.toString())){
                     btn.isEnabled = true
                     val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.custom_ripple_effect)
+                    email.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round)
                     btn.background = drawable
+                    emailErrorMessage.visibility = View.INVISIBLE
                 } else {
+                    email.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round_red)
                     btn.isEnabled = false
+                    emailErrorMessage.visibility = View.VISIBLE
+
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

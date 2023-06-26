@@ -1,14 +1,9 @@
 package com.example.remak
 
-import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.example.remak.databinding.FindPassword1FragmentBinding
 
@@ -36,7 +31,7 @@ class AccountFindPassword1Fragment : BaseFragment() {
 
 
 
-        emailCheck(binding.emailEditText, binding.nextBtn)
+        emailCheck(binding.emailEditText, binding.nextBtn, binding.emailErrorMessage)
 
 
 

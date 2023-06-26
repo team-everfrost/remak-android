@@ -3,6 +3,7 @@ package com.example.remak.signIn
 import android.app.Activity
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -65,4 +66,14 @@ class SignInViewModel(private val signInRepository: SignInRepository): ViewModel
         }
     }
 
+}
+
+class SignInViewModelFactory(private val signInRepository: SignInRepository) : ViewModelProvider.Factory{
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(SignInViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return SignInViewModel(signInRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }

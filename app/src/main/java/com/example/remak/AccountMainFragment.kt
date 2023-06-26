@@ -5,20 +5,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.datastore.core.DataStore
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.remak.databinding.AccountMainFragmentBinding
+import com.example.remak.signIn.SignInRepository
 import com.example.remak.signIn.SignInViewModel
+import com.example.remak.signIn.SignInViewModelFactory
+import java.util.prefs.Preferences
 
 class AccountMainFragment : BaseFragment() {
 
     private lateinit var binding : AccountMainFragmentBinding
-    private val viewModel : SignInViewModel by viewModels()
+    //    val testSignInRepository = SignInRepository((requireActivity().application as App).testDataStore)
+
+//    val signInRepository = SignInRepository((requireActivity().application as App).dataStore)
+    lateinit var signInRepository : SignInRepository
+    lateinit var viewModel : SignInViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        signInRepository = SignInRepository((requireActivity().application as App).dataStore)
+
+        viewModel = ViewModelProvider(this, SignInViewModelFactory(signInRepository)).get(SignInViewModel::class.java)
         binding = AccountMainFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener{
             hideKeyboard()
@@ -42,6 +55,7 @@ class AccountMainFragment : BaseFragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             requireActivity().finish()
         }
+
     }
 
 
