@@ -14,13 +14,16 @@
             app:destination="@id/accountSignUp1Fragment2"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
-            app:popUpTo="@id/accountMainFragment"
-            app:popUpToInclusive="true" />
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_accountMainFragment_to_accountFindPassword1Fragment"
             app:destination="@id/accountFindPassword1Fragment"
             app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left" />
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/accountSignUp1Fragment2"
@@ -31,7 +34,9 @@
             android:id="@+id/action_accountSignUp1Fragment2_to_accountSignUp2Fragment2"
             app:destination="@id/accountSignUp2Fragment2"
             app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left" />
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_accountSignUp1Fragment2_to_accountMainFragment"
             app:destination="@id/accountMainFragment"
@@ -39,8 +44,8 @@
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"
-            app:popUpTo="@id/accountSignUp1Fragment2"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false"
+            app:restoreState="true" />
     </fragment>
     <fragment
         android:id="@+id/accountSignUp2Fragment2"
@@ -51,7 +56,9 @@
             android:id="@+id/action_accountSignUp2Fragment2_to_accountSignUp3Fragment"
             app:destination="@id/accountSignUp3Fragment"
             app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left" />
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_accountSignUp2Fragment2_to_accountSignUp1Fragment2"
             app:destination="@id/accountSignUp1Fragment2"
@@ -79,7 +86,9 @@
             android:id="@+id/action_accountFindPassword1Fragment_to_accountFindPassword2Fragment"
             app:destination="@id/accountFindPassword2Fragment"
             app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left" />
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_accountFindPassword1Fragment_to_accountMainFragment2"
             app:destination="@id/accountMainFragment"
@@ -95,7 +104,9 @@
             android:id="@+id/action_accountFindPassword2Fragment_to_accountFindPassword3Fragment"
             app:destination="@id/accountFindPassword3Fragment"
             app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left" />
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_accountFindPassword2Fragment_to_accountFindPassword1Fragment"
             app:destination="@id/accountFindPassword1Fragment"

@@ -22,8 +22,6 @@ class AccountFindPassword3Fragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_accountFindPassword3Fragment_to_accountFindPassword2Fragment)
-        }
+
     }
 }

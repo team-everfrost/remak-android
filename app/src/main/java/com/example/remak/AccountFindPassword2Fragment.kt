@@ -25,9 +25,7 @@ class AccountFindPassword2Fragment : BaseFragment() {
             hideKeyboard()
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_accountFindPassword2Fragment_to_accountFindPassword1Fragment)
-        }
+
 
 
     }

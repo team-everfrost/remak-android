@@ -34,9 +34,7 @@ class AccountFindPassword1Fragment : BaseFragment() {
             hideKeyboard()
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_accountFindPassword1Fragment_to_accountMainFragment2)
-        }
+
 
         emailCheck(binding.emailEditText, binding.nextBtn)
 

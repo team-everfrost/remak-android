@@ -34,9 +34,7 @@ class AccountSignUp3Fragment : BaseFragment() {
             hideKeyboard()
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_accountSignUp2Fragment2_to_accountSignUp1Fragment2)
-        }
+
         passwordCheck(binding.passwordEditText, binding.passwordCheckEditText, binding.nextBtn)
     }
 

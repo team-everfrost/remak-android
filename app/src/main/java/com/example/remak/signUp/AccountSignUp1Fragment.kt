@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -43,10 +44,7 @@ class AccountSignUp1Fragment : BaseFragment() {
         emailCheck(binding.emailEditText, binding.nextBtn)
 
 
-        //기기의 뒤로가기 버튼 재정의
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountMainFragment)
-        }
+
     }
 
 
