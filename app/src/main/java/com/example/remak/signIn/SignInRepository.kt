@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.remak.data.TokenData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 
 
@@ -23,6 +24,15 @@ class SignInRepository(private val dataStore: DataStore<Preferences>) {
             preferences[PreferencesKeys.REFRESH_TOKEN] = user.refreshToken
         }
     }
+
+    suspend fun fetchTokenData () : TokenData? {
+        var tokenData : TokenData? = null
+        user.collect {data ->
+            tokenData = data
+        }
+        return tokenData
+    }
+
 
     val user : Flow<TokenData?> = dataStore.data
         .catch { exception ->

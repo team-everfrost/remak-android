@@ -3,15 +3,15 @@ package com.example.remak.signIn
 import android.app.Activity
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.launch
+import kotlin.math.sign
 
-class SignInViewModel: ViewModel(){
-
-
-
+class SignInViewModel(private val signInRepository: SignInRepository): ViewModel(){
 
     fun kakaoLogin(context: Activity) {
 
@@ -50,6 +50,19 @@ class SignInViewModel: ViewModel(){
             Log.d("kakao", "설치X")
         }
 
+    }
+
+    //로그인 시 토큰을 불러오는 함수
+    fun getToken() {
+        viewModelScope.launch {
+            val tokenData = signInRepository.fetchTokenData()
+
+            if (tokenData != null) {
+                val accessToken = tokenData.accessToken
+                val refreshToken = tokenData.refreshToken
+
+            }
+        }
     }
 
 }
