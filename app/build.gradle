@@ -82,5 +82,8 @@ dependencies {
     //구글 로그인
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
 
+    //datastore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
 
 }

@@ -11,6 +11,8 @@ import com.kakao.sdk.user.UserApiClient
 class SignInViewModel: ViewModel(){
 
 
+
+
     fun kakaoLogin(context: Activity) {
 
         // 카카오계정으로 로그인 공통 callback 구성
