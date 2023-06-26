@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".signUp.AccountSignUp3Fragment"
+    tools:context=".signUp.AccountSignUp2Fragment"
     >
 
     <androidx.constraintlayout.utils.widget.ImageFilterButton
@@ -26,7 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="28dp"
-        android:text="이메일로 발송 된 인증번호를 입력해주세요"
+        android:textStyle="bold"
+        android:text="비밀번호를 입력해 주세요"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backButton" />
@@ -47,37 +48,67 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:layout_marginStart="24dp"
         android:layout_marginTop="36dp"
-        android:text="인증번호"
+        android:text="비밀번호"
         android:textSize="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/certificationEditText"
+        android:id="@+id/passwordEditText"
         android:layout_width="358dp"
         android:layout_height="50dp"
         android:layout_marginTop="204dp"
         android:background="@drawable/edit_text_round"
-        android:inputType="number"
+        android:inputType="textPassword"
+        android:hint="@string/passwordHint"
         android:padding="10dp"
         android:textSize="15dp"
-        android:hint="@string/authNumberHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.7" />
 
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/passwordCheckEditText"
+        android:layout_width="358dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="304dp"
+        android:hint="@string/passwordRepeatHint"
+        android:background="@drawable/edit_text_round"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:text="비밀번호 확인"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/nextBtn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="348dp"
+        android:enabled="false"
         android:background="@drawable/custom_ripple_effect"
         android:gravity="center"
-        android:text="확인"
+        android:text="다음"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="20dp"
