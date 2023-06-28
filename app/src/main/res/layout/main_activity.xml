@@ -39,10 +39,10 @@
             app:menu="@menu/bottom_nav">
 
             <ImageButton
-                android:layout_width="60dp"
+                android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center|bottom"
-                android:background="@color/white"
+                android:background="@drawable/custom_ripple_effect_white"
                 android:src="@drawable/baseline_add_box_24"
 
                 />
