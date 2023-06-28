@@ -10,6 +10,8 @@ import com.example.remak.databinding.MainHomeFragmentBinding
 class MainHomeFragment : BaseFragment() {
     private lateinit var binding : MainHomeFragmentBinding
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

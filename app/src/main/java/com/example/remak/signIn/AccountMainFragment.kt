@@ -1,19 +1,18 @@
-package com.example.remak
+package com.example.remak.signIn
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
-import androidx.datastore.core.DataStore
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.remak.App
+import com.example.remak.BaseFragment
+import com.example.remak.R
 import com.example.remak.databinding.AccountMainFragmentBinding
-import com.example.remak.signIn.SignInRepository
-import com.example.remak.signIn.SignInViewModel
-import com.example.remak.signIn.SignInViewModelFactory
-import java.util.prefs.Preferences
+import com.example.remak.main.MainActivity
 
 class AccountMainFragment : BaseFragment() {
 
@@ -51,6 +50,10 @@ class AccountMainFragment : BaseFragment() {
         binding.kakaoBtn.setOnClickListener {
             viewModel.kakaoLogin(requireActivity())
 
+        }
+        binding.signInBtn.setOnClickListener{
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             requireActivity().finish()

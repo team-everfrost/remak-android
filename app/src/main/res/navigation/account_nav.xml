@@ -6,7 +6,7 @@
     app:startDestination="@id/accountMainFragment">
     <fragment
         android:id="@+id/accountMainFragment"
-        android:name="com.example.remak.AccountMainFragment"
+        android:name="com.example.remak.signIn.AccountMainFragment"
         android:label="account_main_fragment"
         tools:layout="@layout/account_main_fragment" >
         <action

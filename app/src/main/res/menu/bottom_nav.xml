@@ -4,7 +4,7 @@
     <item
         android:title="@string/navSample"
         android:id="@+id/homeFragment"
-        android:icon="@drawable/baseline_home_24"
+        android:icon="@drawable/home_selector"
         />
 
     <item
