@@ -1,4 +1,4 @@
-package com.example.remak.signIn
+package com.example.remak.view.account.signIn
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

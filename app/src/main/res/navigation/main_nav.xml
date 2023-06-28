@@ -6,27 +6,27 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.remak.main.MainProfileFragment"
+        android:name="com.example.remak.view.main.MainProfileFragment"
         tools:layout="@layout/main_profile_fragment"
         android:label="MainProfileFragment" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.remak.main.MainHomeFragment"
+        android:name="com.example.remak.view.main.MainHomeFragment"
         android:label="MainHomeFragment"
         tools:layout="@layout/main_home_fragment"/>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.remak.main.MainSearchFragment"
+        android:name="com.example.remak.view.main.MainSearchFragment"
         android:label="MainSearchFragment"
         tools:layout="@layout/main_search_fragment"/>
     <fragment
         android:id="@+id/tagFragment"
-        android:name="com.example.remak.main.MainTagFragment"
+        android:name="com.example.remak.view.main.MainTagFragment"
         android:label="MainTagFragment"
         tools:layout="@layout/main_tag_fragment"/>
     <fragment
         android:id="@+id/addBtn"
-        android:name="com.example.remak.main.blank"
+        android:name="com.example.remak.view.main.blank"
         android:label="blank"
         tools:layout="@layout/blank"/>
 </navigation>

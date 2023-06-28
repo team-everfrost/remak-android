@@ -1,10 +1,12 @@
-package com.example.remak
+package com.example.remak.view.account.findPassword
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.example.remak.BaseFragment
+import com.example.remak.R
 import com.example.remak.databinding.FindPassword1FragmentBinding
 
 class AccountFindPassword1Fragment : BaseFragment() {

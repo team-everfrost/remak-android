@@ -1,14 +1,13 @@
-package com.example.remak
+package com.example.remak.view.account
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.remak.databinding.AccountActivityBinding
-import androidx.navigation.ui.setupWithNavController
+import com.example.remak.R
 import com.kakao.sdk.common.util.Utility
 
 class AccountActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.example.remak.signIn
+package com.example.remak.view.account.signIn
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,7 @@ import com.example.remak.App
 import com.example.remak.BaseFragment
 import com.example.remak.R
 import com.example.remak.databinding.AccountMainFragmentBinding
-import com.example.remak.main.MainActivity
+import com.example.remak.view.main.MainActivity
 
 class AccountMainFragment : BaseFragment() {
 
@@ -30,7 +30,8 @@ class AccountMainFragment : BaseFragment() {
     ): View? {
         signInRepository = SignInRepository((requireActivity().application as App).dataStore)
 
-        viewModel = ViewModelProvider(this, SignInViewModelFactory(signInRepository)).get(SignInViewModel::class.java)
+        viewModel = ViewModelProvider(this, SignInViewModelFactory(signInRepository)).get(
+            SignInViewModel::class.java)
         binding = AccountMainFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener{
             hideKeyboard()

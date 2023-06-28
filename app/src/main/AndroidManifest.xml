@@ -18,12 +18,12 @@
         android:theme="@style/Theme.Remak"
         tools:targetApi="31">
         <activity
-            android:name=".main.MainActivity"
+            android:name=".view.main.MainActivity"
             android:exported="true">
 
         </activity>
 
-        <activity android:name=".AccountActivity"
+        <activity android:name=".view.account.AccountActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

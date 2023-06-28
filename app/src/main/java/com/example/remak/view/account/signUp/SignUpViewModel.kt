@@ -1,4 +1,4 @@
-package com.example.remak.signUp
+package com.example.remak.view.account.signUp
 
 import android.app.Application
 import android.view.inputmethod.InputMethodManager

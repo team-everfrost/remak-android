@@ -1,4 +1,4 @@
-package com.example.remak.main
+package com.example.remak.view.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

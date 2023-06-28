@@ -1,4 +1,4 @@
-package com.example.remak.signIn
+package com.example.remak.view.account.signIn
 
 import android.app.Activity
 import android.util.Log

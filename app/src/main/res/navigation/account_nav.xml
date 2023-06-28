@@ -6,7 +6,7 @@
     app:startDestination="@id/accountMainFragment">
     <fragment
         android:id="@+id/accountMainFragment"
-        android:name="com.example.remak.signIn.AccountMainFragment"
+        android:name="com.example.remak.view.account.signIn.AccountMainFragment"
         android:label="account_main_fragment"
         tools:layout="@layout/account_main_fragment" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountSignUp1Fragment2"
-        android:name="com.example.remak.signUp.AccountSignUp1Fragment"
+        android:name="com.example.remak.view.account.signUp.AccountSignUp1Fragment"
         android:label="account_signup1_fragment"
         tools:layout="@layout/account_signup1_fragment" >
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountSignUp2Fragment2"
-        android:name="com.example.remak.signUp.AccountSignUp2Fragment"
+        android:name="com.example.remak.view.account.signUp.AccountSignUp2Fragment"
         android:label="account_signup2_fragment"
         tools:layout="@layout/account_signup2_fragment" >
         <action
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountSignUp3Fragment"
-        android:name="com.example.remak.signUp.AccountSignUp3Fragment"
+        android:name="com.example.remak.view.account.signUp.AccountSignUp3Fragment"
         android:label="account_signup3_fragment"
         tools:layout="@layout/account_signup3_fragment" >
         <action
@@ -78,7 +78,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountFindPassword1Fragment"
-        android:name="com.example.remak.AccountFindPassword1Fragment"
+        android:name="com.example.remak.view.account.findPassword.AccountFindPassword1Fragment"
         android:label="find_password1_fragment"
         tools:layout="@layout/find_password1_fragment" >
          />
@@ -97,7 +97,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountFindPassword2Fragment"
-        android:name="com.example.remak.AccountFindPassword2Fragment"
+        android:name="com.example.remak.view.account.findPassword.AccountFindPassword2Fragment"
         android:label="find_password2_fragment"
         tools:layout="@layout/find_password2_fragment" >
         <action
@@ -115,7 +115,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountFindPassword3Fragment"
-        android:name="com.example.remak.AccountFindPassword3Fragment"
+        android:name="com.example.remak.view.account.findPassword.AccountFindPassword3Fragment"
         android:label="find_password3_fragment"
         tools:layout="@layout/find_password3_fragment" >
         <action

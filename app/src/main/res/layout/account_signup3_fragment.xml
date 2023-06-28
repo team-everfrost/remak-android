@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".signUp.AccountSignUp2Fragment"
+    tools:context=".view.account.signUp.AccountSignUp2Fragment"
     >
 
     <androidx.constraintlayout.utils.widget.ImageFilterButton
