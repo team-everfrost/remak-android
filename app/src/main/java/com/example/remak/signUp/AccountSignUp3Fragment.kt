@@ -15,6 +15,8 @@ import com.example.remak.databinding.AccountSignup3FragmentBinding
 
 class AccountSignUp3Fragment : BaseFragment() {
     private lateinit var binding : AccountSignup3FragmentBinding
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,8 +29,7 @@ class AccountSignUp3Fragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var passwordValid = false
-        var passwordRepeatValid = false
+
 
         binding.root.setOnClickListener {
             hideKeyboard()
