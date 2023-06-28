@@ -3,10 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/mainProfileFragment">
+    app:startDestination="@id/homeFragment">
     <fragment
-        android:id="@+id/mainProfileFragment"
+        android:id="@+id/profileFragment"
         android:name="com.example.remak.main.MainProfileFragment"
         tools:layout="@layout/main_profile_fragment"
         android:label="MainProfileFragment" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.remak.main.MainHomeFragment"
+        android:label="MainHomeFragment"
+        tools:layout="@layout/main_home_fragment"/>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.remak.main.MainSearchFragment"
+        android:label="MainSearchFragment"
+        tools:layout="@layout/main_search_fragment"/>
+    <fragment
+        android:id="@+id/tagFragment"
+        android:name="com.example.remak.main.MainTagFragment"
+        android:label="MainTagFragment"
+        tools:layout="@layout/main_tag_fragment"/>
+    <fragment
+        android:id="@+id/addBtn"
+        android:name="com.example.remak.main.blank"
+        android:label="blank"
+        tools:layout="@layout/blank"/>
 </navigation>
