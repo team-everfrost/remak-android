@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@android:color/white"/> <!-- 배경색은 앱에 맞게 변경 -->
+
+    <stroke android:width="5dp" android:color="@android:color/darker_gray"/> <!-- 테두리색과 두께는 앱에 맞게 변경 -->
+
+    <padding android:top="1dp" android:right="0dp" android:bottom="0dp" android:left="0dp"/> <!-- 패딩은 테두리가 있는 곳에만 설정 -->
+</shape>
