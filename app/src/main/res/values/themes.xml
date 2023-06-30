@@ -20,7 +20,7 @@
     </style>
 
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="background">@android:color/transparent</item>
+        <item name="background">@drawable/bottom_sheet_radius</item>
     </style>
 
     <style name="Theme.Remak" parent="Base.Theme.Remak" />
