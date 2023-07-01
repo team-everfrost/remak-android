@@ -20,7 +20,13 @@
     </style>
 
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="background">@drawable/bottom_sheet_radius</item>
+        <item name="background">@style/ShapeAppearance.RoundCorner</item>
+    </style>
+
+    <style name="ShapeAppearance.RoundCorner" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeTopLeft">16dp</item>
     </style>
 
     <style name="Theme.Remak" parent="Base.Theme.Remak" />

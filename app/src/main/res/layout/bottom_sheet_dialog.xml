@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="24dp"
+    android:background="@drawable/edit_text_round"
     app:behavior_hideable="true"
     app:behavior_peekHeight="56dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -15,6 +16,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="추가하기"
+        android:textColor="@color/black"
         android:textFontWeight="500"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="링크"
+            android:textColor="@color/black"
             android:textSize="25sp" />
 
 
@@ -71,6 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="파일"
+            android:textColor="@color/black"
             android:textSize="25sp" />
 
 
@@ -125,6 +129,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="노트"
+            android:textColor="@color/black"
             android:textSize="25sp" />
 
 
