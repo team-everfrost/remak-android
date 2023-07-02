@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = binding.bottomNavigation
         val navController = supportFragmentManager.findFragmentById(R.id.mainFragmentContainerView)?.findNavController() as NavHostController
 
+
         bottomNavigationView.setupWithNavController(navController)
 
         binding.addBtn.setOnClickListener {
