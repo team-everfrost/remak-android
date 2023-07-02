@@ -10,14 +10,15 @@ import com.example.remak.databinding.MainHomeFragmentBinding
 class MainHomeFragment : BaseFragment() {
     private lateinit var binding : MainHomeFragmentBinding
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = MainHomeFragmentBinding.inflate(inflater, container, false)
+        binding.root.setOnClickListener {
+            hideKeyboard()
+        }
         return binding.root
     }
 

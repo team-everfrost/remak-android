@@ -16,6 +16,9 @@ class MainTagFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = MainTagFragmentBinding.inflate(inflater, container, false)
+        binding.root.setOnClickListener {
+            hideKeyboard()
+        }
         return binding.root
     }
 

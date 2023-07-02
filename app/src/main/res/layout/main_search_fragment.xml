@@ -23,6 +23,7 @@
             android:inputType="textNoSuggestions"
             android:background="@color/mainBackgroundColor"
             android:hint="@string/searchHint"
+            android:imeOptions="actionDone"
             android:textColorHint="@color/black"
             android:textFontWeight="200"
             android:textSize="30sp" />

@@ -17,6 +17,9 @@ class MainSearchFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = MainSearchFragmentBinding.inflate(inflater, container, false)
+        binding.root.setOnClickListener {
+            hideKeyboard()
+        }
         return binding.root
     }
 
