@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
         binding.addBtn.setOnClickListener {
-            Log.d("test", "test")
-
 
             val myBottomSheet = BottomSheetDialogFragment()
             myBottomSheet.show(supportFragmentManager, myBottomSheet.tag)

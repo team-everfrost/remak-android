@@ -8,7 +8,6 @@ import com.example.remak.BaseFragment
 import com.example.remak.databinding.MainProfileFragmentBinding
 
 class MainProfileFragment : BaseFragment() {
-
     private lateinit var binding : MainProfileFragmentBinding
 
     override fun onCreateView(
