@@ -17,7 +17,7 @@ class TestRVAdapter (private val testData : Array<String>) : RecyclerView.Adapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestRVViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.link_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.memo_item, parent, false)
 
         return TestRVViewHolder(view)
     }
