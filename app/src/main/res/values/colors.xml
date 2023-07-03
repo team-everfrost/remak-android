@@ -20,4 +20,5 @@
     <color name="grayHint">#ADADAD</color>
     <color name="mainBackgroundColor">#F5F5F5</color>
     <color name="memoColor">#F7E38D</color>
+    <color name="fileColor">#222222</color>
 </resources>
