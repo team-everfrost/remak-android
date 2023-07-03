@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remak.BaseFragment
 import com.example.remak.databinding.MainHomeFragmentBinding
 
@@ -24,6 +25,19 @@ class MainHomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setRV()
+
+
+    }
+
+    private fun setRV() {
+        val itemDecoration = ItemOffsetDecoration(10)
+        binding!!.homeRV.addItemDecoration(itemDecoration)
+        val testRV = TestRVAdapter(arrayOf("test", "test", "test", "test", "test", "test", "test", "test", "test", "test"))
+        binding!!.homeRV.adapter = testRV
+        binding!!.homeRV.layoutManager = LinearLayoutManager(requireContext())
+
     }
 
 

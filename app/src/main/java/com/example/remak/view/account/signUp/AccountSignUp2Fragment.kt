@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.remak.BaseFragment
 import com.example.remak.R
 import com.example.remak.databinding.AccountSignup2FragmentBinding
 import com.example.remak.databinding.AccountSignup3FragmentBinding
 
-class AccountSignUp2Fragment : Fragment() {
+class AccountSignUp2Fragment : BaseFragment() {
     private lateinit var binding : AccountSignup2FragmentBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -19,6 +20,9 @@ class AccountSignUp2Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = AccountSignup2FragmentBinding.inflate(inflater, container, false)
+        binding.root.setOnClickListener {
+            hideKeyboard()
+        }
         return binding.root
     }
 
