@@ -17,7 +17,7 @@ class TestRVAdapter (private val testData : Array<String>) : RecyclerView.Adapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestRVViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.memo_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.image_item, parent, false)
 
         return TestRVViewHolder(view)
     }
@@ -27,7 +27,6 @@ class TestRVAdapter (private val testData : Array<String>) : RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: TestRVViewHolder, position: Int) {
-        holder.title.text = testData[position]
     }
 
 }
