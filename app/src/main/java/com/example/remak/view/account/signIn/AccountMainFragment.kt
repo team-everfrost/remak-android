@@ -14,13 +14,7 @@ import com.example.remak.BaseFragment
 import com.example.remak.R
 import com.example.remak.dataStore.SignInRepository
 import com.example.remak.databinding.AccountMainFragmentBinding
-import com.example.remak.network.Api
-import com.example.remak.network.RetrofitInstance
-import com.google.gson.Gson
-import okhttp3.RequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+
 
 class AccountMainFragment : BaseFragment() {
 
@@ -65,7 +59,7 @@ class AccountMainFragment : BaseFragment() {
         binding.signInBtn.setOnClickListener{
 //            val intent = Intent(activity, MainActivity::class.java)
 //            startActivity(intent)
-            viewModel.emailLogin("test", "test")
+            viewModel.emailLogin("test@naver.com", "test")
 
 
 

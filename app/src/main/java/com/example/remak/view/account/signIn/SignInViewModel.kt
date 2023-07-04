@@ -40,6 +40,7 @@ class SignInViewModel(private val signInRepository: SignInRepository): ViewModel
             } else {
                 Log.d("fail", response.errorBody().toString())
                 Log.d("fail", Gson().fromJson(response.errorBody()?.string(), SignInData.ErrorResponse::class.java).toString())
+
             }
         } catch (e: Exception) {
             Log.d("networkError", e.toString())
