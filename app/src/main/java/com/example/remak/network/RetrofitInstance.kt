@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 object RetrofitInstance {
-    private val BASE_URL = "sever url"
+    private val BASE_URL = "https://remak.abys.dev/"
 
     private val client = Retrofit
         .Builder()
@@ -16,4 +16,6 @@ object RetrofitInstance {
     fun getInstance() : Retrofit {
         return client
     }
+
+    val service = client.create(Api::class.java)
 }

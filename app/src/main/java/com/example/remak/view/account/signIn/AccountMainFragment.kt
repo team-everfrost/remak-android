@@ -2,6 +2,7 @@ package com.example.remak.view.account.signIn
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,13 @@ import com.example.remak.BaseFragment
 import com.example.remak.R
 import com.example.remak.dataStore.SignInRepository
 import com.example.remak.databinding.AccountMainFragmentBinding
-import com.example.remak.view.main.MainActivity
+import com.example.remak.network.Api
+import com.example.remak.network.RetrofitInstance
+import com.google.gson.Gson
+import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class AccountMainFragment : BaseFragment() {
 
@@ -33,6 +40,8 @@ class AccountMainFragment : BaseFragment() {
 
         viewModel = ViewModelProvider(this, SignInViewModelFactory(signInRepository)).get(
             SignInViewModel::class.java)
+
+
         binding = AccountMainFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener{
             hideKeyboard()
@@ -54,9 +63,16 @@ class AccountMainFragment : BaseFragment() {
 
         }
         binding.signInBtn.setOnClickListener{
-            val intent = Intent(activity, MainActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(activity, MainActivity::class.java)
+//            startActivity(intent)
+            viewModel.emailLogin("test", "test")
+
+
+
+
         }
+
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             requireActivity().finish()
         }
