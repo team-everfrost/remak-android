@@ -1,7 +1,6 @@
 package com.example.remak.view.account.signIn
 
 import android.app.Activity
-import android.net.Network
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.remak.dataStore.SignInRepository
-import com.example.remak.network.Api
 import com.example.remak.network.model.SignInData
 import com.example.remak.repository.NetworkRepository
 import com.google.gson.Gson
@@ -18,9 +16,6 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SignInViewModel(private val signInRepository: SignInRepository): ViewModel(){
 
@@ -33,7 +28,7 @@ class SignInViewModel(private val signInRepository: SignInRepository): ViewModel
 
     fun emailLogin(email : String, password : String) = viewModelScope.launch {
         try {
-            val response = networkRepository.SingIn(email, password)
+            val response = networkRepository.signIn(email, password)
             if (response.isSuccessful) {
                 _loginResponse.value = response.body()
                 Log.d("success", response.body().toString())

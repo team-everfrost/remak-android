@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.remak.BaseFragment
 import com.example.remak.R
@@ -12,6 +13,8 @@ import com.example.remak.databinding.AccountSignup1FragmentBinding
 
 class AccountSignUp1Fragment : BaseFragment() {
     private lateinit var binding : AccountSignup1FragmentBinding
+
+    private val viewModel : SignUpViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,6 +25,7 @@ class AccountSignUp1Fragment : BaseFragment() {
             hideKeyboard()
         }
 
+
         return binding.root
     }
 
@@ -29,6 +33,7 @@ class AccountSignUp1Fragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.backButton.setOnClickListener{
+            viewModel.setUserEmail(binding.emailEditText.text.toString())
             findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountMainFragment)
         }
         binding.nextBtn.setOnClickListener{
