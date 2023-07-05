@@ -31,6 +31,8 @@ class AccountSignUp2Fragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         //기기의 뒤로가기 버튼 재정의
 
     }

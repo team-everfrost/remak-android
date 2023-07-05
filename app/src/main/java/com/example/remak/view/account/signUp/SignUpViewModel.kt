@@ -37,6 +37,7 @@ class SignUpViewModel : ViewModel() {
     fun getVerifyCode(email : String) = viewModelScope.launch {
         try {
             val response = networkRepository.getVerifyCode(email)
+            Log.d("viewMeodel에선 response", response.toString())
             if (response.isSuccessful) {
                 _verifyCodeResult.value = true
             Log.d("viewMeodel에선 success", response.body().toString())
@@ -52,6 +53,9 @@ class SignUpViewModel : ViewModel() {
             e.printStackTrace()
         }
     }
+
+    //확인코드 입력 후 검증받는 로직
+
 
 
 

@@ -14,6 +14,7 @@ import com.example.remak.BaseFragment
 import com.example.remak.R
 import com.example.remak.dataStore.SignInRepository
 import com.example.remak.databinding.AccountMainFragmentBinding
+import com.example.remak.view.main.MainActivity
 
 
 class AccountMainFragment : BaseFragment() {

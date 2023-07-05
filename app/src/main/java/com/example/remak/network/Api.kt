@@ -16,4 +16,6 @@ interface Api {
 
     @POST("auth/signup-code")
     suspend fun getVerifyCode(@Body body: AuthEmailRequestBody): retrofit2.Response<AuthEmailErrorResponseBody>
+
+
 }

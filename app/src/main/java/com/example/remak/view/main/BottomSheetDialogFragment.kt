@@ -7,16 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.remak.R
+import com.example.remak.databinding.BottomSheetDialogBinding
+import com.example.remak.databinding.MainProfileFragmentBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetDialogFragment : BottomSheetDialogFragment() {
+    private lateinit var binding: BottomSheetDialogBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.bottom_sheet_dialog, container, false)
+        binding = BottomSheetDialogBinding.inflate(inflater, container, false)
+
+
+        return binding.root
     }
 
     override fun getTheme(): Int {
@@ -25,7 +31,6 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         (view.parent as View).background = ColorDrawable(Color.TRANSPARENT)
 
     }
