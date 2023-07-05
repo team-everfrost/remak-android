@@ -58,9 +58,9 @@ class AccountMainFragment : BaseFragment() {
 
         }
         binding.signInBtn.setOnClickListener{
-//            val intent = Intent(activity, MainActivity::class.java)
-//            startActivity(intent)
-            viewModel.emailLogin("test@naver.com", "test")
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+//            viewModel.emailLogin("test@naver.com", "test")
 
 
 

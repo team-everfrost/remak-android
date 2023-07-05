@@ -1,5 +1,6 @@
 package com.example.remak.view.main
 
+import android.app.Dialog
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.remak.R
+import com.example.remak.databinding.AddLinkCustomDialogBinding
 import com.example.remak.databinding.MainActivityBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -39,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+
 
 
 
