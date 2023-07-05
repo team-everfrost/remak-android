@@ -56,7 +56,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
         val dialog = Dialog(requireContext())
         val windowManager = requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
         dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(true)
+        dialog.setCancelable(false)
         dialog.setContentView(R.layout.add_link_custom_dialog)
 
         if (Build.VERSION.SDK_INT < 30) {
@@ -66,6 +66,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             display.getSize(size)
 
             val window = dialog.window
+            window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
             val x = (size.x * 0.85).toInt()
 
@@ -76,6 +77,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             val rect = windowManager.currentWindowMetrics.bounds
 
             val window = dialog.window
+            window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val x = (rect.width() * 0.85).toInt()
             window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
 
@@ -83,7 +85,6 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
         val cancelBtn = dialog.findViewById<View>(R.id.cancelBtn)
       cancelBtn.setOnClickListener {
             dialog.dismiss()
-            Log.d("test" ,"test")
         }
         dismiss()
         dialog.show()
