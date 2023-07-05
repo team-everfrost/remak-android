@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.remak.dataModel.TokenData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 
@@ -17,6 +18,8 @@ class SignInRepository(private val dataStore: DataStore<Preferences>) {
         val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
     }
 
+
+    //토큰 정보를 저장하는 함수
     suspend fun saveUser(user : TokenData) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.ACCESS_TOKEN] = user.accessToken
@@ -24,15 +27,15 @@ class SignInRepository(private val dataStore: DataStore<Preferences>) {
         }
     }
 
+
+    //저장된 토큰 정보 가져오기
     suspend fun fetchTokenData () : TokenData? {
-        var tokenData : TokenData? = null
-        user.collect {data ->
-            tokenData = data
-        }
-        return tokenData
+        return user.first()
     }
 
 
+
+    //토큰정보를 갖는 변수
     val user : Flow<TokenData?> = dataStore.data
         .catch { exception ->
             if (exception is Exception) {

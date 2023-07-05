@@ -1,13 +1,16 @@
 package com.example.remak.view.account.signUp
 
 import android.app.Application
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.remak.network.model.SignInData
 import com.example.remak.repository.NetworkRepository
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -29,26 +32,34 @@ class SignUpViewModel : ViewModel() {
         resetData()
     }
 
+
+    //이메일 전송 후 확인코드 받는 로직
     fun getVerifyCode(email : String) = viewModelScope.launch {
         try {
             val response = networkRepository.getVerifyCode(email)
             if (response.isSuccessful) {
                 _verifyCodeResult.value = true
+            Log.d("viewMeodel에선 success", response.body().toString())
+
             } else {
                 _verifyCodeResult.value = false
+                Log.d("fail", Gson().fromJson(response.errorBody()?.string(), SignInData.ErrorResponse::class.java).toString())
+
             }
         } catch (e : Exception) {
             _verifyCodeResult.value = false
+            Log.d("networkError", "Exception: ", e)
+            e.printStackTrace()
         }
-
-
     }
+
 
 
 
     private fun resetData() {
         _userEmail.value = ""
         _userPassword.value = ""
+        _verifyCodeResult.value = false
     }
 
     fun setUserEmail(email : String) {

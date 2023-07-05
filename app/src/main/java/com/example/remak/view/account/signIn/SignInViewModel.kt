@@ -26,6 +26,8 @@ class SignInViewModel(private val signInRepository: SignInRepository): ViewModel
     val errorResponse: LiveData<SignInData.ErrorResponse> = _errorResponse
 
 
+
+    //이메일 로그인 로직
     fun emailLogin(email : String, password : String) = viewModelScope.launch {
         try {
             val response = networkRepository.signIn(email, password)

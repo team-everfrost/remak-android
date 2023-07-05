@@ -10,6 +10,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.remak.BaseFragment
 import com.example.remak.R
 import com.example.remak.databinding.AccountSignup1FragmentBinding
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class AccountSignUp1Fragment : BaseFragment() {
     private lateinit var binding : AccountSignup1FragmentBinding
@@ -25,6 +28,15 @@ class AccountSignUp1Fragment : BaseFragment() {
             hideKeyboard()
         }
 
+        viewModel.verifyCodeResult.observe(viewLifecycleOwner) { isSuccessful ->
+            if (isSuccessful) {
+                findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountSignUp2Fragment2)
+            } else {
+                Log.d("isSuccessful", isSuccessful.toString())
+            }
+        }
+
+
 
         return binding.root
     }
@@ -33,11 +45,12 @@ class AccountSignUp1Fragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.backButton.setOnClickListener{
-            viewModel.setUserEmail(binding.emailEditText.text.toString())
             findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountMainFragment)
         }
         binding.nextBtn.setOnClickListener{
-            findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountSignUp2Fragment2)
+            viewModel.viewModelScope.launch {
+                viewModel.getVerifyCode(binding.emailEditText.text.toString())
+            }
         }
         emailCheck(binding.emailEditText, binding.nextBtn, binding.emailErrorMessage)
 
