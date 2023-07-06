@@ -9,10 +9,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.remak.network.model.SignInData
+import com.example.remak.network.model.SignUpData
 import com.example.remak.repository.NetworkRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import kotlin.math.log
 
 class SignUpViewModel : ViewModel() {
 
@@ -37,14 +39,17 @@ class SignUpViewModel : ViewModel() {
     fun getVerifyCode(email : String) = viewModelScope.launch {
         try {
             val response = networkRepository.getVerifyCode(email)
-            Log.d("viewMeodel에선 response", response.toString())
+            Log.d("test", response.toString())
+            Log.d("test", response.body().toString())
+
             if (response.isSuccessful) {
+                //response내용을 각각 log로 출력
+                Log.d("success", response.body().toString())
                 _verifyCodeResult.value = true
-            Log.d("viewMeodel에선 success", response.body().toString())
 
             } else {
                 _verifyCodeResult.value = false
-                Log.d("fail", Gson().fromJson(response.errorBody()?.string(), SignInData.ErrorResponse::class.java).toString())
+                Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignUpData.GetVerifyResponseBody::class.java).message)
 
             }
         } catch (e : Exception) {

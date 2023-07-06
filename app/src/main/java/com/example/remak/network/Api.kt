@@ -1,8 +1,8 @@
 package com.example.remak.network
 
-import com.example.remak.network.model.AuthEmailErrorResponseBody
-import com.example.remak.network.model.AuthEmailRequestBody
+
 import com.example.remak.network.model.SignInData
+import com.example.remak.network.model.SignUpData
 import okhttp3.Response
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -15,7 +15,7 @@ interface Api {
     suspend fun signIn(@Body body: SignInData.RequestBody): retrofit2.Response<SignInData.ResponseBody>
 
     @POST("auth/signup-code")
-    suspend fun getVerifyCode(@Body body: AuthEmailRequestBody): retrofit2.Response<AuthEmailErrorResponseBody>
+    suspend fun getVerifyCode(@Body body: SignUpData.GetVerifyRequestBody): retrofit2.Response<SignUpData.GetVerifyResponseBody>
 
 
 }

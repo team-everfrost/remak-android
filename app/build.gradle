@@ -34,7 +34,7 @@ android {
 
     //viewBinding
     buildFeatures {
-        viewBinding true
+        viewBinding = true
     }
 }
 

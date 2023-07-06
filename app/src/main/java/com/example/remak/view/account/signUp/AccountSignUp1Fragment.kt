@@ -30,7 +30,7 @@ class AccountSignUp1Fragment : BaseFragment() {
 
         viewModel.verifyCodeResult.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
-                findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountSignUp2Fragment2)
+//                findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountSignUp2Fragment2)
             } else {
                 Log.d("isSuccessful", isSuccessful.toString())
             }

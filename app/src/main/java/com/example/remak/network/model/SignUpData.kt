@@ -1,12 +1,18 @@
 package com.example.remak.network.model
 
-data class AuthEmailRequestBody (
-    val email : String,
-        )
+import com.google.gson.annotations.SerializedName
 
-data class AuthEmailErrorResponseBody (
-    val statusCode : Int,
-    val message : Any,
-    val error : String
-        )
+
+class SignUpData {
+
+    data class GetVerifyRequestBody (
+        val email : String
+            )
+
+    data class GetVerifyResponseBody (
+        val message : String,
+        val data : Any?
+
+            )
+}
 
