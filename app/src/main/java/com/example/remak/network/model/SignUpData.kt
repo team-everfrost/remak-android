@@ -35,7 +35,7 @@ class SignUpData {
             )
 
     data class TokenData(
-        val token : String
+        val accessToken : String
     )
 }
 

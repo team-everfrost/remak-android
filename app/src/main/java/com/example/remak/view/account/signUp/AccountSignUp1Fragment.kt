@@ -20,7 +20,8 @@ import kotlinx.coroutines.launch
 class AccountSignUp1Fragment : BaseFragment() {
     private lateinit var binding : AccountSignup1FragmentBinding
 
-    lateinit var viewModel : SignUpViewModel
+    private val viewModel: SignUpViewModel by activityViewModels { SignUpViewModelFactory(signInRepository) }
+
     lateinit var signInRepository : SignInRepository
 
     override fun onCreateView(
@@ -29,8 +30,7 @@ class AccountSignUp1Fragment : BaseFragment() {
     ): View? {
         signInRepository = SignInRepository((requireActivity().application as App).dataStore)
 
-        viewModel = ViewModelProvider(this, SignUpViewModelFactory(signInRepository)).get(
-            SignUpViewModel::class.java)
+
 
         binding = AccountSignup1FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {

@@ -1,6 +1,7 @@
 package com.example.remak.network
 
 
+import androidx.room.Delete
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
 import okhttp3.Response
@@ -22,6 +23,9 @@ interface Api {
 
     @POST("auth/local/signup")
     suspend fun signUp(@Body body: SignUpData.SignUpRequestBody): retrofit2.Response<SignUpData.SignUpResponseBody>
+
+
+
 
 
 }

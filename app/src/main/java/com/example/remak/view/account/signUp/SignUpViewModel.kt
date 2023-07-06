@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.remak.dataModel.TokenData
 import com.example.remak.dataStore.SignInRepository
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
@@ -94,8 +95,14 @@ class SignUpViewModel(private val signInRepository: SignInRepository) : ViewMode
             val response = networkRepository.signUp(email, password)
 
             if (response.isSuccessful) {
-                //response내용을 각각 log로 출력
                 Log.d("success", response.body().toString())
+
+
+                Log.d("token", response.body()?.data!!.accessToken)
+                //토큰 저장
+                val token = TokenData(response.body()?.data!!.accessToken)
+                signInRepository.saveUser(token)
+                //확인값 true로 변경
                 _verifyCodeResult.value = true
 
             } else {

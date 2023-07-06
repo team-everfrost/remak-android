@@ -61,11 +61,9 @@ class AccountMainFragment : BaseFragment() {
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
 //            viewModel.emailLogin("test@naver.com", "test")
-
-
-
-
         }
+
+
 
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {

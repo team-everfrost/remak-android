@@ -1,6 +1,7 @@
 package com.example.remak.view.account.signUp
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,8 @@ import kotlinx.coroutines.launch
 
 class AccountSignUp2Fragment : BaseFragment() {
     private lateinit var binding : AccountSignup2FragmentBinding
-    private lateinit var viewModel : SignUpViewModel
+    private val viewModel: SignUpViewModel by activityViewModels { SignUpViewModelFactory(signInRepository) }
+
     lateinit var signInRepository : SignInRepository
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,8 +30,7 @@ class AccountSignUp2Fragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         signInRepository = SignInRepository((requireActivity().application as App).dataStore)
-        viewModel = ViewModelProvider(this, SignUpViewModelFactory(signInRepository)).get(
-            SignUpViewModel::class.java)
+
         binding = AccountSignup2FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             hideKeyboard()
@@ -53,6 +54,7 @@ class AccountSignUp2Fragment : BaseFragment() {
         binding.nextBtn.setOnClickListener {
             viewModel.viewModelScope.launch {
                 viewModel.checkVerifyCode(binding.verifyCodeEditText.text.toString(), viewModel.userEmail.value.toString())
+                Log.d("email", viewModel.userEmail.value.toString())
             }
         }
 
