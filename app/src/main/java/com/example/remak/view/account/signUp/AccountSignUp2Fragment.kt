@@ -7,22 +7,29 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import com.example.remak.App
 import com.example.remak.BaseFragment
 import com.example.remak.R
+import com.example.remak.dataStore.SignInRepository
 import com.example.remak.databinding.AccountSignup2FragmentBinding
 import com.example.remak.databinding.AccountSignup3FragmentBinding
 import kotlinx.coroutines.launch
 
 class AccountSignUp2Fragment : BaseFragment() {
     private lateinit var binding : AccountSignup2FragmentBinding
-    private val viewModel : SignUpViewModel by activityViewModels()
+    private lateinit var viewModel : SignUpViewModel
+    lateinit var signInRepository : SignInRepository
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        signInRepository = SignInRepository((requireActivity().application as App).dataStore)
+        viewModel = ViewModelProvider(this, SignUpViewModelFactory(signInRepository)).get(
+            SignUpViewModel::class.java)
         binding = AccountSignup2FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             hideKeyboard()

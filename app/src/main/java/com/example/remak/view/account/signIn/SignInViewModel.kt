@@ -92,7 +92,7 @@ class SignInViewModel(private val signInRepository: SignInRepository): ViewModel
 
             if (tokenData != null) {
                 val accessToken = tokenData.accessToken
-                val refreshToken = tokenData.refreshToken
+//                val refreshToken = tokenData.refreshToken
 
             }
         }

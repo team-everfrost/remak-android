@@ -25,4 +25,9 @@ class NetworkRepository {
         val requestBody = SignUpData.CheckVerifyRequestBody(signupCode = signupCode, email = email)
         return client.checkVerifyCode(requestBody)
     }
+
+    suspend fun signUp(email: String, password: String): Response<SignUpData.SignUpResponseBody> {
+        val requestBody = SignUpData.SignUpRequestBody(email = email, password = password)
+        return client.signUp(requestBody)
+    }
 }

@@ -23,7 +23,7 @@ class SignInRepository(private val dataStore: DataStore<Preferences>) {
     suspend fun saveUser(user : TokenData) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.ACCESS_TOKEN] = user.accessToken
-            preferences[PreferencesKeys.REFRESH_TOKEN] = user.refreshToken
+//            preferences[PreferencesKeys.REFRESH_TOKEN] = user.refreshToken
         }
     }
 
@@ -46,9 +46,11 @@ class SignInRepository(private val dataStore: DataStore<Preferences>) {
         }
         .map { preferences ->
             val accessToken = preferences[PreferencesKeys.ACCESS_TOKEN] ?: ""
-            val refreshToken = preferences[PreferencesKeys.REFRESH_TOKEN] ?: ""
-            if (accessToken.isNotEmpty() && refreshToken.isNotEmpty()) {
-                TokenData(accessToken, refreshToken)
+//            val refreshToken = preferences[PreferencesKeys.REFRESH_TOKEN] ?: ""
+            if (accessToken.isNotEmpty()) {
+//                TokenData(accessToken, refreshToken)
+                TokenData(accessToken)
+
             } else {
                 null
             }

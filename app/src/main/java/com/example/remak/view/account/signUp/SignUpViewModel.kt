@@ -7,16 +7,19 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.remak.dataStore.SignInRepository
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
 import com.example.remak.repository.NetworkRepository
+import com.example.remak.view.account.signIn.SignInViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import kotlin.math.log
 
-class SignUpViewModel : ViewModel() {
+class SignUpViewModel(private val signInRepository: SignInRepository) : ViewModel() {
 
     private val networkRepository = NetworkRepository()
     private val _userEmail = MutableLiveData<String>()
@@ -85,6 +88,28 @@ class SignUpViewModel : ViewModel() {
         }
     }
 
+    //비밀번호 입력 후 토큰 얻고 회원가입 완료하는 로직
+    fun signup (email : String, password : String) = viewModelScope.launch {
+        try {
+            val response = networkRepository.signUp(email, password)
+
+            if (response.isSuccessful) {
+                //response내용을 각각 log로 출력
+                Log.d("success", response.body().toString())
+                _verifyCodeResult.value = true
+
+            } else {
+                _verifyCodeResult.value = false
+                Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignUpData.SignUpResponseBody::class.java).message)
+
+            }
+        } catch (e : Exception) {
+            _verifyCodeResult.value = false
+            Log.d("networkError", "Exception: ", e)
+            e.printStackTrace()
+        }
+    }
+
 
 
 
@@ -104,4 +129,14 @@ class SignUpViewModel : ViewModel() {
     }
 
 
+}
+
+class SignUpViewModelFactory(private val signInRepository: SignInRepository) : ViewModelProvider.Factory{
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(SignUpViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return SignUpViewModel(signInRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }

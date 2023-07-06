@@ -23,5 +23,19 @@ class SignUpData {
         val message : String,
         val data : Any?
             )
+
+    data class SignUpRequestBody (
+        val email : String,
+        val password : String,
+            )
+
+    data class SignUpResponseBody (
+        val message : String,
+        val data : TokenData?
+            )
+
+    data class TokenData(
+        val token : String
+    )
 }
 
