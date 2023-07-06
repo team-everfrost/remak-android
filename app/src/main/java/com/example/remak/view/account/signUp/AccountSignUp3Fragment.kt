@@ -40,7 +40,4 @@ class AccountSignUp3Fragment : BaseFragment() {
     }
 
 
-
-
-
 }

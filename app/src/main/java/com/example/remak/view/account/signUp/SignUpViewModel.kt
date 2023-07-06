@@ -59,7 +59,31 @@ class SignUpViewModel : ViewModel() {
         }
     }
 
+    fun doneVerifyCodeResult() {
+        _verifyCodeResult.value = false
+    }
+
     //확인코드 입력 후 검증받는 로직
+    fun checkVerifyCode (signupCode : String, email : String) = viewModelScope.launch {
+        try {
+            val response = networkRepository.checkVerifyCode(signupCode, email)
+
+            if (response.isSuccessful) {
+                //response내용을 각각 log로 출력
+                Log.d("success", response.body().toString())
+                _verifyCodeResult.value = true
+
+            } else {
+                _verifyCodeResult.value = false
+                Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignUpData.CheckVerifyResponseBody::class.java).message)
+
+            }
+        } catch (e : Exception) {
+            _verifyCodeResult.value = false
+            Log.d("networkError", "Exception: ", e)
+            e.printStackTrace()
+        }
+    }
 
 
 

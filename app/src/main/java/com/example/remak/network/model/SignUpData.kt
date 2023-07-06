@@ -14,5 +14,14 @@ class SignUpData {
         val data : Any?
 
             )
+
+    data class CheckVerifyRequestBody (
+        val signupCode : String,
+        val email : String
+            )
+    data class CheckVerifyResponseBody (
+        val message : String,
+        val data : Any?
+            )
 }
 

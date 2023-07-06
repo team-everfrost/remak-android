@@ -17,5 +17,8 @@ interface Api {
     @POST("auth/signup-code")
     suspend fun getVerifyCode(@Body body: SignUpData.GetVerifyRequestBody): retrofit2.Response<SignUpData.GetVerifyResponseBody>
 
+    @POST("auth/verify-code")
+    suspend fun checkVerifyCode(@Body body: SignUpData.CheckVerifyRequestBody): retrofit2.Response<SignUpData.CheckVerifyResponseBody>
+
 
 }

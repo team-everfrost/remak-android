@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.example.remak.BaseFragment
 import com.example.remak.R
 import com.example.remak.databinding.AccountSignup2FragmentBinding
 import com.example.remak.databinding.AccountSignup3FragmentBinding
+import kotlinx.coroutines.launch
 
 class AccountSignUp2Fragment : BaseFragment() {
     private lateinit var binding : AccountSignup2FragmentBinding
@@ -25,11 +27,28 @@ class AccountSignUp2Fragment : BaseFragment() {
         binding.root.setOnClickListener {
             hideKeyboard()
         }
+        viewModel.verifyCodeResult.observe(viewLifecycleOwner) { isSuccessful ->
+            if (isSuccessful) {
+                findNavController().navigate(R.id.action_accountSignUp2Fragment2_to_accountSignUp3Fragment)
+                viewModel.doneVerifyCodeResult()
+            }
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.backButton.setOnClickListener{
+            findNavController().navigate(R.id.action_accountSignUp2Fragment2_to_accountSignUp1Fragment2)
+        }
+
+        binding.nextBtn.setOnClickListener {
+            viewModel.viewModelScope.launch {
+                viewModel.checkVerifyCode(binding.verifyCodeEditText.text.toString(), viewModel.userEmail.value.toString())
+            }
+        }
+
 
 
 

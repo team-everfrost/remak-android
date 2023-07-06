@@ -58,12 +58,18 @@ abstract class BaseFragment : Fragment() {
         return passwordRegex.matches(password)
     }
 
+
+    //두개의 비밀번호 같은지 확인
     fun passwordCheck(password : AppCompatEditText, passwordRepeat : AppCompatEditText, btn : AppCompatButton) {
 
         password.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                passwordValid = isPasswordValid(password.text.toString())
-                btnEnabled(btn)
+                if (isPasswordValid(password.text.toString()) && password.text.toString() == passwordRepeat.text.toString()){
+                    btn.isEnabled = true
+                } else {
+                    btn.isEnabled = false
+                }
+
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 //do nothing
@@ -76,8 +82,16 @@ abstract class BaseFragment : Fragment() {
 
         passwordRepeat.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                passwordRepeatValid = isPasswordValid(passwordRepeat.text.toString())
-                btnEnabled(btn)
+                if (isPasswordValid(passwordRepeat.text.toString()) && password.text.toString() == passwordRepeat.text.toString()){
+                    val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.custom_ripple_effect)
+                    passwordRepeat.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round)
+                    btn.background = drawable
+                    btn.isEnabled = true
+                } else {
+                    passwordRepeat.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round_red)
+                    btn.isEnabled = false
+                }
+
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 //do nothing
