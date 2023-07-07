@@ -43,22 +43,9 @@ class SignUpViewModel(private val signInRepository: SignInRepository) : ViewMode
     fun getVerifyCode(email : String) = viewModelScope.launch {
         try {
             val response = networkRepository.getVerifyCode(email)
-            Log.d("test", response.toString())
-            Log.d("test", response.body().toString())
-
-            if (response.isSuccessful) {
-                //response내용을 각각 log로 출력
-                Log.d("success", response.body().toString())
-                _verifyCodeResult.value = true
-
-            } else {
-                _verifyCodeResult.value = false
-                Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignUpData.GetVerifyResponseBody::class.java).message)
-
-            }
+            _verifyCodeResult.value = response.isSuccessful
         } catch (e : Exception) {
             _verifyCodeResult.value = false
-            Log.d("networkError", "Exception: ", e)
             e.printStackTrace()
         }
     }
@@ -74,7 +61,6 @@ class SignUpViewModel(private val signInRepository: SignInRepository) : ViewMode
 
             if (response.isSuccessful) {
                 //response내용을 각각 log로 출력
-                Log.d("success", response.body().toString())
                 _verifyCodeResult.value = true
 
             } else {

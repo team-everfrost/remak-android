@@ -35,6 +35,8 @@ class AccountSignUp2Fragment : BaseFragment() {
         binding.root.setOnClickListener {
             hideKeyboard()
         }
+
+        //이메일 인증 성공 시 다음 화면으로 이동
         viewModel.verifyCodeResult.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
                 findNavController().navigate(R.id.action_accountSignUp2Fragment2_to_accountSignUp3Fragment)
@@ -52,16 +54,12 @@ class AccountSignUp2Fragment : BaseFragment() {
         }
 
         binding.nextBtn.setOnClickListener {
+            //인증코드 확인
             viewModel.viewModelScope.launch {
                 viewModel.checkVerifyCode(binding.verifyCodeEditText.text.toString(), viewModel.userEmail.value.toString())
-                Log.d("email", viewModel.userEmail.value.toString())
             }
         }
 
-
-
-
-        //기기의 뒤로가기 버튼 재정의
 
     }
 }
