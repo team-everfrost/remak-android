@@ -47,7 +47,7 @@
             android:textSize="10sp"/>
 
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/idEditText"
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
@@ -70,7 +70,7 @@
             android:text="비밀번호"
             />
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/pwEditText"
             android:layout_width="match_parent"
             android:layout_marginTop="5dp"

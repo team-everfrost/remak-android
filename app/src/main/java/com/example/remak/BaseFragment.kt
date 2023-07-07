@@ -11,8 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 
 abstract class BaseFragment : Fragment() {
-    var passwordValid = false
-    var passwordRepeatValid = false
+
 
     fun hideKeyboard(){
         if (activity != null && requireActivity().currentFocus != null){
@@ -112,13 +111,30 @@ abstract class BaseFragment : Fragment() {
                 if (email.text.toString().isNotEmpty() && password.text.toString().isNotEmpty() && isEmailValid(email.text.toString())){
                     btn.isEnabled = true
                     val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.custom_ripple_effect)
-                    email.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round)
-                    password.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round)
                     btn.background = drawable
                 } else {
                     btn.isEnabled = false
-                    email.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round_red)
-                    password.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round_red)
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //do nothing
+
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+
+                //do nothing
+            }
+        })
+        //패스워드 입력도 추적
+        password.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                if (email.text.toString().isNotEmpty() && password.text.toString().isNotEmpty() && isEmailValid(email.text.toString())){
+                    btn.isEnabled = true
+                    val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.custom_ripple_effect)
+                    btn.background = drawable
+                } else {
+                    btn.isEnabled = false
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

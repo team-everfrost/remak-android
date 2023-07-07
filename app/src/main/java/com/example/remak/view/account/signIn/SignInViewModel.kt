@@ -29,6 +29,8 @@ class SignInViewModel(private val signInRepository: SignInRepository): ViewModel
 
 
 
+
+
     //이메일 로그인 로직
     fun emailLogin(email : String, password : String) = viewModelScope.launch {
         try {
@@ -92,19 +94,6 @@ class SignInViewModel(private val signInRepository: SignInRepository): ViewModel
 
     }
 
-    //로그인 시 토큰을 불러오는 함수
-    fun getToken() {
-        viewModelScope.launch {
-            val tokenData = signInRepository.fetchTokenData()
-
-            if (tokenData != null) {
-                val accessToken = tokenData.accessToken
-//                val refreshToken = tokenData.refreshToken
-                Log.d("token", accessToken)
-
-            }
-        }
-    }
 
 }
 

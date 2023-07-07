@@ -49,8 +49,10 @@ class AccountMainFragment : BaseFragment() {
                 val intent = Intent(activity, MainActivity::class.java)
                 startActivity(intent)
                 viewModel.doneLogin()
+                requireActivity().finish()
             }
         }
+        signInCheck(binding.idEditText, binding.pwEditText, binding.signInBtn)
         return binding.root
     }
 

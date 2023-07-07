@@ -33,6 +33,11 @@ class SignInRepository(private val dataStore: DataStore<Preferences>) {
         return user.first()
     }
 
+    //토큰유무 확인
+    suspend fun checkToken() : Boolean {
+        return fetchTokenData() != null
+    }
+
 
 
     //토큰정보를 갖는 변수
