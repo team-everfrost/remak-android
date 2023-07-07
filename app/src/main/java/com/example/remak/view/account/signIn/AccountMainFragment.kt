@@ -44,6 +44,13 @@ class AccountMainFragment : BaseFragment() {
         binding.root.setOnClickListener{
             hideKeyboard()
         }
+        viewModel.loginResult.observe(viewLifecycleOwner) { isSuccessful ->
+            if (isSuccessful) {
+                val intent = Intent(activity, MainActivity::class.java)
+                startActivity(intent)
+                viewModel.doneLogin()
+            }
+        }
         return binding.root
     }
 
@@ -61,8 +68,8 @@ class AccountMainFragment : BaseFragment() {
 
         }
         binding.signInBtn.setOnClickListener{
-            val intent = Intent(activity, MainActivity::class.java)
-            startActivity(intent)
+            viewModel.emailLogin(binding.idEditText.text.toString(), binding.pwEditText.text.toString())
+
 //            viewModel.emailLogin("test@naver.com", "test")
         }
 

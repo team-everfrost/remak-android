@@ -105,9 +105,32 @@ abstract class BaseFragment : Fragment() {
 
     }
 
-    fun btnEnabled(btn: AppCompatButton) {
-        btn.isEnabled = passwordValid && passwordRepeatValid
+    fun signInCheck(email : AppCompatEditText, password : AppCompatEditText, btn : AppCompatButton) {
+        //이메일과 패스워드중 하나라도 비어있으면 버튼 비활성화 또한 이메일 형식에 맞지않으면 버튼 비활성화
+        email.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                if (email.text.toString().isNotEmpty() && password.text.toString().isNotEmpty() && isEmailValid(email.text.toString())){
+                    btn.isEnabled = true
+                    val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.custom_ripple_effect)
+                    email.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round)
+                    password.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round)
+                    btn.background = drawable
+                } else {
+                    btn.isEnabled = false
+                    email.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round_red)
+                    password.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round_red)
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //do nothing
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                //do nothing
+            }
+        })
+
     }
+
 
 
 
