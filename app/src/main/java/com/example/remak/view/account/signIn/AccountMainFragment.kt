@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.remak.App
@@ -14,6 +15,8 @@ import com.example.remak.BaseFragment
 import com.example.remak.R
 import com.example.remak.dataStore.SignInRepository
 import com.example.remak.databinding.AccountMainFragmentBinding
+import com.example.remak.view.account.signUp.SignUpViewModel
+import com.example.remak.view.account.signUp.SignUpViewModelFactory
 import com.example.remak.view.main.MainActivity
 
 
@@ -23,8 +26,10 @@ class AccountMainFragment : BaseFragment() {
     //    val testSignInRepository = SignInRepository((requireActivity().application as App).testDataStore)
 
 //    val signInRepository = SignInRepository((requireActivity().application as App).dataStore)
+
+    private val viewModel: SignInViewModel by activityViewModels { SignInViewModelFactory(signInRepository) }
+
     lateinit var signInRepository : SignInRepository
-    lateinit var viewModel : SignInViewModel
 
 
     override fun onCreateView(
@@ -33,8 +38,6 @@ class AccountMainFragment : BaseFragment() {
     ): View? {
         signInRepository = SignInRepository((requireActivity().application as App).dataStore)
 
-        viewModel = ViewModelProvider(this, SignInViewModelFactory(signInRepository)).get(
-            SignInViewModel::class.java)
 
 
         binding = AccountMainFragmentBinding.inflate(inflater, container, false)

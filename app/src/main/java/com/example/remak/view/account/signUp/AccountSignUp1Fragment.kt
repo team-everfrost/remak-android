@@ -57,9 +57,8 @@ class AccountSignUp1Fragment : BaseFragment() {
             findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountMainFragment)
         }
         binding.nextBtn.setOnClickListener{
-            viewModel.viewModelScope.launch {
-                viewModel.getVerifyCode(binding.emailEditText.text.toString())
-            }
+            viewModel.getVerifyCode(binding.emailEditText.text.toString())
+
         }
         emailCheck(binding.emailEditText, binding.nextBtn, binding.emailErrorMessage)
 
