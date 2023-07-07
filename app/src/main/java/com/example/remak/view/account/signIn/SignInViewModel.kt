@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.remak.dataModel.TokenData
 import com.example.remak.dataStore.SignInRepository
 import com.example.remak.network.model.SignInData
 import com.example.remak.repository.NetworkRepository
@@ -22,8 +23,9 @@ class SignInViewModel(private val signInRepository: SignInRepository): ViewModel
     private val networkRepository = NetworkRepository()
     private val _loginResponse = MutableLiveData<SignInData.ResponseBody>()
     val loginResponse: LiveData<SignInData.ResponseBody> = _loginResponse
-    private val _errorResponse = MutableLiveData<SignInData.ErrorResponse>()
-    val errorResponse: LiveData<SignInData.ErrorResponse> = _errorResponse
+
+    private val _loginResult = MutableLiveData<Boolean>()
+    val loginResult : LiveData<Boolean> = _loginResult
 
 
 
@@ -32,16 +34,21 @@ class SignInViewModel(private val signInRepository: SignInRepository): ViewModel
         try {
             val response = networkRepository.signIn(email, password)
             if (response.isSuccessful) {
-                _loginResponse.value = response.body()
+                val token = TokenData(response.body()?.data!!.accessToken)
+                signInRepository.saveUser(token)
+                _loginResult.value = true
                 Log.d("success", response.body().toString())
             } else {
-                Log.d("fail", response.errorBody().toString())
-                Log.d("fail", Gson().fromJson(response.errorBody()?.string(), SignInData.ErrorResponse::class.java).toString())
-
+                _loginResult.value = false
+                Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignInData.ResponseBody::class.java).message)
             }
         } catch (e: Exception) {
             Log.d("networkError", e.toString())
         }
+    }
+
+    fun doneLogin() {
+        _loginResult.value = false
     }
 
 
