@@ -1,6 +1,5 @@
 package com.example.remak.view.main
 
-import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,7 @@ class TestTagRVAdapter (private val testData : Array<String>) : RecyclerView.Ada
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestTagRVViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.tag_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tag, parent, false)
 
         return TestTagRVViewHolder(view)
     }

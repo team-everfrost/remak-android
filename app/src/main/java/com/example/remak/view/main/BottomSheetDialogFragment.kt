@@ -5,23 +5,15 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
-import android.hardware.display.DisplayManager
 import android.os.Build
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import com.example.remak.App
 import com.example.remak.R
-import com.example.remak.databinding.AddLinkCustomDialogBinding
 import com.example.remak.databinding.BottomSheetDialogBinding
-import com.example.remak.databinding.MainProfileFragmentBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetDialogFragment : BottomSheetDialogFragment() {
@@ -62,7 +54,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
         dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
-        dialog.setContentView(R.layout.add_link_custom_dialog)
+        dialog.setContentView(R.layout.custom_dialog_add_link)
 
         if (Build.VERSION.SDK_INT < 30) {
             val display = windowManager.defaultDisplay
