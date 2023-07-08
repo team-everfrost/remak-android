@@ -6,16 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.remak.BaseFragment
 import com.example.remak.R
 import com.example.remak.databinding.AccountSignup1FragmentBinding
-import androidx.lifecycle.viewModelScope
 import com.example.remak.App
 import com.example.remak.dataStore.TokenRepository
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class AccountSignUp1Fragment : BaseFragment() {
     private lateinit var binding : AccountSignup1FragmentBinding
@@ -42,6 +38,20 @@ class AccountSignUp1Fragment : BaseFragment() {
                 findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountSignUp2Fragment2)
                 viewModel.doneVerifyCodeResult()
                 viewModel.setUserEmail(binding.emailEditText.text.toString())
+            }
+        }
+
+        viewModel.isEmailExist.observe(viewLifecycleOwner) { isEmailExist ->
+            if (isEmailExist) {
+                showDialog("이미 존재하는 이메일입니다.")
+                viewModel.doneEmailCheck()
+            }
+        }
+
+        viewModel.isEmailInvalid.observe(viewLifecycleOwner) { isEmailValid ->
+            if (isEmailValid) {
+                showDialog("이메일 형식이 올바르지 않습니다.")
+                viewModel.doneEmailCheck()
             }
         }
 

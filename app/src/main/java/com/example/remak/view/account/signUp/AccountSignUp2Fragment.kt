@@ -38,6 +38,13 @@ class AccountSignUp2Fragment : BaseFragment() {
                 viewModel.doneVerifyCodeResult()
             }
         }
+
+        viewModel.isSignUpCodeInvalid.observe(viewLifecycleOwner) { isSignUpCodeInvalid ->
+            if (isSignUpCodeInvalid) {
+                showDialog("인증코드가 올바르지 않습니다.")
+                viewModel.doneSignUpCodeCheck()
+            }
+        }
         return binding.root
     }
 

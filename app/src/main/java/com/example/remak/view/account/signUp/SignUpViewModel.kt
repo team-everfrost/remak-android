@@ -29,8 +29,11 @@ class SignUpViewModel(private val signInRepository: TokenRepository) : ViewModel
     private val _isEmailExist = MutableLiveData<Boolean>()
     val isEmailExist : LiveData<Boolean> = _isEmailExist
 
-    private val _isEmailValid = MutableLiveData<Boolean>()
-    val isEmailValid : LiveData<Boolean> = _isEmailValid
+    private val _isEmailInvalid = MutableLiveData<Boolean>()
+    val isEmailInvalid : LiveData<Boolean> = _isEmailInvalid
+
+    private val _isSignUpCodeInvalid = MutableLiveData<Boolean>()
+    val isSignUpCodeInvalid : LiveData<Boolean> = _isSignUpCodeInvalid
 
 
 
@@ -45,15 +48,14 @@ class SignUpViewModel(private val signInRepository: TokenRepository) : ViewModel
             val response = networkRepository.getVerifyCode(email)
             if (response.isSuccessful) {
                 _userEmail.value = email
-                Log.d("success", response.body().toString())
             } else {
                 _verifyCodeResult.value = false
-                if (response.code() == 400) {
-                    _isEmailValid.value = true
-                } else if (response.code() == 409) {
+                if (response.code() == 400) { //이메일 형식이 잘못되었을 때
+                    _isEmailInvalid.value = true
+                } else if (response.code() == 409) { //이미 존재하는 이메일일 때
                     _isEmailExist.value = true
                 }
-                Log.d("fail", response.code().toString())
+
                 Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignUpData.GetVerifyResponseBody::class.java).message)
             }
         } catch (e : Exception) {
@@ -68,7 +70,11 @@ class SignUpViewModel(private val signInRepository: TokenRepository) : ViewModel
 
     fun doneEmailCheck() {
         _isEmailExist.value = false
-        _isEmailValid.value = false
+        _isEmailInvalid.value = false
+    }
+
+    fun doneSignUpCodeCheck() {
+        _isSignUpCodeInvalid.value = false
     }
 
     //확인코드 입력 후 검증받는 로직
@@ -82,6 +88,9 @@ class SignUpViewModel(private val signInRepository: TokenRepository) : ViewModel
 
             } else {
                 _verifyCodeResult.value = false
+                if (response.code() == 403) {
+                    _isSignUpCodeInvalid.value = true
+                }
                 Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignUpData.CheckVerifyResponseBody::class.java).message)
 
             }
