@@ -15,6 +15,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.databinding.AddLinkCustomDialogBinding
@@ -24,7 +26,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetDialogFragment : BottomSheetDialogFragment() {
     private lateinit var binding: BottomSheetDialogBinding
-    private lateinit var dialogBinding: AddLinkCustomDialogBinding
+
+    private val viewModel : MainViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +58,8 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private fun showDialog() {
         val dialog = Dialog(requireContext())
-        val windowManager = requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val windowManager =
+            requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
         dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.add_link_custom_dialog)
@@ -83,10 +88,15 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
 
         }
         val cancelBtn = dialog.findViewById<View>(R.id.cancelBtn)
-      cancelBtn.setOnClickListener {
+        val confirmBtn = dialog.findViewById<View>(R.id.confirmBtn)
+        cancelBtn.setOnClickListener {
             dialog.dismiss()
         }
-        dismiss()
+        confirmBtn.setOnClickListener {
+            viewModel.createMemo("test")
+            dialog.dismiss()
+
+        }
         dialog.show()
 
 

@@ -2,6 +2,7 @@ package com.example.remak.repository
 
 import com.example.remak.network.Api
 import com.example.remak.network.RetrofitInstance
+import com.example.remak.network.model.CreateData
 
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
@@ -29,5 +30,10 @@ class NetworkRepository {
     suspend fun signUp(email: String, password: String): Response<SignUpData.SignUpResponseBody> {
         val requestBody = SignUpData.SignUpRequestBody(email = email, password = password)
         return client.signUp(requestBody)
+    }
+
+    suspend fun createMemo(content : String) : Response<CreateData.MemoResponseBody> {
+        val requestBody = CreateData.MemoRequestBody(content = content)
+        return client.createMemo(requestBody)
     }
 }
