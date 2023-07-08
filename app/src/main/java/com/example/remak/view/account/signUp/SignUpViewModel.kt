@@ -26,6 +26,12 @@ class SignUpViewModel(private val signInRepository: TokenRepository) : ViewModel
     private val _verifyCodeResult = MutableLiveData<Boolean>()
     val verifyCodeResult : LiveData<Boolean> = _verifyCodeResult
 
+    private val _isEmailExist = MutableLiveData<Boolean>()
+    val isEmailExist : LiveData<Boolean> = _isEmailExist
+
+    private val _isEmailValid = MutableLiveData<Boolean>()
+    val isEmailValid : LiveData<Boolean> = _isEmailValid
+
 
 
     init {
@@ -37,7 +43,19 @@ class SignUpViewModel(private val signInRepository: TokenRepository) : ViewModel
     fun getVerifyCode(email : String) = viewModelScope.launch {
         try {
             val response = networkRepository.getVerifyCode(email)
-            _verifyCodeResult.value = response.isSuccessful
+            if (response.isSuccessful) {
+                _userEmail.value = email
+                Log.d("success", response.body().toString())
+            } else {
+                _verifyCodeResult.value = false
+                if (response.code() == 400) {
+                    _isEmailValid.value = true
+                } else if (response.code() == 409) {
+                    _isEmailExist.value = true
+                }
+                Log.d("fail", response.code().toString())
+                Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignUpData.GetVerifyResponseBody::class.java).message)
+            }
         } catch (e : Exception) {
             _verifyCodeResult.value = false
             e.printStackTrace()
@@ -46,6 +64,11 @@ class SignUpViewModel(private val signInRepository: TokenRepository) : ViewModel
 
     fun doneVerifyCodeResult() {
         _verifyCodeResult.value = false
+    }
+
+    fun doneEmailCheck() {
+        _isEmailExist.value = false
+        _isEmailValid.value = false
     }
 
     //확인코드 입력 후 검증받는 로직

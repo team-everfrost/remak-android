@@ -23,9 +23,10 @@ class SignInViewModel(private val signInRepository: TokenRepository): ViewModel(
     private val networkRepository = NetworkRepository()
     private val _loginResponse = MutableLiveData<SignInData.ResponseBody>()
     val loginResponse: LiveData<SignInData.ResponseBody> = _loginResponse
-
     private val _loginResult = MutableLiveData<Boolean>()
     val loginResult : LiveData<Boolean> = _loginResult
+    private val _showDialog = MutableLiveData<Boolean>()
+    val showDialog : LiveData<Boolean> = _showDialog
 
 
 
@@ -43,6 +44,7 @@ class SignInViewModel(private val signInRepository: TokenRepository): ViewModel(
             } else {
                 _loginResult.value = false
                 Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignInData.ResponseBody::class.java).message)
+                _showDialog.value = true
             }
         } catch (e: Exception) {
             Log.d("networkError", e.toString())
@@ -51,6 +53,10 @@ class SignInViewModel(private val signInRepository: TokenRepository): ViewModel(
 
     fun doneLogin() {
         _loginResult.value = false
+    }
+
+    fun doneDialog() {
+        _showDialog.value = false
     }
 
 

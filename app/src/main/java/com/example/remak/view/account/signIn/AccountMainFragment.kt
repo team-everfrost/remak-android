@@ -1,10 +1,17 @@
 package com.example.remak.view.account.signIn
 
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Point
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -49,6 +56,13 @@ class AccountMainFragment : BaseFragment() {
             }
         }
         signInCheck(binding.idEditText, binding.pwEditText, binding.signInBtn)
+
+        viewModel.showDialog.observe(viewLifecycleOwner) { showDialog ->
+            if (showDialog) {
+                showDialog("아이디 또는 비밀번호를 확인해주세요")
+                viewModel.doneDialog()
+            }
+        }
         return binding.root
     }
 
@@ -79,6 +93,8 @@ class AccountMainFragment : BaseFragment() {
         }
 
     }
+
+
 
 
 
