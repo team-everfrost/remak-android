@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.example.remak.App
-import com.example.remak.dataStore.SignInRepository
+import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.SplashActivityBinding
 import com.example.remak.view.account.AccountActivity
 import com.example.remak.view.main.MainActivity
@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: SplashActivityBinding
 
-    private lateinit var signInRepository : SignInRepository
+    private lateinit var signInRepository : TokenRepository
 
     private val viewModel : SplashViewModel by viewModels { SplashViewModelFactory(signInRepository)  }
 
@@ -28,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
         binding = SplashActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        signInRepository = SignInRepository((this.application as App).dataStore)
+        signInRepository = TokenRepository((this.application as App).dataStore)
 
         lifecycleScope.launch {
             //2초 후에 실행

@@ -1,26 +1,20 @@
 package com.example.remak.view.account.signUp
 
-import android.app.Application
 import android.util.Log
-import android.view.inputmethod.InputMethodManager
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.remak.dataModel.TokenData
-import com.example.remak.dataStore.SignInRepository
-import com.example.remak.network.model.SignInData
+import com.example.remak.dataStore.TokenRepository
 import com.example.remak.network.model.SignUpData
 import com.example.remak.repository.NetworkRepository
-import com.example.remak.view.account.signIn.SignInViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.lang.Exception
-import kotlin.math.log
 
-class SignUpViewModel(private val signInRepository: SignInRepository) : ViewModel() {
+class SignUpViewModel(private val signInRepository: TokenRepository) : ViewModel() {
 
     private val networkRepository = NetworkRepository()
     private val _userEmail = MutableLiveData<String>()
@@ -124,7 +118,7 @@ class SignUpViewModel(private val signInRepository: SignInRepository) : ViewMode
 
 }
 
-class SignUpViewModelFactory(private val signInRepository: SignInRepository) : ViewModelProvider.Factory{
+class SignUpViewModelFactory(private val signInRepository: TokenRepository) : ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SignUpViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

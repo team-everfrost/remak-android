@@ -2,21 +2,17 @@ package com.example.remak.view.account.signIn
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.remak.App
 import com.example.remak.BaseFragment
 import com.example.remak.R
-import com.example.remak.dataStore.SignInRepository
+import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AccountMainFragmentBinding
-import com.example.remak.view.account.signUp.SignUpViewModel
-import com.example.remak.view.account.signUp.SignUpViewModelFactory
 import com.example.remak.view.main.MainActivity
 
 
@@ -29,14 +25,14 @@ class AccountMainFragment : BaseFragment() {
 
     private val viewModel: SignInViewModel by activityViewModels { SignInViewModelFactory(signInRepository) }
 
-    lateinit var signInRepository : SignInRepository
+    lateinit var signInRepository : TokenRepository
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        signInRepository = SignInRepository((requireActivity().application as App).dataStore)
+        signInRepository = TokenRepository((requireActivity().application as App).dataStore)
 
 
 

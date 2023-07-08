@@ -5,11 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.remak.dataStore.SignInRepository
-import com.example.remak.view.account.signIn.SignInViewModel
+import com.example.remak.dataStore.TokenRepository
 import kotlinx.coroutines.launch
 
-class SplashViewModel(private val signInRepository: SignInRepository) : ViewModel()  {
+class SplashViewModel(private val signInRepository: TokenRepository) : ViewModel()  {
 
     private val _isToken = MutableLiveData<Boolean>()
     val isToken : LiveData<Boolean> = _isToken
@@ -28,7 +27,7 @@ class SplashViewModel(private val signInRepository: SignInRepository) : ViewMode
 
 }
 
-class SplashViewModelFactory(private val signInRepository: SignInRepository) : ViewModelProvider.Factory{
+class SplashViewModelFactory(private val signInRepository: TokenRepository) : ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SplashViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

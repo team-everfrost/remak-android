@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.remak.dataModel.TokenData
-import com.example.remak.dataStore.SignInRepository
+import com.example.remak.dataStore.TokenRepository
 import com.example.remak.network.model.SignInData
 import com.example.remak.repository.NetworkRepository
 import com.google.gson.Gson
@@ -18,7 +18,7 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.launch
 
-class SignInViewModel(private val signInRepository: SignInRepository): ViewModel(){
+class SignInViewModel(private val signInRepository: TokenRepository): ViewModel(){
 
     private val networkRepository = NetworkRepository()
     private val _loginResponse = MutableLiveData<SignInData.ResponseBody>()
@@ -97,7 +97,7 @@ class SignInViewModel(private val signInRepository: SignInRepository): ViewModel
 
 }
 
-class SignInViewModelFactory(private val signInRepository: SignInRepository) : ViewModelProvider.Factory{
+class SignInViewModelFactory(private val signInRepository: TokenRepository) : ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SignInViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

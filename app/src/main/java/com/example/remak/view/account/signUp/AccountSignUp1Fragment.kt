@@ -13,7 +13,7 @@ import com.example.remak.R
 import com.example.remak.databinding.AccountSignup1FragmentBinding
 import androidx.lifecycle.viewModelScope
 import com.example.remak.App
-import com.example.remak.dataStore.SignInRepository
+import com.example.remak.dataStore.TokenRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -22,13 +22,13 @@ class AccountSignUp1Fragment : BaseFragment() {
 
     private val viewModel: SignUpViewModel by activityViewModels { SignUpViewModelFactory(signInRepository) }
 
-    lateinit var signInRepository : SignInRepository
+    lateinit var signInRepository : TokenRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        signInRepository = SignInRepository((requireActivity().application as App).dataStore)
+        signInRepository = TokenRepository((requireActivity().application as App).dataStore)
 
 
 

@@ -18,6 +18,10 @@ class App : Application() {
 
     }
 
+    fun provideDataStore(): DataStore<Preferences> {
+        return dataStore
+    }
+
 
 
     override fun onCreate() {
