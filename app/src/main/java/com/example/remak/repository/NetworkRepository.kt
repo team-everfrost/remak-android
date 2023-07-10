@@ -3,6 +3,7 @@ package com.example.remak.repository
 import com.example.remak.network.Api
 import com.example.remak.network.RetrofitInstance
 import com.example.remak.network.model.CreateData
+import com.example.remak.network.model.MainListData
 
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
@@ -37,4 +38,10 @@ class NetworkRepository {
         val requestBody = CreateData.MemoRequestBody(content = content)
         return client.createMemo(requestBody)
     }
+
+    suspend fun getMainList(cursor : String?, docID : String?) : Response<MainListData.Response> {
+        return client.getMainList(cursor, docID)
+    }
+
+
 }

@@ -188,7 +188,7 @@ abstract class BaseFragment : Fragment() {
             requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
         dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
-        dialog.setContentView(R.layout.custom_dialog_warning)
+        dialog.setContentView(R.layout.custom_dialog_information)
 
         if (Build.VERSION.SDK_INT < 30) {
             val display = windowManager.defaultDisplay

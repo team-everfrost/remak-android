@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/baseline_edit_24"
+            android:src="@drawable/baseline_delete_24"
             android:background="@color/white"/>
     </RelativeLayout>
 
