@@ -12,6 +12,7 @@ class NetworkRepository {
 
     private val client = RetrofitInstance.getInstance().create(Api::class.java)
 
+    //로그인
     suspend fun signIn(email : String, password : String) : Response<SignInData.ResponseBody> {
         val requestBody = SignInData.RequestBody(email = email, password = password)
         return client.signIn(requestBody)

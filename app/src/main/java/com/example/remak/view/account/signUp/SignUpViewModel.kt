@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.remak.dataModel.TokenData
+import com.example.remak.model.TokenData
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.network.model.SignUpData
 import com.example.remak.repository.NetworkRepository
@@ -46,8 +46,12 @@ class SignUpViewModel(private val signInRepository: TokenRepository) : ViewModel
     fun getVerifyCode(email : String) = viewModelScope.launch {
         try {
             val response = networkRepository.getVerifyCode(email)
+            Log.d("test", response.toString())
+            Log.d("email", email)
             if (response.isSuccessful) {
                 _userEmail.value = email
+                _verifyCodeResult.value = true
+                Log.d("success", response.body().toString())
             } else {
                 _verifyCodeResult.value = false
                 if (response.code() == 400) { //이메일 형식이 잘못되었을 때

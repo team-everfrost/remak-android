@@ -28,7 +28,7 @@
         android:id="@+id/confirmBtn"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
+        android:background="@drawable/ripple_confirm_btn_bottom_round"
         android:text="@string/confirm"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"

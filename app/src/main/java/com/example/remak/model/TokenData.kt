@@ -1,4 +1,4 @@
-package com.example.remak.dataModel
+package com.example.remak.model
 
 data class TokenData (
     val accessToken : String,

@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.remak.dataModel.TokenData
+import com.example.remak.model.TokenData
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.network.model.SignInData
 import com.example.remak.repository.NetworkRepository

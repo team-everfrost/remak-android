@@ -180,6 +180,8 @@ abstract class BaseFragment : Fragment() {
 
     }
 
+
+    //안내창 다이얼로그 생성
     fun showDialog(msg: String) {
         val dialog = Dialog(requireContext())
         val windowManager =
