@@ -15,7 +15,7 @@
 
     <item
         android:title="@string/navSample"
-        android:id="@+id/addBtn"
+        android:id="@+id/blankFragment"
         android:icon="@drawable/baseline_add_box_24"
         />
     <item

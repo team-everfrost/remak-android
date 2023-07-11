@@ -39,6 +39,10 @@ class MainViewModel : ViewModel() {
         } catch (e : Exception) {
             Log.d("networkError", e.toString())
         }
+
+        Log.d("cursor", cursor.toString())
+        Log.d("docID", docID.toString())
+        Log.d("mainListData", mainListData.value.toString())
     }
 
 

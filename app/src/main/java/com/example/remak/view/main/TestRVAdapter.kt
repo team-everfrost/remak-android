@@ -31,17 +31,4 @@ class TestRVAdapter (private val testData : Array<String>) : RecyclerView.Adapte
 
 }
 
-class ItemOffsetDecoration(private val mItemOffset: Int) : RecyclerView.ItemDecoration() {
-    override fun getItemOffsets(
-        outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
-    ) {
-        super.getItemOffsets(outRect, view, parent, state)
-        outRect.top = mItemOffset
-
-        // Add top margin only for the first item to avoid double space between items
-        if (parent.getChildAdapterPosition(view) == 0) {
-            outRect.top = mItemOffset
-        }
-    }
-}
 
