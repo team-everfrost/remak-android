@@ -1,12 +1,10 @@
 package com.example.remak.view.main
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.BaseFragment
@@ -16,6 +14,8 @@ class MainHomeFragment : BaseFragment() {
     private lateinit var binding : MainHomeFragmentBinding
     private val viewModel : MainViewModel by activityViewModels()
     private lateinit var adapter : HomeRVAdapter
+    private var initialLoad = true
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,10 +43,17 @@ class MainHomeFragment : BaseFragment() {
 
         viewModel.mainListData.observe(viewLifecycleOwner) {data ->
             adapter.dataSet = data
-            adapter.notifyDataSetChanged()
+            if (initialLoad) {
+                adapter.notifyDataSetChanged()
+            }
         }
 
-        viewModel.getMainList()
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.getAllMainList()
+            binding.swipeRefresh.isRefreshing = false
+        }
+
+        viewModel.getAllMainList()
 
 
 

@@ -21,7 +21,31 @@ class MainViewModel : ViewModel() {
     var docID : String? = null
 
 
-    fun getMainList() = viewModelScope.launch {
+    fun getAllMainList() = viewModelScope.launch {
+        try {
+            val response = networkRepository.getMainList(null, null)
+            if (response.isSuccessful) {
+                _mainListData.value = response.body()?.data
+
+                response.body()?.data?.let {it ->
+                    cursor = it.last().createdAt
+                    docID = it.last().docId
+                }
+
+                Log.d("success", response.body().toString())
+            } else {
+                Log.d("fail", response.errorBody().toString())
+            }
+        } catch (e : Exception) {
+            Log.d("networkError", e.toString())
+        }
+
+        Log.d("cursor", cursor.toString())
+        Log.d("docID", docID.toString())
+        Log.d("mainListData", mainListData.value.toString())
+    }
+
+    fun getNewMainList() = viewModelScope.launch {
         try {
             val response = networkRepository.getMainList(cursor, docID)
             if (response.isSuccessful) {
