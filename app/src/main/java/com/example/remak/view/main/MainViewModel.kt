@@ -16,17 +16,21 @@ class MainViewModel : ViewModel() {
     private val _mainListData = MutableLiveData<List<MainListData.Data>>()
     val mainListData : LiveData<List<MainListData.Data>> = _mainListData
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading : LiveData<Boolean> = _isLoading
+
     var cursor : String? = null
     var docID : String? = null
 
 
     fun getAllMainList() = viewModelScope.launch {
+        _isLoading.value = true
         try {
             val response = networkRepository.getMainList(null, null)
             if (response.isSuccessful) {
                 _mainListData.value = response.body()?.data
 
-                response.body()?.data?.let {it ->
+                response.body()?.data?.let {
                     cursor = it.last().createdAt
                     docID = it.last().docId
                 }
@@ -42,13 +46,19 @@ class MainViewModel : ViewModel() {
         Log.d("cursor", cursor.toString())
         Log.d("docID", docID.toString())
         Log.d("mainListData", mainListData.value.toString())
+        _isLoading.value = false
     }
 
     fun getNewMainList() = viewModelScope.launch {
+        _isLoading.value = true
+        var tempData = mainListData.value
+
         try {
             val response = networkRepository.getMainList(cursor, docID)
             if (response.isSuccessful) {
-                _mainListData.value = response.body()?.data
+                for (data in response.body()!!.data) {
+                    tempData = tempData?.plus(data)
+                }
 
                 response.body()?.data?.let {it ->
                     cursor = it.last().createdAt
@@ -66,6 +76,10 @@ class MainViewModel : ViewModel() {
         Log.d("cursor", cursor.toString())
         Log.d("docID", docID.toString())
         Log.d("mainListData", mainListData.value.toString())
+        if(tempData != null) {
+            _mainListData.value = tempData!!
+        }
+        _isLoading.value = false
     }
 
 

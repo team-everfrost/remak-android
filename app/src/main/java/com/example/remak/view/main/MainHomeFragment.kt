@@ -38,6 +38,21 @@ class MainHomeFragment : BaseFragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
+
+        //리사이클러 뷰 무한스크롤 기능
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val totalItemCount = recyclerView.layoutManager?.itemCount
+                val lastVisibleItemCount = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+
+                if (!viewModel.isLoading.value!! && totalItemCount!! <= (lastVisibleItemCount + 5)) {
+                    viewModel.getNewMainList()
+                }
+            }
+        })
+
         val itemDecoration = ItemOffsetDecoration(10)
         recyclerView.addItemDecoration(itemDecoration)
 
