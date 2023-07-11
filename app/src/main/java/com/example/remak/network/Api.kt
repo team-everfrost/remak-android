@@ -35,6 +35,7 @@ interface Api {
     suspend fun getMainList(
         @Query("cursor")  cursor : String?,
         @Query("doc-id")  docID : String?,
+        @Query("limit") limit : Int? = 20
     ) : retrofit2.Response<MainListData.Response>
 
 

@@ -13,7 +13,6 @@ class MainViewModel : ViewModel() {
 
     private val networkRepository = NetworkRepository()
 
-    //_mainListData는 mutablelivedata형식에 MainListData.Data list를 가지고있다.
     private val _mainListData = MutableLiveData<List<MainListData.Data>>()
     val mainListData : LiveData<List<MainListData.Data>> = _mainListData
 
