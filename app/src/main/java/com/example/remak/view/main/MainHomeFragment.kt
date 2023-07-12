@@ -1,6 +1,7 @@
 package com.example.remak.view.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.BaseFragment
 import com.example.remak.databinding.MainHomeFragmentBinding
 
-class MainHomeFragment : BaseFragment() {
+class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
     private lateinit var binding : MainHomeFragmentBinding
     private val viewModel : MainViewModel by activityViewModels()
     private lateinit var adapter : HomeRVAdapter
@@ -32,7 +33,7 @@ class MainHomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = HomeRVAdapter(mutableListOf())
+        adapter = HomeRVAdapter(mutableListOf(), this)
 
         val recyclerView : RecyclerView = binding.homeRV
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -76,6 +77,14 @@ class MainHomeFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewModel.getAllMainList()
+    }
+
+    override fun onItemClick(view: View, position: Int) {
+        Log.d("item", viewModel.mainListData.value!![position].type)
+        when (viewModel.mainListData.value!![position].type) {
+
+
+        }
     }
 
 

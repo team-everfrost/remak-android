@@ -5,13 +5,14 @@ import android.icu.text.Transliterator.Position
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.R
 import com.example.remak.network.model.MainListData
 
-class HomeRVAdapter(var dataSet : List<MainListData.Data>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClickListener : OnItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     companion object {
@@ -22,9 +23,17 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>) : RecyclerView.Adapte
     inner class MemoViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
         val title : TextView = view.findViewById<TextView>(R.id.title)
+        init {
+            view.setOnClickListener {
+                itemClickListener.onItemClick(it, adapterPosition)
+            }
+        }
 
     }
 
+    interface OnItemClickListener {
+        fun onItemClick(view: View, position: Int)
+    }
     class FileViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
         val title: TextView = view.findViewById<TextView>(R.id.title)
