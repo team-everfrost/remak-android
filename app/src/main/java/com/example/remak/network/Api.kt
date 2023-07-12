@@ -3,6 +3,7 @@ package com.example.remak.network
 
 import androidx.room.Delete
 import com.example.remak.network.model.CreateData
+import com.example.remak.network.model.DetailData
 import com.example.remak.network.model.MainListData
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
@@ -12,6 +13,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -38,5 +40,7 @@ interface Api {
         @Query("limit") limit : Int? = 20
     ) : retrofit2.Response<MainListData.Response>
 
+    @GET("document/{docId}")
+    suspend fun getDetailData(@Path("docId") docId : String) : retrofit2.Response<DetailData.ResponseBody>
 
 }

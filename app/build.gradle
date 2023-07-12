@@ -16,7 +16,7 @@ android {
         versionName "1.0"
         //viewbinding
         viewBinding{
-            enabled true
+            enabled = true
         }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

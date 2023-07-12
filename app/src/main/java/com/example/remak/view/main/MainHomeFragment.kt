@@ -1,5 +1,6 @@
 package com.example.remak.view.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.BaseFragment
 import com.example.remak.databinding.MainHomeFragmentBinding
+import com.example.remak.view.detail.MemoDetailActivity
 
 class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
     private lateinit var binding : MainHomeFragmentBinding
@@ -82,6 +84,11 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
     override fun onItemClick(view: View, position: Int) {
         Log.d("item", viewModel.mainListData.value!![position].type)
         when (viewModel.mainListData.value!![position].type) {
+            "MEMO" -> {
+                val intent = Intent(requireContext(), MemoDetailActivity::class.java)
+                intent.putExtra("docId", viewModel.mainListData.value!![position].docId)
+                startActivity(intent)
+            }
 
 
         }

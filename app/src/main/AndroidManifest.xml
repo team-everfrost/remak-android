@@ -42,6 +42,11 @@
 
         </activity>
 
+        <activity android:name=".view.detail.MemoDetailActivity"
+            android:exported="true">
+
+        </activity>
+
 
     </application>
 
