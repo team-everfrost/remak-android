@@ -37,6 +37,11 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".view.main.CreateMemoActivity"
+            android:exported="true">
+
+        </activity>
+
 
     </application>
 

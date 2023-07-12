@@ -2,6 +2,7 @@ package com.example.remak.view.main
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.EditText
 import androidx.fragment.app.activityViewModels
 import com.example.remak.R
 import com.example.remak.databinding.BottomSheetDialogBinding
@@ -43,6 +45,13 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
         (view.parent as View).background = ColorDrawable(Color.TRANSPARENT)
         binding.linearLink.setOnClickListener {
             showDialog()
+
+        }
+
+        binding.linearNote.setOnClickListener {
+            val intent = Intent(activity, CreateMemoActivity::class.java)
+            startActivity(intent)
+            this.dismiss()
 
         }
 
@@ -81,11 +90,12 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
         val cancelBtn = dialog.findViewById<View>(R.id.cancelBtn)
         val confirmBtn = dialog.findViewById<View>(R.id.confirmBtn)
+
         cancelBtn.setOnClickListener {
             dialog.dismiss()
         }
         confirmBtn.setOnClickListener {
-            viewModel.createMemo("test")
+
             dialog.dismiss()
 
         }

@@ -29,9 +29,7 @@ class AccountSignUp1Fragment : BaseFragment() {
 
 
         binding = AccountSignup1FragmentBinding.inflate(inflater, container, false)
-        binding.root.setOnClickListener {
-            hideKeyboard()
-        }
+
 
         viewModel.verifyCodeResult.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
@@ -55,7 +53,9 @@ class AccountSignUp1Fragment : BaseFragment() {
             }
         }
 
-
+        binding.root.setOnClickListener {
+            hideKeyboard()
+        }
 
         return binding.root
     }

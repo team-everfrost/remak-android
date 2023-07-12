@@ -58,12 +58,12 @@ class MainHomeFragment : BaseFragment() {
 
         viewModel.mainListData.observe(viewLifecycleOwner) {data ->
             adapter.dataSet = data
-            if (initialLoad) {
+            if (initialLoad) { //첫 로드일 경우
                 adapter.notifyDataSetChanged()
             }
         }
 
-        binding.swipeRefresh.setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener { //위로 스와이프 했을 때 새로고침 기능
             viewModel.getAllMainList()
             binding.swipeRefresh.isRefreshing = false
         }
@@ -71,10 +71,11 @@ class MainHomeFragment : BaseFragment() {
         viewModel.getAllMainList()
 
 
+    }
 
-
-
-
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAllMainList()
     }
 
 

@@ -21,13 +21,13 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>) : RecyclerView.Adapte
     }
     inner class MemoViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
-        val title = view.findViewById<TextView>(R.id.title)
+        val title : TextView = view.findViewById<TextView>(R.id.title)
 
     }
 
     class FileViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
-        val title = view.findViewById<TextView>(R.id.title)
+        val title: TextView = view.findViewById<TextView>(R.id.title)
 
     }
 
@@ -39,7 +39,6 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>) : RecyclerView.Adapte
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             MEMO_VIEW_TYPE -> {
-                Log.d("HomeRVAdapter", "onCreateViewHolder: MEMO_VIEW_TYPE")
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_memo, parent, false)
                 MemoViewHolder(view)
             }

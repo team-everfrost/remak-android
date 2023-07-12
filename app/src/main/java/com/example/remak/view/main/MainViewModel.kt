@@ -19,6 +19,9 @@ class MainViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading : LiveData<Boolean> = _isLoading
 
+    private val _isMemoCreateSuccess = MutableLiveData<String>()
+    val isMemoCreateSuccess : LiveData<String> = _isMemoCreateSuccess
+
     var cursor : String? = null
     var docID : String? = null
 
@@ -65,6 +68,7 @@ class MainViewModel : ViewModel() {
                     docID = it.last().docId
                 }
 
+
                 Log.d("success", response.body().toString())
             } else {
                 Log.d("fail", response.errorBody().toString())
@@ -88,9 +92,11 @@ class MainViewModel : ViewModel() {
             val response = networkRepository.createMemo(content)
             if (response.isSuccessful) {
                 Log.d("success", response.body().toString())
+                _isMemoCreateSuccess.value = "메모가 생성되었습니다."
 
             } else {
                 Log.d("fail", response.errorBody().toString())
+                _isMemoCreateSuccess.value = "메모 생성에 실패했습니다"
             }
         } catch (e : Exception) {
             Log.d("networkError", e.toString())
