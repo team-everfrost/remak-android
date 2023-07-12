@@ -1,5 +1,6 @@
 package com.example.remak.repository
 
+import androidx.room.Update
 import com.example.remak.network.Api
 import com.example.remak.network.RetrofitInstance
 import com.example.remak.network.model.CreateData
@@ -8,6 +9,7 @@ import com.example.remak.network.model.MainListData
 
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
+import com.example.remak.network.model.UpdateData
 import retrofit2.Response
 
 class NetworkRepository {
@@ -46,6 +48,11 @@ class NetworkRepository {
 
     suspend fun getDetailData(docId : String) : Response<DetailData.ResponseBody> {
         return client.getDetailData(docId)
+    }
+
+    suspend fun updateMemo(docId : String, content : String) : Response<UpdateData.MemoResponseBody> {
+        val requestBody = UpdateData.MemoRequestBody(content = content)
+        return client.updateMemo(docId, requestBody)
     }
 
 

@@ -30,14 +30,33 @@
             android:textSize="25sp"
             android:textFontWeight="800"/>
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/editBtn"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/baseline_edit_24"
-            android:background="@color/white"/>
+            android:background="@color/white">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/editBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_edit_24"
+                android:background="@color/white"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/completeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/complete"
+                android:textSize="25dp"
+                android:textFontWeight="600"
+                android:visibility="gone"/>
+
+
+        </FrameLayout>
+
+
     </RelativeLayout>
 
 
