@@ -14,18 +14,23 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.remak.App
 import com.example.remak.R
+import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageMemoActivityBinding
 
 class MemoDetailActivity : AppCompatActivity() {
     private lateinit var binding : DetailPageMemoActivityBinding
 
-    private val viewModel : DetailViewModel by viewModels()
+    private val viewModel : DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository)}
+
+    lateinit var tokenRepository: TokenRepository
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        tokenRepository = TokenRepository((this.application as App).dataStore)
         binding = DetailPageMemoActivityBinding.inflate(layoutInflater)
         binding.root.setOnClickListener {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

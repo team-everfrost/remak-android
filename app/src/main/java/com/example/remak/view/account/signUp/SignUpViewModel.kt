@@ -14,7 +14,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class SignUpViewModel(private val signInRepository: TokenRepository) : ViewModel() {
+class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
 
     private val networkRepository = NetworkRepository()
     private val _userEmail = MutableLiveData<String>()
@@ -117,7 +117,7 @@ class SignUpViewModel(private val signInRepository: TokenRepository) : ViewModel
                 Log.d("token", response.body()?.data!!.accessToken)
                 //토큰 저장
                 val token = TokenData(response.body()?.data!!.accessToken)
-                signInRepository.saveUser(token)
+                tokenRepository.saveUser(token)
                 //확인값 true로 변경
                 _verifyCodeResult.value = true
 

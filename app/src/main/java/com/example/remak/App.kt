@@ -6,6 +6,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.kakao.sdk.common.KakaoSdk
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 class App : Application() {
 
@@ -28,6 +31,9 @@ class App : Application() {
         super.onCreate()
 
         KakaoSdk.init(this, "native App Code")
+
+
+
 
 
     }
