@@ -1,9 +1,6 @@
 package com.example.remak.network.model
 
 class DetailData {
-    data class RequestBody(
-        val docId : String
-    )
 
     data class ResponseBody(
         val message : String,

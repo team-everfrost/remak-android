@@ -31,6 +31,19 @@ class DetailViewModel : ViewModel() {
         }
     }
 
+    fun deleteDocument(docId: String) = viewModelScope.launch {
+        try {
+            val response = networkRepository.deleteDocument(docId)
+            if (response.isSuccessful) {
+                Log.d("success", response.body().toString())
+            } else {
+                Log.d("fail", response.errorBody().toString())
+            }
+        } catch (e : Exception) {
+            Log.d("networkError", e.toString())
+        }
+    }
+
     fun updateMemo(docId : String, content : String) = viewModelScope.launch {
         try {
             val response = networkRepository.updateMemo(docId, content)

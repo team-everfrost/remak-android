@@ -52,11 +52,22 @@ class MemoDetailActivity : AppCompatActivity() {
             binding.editBtn.visibility = View.GONE
             binding.completeBtn.visibility = View.VISIBLE
 
+            binding.backBtn.visibility = View.GONE
+            binding.deleteBtn.visibility = View.VISIBLE
+
         }
 
         binding.completeBtn.setOnClickListener {
-            showDialog("수정하시겠습니까?", memoId)
+            showWarnDialog("수정하시겠습니까?", memoId, "update")
 
+        }
+
+        binding.deleteBtn.setOnClickListener {
+            showWarnDialog("삭제하시겠습니까?", memoId, "delete")
+        }
+
+        binding.backBtn.setOnClickListener {
+            finish()
         }
 
 
@@ -68,7 +79,7 @@ class MemoDetailActivity : AppCompatActivity() {
 
 
 
-    private fun showDialog(getContent : String, memoId : String) {
+    private fun showWarnDialog(getContent : String, memoId : String, type : String) {
         val dialog = Dialog(this)
         val windowManager =
             this.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -105,10 +116,20 @@ class MemoDetailActivity : AppCompatActivity() {
         content.text = getContent
 
         confirmBtn.setOnClickListener {
-            viewModel.updateMemo(memoId, binding.memoContent.text.toString())
-            binding.memoContent.isEnabled = false
-            binding.completeBtn.visibility = View.GONE
-            binding.editBtn.visibility = View.VISIBLE
+            if (type == "update") {
+                viewModel.updateMemo(memoId, binding.memoContent.text.toString())
+                binding.memoContent.isEnabled = false
+                binding.completeBtn.visibility = View.GONE
+                binding.editBtn.visibility = View.VISIBLE
+
+                binding.deleteBtn.visibility = View.GONE
+                binding.backBtn.visibility = View.VISIBLE
+
+            } else {
+                viewModel.deleteDocument(memoId)
+                finish()
+            }
+
             dialog.dismiss()
 
         }

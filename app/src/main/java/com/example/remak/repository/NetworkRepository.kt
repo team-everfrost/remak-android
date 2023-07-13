@@ -4,6 +4,7 @@ import androidx.room.Update
 import com.example.remak.network.Api
 import com.example.remak.network.RetrofitInstance
 import com.example.remak.network.model.CreateData
+import com.example.remak.network.model.DeleteData
 import com.example.remak.network.model.DetailData
 import com.example.remak.network.model.MainListData
 
@@ -53,6 +54,10 @@ class NetworkRepository {
     suspend fun updateMemo(docId : String, content : String) : Response<UpdateData.MemoResponseBody> {
         val requestBody = UpdateData.MemoRequestBody(content = content)
         return client.updateMemo(docId, requestBody)
+    }
+
+    suspend fun deleteDocument(docId : String) : Response<DeleteData.ResponseBody> {
+        return client.deleteMemo(docId)
     }
 
 

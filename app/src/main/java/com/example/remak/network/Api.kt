@@ -3,6 +3,7 @@ package com.example.remak.network
 
 import androidx.room.Delete
 import com.example.remak.network.model.CreateData
+import com.example.remak.network.model.DeleteData
 import com.example.remak.network.model.DetailData
 import com.example.remak.network.model.MainListData
 import com.example.remak.network.model.SignInData
@@ -12,6 +13,7 @@ import okhttp3.Response
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -48,4 +50,6 @@ interface Api {
     @PATCH("document/memo/update/{docId}")
     suspend fun updateMemo(@Path("docId") docId : String, @Body body: UpdateData.MemoRequestBody) : retrofit2.Response<UpdateData.MemoResponseBody>
 
+    @DELETE("document/{docId}")
+    suspend fun deleteMemo(@Path("docId") docId : String) : retrofit2.Response<DeleteData.ResponseBody>
 }
