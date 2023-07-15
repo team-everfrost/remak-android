@@ -55,6 +55,12 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
 
         }
 
+        //파일클릭 이벤트 추가
+        binding.linearFile.setOnClickListener {
+
+
+        }
+
     }
 
     private fun showDialog() {
