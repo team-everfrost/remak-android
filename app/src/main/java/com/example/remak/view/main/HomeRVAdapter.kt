@@ -1,5 +1,6 @@
 package com.example.remak.view.main
 
+import android.content.Context
 import android.graphics.Rect
 import android.icu.text.Transliterator.Position
 import android.util.Log
@@ -11,6 +12,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.R
 import com.example.remak.network.model.MainListData
+import org.w3c.dom.Text
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClickListener : OnItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -34,6 +39,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
     inner class FileViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
         val title: TextView = view.findViewById<TextView>(R.id.title)
+        val subject : TextView = view.findViewById(R.id.subject)
         init {
             view.setOnClickListener {
                 itemClickListener.onItemClick(it, adapterPosition)
@@ -79,7 +85,18 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 holder.title.text = dataSet[position].content
             }
             is FileViewHolder -> {
-                holder.title.text = dataSet[position].title
+                //날짜 포맷 변경
+                val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" , Locale.getDefault())
+                inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+                val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val date = inputFormat.parse(dataSet[position].updatedAt)
+                val outputDateStr = outputFormat.format(date)
+                val text = holder.itemView.context.getString(R.string.filetype_date, "PDF", outputDateStr)
+
+                holder.title.text = dataSet[position].title //제목
+                holder.subject.text = text //파일타입, 날짜
+
+
             }
         }
     }

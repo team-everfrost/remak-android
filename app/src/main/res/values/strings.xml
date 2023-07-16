@@ -41,5 +41,6 @@
     <string name="storage">보관함</string>
     <string name="subscribe">구독</string>
     <string name="logout">로그아웃</string>
+    <string name="filetype_date">%1$s - %2$s</string>
 
 </resources>
