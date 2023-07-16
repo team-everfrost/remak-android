@@ -78,6 +78,7 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
 
     override fun onResume() {
         super.onResume()
+        Log.d("onResume", "onResume")
         viewModel.getAllMainList()
     }
 
@@ -85,6 +86,12 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
         Log.d("item", viewModel.mainListData.value!![position].type)
         when (viewModel.mainListData.value!![position].type) {
             "MEMO" -> {
+                val intent = Intent(requireContext(), MemoDetailActivity::class.java)
+                intent.putExtra("docId", viewModel.mainListData.value!![position].docId)
+                startActivity(intent)
+            }
+
+            "FILE" -> {
                 val intent = Intent(requireContext(), MemoDetailActivity::class.java)
                 intent.putExtra("docId", viewModel.mainListData.value!![position].docId)
                 startActivity(intent)

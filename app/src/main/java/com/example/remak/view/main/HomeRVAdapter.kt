@@ -25,6 +25,17 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         val title : TextView = view.findViewById<TextView>(R.id.title)
         init {
             view.setOnClickListener {
+            itemClickListener.onItemClick(it, adapterPosition)
+            }
+        }
+
+    }
+
+    inner class FileViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+
+        val title: TextView = view.findViewById<TextView>(R.id.title)
+        init {
+            view.setOnClickListener {
                 itemClickListener.onItemClick(it, adapterPosition)
             }
         }
@@ -34,11 +45,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
     interface OnItemClickListener {
         fun onItemClick(view: View, position: Int)
     }
-    class FileViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
-        val title: TextView = view.findViewById<TextView>(R.id.title)
-
-    }
 
     override fun getItemViewType(position: Int): Int = when (dataSet[position].type) {
         MEMO -> MEMO_VIEW_TYPE
@@ -72,7 +79,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 holder.title.text = dataSet[position].content
             }
             is FileViewHolder -> {
-                holder.title.text = dataSet[position].content
+                holder.title.text = dataSet[position].title
             }
         }
     }

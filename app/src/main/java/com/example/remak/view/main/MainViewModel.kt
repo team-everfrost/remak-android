@@ -41,12 +41,9 @@ class MainViewModel : ViewModel() {
                     docID = it.last().docId
                 }
 
-                Log.d("success", response.body().toString())
             } else {
-                Log.d("fail", response.errorBody().toString())
             }
         } catch (e : Exception) {
-            Log.d("networkError", e.toString())
         }
 
         Log.d("cursor", cursor.toString())
@@ -72,7 +69,6 @@ class MainViewModel : ViewModel() {
                 }
 
 
-                Log.d("success", response.body().toString())
             } else {
                 Log.d("fail", response.errorBody().toString())
             }
@@ -107,11 +103,13 @@ class MainViewModel : ViewModel() {
 
     }
 
-    fun uploadFile(file : List<MultipartBody.Part>) = viewModelScope.launch {
+    fun uploadFile(files : List<MultipartBody.Part>) = viewModelScope.launch {
         try {
-            val response = networkRepository.uploadFile(file)
+            val response = networkRepository.uploadFile(files)
+            Log.d("file", files.toString())
             if (response.isSuccessful) {
                 Log.d("success", response.body().toString())
+                getAllMainList()
 
             } else {
                 Log.d("fail", response.errorBody()?.string()!!)

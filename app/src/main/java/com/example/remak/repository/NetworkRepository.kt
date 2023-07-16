@@ -62,9 +62,10 @@ class NetworkRepository {
         return client.deleteMemo(docId)
     }
 
-    suspend fun uploadFile(file : List<MultipartBody.Part>) : Response<UploadFileData.ResponseBody> {
-        return client.uploadFile(file)
+    suspend fun uploadFile(files : List<MultipartBody.Part>) : Response<UploadFileData.ResponseBody> {
+        return client.uploadFile(files)
     }
+
 
 
 }

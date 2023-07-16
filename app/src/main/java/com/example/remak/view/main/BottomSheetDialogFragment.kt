@@ -8,8 +8,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -30,21 +32,22 @@ import java.net.URI
 
 class BottomSheetDialogFragment : BottomSheetDialogFragment() {
     private lateinit var tempFile: File
-    val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val uri = result.data?.data
             val mimeType = requireActivity().contentResolver.getType(uri!!)
             val inputStream = requireActivity().contentResolver.openInputStream(uri!!)
-            val file = inputStreamToFile(inputStream!!, requireActivity().contentResolver.getType(uri))
+            val file = inputStreamToFile(inputStream!!,uri, requireActivity().contentResolver.getType(uri))
             val requestFile = file.asRequestBody(mimeType?.toMediaTypeOrNull())
 
 
             val fileList = List<MultipartBody.Part>(1) {
-                MultipartBody.Part.createFormData("file", file.name, requestFile)
+                MultipartBody.Part.createFormData("files", file.name, requestFile)
             }
+            Log.d("name", file.name)
             viewModel.uploadFile(fileList)
 
-
+            this.dismiss()
 
         }
     }
@@ -78,6 +81,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
 
         }
 
+        //메모생성 이벤트 추가
         binding.linearNote.setOnClickListener {
             val intent = Intent(activity, CreateMemoActivity::class.java)
             startActivity(intent)
@@ -85,7 +89,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
 
         }
 
-        //파일클릭 이벤트 추가
+        //파일생성 이벤트 추가
         binding.linearFile.setOnClickListener {
 
             val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
@@ -93,6 +97,8 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
                 addCategory(Intent.CATEGORY_OPENABLE)
             }
             getContent.launch(intent)
+
+
 
 
         }
@@ -146,8 +152,21 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     }
 
-    private fun inputStreamToFile(inputStream: InputStream, mimeType : String?) : File {
-        val file = File(requireContext().cacheDir, "temp")
+    //uri에서 파일명 가져오기
+    private fun getFileNameFromUri(uri: Uri) : String? {
+        var fileName: String? = null
+        requireActivity().contentResolver.query(uri, null, null, null, null)?.use {
+            val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            it.moveToFirst()
+            fileName = it.getString(nameIndex)
+        }
+        return fileName
+    }
+
+    //uri에서 파일 가져오기
+    private fun inputStreamToFile(inputStream: InputStream, uri: Uri, mimeType : String?) : File {
+        val fileName = getFileNameFromUri(uri)
+        val file = File(requireContext().cacheDir, fileName)
         file.outputStream().use { fileOutputStream ->
             inputStream.copyTo(fileOutputStream)
         }
