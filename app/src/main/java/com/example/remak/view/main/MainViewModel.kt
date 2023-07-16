@@ -1,5 +1,6 @@
 package com.example.remak.view.main
 
+import android.provider.MediaStore.Files
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.remak.network.model.MainListData
 import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import java.io.File
 
 class MainViewModel : ViewModel() {
 
@@ -103,6 +106,21 @@ class MainViewModel : ViewModel() {
         }
 
     }
+
+    fun uploadFile(file : List<MultipartBody.Part>) = viewModelScope.launch {
+        try {
+            val response = networkRepository.uploadFile(file)
+            if (response.isSuccessful) {
+                Log.d("success", response.body().toString())
+
+            } else {
+                Log.d("fail", response.errorBody()?.string()!!)
+            }
+        } catch (e : Exception) {
+            Log.d("networkError", e.toString())
+        }
+    }
+
 
 
 

@@ -11,6 +11,8 @@ import com.example.remak.network.model.MainListData
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
 import com.example.remak.network.model.UpdateData
+import com.example.remak.network.model.UploadFileData
+import okhttp3.MultipartBody
 import retrofit2.Response
 
 class NetworkRepository {
@@ -58,6 +60,10 @@ class NetworkRepository {
 
     suspend fun deleteDocument(docId : String) : Response<DeleteData.ResponseBody> {
         return client.deleteMemo(docId)
+    }
+
+    suspend fun uploadFile(file : List<MultipartBody.Part>) : Response<UploadFileData.ResponseBody> {
+        return client.uploadFile(file)
     }
 
 

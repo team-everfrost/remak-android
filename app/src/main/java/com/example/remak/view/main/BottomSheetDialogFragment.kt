@@ -1,6 +1,8 @@
 package com.example.remak.view.main
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -8,17 +10,45 @@ import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.EditText
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import com.example.remak.R
 import com.example.remak.databinding.BottomSheetDialogBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
+import java.io.InputStream
+import java.net.URI
 
 class BottomSheetDialogFragment : BottomSheetDialogFragment() {
+    private lateinit var tempFile: File
+    val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val uri = result.data?.data
+            val mimeType = requireActivity().contentResolver.getType(uri!!)
+            val inputStream = requireActivity().contentResolver.openInputStream(uri!!)
+            val file = inputStreamToFile(inputStream!!, requireActivity().contentResolver.getType(uri))
+            val requestFile = file.asRequestBody(mimeType?.toMediaTypeOrNull())
+
+
+            val fileList = List<MultipartBody.Part>(1) {
+                MultipartBody.Part.createFormData("file", file.name, requestFile)
+            }
+            viewModel.uploadFile(fileList)
+
+
+
+        }
+    }
+
     private lateinit var binding: BottomSheetDialogBinding
 
     private val viewModel : MainViewModel by activityViewModels()
@@ -57,6 +87,12 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
 
         //파일클릭 이벤트 추가
         binding.linearFile.setOnClickListener {
+
+            val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                type = "*/*"
+                addCategory(Intent.CATEGORY_OPENABLE)
+            }
+            getContent.launch(intent)
 
 
         }
@@ -108,5 +144,13 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
         dialog.show()
 
 
+    }
+
+    private fun inputStreamToFile(inputStream: InputStream, mimeType : String?) : File {
+        val file = File(requireContext().cacheDir, "temp")
+        file.outputStream().use { fileOutputStream ->
+            inputStream.copyTo(fileOutputStream)
+        }
+        return file
     }
 }
