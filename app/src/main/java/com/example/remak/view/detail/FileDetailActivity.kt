@@ -43,6 +43,10 @@ class FileDetailActivity : AppCompatActivity() {
             binding.dateTextView.text = outputDateStr
         }
 
+        binding.downloadBtn.setOnClickListener {
+            viewModel.downloadFile(this, fileId)
+        }
+
 
     }
 }

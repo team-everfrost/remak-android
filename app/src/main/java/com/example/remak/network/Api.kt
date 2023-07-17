@@ -1,19 +1,16 @@
 package com.example.remak.network
 
 
-import androidx.room.Delete
 import com.example.remak.network.model.CreateData
 import com.example.remak.network.model.DeleteData
 import com.example.remak.network.model.DetailData
+import com.example.remak.network.model.DownloadData
 import com.example.remak.network.model.MainListData
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
 import com.example.remak.network.model.UpdateData
 import com.example.remak.network.model.UploadFileData
 import okhttp3.MultipartBody
-import okhttp3.Response
-import okhttp3.ResponseBody
-import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -60,4 +57,7 @@ interface Api {
     @Multipart
     @POST("document/file/upload")
     suspend fun uploadFile(@Part files : List<MultipartBody.Part>) : retrofit2.Response<UploadFileData.ResponseBody>
+
+    @GET("document/file/download/{docId}")
+    suspend fun downloadFile(@Path("docId") docId : String) : retrofit2.Response<DownloadData.ResponseBody>
 }

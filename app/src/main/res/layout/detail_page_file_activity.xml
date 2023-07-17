@@ -140,6 +140,7 @@
     </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/downloadBtn"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:text="다운로드"

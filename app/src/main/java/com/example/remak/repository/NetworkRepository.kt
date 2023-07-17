@@ -6,6 +6,7 @@ import com.example.remak.network.RetrofitInstance
 import com.example.remak.network.model.CreateData
 import com.example.remak.network.model.DeleteData
 import com.example.remak.network.model.DetailData
+import com.example.remak.network.model.DownloadData
 import com.example.remak.network.model.MainListData
 
 import com.example.remak.network.model.SignInData
@@ -64,6 +65,10 @@ class NetworkRepository {
 
     suspend fun uploadFile(files : List<MultipartBody.Part>) : Response<UploadFileData.ResponseBody> {
         return client.uploadFile(files)
+    }
+
+    suspend fun downloadFile(docId : String) : Response<DownloadData.ResponseBody> {
+        return client.downloadFile(docId)
     }
 
 
