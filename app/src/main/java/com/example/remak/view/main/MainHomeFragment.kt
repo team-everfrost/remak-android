@@ -75,6 +75,13 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
 
         viewModel.getAllMainList()
 
+        viewModel.uploadFileSuccess.observe(viewLifecycleOwner) { isSuccessful ->
+            if (isSuccessful) {
+                showDialog("파일 업로드에 성공했습니다.")
+                viewModel.isUploadFileSuccess()
+            }
+        }
+
 
     }
 

@@ -74,7 +74,7 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                 val url = response.body()!!.data
 
                 val request = DownloadManager.Request(Uri.parse(url))
-                    .setTitle("File Download")
+                    .setTitle(fileName)
                     .setDescription("Downloading")
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                     .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)

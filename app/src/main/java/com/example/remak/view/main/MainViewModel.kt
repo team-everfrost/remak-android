@@ -25,6 +25,9 @@ class MainViewModel : ViewModel() {
     private val _isMemoCreateSuccess = MutableLiveData<String>()
     val isMemoCreateSuccess : LiveData<String> = _isMemoCreateSuccess
 
+    private val _uploadFileSuccess = MutableLiveData<Boolean>()
+    val uploadFileSuccess : LiveData<Boolean> = _uploadFileSuccess
+
     var cursor : String? = null
     var docID : String? = null
 
@@ -112,6 +115,7 @@ class MainViewModel : ViewModel() {
             if (response.isSuccessful) {
                 Log.d("success", response.body().toString())
                 getAllMainList()
+                _uploadFileSuccess.value = true
 
             } else {
                 Log.d("fail", response.errorBody()?.string()!!)
@@ -120,6 +124,12 @@ class MainViewModel : ViewModel() {
             Log.d("networkError", e.toString())
         }
     }
+
+    fun isUploadFileSuccess() {
+        _uploadFileSuccess.value = false
+    }
+
+
 
 
 

@@ -32,7 +32,6 @@ import java.io.InputStream
 import java.net.URI
 
 class BottomSheetDialogFragment : BottomSheetDialogFragment() {
-    private lateinit var tempFile: File
     private val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val uri = result.data?.data
@@ -101,6 +100,15 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             }
             getContent.launch(intent)
 
+
+        }
+
+        binding.linearImage.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                type = "image/*"
+                addCategory(Intent.CATEGORY_OPENABLE)
+            }
+            getContent.launch(intent)
 
         }
 
