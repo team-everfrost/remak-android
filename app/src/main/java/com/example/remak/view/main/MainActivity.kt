@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private val blankFragment = blank()
 
     private var _binding : MainActivityBinding? = null
-    private val binding get() = _binding!!
+     val binding get() = _binding!!
 
     // Active Fragment Tracker
     private var activeFragment: Fragment = homeFragment

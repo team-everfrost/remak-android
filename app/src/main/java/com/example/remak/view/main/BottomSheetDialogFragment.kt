@@ -50,6 +50,8 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
 
             this.dismiss()
 
+            (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
+
         }
     }
 
@@ -98,11 +100,6 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
                 addCategory(Intent.CATEGORY_OPENABLE)
             }
             getContent.launch(intent)
-
-
-
-
-
 
 
         }
