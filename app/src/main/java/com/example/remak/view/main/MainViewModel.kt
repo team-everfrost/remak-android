@@ -42,6 +42,7 @@ class MainViewModel : ViewModel() {
                 }
 
             } else {
+                Log.d("fail", response.errorBody()!!.string())
             }
         } catch (e : Exception) {
         }
@@ -103,6 +104,7 @@ class MainViewModel : ViewModel() {
 
     }
 
+    /** 파일 업로드 */
     fun uploadFile(files : List<MultipartBody.Part>) = viewModelScope.launch {
         try {
             val response = networkRepository.uploadFile(files)

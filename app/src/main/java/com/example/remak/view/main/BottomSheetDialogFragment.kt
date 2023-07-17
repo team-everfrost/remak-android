@@ -22,6 +22,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import com.example.remak.R
 import com.example.remak.databinding.BottomSheetDialogBinding
+import com.example.remak.network.model.UploadFileData
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -97,6 +98,9 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
                 addCategory(Intent.CATEGORY_OPENABLE)
             }
             getContent.launch(intent)
+
+
+
 
 
 
