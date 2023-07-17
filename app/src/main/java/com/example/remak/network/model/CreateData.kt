@@ -28,5 +28,30 @@ class CreateData {
 
     )
 
+    data class WebPageRequestBody(
+        val title : String,
+        val url : String,
+        val content : String
+    )
+
+    data class WebPageResponseBody(
+        val message : String,
+        val data : WebPageData
+
+    )
+
+    data class WebPageData(
+        val docId : String,
+        val title : String,
+        val type : String,
+        val url : String,
+        val content : String,
+        val summary : String?,
+        val status : String,
+        val createdAt : String,
+        val updatedAt : String,
+        val tags : List<String>
+    )
+
 
 }

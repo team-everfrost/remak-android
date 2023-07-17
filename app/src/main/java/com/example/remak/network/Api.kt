@@ -60,4 +60,7 @@ interface Api {
 
     @GET("document/file/download/{docId}")
     suspend fun downloadFile(@Path("docId") docId : String) : retrofit2.Response<DownloadData.ResponseBody>
+
+    @POST("document/webpage/create")
+    suspend fun createWebPage(@Body body: CreateData.WebPageRequestBody): retrofit2.Response<CreateData.WebPageResponseBody>
 }

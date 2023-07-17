@@ -71,6 +71,11 @@ class NetworkRepository {
         return client.downloadFile(docId)
     }
 
+    suspend fun createWebPage(url : String) : Response<CreateData.WebPageResponseBody> {
+        val requestBody = CreateData.WebPageRequestBody(" ",url = url, " ")
+        return client.createWebPage(requestBody)
+    }
+
 
 
 }

@@ -129,6 +129,21 @@ class MainViewModel : ViewModel() {
         _uploadFileSuccess.value = false
     }
 
+    fun createWebPage(url : String) = viewModelScope.launch {
+        try {
+            val response = networkRepository.createWebPage(url)
+            if (response.isSuccessful) {
+                Log.d("success", response.body().toString())
+                getAllMainList()
+
+            } else {
+                Log.d("fail", response.errorBody()?.string()!!)
+            }
+        } catch (e : Exception) {
+            Log.d("networkError", e.toString())
+        }
+    }
+
 
 
 

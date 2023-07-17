@@ -19,6 +19,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.fragment.app.activityViewModels
 import com.example.remak.R
 import com.example.remak.databinding.BottomSheetDialogBinding
@@ -147,13 +148,17 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
         val cancelBtn = dialog.findViewById<View>(R.id.cancelBtn)
         val confirmBtn = dialog.findViewById<View>(R.id.confirmBtn)
+        val linkEditText = dialog.findViewById<AppCompatEditText>(R.id.linkEditText)
 
         cancelBtn.setOnClickListener {
             dialog.dismiss()
         }
         confirmBtn.setOnClickListener {
-
+            viewModel.createWebPage(linkEditText.text.toString())
             dialog.dismiss()
+            (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
+            this.dismiss()
+
 
         }
         dialog.show()
