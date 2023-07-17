@@ -2,6 +2,7 @@ package com.example.remak.view.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,5 +33,14 @@ class MainProfileFragment : BaseFragment() {
             val intent = Intent(activity, SettingActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    //ondestroy
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("MainProfileFragment", "onDestroy")
+
+        (view as ViewGroup).removeAllViews()
+
     }
 }

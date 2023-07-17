@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.remak.R
 import com.example.remak.databinding.MainActivityBinding
+import com.example.remak.databinding.MainHomeFragmentBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.navigation.NavigationBarView
@@ -28,7 +29,8 @@ class MainActivity : AppCompatActivity() {
     private val profileFragment = MainProfileFragment()
     private val blankFragment = blank()
 
-    private lateinit var binding : MainActivityBinding
+    private var _binding : MainActivityBinding? = null
+    private val binding get() = _binding!!
 
     // Active Fragment Tracker
     private var activeFragment: Fragment = homeFragment
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = MainActivityBinding.inflate(layoutInflater)
+        _binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportFragmentManager.beginTransaction()
@@ -51,27 +53,27 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId){
                 R.id.homeFragment -> {
-                    supportFragmentManager.beginTransaction().hide(activeFragment).show(homeFragment).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, homeFragment).commit()
                     activeFragment = homeFragment
                     true
                 }
                 R.id.searchFragment -> {
-                    supportFragmentManager.beginTransaction().hide(activeFragment).show(searchFragment).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, searchFragment).commit()
                     activeFragment = searchFragment
                     true
                 }
                 R.id.blankFragment -> {
-                    supportFragmentManager.beginTransaction().hide(activeFragment).show(blankFragment).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, blankFragment).commit()
                     activeFragment = blankFragment
                     true
                 }
                 R.id.tagFragment -> {
-                    supportFragmentManager.beginTransaction().hide(activeFragment).show(tagFragment).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, tagFragment).commit()
                     activeFragment = tagFragment
                     true
                 }
                 R.id.profileFragment -> {
-                    supportFragmentManager.beginTransaction().hide(activeFragment).show(profileFragment).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, profileFragment).commit()
                     activeFragment = profileFragment
                     true
                 }
@@ -86,4 +88,11 @@ class MainActivity : AppCompatActivity() {
             myBottomSheet.show(supportFragmentManager, myBottomSheet.tag)
         }
     }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
 }

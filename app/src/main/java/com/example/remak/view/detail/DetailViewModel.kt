@@ -3,6 +3,7 @@ package com.example.remak.view.detail
 import android.app.DownloadManager
 import android.content.Context
 import android.net.Uri
+import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
@@ -65,7 +66,7 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         }
     }
 
-    fun downloadFile(context: Context, docId : String) = viewModelScope.launch {
+    fun downloadFile(context: Context, docId : String, fileName : String) = viewModelScope.launch {
         try {
             val response = networkRepository.downloadFile(docId)
             if (response.isSuccessful) {
@@ -76,6 +77,7 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                     .setTitle("File Download")
                     .setDescription("Downloading")
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
                     .setAllowedOverMetered(true)
                     .setAllowedOverRoaming(true)
 

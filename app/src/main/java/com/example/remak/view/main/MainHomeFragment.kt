@@ -15,7 +15,8 @@ import com.example.remak.view.detail.FileDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
 
 class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
-    private lateinit var binding : MainHomeFragmentBinding
+    private var _binding : MainHomeFragmentBinding? = null
+    private val binding get() = _binding!!
     private val viewModel : MainViewModel by activityViewModels()
     private lateinit var adapter : HomeRVAdapter
     private var initialLoad = true
@@ -26,7 +27,7 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = MainHomeFragmentBinding.inflate(inflater, container, false)
+        _binding = MainHomeFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             hideKeyboard()
         }
@@ -102,8 +103,10 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
         }
     }
 
-
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
 }
 
