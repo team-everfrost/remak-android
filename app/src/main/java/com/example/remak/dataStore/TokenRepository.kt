@@ -27,6 +27,13 @@ class TokenRepository(private val dataStore: DataStore<Preferences>) {
         }
     }
 
+    //토큰 정보를 삭제하는 함수
+    suspend fun deleteUser() {
+        dataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
+
 
     //저장된 토큰 정보 가져오기
     suspend fun fetchTokenData () : TokenData? {
