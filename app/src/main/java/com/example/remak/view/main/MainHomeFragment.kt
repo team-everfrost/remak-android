@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.remak.App
 import com.example.remak.BaseFragment
+import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainHomeFragmentBinding
 import com.example.remak.view.detail.FileDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
@@ -17,9 +19,11 @@ import com.example.remak.view.detail.MemoDetailActivity
 class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
     private var _binding : MainHomeFragmentBinding? = null
     private val binding get() = _binding!!
-    private val viewModel : MainViewModel by activityViewModels()
+    private val viewModel : MainViewModel by activityViewModels { MainViewModelFactory(tokenRepository)}
     private lateinit var adapter : HomeRVAdapter
     private var initialLoad = true
+
+    lateinit var tokenRepository: TokenRepository
 
 
     override fun onCreateView(
@@ -27,6 +31,7 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
         _binding = MainHomeFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             hideKeyboard()

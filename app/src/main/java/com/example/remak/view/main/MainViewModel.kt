@@ -1,18 +1,18 @@
 package com.example.remak.view.main
 
-import android.provider.MediaStore.Files
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.remak.dataStore.TokenRepository
 import com.example.remak.network.model.MainListData
 import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
-import java.io.File
 
-class MainViewModel : ViewModel() {
+class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
 
     private val networkRepository = NetworkRepository()
 
@@ -28,8 +28,13 @@ class MainViewModel : ViewModel() {
     private val _uploadFileSuccess = MutableLiveData<Boolean>()
     val uploadFileSuccess : LiveData<Boolean> = _uploadFileSuccess
 
+    private val _isLogIn = MutableLiveData<Boolean>()
+    val isLogIn : LiveData<Boolean> = _isLogIn
+
+
     var cursor : String? = null
     var docID : String? = null
+
 
 
     fun getAllMainList() = viewModelScope.launch {
@@ -144,9 +149,23 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    fun loginCheck() = viewModelScope.launch {
+        if (tokenRepository.fetchTokenData() != null) {
+            _isLogIn.value = true
+        } else {
+            _isLogIn.value = false
+        }
+    }
 
 
+}
 
-
-
+class MainViewModelFactory(private val tokenRepository: TokenRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return MainViewModel(tokenRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }

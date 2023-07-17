@@ -22,8 +22,11 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
     companion object {
         private const val MEMO = "MEMO"
+        private const val FILE = "FILE"
+        private const val WEBPAGE = "WEBPAGE"
         private const val MEMO_VIEW_TYPE = 1
         private const val FILE_VIEW_TYPE = 0
+        private const val WEBPAGE_VIEW_TYPE = 2
     }
     inner class MemoViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
@@ -48,6 +51,16 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
     }
 
+    inner class WebpageViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+
+        init {
+            view.setOnClickListener {
+                itemClickListener.onItemClick(it, adapterPosition)
+            }
+        }
+
+    }
+
     interface OnItemClickListener {
         fun onItemClick(view: View, position: Int)
     }
@@ -55,7 +68,9 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
     override fun getItemViewType(position: Int): Int = when (dataSet[position].type) {
         MEMO -> MEMO_VIEW_TYPE
-        else -> FILE_VIEW_TYPE
+        FILE -> FILE_VIEW_TYPE
+        WEBPAGE -> WEBPAGE_VIEW_TYPE
+        else -> throw IllegalArgumentException("Invalid type of data " + position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -64,10 +79,15 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_memo, parent, false)
                 MemoViewHolder(view)
             }
-            else -> {
+            FILE_VIEW_TYPE -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
                 FileViewHolder(view)
             }
+            WEBPAGE_VIEW_TYPE -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_link, parent, false)
+                WebpageViewHolder(view)
+            }
+            else -> throw IllegalArgumentException("Invalid type of data " + viewType)
         }
 
 
@@ -99,6 +119,10 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 holder.title.text = title//제목
                 holder.subject.text = text //파일타입, 날짜
 
+
+            }
+
+            is WebpageViewHolder -> {
 
             }
         }
