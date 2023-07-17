@@ -23,13 +23,13 @@ import java.util.TimeZone
 class FileDetailActivity : AppCompatActivity() {
 
 
-
+    private lateinit var extension : String
     private lateinit var binding : DetailPageFileActivityBinding
 
     private val viewModel : DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository)}
 
-    lateinit var tokenRepository: TokenRepository
-    lateinit var fileName : String
+    private lateinit var tokenRepository: TokenRepository
+    private lateinit var fileName : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,10 +47,12 @@ class FileDetailActivity : AppCompatActivity() {
         viewModel.getDetailData(fileId!!)
 
         viewModel.detailData.observe(this) {
-            binding.titleEditText.setText(it.title)
+            binding.titleEditText.setText(it.title!!.substringBefore("."))
+            extension = it.title.substringAfter(".")
             val date = inputFormat.parse(it.updatedAt)
             val outputDateStr = outputFormat.format(date)
             binding.dateTextView.text = outputDateStr
+
             fileName = it.title!!
         }
 
