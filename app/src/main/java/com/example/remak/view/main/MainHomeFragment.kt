@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.BaseFragment
 import com.example.remak.databinding.MainHomeFragmentBinding
+import com.example.remak.view.detail.FileDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
 
 class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
@@ -92,7 +93,7 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
             }
 
             "FILE" -> {
-                val intent = Intent(requireContext(), MemoDetailActivity::class.java)
+                val intent = Intent(requireContext(), FileDetailActivity::class.java)
                 intent.putExtra("docId", viewModel.mainListData.value!![position].docId)
                 startActivity(intent)
             }
