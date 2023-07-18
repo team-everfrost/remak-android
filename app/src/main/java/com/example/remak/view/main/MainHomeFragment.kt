@@ -14,6 +14,7 @@ import com.example.remak.BaseFragment
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainHomeFragmentBinding
 import com.example.remak.view.detail.FileDetailActivity
+import com.example.remak.view.detail.LinkDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
 
 class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
@@ -109,6 +110,13 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
                 val intent = Intent(requireContext(), FileDetailActivity::class.java)
                 intent.putExtra("docId", viewModel.mainListData.value!![position].docId)
                 startActivity(intent)
+            }
+
+            "WEBPAGE" -> {
+                val intent = Intent(requireContext(), LinkDetailActivity::class.java)
+                intent.putExtra("docId", viewModel.mainListData.value!![position].docId)
+                startActivity(intent)
+
             }
 
 
