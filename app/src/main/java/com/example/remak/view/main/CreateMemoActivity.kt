@@ -14,18 +14,22 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.remak.App
 import com.example.remak.R
+import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.EditPageMemoBinding
 
 class CreateMemoActivity : AppCompatActivity() {
     private lateinit var binding : EditPageMemoBinding
 
-    private val viewModel : MainViewModel by viewModels()
+    private val viewModel : MainViewModel by viewModels { MainViewModelFactory(tokenRepository)}
+    private lateinit var tokenRepository: TokenRepository
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        tokenRepository = TokenRepository((this.application as App).dataStore)
 
 
         binding = EditPageMemoBinding.inflate(layoutInflater)

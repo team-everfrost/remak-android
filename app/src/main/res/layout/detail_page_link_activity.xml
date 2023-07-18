@@ -140,6 +140,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/movePageBtn"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:text="페이지 이동"

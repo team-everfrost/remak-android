@@ -1,11 +1,16 @@
 package com.example.remak.view.detail
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import com.example.remak.App
+import com.example.remak.R
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageLinkActivityBinding
 import java.text.SimpleDateFormat
@@ -48,7 +53,18 @@ class LinkDetailActivity : AppCompatActivity() {
                 putExtra(Intent.EXTRA_TEXT, url)
             }
             startActivity(Intent.createChooser(shareIntent, "Share link"))
+        }
 
+        binding.movePageBtn.setOnClickListener {
+            val colorSchemeParams = CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(ContextCompat.getColor(this, R.color.black))
+                .build()
+
+            val customTabsIntent = CustomTabsIntent.Builder()
+                .setDefaultColorSchemeParams(colorSchemeParams)
+                .build()
+
+            customTabsIntent.launchUrl(this, Uri.parse(url))
         }
 
     }
