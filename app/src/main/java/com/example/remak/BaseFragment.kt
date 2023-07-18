@@ -182,7 +182,7 @@ abstract class BaseFragment : Fragment() {
 
 
     //안내창 다이얼로그 생성
-    fun showDialog(msg: String) {
+    fun showInformDialog(msg: String) {
         val dialog = Dialog(requireContext())
         val windowManager =
             requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager

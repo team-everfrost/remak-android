@@ -41,14 +41,14 @@ class AccountSignUp1Fragment : BaseFragment() {
 
         viewModel.isEmailExist.observe(viewLifecycleOwner) { isEmailExist ->
             if (isEmailExist) {
-                showDialog("이미 존재하는 이메일입니다.")
+                showInformDialog("이미 존재하는 이메일입니다.")
                 viewModel.doneEmailCheck()
             }
         }
 
         viewModel.isEmailInvalid.observe(viewLifecycleOwner) { isEmailValid ->
             if (isEmailValid) {
-                showDialog("이메일 형식이 올바르지 않습니다.")
+                showInformDialog("이메일 형식이 올바르지 않습니다.")
                 viewModel.doneEmailCheck()
             }
         }

@@ -18,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.fragment.app.activityViewModels
@@ -154,10 +155,15 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             dialog.dismiss()
         }
         confirmBtn.setOnClickListener {
-            viewModel.createWebPage(linkEditText.text.toString())
-            dialog.dismiss()
-            (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
-            this.dismiss()
+            if (linkEditText.text.toString().isEmpty()) {
+                showInformDialog("링크를 입력해주세요.")
+            } else {
+                viewModel.createWebPage(linkEditText.text.toString())
+                dialog.dismiss()
+                (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
+                this.dismiss()
+            }
+
 
 
         }
@@ -185,5 +191,49 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             inputStream.copyTo(fileOutputStream)
         }
         return file
+    }
+
+
+    fun showInformDialog(msg: String) {
+        val dialog = Dialog(requireContext())
+        val windowManager =
+            requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.custom_dialog_information)
+
+        if (Build.VERSION.SDK_INT < 30) {
+            val display = windowManager.defaultDisplay
+            val size = Point()
+
+            display.getSize(size)
+
+            val window = dialog.window
+            window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            val x = (size.x * 0.7).toInt()
+
+
+            window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
+
+        } else {
+            val rect = windowManager.currentWindowMetrics.bounds
+
+            val window = dialog.window
+            window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val x = (rect.width() * 0.7).toInt()
+            window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
+
+        }
+
+        val confirmBtn = dialog.findViewById<View>(R.id.confirmBtn)
+        confirmBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+        val msgText = dialog.findViewById<TextView>(R.id.msgTextView)
+        msgText.text = msg
+        dialog.show()
+
+
     }
 }
