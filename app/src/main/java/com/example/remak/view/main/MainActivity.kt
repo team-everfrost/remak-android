@@ -108,15 +108,15 @@ class MainActivity : AppCompatActivity() {
             myBottomSheet.show(supportFragmentManager, myBottomSheet.tag)
         }
 
-        if (Intent.ACTION_SEND == intent.action && intent.type != null) {
-            if ("text/plain" == intent.type) {
-                val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
-                if (sharedText != null) {
-                    Log.d("MainActivity", sharedText)
-                    viewModel.createWebPage(sharedText)
-                }
-            }
-        }
+//        if (Intent.ACTION_SEND == intent.action && intent.type != null) {
+//            if ("text/plain" == intent.type) {
+//                val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
+//                if (sharedText != null) {
+//                    Log.d("MainActivity", sharedText)
+//                    viewModel.createWebPage(sharedText)
+//                }
+//            }
+//        }
     }
 
 

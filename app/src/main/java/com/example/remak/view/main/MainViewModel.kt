@@ -31,6 +31,9 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
     private val _isLogIn = MutableLiveData<Boolean>()
     val isLogIn : LiveData<Boolean> = _isLogIn
 
+    private val _isWebPageCreateSuccess = MutableLiveData<Boolean>()
+    val isWebPageCreateSuccess : LiveData<Boolean> = _isWebPageCreateSuccess
+
 
     var cursor : String? = null
     var docID : String? = null
@@ -140,6 +143,7 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
             if (response.isSuccessful) {
                 Log.d("success", response.body().toString())
                 getAllMainList()
+                _isWebPageCreateSuccess.value = true
 
             } else {
                 Log.d("fail", response.errorBody()?.string()!!)

@@ -158,7 +158,13 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             if (linkEditText.text.toString().isEmpty()) {
                 showInformDialog("링크를 입력해주세요.")
             } else {
-                viewModel.createWebPage(linkEditText.text.toString())
+                var tempUrl = linkEditText.text.toString()
+                if (!tempUrl.startsWith("http://") && !tempUrl.startsWith("https://")) {
+                    tempUrl = "https://$tempUrl"
+                    viewModel.createWebPage(tempUrl)
+                } else {
+                    viewModel.createWebPage(linkEditText.text.toString())
+                }
                 dialog.dismiss()
                 (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
                 this.dismiss()
