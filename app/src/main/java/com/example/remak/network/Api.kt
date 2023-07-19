@@ -23,21 +23,27 @@ import retrofit2.http.Query
 
 
 interface Api {
+    //로그인
     @POST("auth/local/login")
     suspend fun signIn(@Body body: SignInData.RequestBody): retrofit2.Response<SignInData.ResponseBody>
 
+    //회원가입
     @POST("auth/signup-code")
     suspend fun getVerifyCode(@Body body: SignUpData.GetVerifyRequestBody): retrofit2.Response<SignUpData.GetVerifyResponseBody>
 
+    //인증번호 확인
     @POST("auth/verify-code")
     suspend fun checkVerifyCode(@Body body: SignUpData.CheckVerifyRequestBody): retrofit2.Response<SignUpData.CheckVerifyResponseBody>
 
+    //회원가입
     @POST("auth/local/signup")
     suspend fun signUp(@Body body: SignUpData.SignUpRequestBody): retrofit2.Response<SignUpData.SignUpResponseBody>
 
+    //메모 생성
     @POST("document/memo/create")
     suspend fun createMemo(@Body body: CreateData.MemoRequestBody): retrofit2.Response<CreateData.MemoResponseBody>
 
+    //메인 리스트
     @GET("document")
     suspend fun getMainList(
         @Query("cursor")  cursor : String?,
@@ -45,6 +51,7 @@ interface Api {
         @Query("limit") limit : Int? = 20
     ) : retrofit2.Response<MainListData.Response>
 
+    //자료 상세
     @GET("document/{docId}")
     suspend fun getDetailData(@Path("docId") docId : String) : retrofit2.Response<DetailData.ResponseBody>
 

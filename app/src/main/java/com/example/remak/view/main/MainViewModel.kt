@@ -16,6 +16,7 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
 
     private val networkRepository = NetworkRepository()
 
+    //메인 리스트
     private val _mainListData = MutableLiveData<List<MainListData.Data>>()
     val mainListData : LiveData<List<MainListData.Data>> = _mainListData
 
@@ -42,6 +43,8 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
 
     fun getAllMainList() = viewModelScope.launch {
         _isLoading.value = true
+        Log.d("token", tokenRepository.fetchTokenData().toString())
+
         try {
             val response = networkRepository.getMainList(null, null)
             if (response.isSuccessful) {

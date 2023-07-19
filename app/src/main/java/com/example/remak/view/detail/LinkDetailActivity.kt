@@ -86,7 +86,7 @@ class LinkDetailActivity : AppCompatActivity() {
         }
 
         binding.deleteBtn.setOnClickListener {
-            showWarnDialog("파일을 삭제하시겠습니까?", linkId, "delete")
+            showWarnDialog("페이지를 삭제하시겠습니까?", linkId, "delete")
         }
 
     }
