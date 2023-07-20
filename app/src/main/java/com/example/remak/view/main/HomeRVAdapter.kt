@@ -10,6 +10,7 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.remak.R
 import com.example.remak.network.model.MainListData
 import org.w3c.dom.Text
@@ -24,9 +25,11 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         private const val MEMO = "MEMO"
         private const val FILE = "FILE"
         private const val WEBPAGE = "WEBPAGE"
+        private const val IMAGE = "IMAGE"
         private const val MEMO_VIEW_TYPE = 1
         private const val FILE_VIEW_TYPE = 0
         private const val WEBPAGE_VIEW_TYPE = 2
+        private const val IMAGE_VIEW_TYPE = 3
     }
     inner class MemoViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
@@ -61,6 +64,16 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
     }
 
+    inner class ImageViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+
+        init {
+            view.setOnClickListener {
+                itemClickListener.onItemClick(it, adapterPosition)
+            }
+        }
+
+    }
+
     interface OnItemClickListener {
         fun onItemClick(view: View, position: Int)
     }
@@ -70,6 +83,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         MEMO -> MEMO_VIEW_TYPE
         FILE -> FILE_VIEW_TYPE
         WEBPAGE -> WEBPAGE_VIEW_TYPE
+        IMAGE -> IMAGE_VIEW_TYPE
         else -> throw IllegalArgumentException("Invalid type of data " + position)
     }
 
@@ -86,6 +100,10 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
             WEBPAGE_VIEW_TYPE -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_link, parent, false)
                 WebpageViewHolder(view)
+            }
+            IMAGE_VIEW_TYPE -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
+                ImageViewHolder(view)
             }
             else -> throw IllegalArgumentException("Invalid type of data " + viewType)
         }
@@ -123,6 +141,13 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
             }
 
             is WebpageViewHolder -> {
+
+            }
+
+            is ImageViewHolder -> {
+                Glide.with(holder.itemView.context)
+                    .load(dataSet[position].url)
+                    .into(holder.itemView.findViewById(R.id.imageView))
 
             }
         }

@@ -48,6 +48,12 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         try {
             val response = networkRepository.getMainList(null, null)
             if (response.isSuccessful) {
+                // 임시로 이미지는 https://picsum.photos/200/300로 적용
+                for (i in response.body()!!.data){
+                    if (i.type == "IMAGE") {
+                        response.body()!!.data[response.body()!!.data.indexOf(i)].url = "https://picsum.photos/200/300"
+                    }
+                }
                 _mainListData.value = response.body()?.data
 
                 response.body()?.data?.let {
@@ -55,6 +61,7 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
                     docID = it.last().docId
                 }
 
+                Log.d("success", response.body().toString())
             } else {
                 Log.d("fail", response.errorBody()!!.string())
             }

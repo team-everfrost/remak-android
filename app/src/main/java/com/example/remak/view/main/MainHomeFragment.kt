@@ -14,6 +14,7 @@ import com.example.remak.BaseFragment
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainHomeFragmentBinding
 import com.example.remak.view.detail.FileDetailActivity
+import com.example.remak.view.detail.ImageDetailActivity
 import com.example.remak.view.detail.LinkDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
 
@@ -117,6 +118,12 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
                 intent.putExtra("docId", viewModel.mainListData.value!![position].docId)
                 startActivity(intent)
 
+            }
+
+            "IMAGE" -> {
+                val intent = Intent(requireContext(), ImageDetailActivity::class.java)
+                intent.putExtra("docId", viewModel.mainListData.value!![position].docId)
+                startActivity(intent)
             }
 
 

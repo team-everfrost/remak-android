@@ -72,6 +72,9 @@
         <activity android:name=".view.detail.LinkDetailActivity"
             android:exported="true"/>
 
+        <activity android:name=".view.detail.ImageDetailActivity"
+            android:exported="true"/>
+
 
 
 
