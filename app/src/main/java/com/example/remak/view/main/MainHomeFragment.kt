@@ -89,6 +89,11 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
             }
         }
 
+        binding.deleteBtn.setOnClickListener {
+            Log.d("list", adapter.getSelectedItems().toString())
+            Log.d("selecteditemcounter", adapter.selectedItemsCount.toString())
+        }
+
 
     }
 
@@ -128,6 +133,16 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
 
 
         }
+    }
+
+    override fun onSelectionStarted() {
+        binding.deleteBtn.visibility = View.VISIBLE
+        binding.swipeRefresh.isEnabled = false
+    }
+
+    override fun onSelectionEnded() {
+        binding.deleteBtn.visibility = View.GONE
+        binding.swipeRefresh.isEnabled = true
     }
 
     override fun onDestroyView() {

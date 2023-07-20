@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -21,6 +22,9 @@ import java.util.TimeZone
 class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClickListener : OnItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var isInSelectionMode = false
+    var selectedItemsCount = 0
+    var selectedItemPositions = mutableListOf<Int>()
+
 
 
     companion object {
@@ -33,12 +37,56 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         private const val WEBPAGE_VIEW_TYPE = 2
         private const val IMAGE_VIEW_TYPE = 3
     }
+
+
+    private fun toggleSelection(position: Int) {
+        if (selectedItemPositions.contains(position)) {
+            selectedItemPositions.remove(position)
+            selectedItemsCount--
+        } else {
+            selectedItemPositions.add(position)
+            selectedItemsCount++
+        }
+    }
+    fun getSelectedItems(): List<String> {
+        return dataSet.filter { it.isSelected }.map { it.docId }
+    }
     inner class MemoViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
         val title : TextView = view.findViewById<TextView>(R.id.title)
+        val checkbox : CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
         init {
             view.setOnClickListener {
-            itemClickListener.onItemClick(it, adapterPosition)
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    if (isInSelectionMode) {
+                        dataSet[position].isSelected = !dataSet[position].isSelected
+                        checkbox.isChecked = dataSet[position].isSelected
+                        selectedItemsCount = if (checkbox.isChecked) selectedItemsCount + 1 else selectedItemsCount - 1
+                        if (selectedItemsCount == 0) {
+                            isInSelectionMode = false
+                            itemClickListener.onSelectionEnded()
+                            notifyDataSetChanged() // This will refresh the RecyclerView and hide checkboxes
+                        }
+                    } else {
+                        itemClickListener.onItemClick(it, position)
+                    }
+                }
+            }
+
+            view.setOnLongClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    isInSelectionMode = true
+                    notifyDataSetChanged()
+                    itemClickListener.onSelectionStarted()
+                    dataSet[position].isSelected = !dataSet[position].isSelected
+                    checkbox.isChecked = dataSet[position].isSelected
+                    if (checkbox.isChecked) {
+                        selectedItemsCount++
+                    }
+                }
+                true
             }
         }
 
@@ -48,9 +96,39 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
         val title: TextView = view.findViewById<TextView>(R.id.title)
         val subject : TextView = view.findViewById(R.id.subject)
+        val checkbox : CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
         init {
             view.setOnClickListener {
-                itemClickListener.onItemClick(it, adapterPosition)
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    if (isInSelectionMode) {
+                        dataSet[position].isSelected = !dataSet[position].isSelected
+                        checkbox.isChecked = dataSet[position].isSelected
+                        selectedItemsCount = if (checkbox.isChecked) selectedItemsCount + 1 else selectedItemsCount - 1
+                        if (selectedItemsCount == 0) {
+                            isInSelectionMode = false
+                            itemClickListener.onSelectionEnded()
+                            notifyDataSetChanged() // This will refresh the RecyclerView and hide checkboxes
+                        }
+                    } else {
+                        itemClickListener.onItemClick(it, position)
+                    }
+                }
+            }
+
+            view.setOnLongClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    isInSelectionMode = true
+                    notifyDataSetChanged()
+                    itemClickListener.onSelectionStarted()
+                    dataSet[position].isSelected = !dataSet[position].isSelected
+                    checkbox.isChecked = dataSet[position].isSelected
+                    if (checkbox.isChecked) {
+                        selectedItemsCount++
+                    }
+                }
+                true
             }
         }
 
@@ -58,19 +136,78 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
     inner class WebpageViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
+        val checkbox : CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
         init {
             view.setOnClickListener {
-                itemClickListener.onItemClick(it, adapterPosition)
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    if (isInSelectionMode) {
+                        dataSet[position].isSelected = !dataSet[position].isSelected
+                        checkbox.isChecked = dataSet[position].isSelected
+                        selectedItemsCount = if (checkbox.isChecked) selectedItemsCount + 1 else selectedItemsCount - 1
+                        if (selectedItemsCount == 0) {
+                            isInSelectionMode = false
+                            itemClickListener.onSelectionEnded()
+                            notifyDataSetChanged() // This will refresh the RecyclerView and hide checkboxes
+                        }
+                    } else {
+                        itemClickListener.onItemClick(it, position)
+                    }
+                }
+            }
+
+            view.setOnLongClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    isInSelectionMode = true
+                    notifyDataSetChanged()
+                    itemClickListener.onSelectionStarted()
+                    dataSet[position].isSelected = !dataSet[position].isSelected
+                    checkbox.isChecked = dataSet[position].isSelected
+                    if (checkbox.isChecked) {
+                        selectedItemsCount++
+                    }
+                }
+                true
             }
         }
-
     }
 
     inner class ImageViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
+        val checkbox : CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
         init {
             view.setOnClickListener {
-                itemClickListener.onItemClick(it, adapterPosition)
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    if (isInSelectionMode) {
+                        dataSet[position].isSelected = !dataSet[position].isSelected
+                        checkbox.isChecked = dataSet[position].isSelected
+                        selectedItemsCount = if (checkbox.isChecked) selectedItemsCount + 1 else selectedItemsCount - 1
+                        if (selectedItemsCount == 0) {
+                            isInSelectionMode = false
+                            itemClickListener.onSelectionEnded()
+                            notifyDataSetChanged() // This will refresh the RecyclerView and hide checkboxes
+                        }
+                    } else {
+                        itemClickListener.onItemClick(it, position)
+                    }
+                }
+            }
+
+            view.setOnLongClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    isInSelectionMode = true
+                    notifyDataSetChanged()
+                    itemClickListener.onSelectionStarted()
+                    dataSet[position].isSelected = !dataSet[position].isSelected
+                    checkbox.isChecked = dataSet[position].isSelected
+                    if (checkbox.isChecked) {
+                        selectedItemsCount++
+                    }
+                }
+                true
             }
         }
 
@@ -78,6 +215,8 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
     interface OnItemClickListener {
         fun onItemClick(view: View, position: Int)
+        fun onSelectionStarted()
+        fun onSelectionEnded()
     }
 
 
@@ -119,10 +258,13 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val item = dataSet[position]
 
         when (holder) {
             is MemoViewHolder -> {
                 holder.title.text = dataSet[position].content
+                holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
+                holder.checkbox.isChecked = dataSet[position].isSelected
             }
             is FileViewHolder -> {
                 //날짜 포맷 변경
@@ -138,11 +280,19 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
                 holder.title.text = title//제목
                 holder.subject.text = text //파일타입, 날짜
+                holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
+                holder.checkbox.isChecked = dataSet[position].isSelected
+
+
 
 
             }
 
             is WebpageViewHolder -> {
+                holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
+                holder.checkbox.isChecked = dataSet[position].isSelected
+
+
 
             }
 
@@ -150,6 +300,10 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 Glide.with(holder.itemView.context)
                     .load(dataSet[position].url)
                     .into(holder.itemView.findViewById(R.id.imageView))
+                holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
+                holder.checkbox.isChecked = dataSet[position].isSelected
+
+
 
             }
         }
