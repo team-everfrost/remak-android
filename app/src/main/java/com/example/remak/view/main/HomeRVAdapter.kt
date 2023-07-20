@@ -20,6 +20,8 @@ import java.util.TimeZone
 
 class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClickListener : OnItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private var isInSelectionMode = false
+
 
     companion object {
         private const val MEMO = "MEMO"
