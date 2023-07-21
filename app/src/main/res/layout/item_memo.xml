@@ -34,6 +34,7 @@
             android:clickable="false"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:buttonTint="@color/checkBlue"
             android:visibility="gone"
 
            />

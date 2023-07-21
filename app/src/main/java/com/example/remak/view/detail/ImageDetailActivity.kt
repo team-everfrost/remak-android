@@ -1,5 +1,6 @@
 package com.example.remak.view.detail
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ class ImageDetailActivity : AppCompatActivity() {
     private lateinit var binding : DetailPageImageActivityBinding
     private val viewModel : DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository)}
     private lateinit var tokenRepository: TokenRepository
+    private var url : String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,5 +23,15 @@ class ImageDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val imageId = intent.getStringExtra("docId")
+        viewModel.getDetailData(imageId!!)
+
+        viewModel.detailData.observe(this) {
+            url = it.url
+        }
+
+
+        binding.shareBtn.setOnClickListener {
+            viewModel.shareFile(this, imageId)
+        }
     }
 }

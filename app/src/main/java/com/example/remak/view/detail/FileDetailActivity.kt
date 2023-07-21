@@ -2,6 +2,7 @@ package com.example.remak.view.detail
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
@@ -31,6 +32,8 @@ class FileDetailActivity : AppCompatActivity() {
     private lateinit var tokenRepository: TokenRepository
     private lateinit var fileName : String
 
+    private var url : String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,6 +50,7 @@ class FileDetailActivity : AppCompatActivity() {
         viewModel.getDetailData(fileId!!)
 
         viewModel.detailData.observe(this) {
+            url = it.url
             binding.titleEditText.setText(it.title!!.substringBefore("."))
             extension = it.title.substringAfter(".")
             val date = inputFormat.parse(it.updatedAt)
@@ -79,6 +83,10 @@ class FileDetailActivity : AppCompatActivity() {
 
         binding.backBtn.setOnClickListener {
             finish()
+        }
+
+        binding.shareBtn.setOnClickListener {
+            viewModel.shareFile(this, fileId)
         }
 
 

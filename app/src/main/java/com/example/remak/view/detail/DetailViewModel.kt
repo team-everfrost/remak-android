@@ -2,6 +2,7 @@ package com.example.remak.view.detail
 
 import android.app.DownloadManager
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
@@ -88,6 +89,27 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                     Toast.makeText(context, "다운로드가 시작되었습니다.", Toast.LENGTH_SHORT).show()
                 }
 
+
+            } else {
+                Log.d("fail", response.errorBody().toString())
+            }
+        } catch (e : Exception) {
+            Log.d("networkError", e.toString())
+        }
+    }
+
+    fun shareFile(context: Context, docId: String) = viewModelScope.launch {
+        try {
+            val response = networkRepository.downloadFile(docId)
+            if (response.isSuccessful) {
+                Log.d("success", response.body().toString())
+                val url = response.body()!!.data
+
+                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, url)
+                }
+                context.startActivity(Intent.createChooser(shareIntent, "Share link"))
 
             } else {
                 Log.d("fail", response.errorBody().toString())

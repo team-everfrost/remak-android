@@ -38,5 +38,12 @@
     <string name="find_password">비밀번호 찾기</string>
     <string name="remak">Remak</string>
     <string name="subscribe">구독</string>
+    <string name="edit_valid_email">올바른 이메일을 입력해 주세요.</string>
+    <string name="edit_new_password">새로운 비밀번호를 입력해 주세요</string>
+
+    <string name="logout">로그아웃</string>
+    <string name="filetype_date">%1$s - %2$s</string>
+    <string name="storage">보관함</string>
+
 
 </resources>

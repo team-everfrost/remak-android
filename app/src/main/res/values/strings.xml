@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">remak</string>
 
     <string name="emailHint"><font size = "14">이메일을 입력해 주세요</font></string>
@@ -34,13 +34,13 @@
     <string name="confirm">확인</string>
     <string name="check_id_or_password">아이디와 비밀번호를 확인해 주세요</string>
     <string name="find_password">비밀번호 찾기</string>
-    <string name="edit_sign_in_email">가입한 계정 정보를 입력해주세요.</string>
-    <string name="edit_valid_email">올바른 이메일을 입력해 주세요.</string>
-    <string name="edit_new_password">새로운 비밀번호를 입력해 주세요</string>
+    <string name="edit_sign_in_email" tools:ignore="MissingTranslation">가입한 계정 정보를 입력해주세요.</string>
+    <string name="edit_valid_email" tools:ignore="MissingTranslation">올바른 이메일을 입력해 주세요.</string>
+    <string name="edit_new_password" tools:ignore="MissingTranslation">새로운 비밀번호를 입력해 주세요</string>
     <string name="remak">Remak</string>
-    <string name="storage">보관함</string>
+    <string name="storage" tools:ignore="MissingTranslation">보관함</string>
     <string name="subscribe">구독</string>
-    <string name="logout">로그아웃</string>
-    <string name="filetype_date">%1$s - %2$s</string>
+    <string name="logout" tools:ignore="MissingTranslation">로그아웃</string>
+    <string name="filetype_date" tools:ignore="MissingTranslation">%1$s - %2$s</string>
 
 </resources>

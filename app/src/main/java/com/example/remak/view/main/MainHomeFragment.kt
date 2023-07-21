@@ -137,11 +137,15 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
 
     override fun onSelectionStarted() {
         binding.deleteBtn.visibility = View.VISIBLE
+        binding.deleteBtn.alpha = 0f
+        binding.deleteBtn.animate().alpha(1f).duration = 200
         binding.swipeRefresh.isEnabled = false
     }
 
     override fun onSelectionEnded() {
         binding.deleteBtn.visibility = View.GONE
+        binding.deleteBtn.alpha = 1f
+        binding.deleteBtn.animate().alpha(0f).duration = 300
         binding.swipeRefresh.isEnabled = true
     }
 

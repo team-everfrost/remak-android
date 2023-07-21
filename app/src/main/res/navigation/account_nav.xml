@@ -80,8 +80,9 @@
         android:id="@+id/accountFindPassword1Fragment"
         android:name="com.example.remak.view.account.findPassword.AccountFindPassword1Fragment"
         android:label="find_password1_fragment"
-        tools:layout="@layout/find_password1_fragment" >
-         />
+        tools:layout="@layout/find_password1_fragment"
+        tools:ignore="ExtraText">
+
         <action
             android:id="@+id/action_accountFindPassword1Fragment_to_accountFindPassword2Fragment"
             app:destination="@id/accountFindPassword2Fragment"
