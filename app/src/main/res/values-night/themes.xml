@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Remak" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Base.Theme.Remak" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="colorScheme">@color/colorPrimary</item>
         <item name="colorSurface">@color/white</item>

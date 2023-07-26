@@ -6,6 +6,7 @@ import com.example.remak.network.model.DeleteData
 import com.example.remak.network.model.DetailData
 import com.example.remak.network.model.DownloadData
 import com.example.remak.network.model.MainListData
+import com.example.remak.network.model.SearchEmbeddingData
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
 import com.example.remak.network.model.UpdateData
@@ -70,4 +71,8 @@ interface Api {
 
     @POST("document/webpage/create")
     suspend fun createWebPage(@Body body: CreateData.WebPageRequestBody): retrofit2.Response<CreateData.WebPageResponseBody>
+
+    @GET("document/embedding/{query}")
+    suspend fun getEmbeddingData(@Path("query") query : String) : retrofit2.Response<SearchEmbeddingData.ResponseBody>
+
 }

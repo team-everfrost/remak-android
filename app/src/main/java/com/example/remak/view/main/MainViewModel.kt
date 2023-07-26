@@ -41,6 +41,10 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
 
 
 
+
+    fun deleteToken() = viewModelScope.launch {
+        tokenRepository.deleteUser()
+    }
     fun getAllMainList() = viewModelScope.launch {
         _isLoading.value = true
         Log.d("token", tokenRepository.fetchTokenData().toString())

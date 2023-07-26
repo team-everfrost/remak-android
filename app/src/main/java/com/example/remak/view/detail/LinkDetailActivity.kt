@@ -9,9 +9,12 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -22,23 +25,27 @@ import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageLinkActivityBinding
+import org.apache.commons.text.StringEscapeUtils
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 
 class LinkDetailActivity : AppCompatActivity() {
-    private lateinit var binding : DetailPageLinkActivityBinding
-    private val viewModel : DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository)}
+    private lateinit var binding: DetailPageLinkActivityBinding
+    private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
     lateinit var tokenRepository: TokenRepository
-    lateinit var url : String
+    lateinit var url: String
+    private lateinit var linkData: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" , Locale.getDefault())
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         inputFormat.timeZone = TimeZone.getTimeZone("UTC")
         val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+
+
 
         tokenRepository = TokenRepository((this.application as App).dataStore)
         binding = DetailPageLinkActivityBinding.inflate(layoutInflater)
@@ -50,10 +57,59 @@ class LinkDetailActivity : AppCompatActivity() {
         viewModel.detailData.observe(this) {
             binding.url.text = it.url
             url = it.url!!
+            linkData = it.content
+
+            // \n은 <br>로 바꾸고 \t는 스페이스바 4번으로 바꾸기
+            linkData = linkData
+                .replace(Regex("\\\\t"), "    ")
+                .replace(Regex("\\\\n"), "<br>")
+                .replace(Regex("\\\\r"), "<br>")
+
+            logLongMessage("dataCheck", linkData)
+
             val date = inputFormat.parse(it.updatedAt)
             val outputDateStr = outputFormat.format(date)
             binding.date.text = outputDateStr
-            Log.d("dataCheck", "dataChanged")
+            binding.webView.apply {
+                overScrollMode = WebView.OVER_SCROLL_NEVER
+                isHorizontalScrollBarEnabled = false
+                isVerticalScrollBarEnabled = false
+            }
+            binding.webView.settings.javaScriptEnabled = true
+            Log.d("dataCheck", linkData)
+            val css = """
+                        <style type='text/css'>
+                        body {
+                            max-width: 100%;
+                            overflow-x: hidden;
+                            word-wrap: break-word;
+                            word-break: break-all;
+                        }
+                        img {
+                            max-width: 100%;
+                            height: auto;
+                        }
+                        pre {
+                            white-space: pre-wrap;
+                        }
+                        p {
+                            margin-top: 0;
+                            margin-bottom: 0;
+                        }
+                        </style>
+                    """
+
+            val htmlData = """
+                        <html>
+                        <head>
+                        $css
+                        </head>
+                        <body>
+                        $linkData
+                        </body>
+                        </html>
+                    """.trimIndent()
+            binding.webView.loadData(htmlData, "text/html", "utf-8")
         }
 
         binding.shareBtn.setOnClickListener {
@@ -91,8 +147,18 @@ class LinkDetailActivity : AppCompatActivity() {
 
     }
 
+    fun logLongMessage(tag: String, message: String) {
+        val maxLogSize = 1000
+        for (i in 0..message.length / maxLogSize) {
+            val start = i * maxLogSize
+            var end = (i + 1) * maxLogSize
+            end = if (end > message.length) message.length else end
+            Log.v(tag, message.substring(start, end))
+        }
+    }
 
-    private fun showWarnDialog(getContent : String, fileId : String, type : String) {
+
+    private fun showWarnDialog(getContent: String, fileId: String, type: String) {
         val dialog = Dialog(this)
         val windowManager =
             this.getSystemService(Context.WINDOW_SERVICE) as WindowManager

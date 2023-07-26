@@ -47,7 +47,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         init {
             view.setOnClickListener {
                 val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) { // 아이템이 선택되었을 때
+                if (position != RecyclerView.NO_POSITION) { // 선택한 아이템이 실제로 존재하는지 -> 예외처리
                     if (isInSelectionMode) { // 선택모드일 때
                         dataSet[position].isSelected = !dataSet[position].isSelected
                         checkbox.isChecked = dataSet[position].isSelected
@@ -66,7 +66,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
             view.setOnLongClickListener { // 아이템을 길게 눌렀을 때
                 if (!isInSelectionMode) { // 선택 모드가 아닐 때만 이벤트 처리
                     val position = adapterPosition // 아이템의 위치를 가져옴
-                    if (position != RecyclerView.NO_POSITION) {
+                    if (position != RecyclerView.NO_POSITION) { // 선택한 아이템이 실제로 존재하는지 -> 예외처리
                         isInSelectionMode = true // 선택모드 활성화
                         notifyDataSetChanged()
                         itemClickListener.onSelectionStarted() // 선택모드 시작 리스너 호출

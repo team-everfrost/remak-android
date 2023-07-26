@@ -8,6 +8,7 @@ import com.example.remak.network.model.DeleteData
 import com.example.remak.network.model.DetailData
 import com.example.remak.network.model.DownloadData
 import com.example.remak.network.model.MainListData
+import com.example.remak.network.model.SearchEmbeddingData
 
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
@@ -74,6 +75,10 @@ class NetworkRepository {
     suspend fun createWebPage(url : String) : Response<CreateData.WebPageResponseBody> {
         val requestBody = CreateData.WebPageRequestBody(" ",url = url, " ")
         return client.createWebPage(requestBody)
+    }
+
+    suspend fun getEmbeddingData(query : String) : Response<SearchEmbeddingData.ResponseBody> {
+        return client.getEmbeddingData(query)
     }
 
 

@@ -100,4 +100,7 @@ dependencies {
     //glide
     implementation 'com.github.bumptech.glide:glide:4.15.1'
 
+    //Apache Commons Lang
+    implementation 'org.apache.commons:commons-text:1.9'
+
 }
