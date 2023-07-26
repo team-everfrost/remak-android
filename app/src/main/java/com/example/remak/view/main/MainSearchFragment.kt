@@ -1,14 +1,17 @@
 package com.example.remak.view.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.activity.addCallback
 import com.example.remak.BaseFragment
 import com.example.remak.R
 import com.example.remak.databinding.MainSearchFragmentBinding
+import com.example.remak.view.search.SearchResultActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainSearchFragment : BaseFragment() {
@@ -36,6 +39,18 @@ class MainSearchFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.searchEditText.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                val intent = Intent(requireContext(), SearchResultActivity::class.java)
+                intent.putExtra("query", binding.searchEditText.text.toString())
+                startActivity(intent)
+
+            }
+            false
+        }
+
+
     }
 
 

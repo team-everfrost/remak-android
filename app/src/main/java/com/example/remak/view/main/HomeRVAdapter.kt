@@ -259,6 +259,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
         when (holder) {
             is MemoViewHolder -> { // 메모
+
                 holder.title.text = dataSet[position].content
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE //선택모드일때만 보이게
                 holder.checkbox.isChecked = dataSet[position].isSelected //선택된 아이템이면 체크박스 체크
@@ -279,18 +280,11 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 holder.subject.text = text //파일타입, 날짜
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
-
-
-
-
             }
 
             is WebpageViewHolder -> {
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
-
-
-
             }
 
             is ImageViewHolder -> {
@@ -299,9 +293,6 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                     .into(holder.itemView.findViewById(R.id.imageView))
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
-
-
-
             }
         }
     }

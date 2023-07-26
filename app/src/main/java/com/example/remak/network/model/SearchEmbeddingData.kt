@@ -3,7 +3,7 @@ package com.example.remak.network.model
 class SearchEmbeddingData {
     data class ResponseBody(
         val message : String,
-        val data : Data,
+        val data : List<Data>,
     )
 
     data class Data(
