@@ -1,5 +1,6 @@
 package com.example.remak.view.search
 
+import android.graphics.Rect
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -151,5 +152,29 @@ class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val 
                     .into(holder.itemView.findViewById(R.id.imageView))
             }
         }
+    }
+
+    fun getItem(position: Int) : SearchEmbeddingData.Data {
+        return dataSet[position]
+    }
+}
+
+class ItemOffsetDecoration(private val mItemOffset: Int, private val adapter: SearchRVAdapter) : RecyclerView.ItemDecoration() {
+    override fun getItemOffsets(
+        outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
+    ) {
+        super.getItemOffsets(outRect, view, parent, state)
+        outRect.top = mItemOffset
+
+        val position = parent.getChildAdapterPosition(view)
+        val item = adapter.getItem(position)
+
+        // Add top margin only for the first item to avoid double space between items
+        if (parent.getChildAdapterPosition(view) == 0) {
+            outRect.top = mItemOffset
+        } else if (item.type == "DATE") {
+            outRect.top = mItemOffset
+        }
+
     }
 }

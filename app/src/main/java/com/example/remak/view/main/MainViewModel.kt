@@ -1,6 +1,8 @@
 package com.example.remak.view.main
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +13,13 @@ import com.example.remak.network.model.MainListData
 import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import okhttp3.ResponseBody
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAdjuster
+import java.time.temporal.TemporalAdjusters
 
 class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
 
@@ -40,6 +49,29 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
     var docID : String? = null
 
 
+    private fun classifyDate(dateString : String) : String {
+        val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+        val dateTime = ZonedDateTime.parse(dateString, formatter).toLocalDate()
+        val today = LocalDate.now()
+
+        return  when {
+            dateTime.isEqual(today) -> {
+                "오늘"
+            }
+            //이번주
+            dateTime.isAfter(today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))) -> {
+                "이번 주"
+            }
+            //이번달
+            dateTime.isAfter(today.withDayOfMonth(1).minusDays(1)) -> {
+                "이번 달"
+            }
+            else -> {
+                "그 이전"
+            }
+        }
+    }
+
 
 
     fun deleteToken() = viewModelScope.launch {
@@ -52,6 +84,12 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         try {
             val response = networkRepository.getMainList(null, null)
             if (response.isSuccessful) {
+                val dataWithHeaders = mutableListOf<MainListData.Data>()
+                val currentHeader : String? = null
+                val newData = mutableListOf<MainListData.Data>()
+                var currentDateType : String? = null
+
+
                 // 임시로 이미지는 https://picsum.photos/200/300로 적용
                 for (i in response.body()!!.data){
                     if (i.type == "IMAGE") {
@@ -60,12 +98,43 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
                 }
                 _mainListData.value = response.body()?.data
 
+                for (data in response.body()!!.data) {
+                    val dateType = classifyDate(data.updatedAt!!)
+                    if (dateType != currentDateType) {
+                        currentDateType = dateType
+                        Log.d("data삽입", currentDateType.toString())
+
+                        newData.add(MainListData.Data(
+                            docId = null,
+                            title = null,
+                            type = "DATE",
+                            url = null,
+                            content = null,
+                            summary = null,
+                            status = null,
+                            createdAt = null,
+                            updatedAt = null,
+                            tags = listOf(),
+                            isSelected = false,
+                            header = dateType
+                        ))
+                    }
+                    newData.add(data)
+                }
+
+
+
+                _mainListData.value = newData
+
+
+
+
+
                 response.body()?.data?.let {
                     cursor = it.last().createdAt
                     docID = it.last().docId
                 }
 
-                Log.d("success", response.body().toString())
             } else {
                 Log.d("fail", response.errorBody()!!.string())
             }
@@ -89,7 +158,7 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
                     tempData = tempData?.plus(data)
                 }
 
-                response.body()?.data?.let {it ->
+                response.body()?.data?.let {
                     cursor = it.last().createdAt
                     docID = it.last().docId
                 }

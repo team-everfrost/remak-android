@@ -14,7 +14,6 @@ import com.example.remak.view.detail.ImageDetailActivity
 import com.example.remak.view.detail.LinkDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
 import com.example.remak.view.main.HomeRVAdapter
-import com.example.remak.view.main.ItemOffsetDecoration
 
 class SearchResultActivity : AppCompatActivity(), SearchRVAdapter.OnItemClickListener {
 
@@ -37,7 +36,7 @@ class SearchResultActivity : AppCompatActivity(), SearchRVAdapter.OnItemClickLis
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
-        val itemDecoration = ItemOffsetDecoration(10)
+        val itemDecoration = ItemOffsetDecoration(10, adapter)
         recyclerView.addItemDecoration(itemDecoration)
 
         viewModel.searchResult.observe(this) { data ->

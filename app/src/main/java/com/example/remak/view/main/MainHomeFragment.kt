@@ -65,7 +65,7 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
             }
         })
 
-        val itemDecoration = ItemOffsetDecoration(10)
+        val itemDecoration = ItemOffsetDecoration(10, adapter)
         recyclerView.addItemDecoration(itemDecoration)
 
         viewModel.mainListData.observe(viewLifecycleOwner) {data ->
@@ -104,7 +104,7 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(view: View, position: Int) {
-        Log.d("item", viewModel.mainListData.value!![position].type)
+        Log.d("item", viewModel.mainListData.value!![position].type!!)
         when (viewModel.mainListData.value!![position].type) {
             "MEMO" -> {
                 val intent = Intent(requireContext(), MemoDetailActivity::class.java)

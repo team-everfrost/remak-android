@@ -31,14 +31,16 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         private const val FILE = "FILE"
         private const val WEBPAGE = "WEBPAGE"
         private const val IMAGE = "IMAGE"
+        private const val DATE = "DATE"
         private const val MEMO_VIEW_TYPE = 1
         private const val FILE_VIEW_TYPE = 0
         private const val WEBPAGE_VIEW_TYPE = 2
         private const val IMAGE_VIEW_TYPE = 3
+        private const val DATE_VIEW_TYPE = 4
     }
 
     fun getSelectedItems(): List<String> { // 선택된 아이템들의 docId를 반환
-        return dataSet.filter { it.isSelected }.map { it.docId }
+        return dataSet.filter { it.isSelected }.map { it.docId!! }
     }
     inner class MemoViewHolder(view : View) : RecyclerView.ViewHolder(view) { // 메모 아이템 뷰홀더
 
@@ -207,7 +209,10 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 true
             }
         }
+    }
 
+    inner class DateViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+        val date : TextView = view.findViewById(R.id.date)
     }
 
     interface OnItemClickListener {
@@ -222,6 +227,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         FILE -> FILE_VIEW_TYPE
         WEBPAGE -> WEBPAGE_VIEW_TYPE
         IMAGE -> IMAGE_VIEW_TYPE
+        DATE -> DATE_VIEW_TYPE
         else -> throw IllegalArgumentException("Invalid type of data " + position)
     }
 
@@ -243,6 +249,10 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
                 ImageViewHolder(view)
             }
+            DATE_VIEW_TYPE -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_date, parent, false)
+                DateViewHolder(view)
+            }
             else -> throw IllegalArgumentException("Invalid type of data " + viewType)
         }
 
@@ -256,6 +266,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = dataSet[position]
+        Log.d(position.toString(), item.toString())
 
         when (holder) {
             is MemoViewHolder -> { // 메모
@@ -294,21 +305,35 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
             }
+
+            is DateViewHolder -> {
+                holder.date.text = dataSet[position].header
+            }
         }
+    }
+
+    fun getItem(position: Int): MainListData.Data {
+        return dataSet[position]
     }
 
 }
 
-class ItemOffsetDecoration(private val mItemOffset: Int) : RecyclerView.ItemDecoration() {
+class ItemOffsetDecoration(private val mItemOffset: Int, private val adapter: HomeRVAdapter) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         outRect.top = mItemOffset
 
+        val position = parent.getChildAdapterPosition(view)
+        val item = adapter.getItem(position)
+
         // Add top margin only for the first item to avoid double space between items
         if (parent.getChildAdapterPosition(view) == 0) {
             outRect.top = mItemOffset
+        } else if (item.type == "DATE") {
+            outRect.top = 100
         }
+
     }
 }
