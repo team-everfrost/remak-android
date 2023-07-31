@@ -86,6 +86,7 @@
         >
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/contentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/topBar"
@@ -133,53 +134,55 @@
                 android:layout_marginTop="90dp"
                 android:src="@drawable/sample_image_3"
                 android:scaleType="fitXY"/>
-            
+
+
+            <RelativeLayout
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                >
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/shareBtn"
+                    android:layout_width="170dp"
+                    android:layout_height="50dp"
+                    android:elevation="0dp"
+                    android:text="공유"
+                    android:textFontWeight="600"
+                    android:textColor="@color/gray"
+                    android:background="@drawable/custom_ripple_effect_white_rec_border_radius"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_alignParentStart="true"
+                    />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/downloadBtn"
+                    android:layout_width="170dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/custom_ripple_effect_white_rec_border_radius"
+                    android:text="다운로드"
+                    android:textFontWeight="600"
+                    android:textColor="@color/gray"
+                    android:elevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_alignParentEnd="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+
+
+            </RelativeLayout>
+
+
         </androidx.appcompat.widget.LinearLayoutCompat>
-        
-        
-        
+
 
     </ScrollView>
 
-    <RelativeLayout
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:layout_marginHorizontal="10dp">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/shareBtn"
-            android:layout_width="190dp"
-            android:layout_height="50dp"
-            android:elevation="0dp"
-            android:text="공유"
-            android:textFontWeight="600"
-            android:textColor="@color/gray"
-            android:background="@drawable/custom_ripple_effect_white_rec_border_radius"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_alignParentStart="true"
-            />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/downloadBtn"
-            android:layout_width="190dp"
-            android:layout_height="50dp"
-            android:background="@drawable/custom_ripple_effect_white_rec_border_radius"
-            android:text="다운로드"
-            android:textFontWeight="600"
-            android:textColor="@color/gray"
-            android:elevation="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_alignParentEnd="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-
-
-    </RelativeLayout>
 
 
 

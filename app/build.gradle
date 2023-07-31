@@ -103,4 +103,8 @@ dependencies {
     //Apache Commons Lang
     implementation 'org.apache.commons:commons-text:1.9'
 
+
+    //shimmer
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
 }

@@ -40,11 +40,44 @@
         app:layout_constraintTop_toBottomOf="@id/topLinear"
         />
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="10dp"
+        android:id="@+id/filterLayout"
+        android:layout_marginHorizontal="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/divider">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sampleFilter1"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:text="검색기간"
+            android:stateListAnimator="@null"
+            android:textSize="10sp"
+            android:backgroundTint="@color/white"
+            android:background="@drawable/white_rect_radius"/>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_marginStart="10dp"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:stateListAnimator="@null"
+
+            android:text="+ 태그추가"
+            android:textSize="10sp"
+            android:background="@drawable/white_rect_radius"/>
+
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintTop_toBottomOf="@id/filterLayout"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="0dp" />
 

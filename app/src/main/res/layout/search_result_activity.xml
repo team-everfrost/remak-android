@@ -11,7 +11,7 @@
         android:background="@color/white"
         android:id="@+id/topLinear"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,9 +60,8 @@
         android:id="@+id/searchResultRV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintTop_toBottomOf="@id/divider"
         />
 

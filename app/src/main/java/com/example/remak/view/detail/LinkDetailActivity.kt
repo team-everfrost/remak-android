@@ -3,6 +3,7 @@ package com.example.remak.view.detail
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.BlurMaskFilter
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
@@ -25,6 +26,9 @@ import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageLinkActivityBinding
+import com.example.remak.network.model.DetailData
+import com.facebook.shimmer.Shimmer
+import com.facebook.shimmer.ShimmerDrawable
 import org.apache.commons.text.StringEscapeUtils
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -55,61 +59,8 @@ class LinkDetailActivity : AppCompatActivity() {
         viewModel.getDetailData(linkId!!)
 
         viewModel.detailData.observe(this) {
-            binding.url.text = it.url
-            url = it.url!!
-            linkData = it.content
+            updateUI(it)
 
-            // \n은 <br>로 바꾸고 \t는 스페이스바 4번으로 바꾸기
-            linkData = linkData
-                .replace(Regex("\\\\t"), "    ")
-                .replace(Regex("\\\\n"), "<br>")
-                .replace(Regex("\\\\r"), "<br>")
-
-            logLongMessage("dataCheck", linkData)
-
-            val date = inputFormat.parse(it.updatedAt)
-            val outputDateStr = outputFormat.format(date)
-            binding.date.text = outputDateStr
-            binding.webView.apply {
-                overScrollMode = WebView.OVER_SCROLL_NEVER
-                isHorizontalScrollBarEnabled = false
-                isVerticalScrollBarEnabled = false
-            }
-            binding.webView.settings.javaScriptEnabled = true
-            Log.d("dataCheck", linkData)
-            val css = """
-                        <style type='text/css'>
-                        body {
-                            max-width: 100%;
-                            overflow-x: hidden;
-                            word-wrap: break-word;
-                            word-break: break-all;
-                        }
-                        img {
-                            max-width: 100%;
-                            height: auto;
-                        }
-                        pre {
-                            white-space: pre-wrap;
-                        }
-                        p {
-                            margin-top: 0;
-                            margin-bottom: 0;
-                        }
-                        </style>
-                    """
-
-            val htmlData = """
-                        <html>
-                        <head>
-                        $css
-                        </head>
-                        <body>
-                        $linkData
-                        </body>
-                        </html>
-                    """.trimIndent()
-            binding.webView.loadData(htmlData, "text/html", "utf-8")
         }
 
         binding.shareBtn.setOnClickListener {
@@ -119,6 +70,8 @@ class LinkDetailActivity : AppCompatActivity() {
             }
             startActivity(Intent.createChooser(shareIntent, "Share link"))
         }
+
+
 
         binding.movePageBtn.setOnClickListener {
             val colorSchemeParams = CustomTabColorSchemeParams.Builder()
@@ -146,6 +99,89 @@ class LinkDetailActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun updateUI(detailData: DetailData.Data) {
+        binding.url.text = detailData.url
+        url = detailData.url!!
+
+        val linkData = prepareLinkData(detailData.content)
+        logLongMessage("dataCheck", linkData)
+
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        val date = inputFormat.parse(detailData.updatedAt)
+        val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+        val outputDateStr = outputFormat.format(date)
+        binding.date.text = outputDateStr
+
+        if (detailData.status == "COMPLETED") {
+            showContent(linkData)
+        }
+
+
+
+    }
+
+    private fun prepareLinkData(content : String) : String {
+        return content
+            .replace(Regex("\\\\t"), "    ")
+            .replace(Regex("\\\\n"), "<br>")
+            .replace(Regex("\\\\r"), "<br>")
+    }
+
+    private fun showContent(linkData: String) {
+        binding.animation.visibility = View.GONE
+        binding.webView.apply {
+            visibility = View.VISIBLE
+            setupWebView()
+            loadHtmlData(linkData)
+
+        }
+    }
+
+    private fun WebView.setupWebView() {
+        overScrollMode = WebView.OVER_SCROLL_NEVER
+        isHorizontalScrollBarEnabled = false
+        isVerticalScrollBarEnabled = false
+        settings.javaScriptEnabled = true
+    }
+
+    private fun WebView.loadHtmlData(linkData: String) {
+        val css = """
+        <style type='text/css'>
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        pre {
+            white-space: pre-wrap;
+        }
+        p {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        </style>
+    """
+
+        val htmlData = """
+        <html>
+        <head>
+        $css
+        </head>
+        <body>
+        $linkData
+        </body>
+        </html>
+    """.trimIndent()
+
+        loadData(htmlData, "text/html", "utf-8")
+    }
+
 
     fun logLongMessage(tag: String, message: String) {
         val maxLogSize = 1000

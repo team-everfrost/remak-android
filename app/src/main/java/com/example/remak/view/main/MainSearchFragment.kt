@@ -51,6 +51,22 @@ class MainSearchFragment : BaseFragment() {
         }
 
 
+        binding.sampleFilter1.setOnClickListener {
+            //backgroundtint가 white일경우 checkblue로 변경
+            if (binding.sampleFilter1.backgroundTintList?.defaultColor == -1) {
+                binding.sampleFilter1.backgroundTintList = resources.getColorStateList(
+                    com.example.remak.R.color.checkBlue,
+                    null
+                )
+            } else {
+                binding.sampleFilter1.backgroundTintList = resources.getColorStateList(
+                    com.example.remak.R.color.white,
+                    null
+                )
+            }
+        }
+
+
     }
 
 
