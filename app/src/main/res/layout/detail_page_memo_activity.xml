@@ -82,23 +82,32 @@
     </RelativeLayout>
 
 
-
-    <EditText
-        android:id="@+id/memoContent"
-        android:enabled="false"
+    <ScrollView
+        android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@id/topBar"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="40dp"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="top"
-        android:layout_marginBottom="50dp"
-        android:padding="10dp"
         android:layout_marginHorizontal="20dp"
         android:background="@color/memoColor"
-        tools:text="오늘 할 일 : blablabla"
-        android:textColor="@color/black"
-      />
+        android:layout_marginBottom="50dp"
+        android:layout_height="0dp">
+
+        <EditText
+            android:id="@+id/memoContent"
+            android:background="@color/memoColor"
+            android:enabled="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:padding="10dp"
+            tools:text="오늘 할 일 : blablabla"
+            android:textColor="@color/black"
+            />
+
+
+    </ScrollView>
+
+
 
 
 
