@@ -84,8 +84,7 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         try {
             val response = networkRepository.getMainList(null, null)
             if (response.isSuccessful) {
-                val dataWithHeaders = mutableListOf<MainListData.Data>()
-                val currentHeader : String? = null
+
                 val newData = mutableListOf<MainListData.Data>()
                 var currentDateType : String? = null
 

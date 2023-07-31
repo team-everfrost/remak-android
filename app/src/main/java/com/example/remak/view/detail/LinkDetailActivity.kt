@@ -112,10 +112,14 @@ class LinkDetailActivity : AppCompatActivity() {
         val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         val outputDateStr = outputFormat.format(date)
         binding.date.text = outputDateStr
+        val formattedTags = detailData.tags.joinToString(separator = "    ", transform = { it -> "#$it" })
+        Log.d("tagCheck", formattedTags)
+        Log.d("tagCheck", detailData.tags.toString())
 
         if (detailData.status == "COMPLETED") {
             showContent(linkData)
         }
+        binding.tags.text = formattedTags
 
 
 
