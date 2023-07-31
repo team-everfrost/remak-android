@@ -64,22 +64,19 @@ class FileDetailActivity : AppCompatActivity() {
             viewModel.downloadFile(this, fileId, fileName)
         }
 
-        binding.editBtn.setOnClickListener {
+        binding.editIcon.setOnClickListener {
             binding.titleEditText.isEnabled = true
-            binding.editBtn.visibility = View.GONE
+            binding.editIcon.visibility = View.GONE
             binding.completeBtn.visibility = View.VISIBLE
-
-            binding.backBtn.visibility = View.GONE
-            binding.deleteBtn.visibility = View.VISIBLE
+            binding.moreIcon.visibility = View.GONE
+            binding.shareIcon.visibility = View.GONE
         }
 
         binding.completeBtn.setOnClickListener {
             showWarnDialog("제목을 수정하시겠습니까?", fileId, "update")
         }
 
-        binding.deleteBtn.setOnClickListener {
-            showWarnDialog("파일을 삭제하시겠습니까?", fileId, "delete")
-        }
+  
 
         binding.backBtn.setOnClickListener {
             finish()
@@ -137,10 +134,9 @@ class FileDetailActivity : AppCompatActivity() {
 //                viewModel.updateMemo(memoId, binding.memoContent.text.toString())
                 binding.titleEditText.isEnabled = false
                 binding.completeBtn.visibility = View.GONE
-                binding.editBtn.visibility = View.VISIBLE
-
-                binding.deleteBtn.visibility = View.GONE
-                binding.backBtn.visibility = View.VISIBLE
+                binding.editIcon.visibility = View.VISIBLE
+                binding.moreIcon.visibility = View.VISIBLE
+                binding.shareIcon.visibility = View.VISIBLE
 
             } else {
                 viewModel.deleteDocument(fileId)

@@ -56,8 +56,73 @@ class LinkDetailActivity : AppCompatActivity() {
         viewModel.getDetailData(linkId!!)
 
         viewModel.detailData.observe(this) {
-            updateUI(it)
+            binding.url.text = it.url
+            url = it.url!!
+            linkData = it.content
+            binding.title.setText(it.title)
 
+            // \n은 <br>로 바꾸고 \t는 스페이스바 4번으로 바꾸기
+            linkData = linkData
+                .replace(Regex("\\\\t"), "    ")
+                .replace(Regex("\\\\n"), "<br>")
+                .replace(Regex("\\\\r"), "<br>")
+                .replace(Regex("#"), "%23")
+
+            logLongMessage("dataCheck", it.toString())
+
+            val date = inputFormat.parse(it.updatedAt)
+            val outputDateStr = outputFormat.format(date)
+            binding.date.text = outputDateStr
+            if (it.status != "SCRAPE_PENDING" && it.status != "SCRAPE_PROCESSING") {
+                binding.webView.visibility = View.VISIBLE
+                binding.webView.apply {
+                    overScrollMode = WebView.OVER_SCROLL_NEVER
+                    isHorizontalScrollBarEnabled = false
+                    isVerticalScrollBarEnabled = false
+                }
+                binding.webView.settings.javaScriptEnabled = true
+                val css = """
+                        <style type='text/css'>
+                        body {
+                            max-width: 100%;
+                            overflow-x: hidden;
+                            word-wrap: break-word;
+                            word-break: break-all;
+                        }
+                        img {
+                            max-width: 100%;
+                            height: auto;
+                        }
+                        pre {
+                            white-space: pre-wrap;
+                        }
+                        p {
+                            margin-top: 0;
+                            margin-bottom: 0;
+                        }
+                        </style>
+                    """
+
+                val htmlData = """
+                        <html>
+                        <head>
+                        $css
+                        </head>
+                        <body>
+                        $linkData
+                        </body>
+                        </html>
+                    """.trimIndent()
+
+
+
+
+                binding.webView.loadData(htmlData, "text/html", "utf-8")
+
+
+            } else {
+                binding.animation.visibility = View.VISIBLE
+            }
         }
 
         binding.shareBtn.setOnClickListener {
@@ -103,6 +168,7 @@ class LinkDetailActivity : AppCompatActivity() {
         val linkData = prepareLinkData(detailData.content)
         logLongMessage("dataCheck", linkData)
 
+
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         val date = inputFormat.parse(detailData.updatedAt)
         val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
@@ -112,7 +178,7 @@ class LinkDetailActivity : AppCompatActivity() {
         Log.d("tagCheck", formattedTags)
         Log.d("tagCheck", detailData.tags.toString())
 
-        if (detailData.status == "COMPLETED") {
+        if (detailData.status != "SCRAPE_PENDING" && detailData.status != "SCRAPE_PROCESSING") {
             showContent(linkData)
         }
         binding.tags.text = formattedTags
@@ -130,11 +196,11 @@ class LinkDetailActivity : AppCompatActivity() {
 
     private fun showContent(linkData: String) {
         binding.animation.visibility = View.GONE
+        binding.webView.visibility = View.VISIBLE
         binding.webView.apply {
             visibility = View.VISIBLE
             setupWebView()
             loadHtmlData(linkData)
-
         }
     }
 
@@ -178,7 +244,7 @@ class LinkDetailActivity : AppCompatActivity() {
         </body>
         </html>
     """.trimIndent()
-
+        binding.webView.loadData(htmlData, "text/html", "utf-8")
         loadData(htmlData, "text/html", "utf-8")
     }
 
