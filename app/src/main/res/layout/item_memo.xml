@@ -5,47 +5,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    app:cardElevation="20dp"
     app:cardCornerRadius="10dp"
     app:cardBackgroundColor="@color/memoColor"
     android:layout_marginHorizontal="10dp"
+    android:stateListAnimator="@null"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
         android:id="@+id/title"
+        android:maxLines="7"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textColor="@color/gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="메모\n오늘은센터에갔다\n참재밌었다"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:textSize="15sp"
-        android:textFontWeight="600"/>
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <CheckBox
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:clickable="false"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:buttonTint="@color/checkBlue"
+            android:clickable="false"
             android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
 
-           />
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
 
 
 </androidx.cardview.widget.CardView>

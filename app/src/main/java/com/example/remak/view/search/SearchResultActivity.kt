@@ -41,6 +41,9 @@ class SearchResultActivity : AppCompatActivity(), SearchRVAdapter.OnItemClickLis
         recyclerView.addItemDecoration(itemDecoration)
 
         viewModel.searchResult.observe(this) { data ->
+            binding.shimmerLayout.stopShimmer()
+            binding.shimmerLayout.visibility = View.GONE
+            binding.searchResultRV.visibility = View.VISIBLE
             adapter.dataSet = data
             Log.d("searchresultdata", data.toString())
             adapter.notifyDataSetChanged()
