@@ -2,6 +2,7 @@ package com.example.remak.view.search
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -41,6 +42,7 @@ class SearchResultActivity : AppCompatActivity(), SearchRVAdapter.OnItemClickLis
 
         viewModel.searchResult.observe(this) { data ->
             adapter.dataSet = data
+            Log.d("searchresultdata", data.toString())
             adapter.notifyDataSetChanged()
         }
 

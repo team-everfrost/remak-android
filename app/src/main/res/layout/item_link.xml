@@ -15,25 +15,30 @@
         android:layout_height="match_parent"
        >
 
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/linearLayoutCompat2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_constraintHorizontal_weight="0.66"
             app:layout_constraintEnd_toStartOf="@id/likeBtn"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintHorizontal_weight="0.66"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="0dp">
 
             <TextView
                 android:id="@+id/title"
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Sample Text"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="화이자, 모더나,얀센 백신의............ "
+                android:fontFamily="sans-serif-condensed-medium"
                 android:textColor="@color/black"
-                android:textSize="18sp"
                 android:textFontWeight="600"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -43,16 +48,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="11sp"
                 android:layout_marginTop="12dp"
+                android:maxLines="3"
                 android:text="coinPriceUpDown"
+                android:textSize="11sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/coinName"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
 
         <ImageView
             android:id="@+id/likeBtn"

@@ -72,7 +72,7 @@ interface Api {
     @POST("document/webpage/create")
     suspend fun createWebPage(@Body body: CreateData.WebPageRequestBody): retrofit2.Response<CreateData.WebPageResponseBody>
 
-    @GET("document/embedding/{query}")
-    suspend fun getEmbeddingData(@Path("query") query : String) : retrofit2.Response<SearchEmbeddingData.ResponseBody>
+    @GET("document/search/embedding")
+    suspend fun getEmbeddingData(@Query("query") query: String?) : retrofit2.Response<SearchEmbeddingData.ResponseBody>
 
 }

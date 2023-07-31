@@ -132,6 +132,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
     inner class WebpageViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
         val checkbox : CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
+        val title : TextView = view.findViewById(R.id.title)
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -296,6 +297,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
             is WebpageViewHolder -> {
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
+                holder.title.text = dataSet[position].title
             }
 
             is ImageViewHolder -> {

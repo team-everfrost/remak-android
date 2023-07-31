@@ -26,10 +26,10 @@ class SearchViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                 _searchResult.value = response.body()!!.data
                 Log.d("search result", _searchResult.value.toString())
             } else {
-                println(response.errorBody())
+                Log.d("search result", response.errorBody()!!.string())
             }
         } catch (e : Exception) {
-            println(e)
+            Log.d("search result", e.toString())
         }
     }
 
