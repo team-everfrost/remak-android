@@ -48,17 +48,16 @@ class MemoDetailActivity : AppCompatActivity() {
             binding.memoContent.setText(it.content)
         })
 
-        binding.editBtn.setOnClickListener {
+        binding.editIcon.setOnClickListener {
             binding.memoContent.isEnabled = true
             binding.memoContent.isFocusableInTouchMode = true
             binding.memoContent.requestFocus()
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(binding.memoContent, InputMethodManager.SHOW_IMPLICIT)
-            binding.editBtn.visibility = View.GONE
+            binding.editIcon.visibility = View.GONE
             binding.completeBtn.visibility = View.VISIBLE
-
-            binding.backBtn.visibility = View.GONE
-            binding.deleteBtn.visibility = View.VISIBLE
+            binding.moreIcon.visibility = View.GONE
+            binding.shareIcon.visibility = View.GONE
 
         }
 
@@ -67,9 +66,7 @@ class MemoDetailActivity : AppCompatActivity() {
 
         }
 
-        binding.deleteBtn.setOnClickListener {
-            showWarnDialog("삭제하시겠습니까?", memoId, "delete")
-        }
+
 
         binding.backBtn.setOnClickListener {
             finish()
@@ -125,10 +122,9 @@ class MemoDetailActivity : AppCompatActivity() {
                 viewModel.updateMemo(memoId, binding.memoContent.text.toString())
                 binding.memoContent.isEnabled = false
                 binding.completeBtn.visibility = View.GONE
-                binding.editBtn.visibility = View.VISIBLE
-
-                binding.deleteBtn.visibility = View.GONE
-                binding.backBtn.visibility = View.VISIBLE
+                binding.editIcon.visibility = View.VISIBLE
+                binding.moreIcon.visibility = View.VISIBLE
+                binding.shareIcon.visibility = View.VISIBLE
 
             } else {
                 viewModel.deleteDocument(memoId)

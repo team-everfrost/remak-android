@@ -7,25 +7,27 @@
 
     <RelativeLayout
         android:id="@+id/topBar"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="24dp"
+        android:paddingHorizontal="20dp"
         app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:scaleType="fitXY"
             android:src="@drawable/baseline_arrow_back_ios_24"
             android:background="@color/white"/>
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:scaleType="fitXY"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:src="@drawable/baseline_delete_24"
@@ -56,6 +58,7 @@
             android:layout_height="50dp"
             android:elevation="0dp"
             android:text="공유"
+            android:stateListAnimator="@null"
             android:textFontWeight="600"
             android:textColor="@color/gray"
             android:background="@drawable/custom_ripple_effect_white_rec_border_radius"
@@ -73,6 +76,7 @@
             android:text="다운로드"
             android:textFontWeight="600"
             android:textColor="@color/gray"
+            android:stateListAnimator="@null"
             android:elevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

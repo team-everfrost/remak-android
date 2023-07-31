@@ -16,6 +16,7 @@ import android.view.View
 import android.view.WindowManager
 import android.webkit.WebChromeClient
 import android.webkit.WebView
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -48,13 +49,9 @@ class LinkDetailActivity : AppCompatActivity() {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         inputFormat.timeZone = TimeZone.getTimeZone("UTC")
         val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-
-
-
         tokenRepository = TokenRepository((this.application as App).dataStore)
         binding = DetailPageLinkActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val linkId = intent.getStringExtra("docId")
         viewModel.getDetailData(linkId!!)
 
@@ -71,8 +68,6 @@ class LinkDetailActivity : AppCompatActivity() {
             startActivity(Intent.createChooser(shareIntent, "Share link"))
         }
 
-
-
         binding.movePageBtn.setOnClickListener {
             val colorSchemeParams = CustomTabColorSchemeParams.Builder()
                 .setToolbarColor(ContextCompat.getColor(this, R.color.black))
@@ -85,19 +80,20 @@ class LinkDetailActivity : AppCompatActivity() {
             customTabsIntent.launchUrl(this, Uri.parse(url))
         }
 
-        binding.editBtn.setOnClickListener {
-            binding.title.isEnabled = true
-            binding.editBtn.visibility = View.GONE
-            binding.completeBtn.visibility = View.VISIBLE
-
-            binding.backBtn.visibility = View.GONE
-            binding.deleteBtn.visibility = View.VISIBLE
+        binding.shareIcon.setOnClickListener {
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, url)
+            }
+            startActivity(Intent.createChooser(shareIntent, "Share link"))
         }
 
-        binding.deleteBtn.setOnClickListener {
-            showWarnDialog("페이지를 삭제하시겠습니까?", linkId, "delete")
-        }
+        binding.moreIcon.setOnClickListener {
+            val popupMenu = PopupMenu(this, it)
+            popupMenu.menuInflater.inflate(R.menu.detail_more_menu, popupMenu.menu)
 
+            popupMenu.show()
+        }
     }
 
     private fun updateUI(detailData: DetailData.Data) {
@@ -238,11 +234,7 @@ class LinkDetailActivity : AppCompatActivity() {
             if (type == "update") {
 //                viewModel.updateMemo(memoId, binding.memoContent.text.toString())
                 binding.title.isEnabled = false
-                binding.completeBtn.visibility = View.GONE
-                binding.editBtn.visibility = View.VISIBLE
 
-                binding.deleteBtn.visibility = View.GONE
-                binding.backBtn.visibility = View.VISIBLE
 
             } else {
                 viewModel.deleteDocument(fileId)
