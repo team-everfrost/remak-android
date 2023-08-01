@@ -16,6 +16,8 @@ import com.example.remak.R
 import com.example.remak.network.model.MainListData
 import org.w3c.dom.Text
 import java.text.SimpleDateFormat
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import java.util.TimeZone
 
@@ -278,11 +280,14 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
             }
             is FileViewHolder -> {
                 //날짜 포맷 변경
-                val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" , Locale.getDefault())
-                inputFormat.timeZone = TimeZone.getTimeZone("UTC")
-                val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val date = inputFormat.parse(dataSet[position].updatedAt)
-                val outputDateStr = outputFormat.format(date)
+                val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+                val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
+
+                Log.d("errordate", dataSet[position].updatedAt!!)
+
+                val dateTime = ZonedDateTime.parse(dataSet[position].updatedAt, inputFormatter)
+                val outputDateStr = dateTime.format(outputFormatter)
+
                 val text = holder.itemView.context.getString(R.string.filetype_date, "PDF", outputDateStr)
 
                 // .앞에 있는 파일 이름만 가져오기

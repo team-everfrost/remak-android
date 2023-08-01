@@ -14,12 +14,16 @@ import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
+import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjuster
 import java.time.temporal.TemporalAdjusters
+import java.util.Locale
+import java.util.TimeZone
 
 class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
 
@@ -48,28 +52,50 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
     var cursor : String? = null
     var docID : String? = null
 
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US).apply {
+        timeZone = TimeZone.getTimeZone("GMT")
+    }
+    val outputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).apply {
+        timeZone = TimeZone.getDefault()
+    }
+
 
     private fun classifyDate(dateString : String) : String {
         val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
         val dateTime = ZonedDateTime.parse(dateString, formatter).toLocalDate()
         val today = LocalDate.now()
+        Log.d("dateString", dateString)
+        Log.d("today", today.toString())
+        Log.d("dateTime", dateTime.toString())
 
         return  when {
+            //오늘
             dateTime.isEqual(today) -> {
+                Log.d("오늘", "오늘")
                 "오늘"
             }
-            //이번주
-            dateTime.isAfter(today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))) -> {
-                "이번 주"
+            //오늘 제외 7일 전
+            dateTime.isAfter(today.minusDays(7)) -> {
+                "최근 일주일"
             }
-            //이번달
-            dateTime.isAfter(today.withDayOfMonth(1).minusDays(1)) -> {
-                "이번 달"
+            //오늘 기준 30일 전
+            dateTime.isAfter(today.minusDays(30)) -> {
+                "최근 한달"
             }
             else -> {
                 "그 이전"
             }
         }
+    }
+
+    fun convertToUserTimezone(dateString: String, userTimezone: String): String {
+        val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+        val zonedDateTime = ZonedDateTime.parse(dateString, formatter)
+        val userZoneId = ZoneId.of(userTimezone)
+
+        // Convert the datetime to user's timezone
+        val userZonedDateTime = zonedDateTime.withZoneSameInstant(userZoneId)
+        return userZonedDateTime.format(formatter)
     }
 
 
@@ -98,7 +124,15 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
                 _mainListData.value = response.body()?.data
 
                 for (data in response.body()!!.data) {
-                    val dateType = classifyDate(data.updatedAt!!)
+//                    val inputData = inputFormat.parse(data.updatedAt!!)
+//                    data.updatedAt = outputFormat.format(inputData!!)
+
+                    data.updatedAt = convertToUserTimezone(data.updatedAt!!, TimeZone.getDefault().id)
+
+                    Log.d("data", data.updatedAt.toString())
+
+                    val dateType = classifyDate(data.updatedAt!!.toString())
+
                     if (dateType != currentDateType) {
                         currentDateType = dateType
                         Log.d("data삽입", currentDateType.toString())

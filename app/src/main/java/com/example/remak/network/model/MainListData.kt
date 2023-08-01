@@ -16,7 +16,7 @@ class MainListData {
         val summary : String?,
         val status : String?,
         val createdAt : String?,
-        val updatedAt : String?,
+        var updatedAt : String?,
         val tags : List<String?>,
         var isSelected : Boolean = false,
         var header : String? = null,
