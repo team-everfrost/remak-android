@@ -22,6 +22,7 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.fragment.app.activityViewModels
+import com.example.remak.BaseFragment
 import com.example.remak.R
 import com.example.remak.databinding.BottomSheetDialogBinding
 import com.example.remak.network.model.UploadFileData
@@ -41,25 +42,17 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             val inputStream = requireActivity().contentResolver.openInputStream(uri!!)
             val file = inputStreamToFile(inputStream!!,uri, requireActivity().contentResolver.getType(uri))
             val requestFile = file.asRequestBody(mimeType?.toMediaTypeOrNull())
-
-
             val fileList = List<MultipartBody.Part>(1) {
                 MultipartBody.Part.createFormData("files", file.name, requestFile)
             }
-            Log.d("name", file.name)
             viewModel.uploadFile(fileList)
-
             this.dismiss()
-
             (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
-
         }
     }
 
     private lateinit var binding: BottomSheetDialogBinding
-
     private val viewModel : MainViewModel by activityViewModels()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,9 +60,6 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = BottomSheetDialogBinding.inflate(inflater, container, false)
-
-
-
         return binding.root
     }
 
@@ -82,7 +72,6 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
         (view.parent as View).background = ColorDrawable(Color.TRANSPARENT)
         binding.linearLink.setOnClickListener {
             showDialog()
-
         }
 
         //메모생성 이벤트 추가
@@ -90,19 +79,15 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             val intent = Intent(activity, CreateMemoActivity::class.java)
             startActivity(intent)
             this.dismiss()
-
         }
 
         //파일생성 이벤트 추가
         binding.linearFile.setOnClickListener {
-
             val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
                 type = "*/*"
                 addCategory(Intent.CATEGORY_OPENABLE)
             }
             getContent.launch(intent)
-
-
         }
 
         binding.linearImage.setOnClickListener {
@@ -111,9 +96,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
                 addCategory(Intent.CATEGORY_OPENABLE)
             }
             getContent.launch(intent)
-
         }
-
     }
 
     private fun showDialog() {
@@ -127,15 +110,11 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
         if (Build.VERSION.SDK_INT < 30) {
             val display = windowManager.defaultDisplay
             val size = Point()
-
             display.getSize(size)
-
             val window = dialog.window
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
             val x = (size.x * 0.85).toInt()
-
-
             window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
 
         } else {
@@ -169,13 +148,8 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
                 (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
                 this.dismiss()
             }
-
-
-
         }
         dialog.show()
-
-
     }
 
     //uri에서 파일명 가져오기
@@ -211,17 +185,11 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
         if (Build.VERSION.SDK_INT < 30) {
             val display = windowManager.defaultDisplay
             val size = Point()
-
             display.getSize(size)
-
             val window = dialog.window
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
             val x = (size.x * 0.7).toInt()
-
-
             window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
-
         } else {
             val rect = windowManager.currentWindowMetrics.bounds
 
@@ -229,7 +197,6 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val x = (rect.width() * 0.7).toInt()
             window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
-
         }
 
         val confirmBtn = dialog.findViewById<View>(R.id.confirmBtn)
@@ -239,7 +206,5 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
         val msgText = dialog.findViewById<TextView>(R.id.msgTextView)
         msgText.text = msg
         dialog.show()
-
-
     }
 }

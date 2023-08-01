@@ -28,7 +28,6 @@ import java.util.TimeZone
 class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
 
     private val networkRepository = NetworkRepository()
-
     //메인 리스트
     private val _mainListData = MutableLiveData<List<MainListData.Data>>()
     val mainListData : LiveData<List<MainListData.Data>> = _mainListData
@@ -48,26 +47,13 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
     private val _isWebPageCreateSuccess = MutableLiveData<Boolean>()
     val isWebPageCreateSuccess : LiveData<Boolean> = _isWebPageCreateSuccess
 
-
     var cursor : String? = null
     var docID : String? = null
-
-    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US).apply {
-        timeZone = TimeZone.getTimeZone("GMT")
-    }
-    val outputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).apply {
-        timeZone = TimeZone.getDefault()
-    }
-
 
     private fun classifyDate(dateString : String) : String {
         val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
         val dateTime = ZonedDateTime.parse(dateString, formatter).toLocalDate()
         val today = LocalDate.now()
-        Log.d("dateString", dateString)
-        Log.d("today", today.toString())
-        Log.d("dateTime", dateTime.toString())
-
         return  when {
             //오늘
             dateTime.isEqual(today) -> {
@@ -88,7 +74,7 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         }
     }
 
-    fun convertToUserTimezone(dateString: String, userTimezone: String): String {
+    private fun convertToUserTimezone(dateString: String, userTimezone: String): String {
         val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
         val zonedDateTime = ZonedDateTime.parse(dateString, formatter)
         val userZoneId = ZoneId.of(userTimezone)
@@ -98,22 +84,17 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         return userZonedDateTime.format(formatter)
     }
 
-
-
     fun deleteToken() = viewModelScope.launch {
         tokenRepository.deleteUser()
     }
     fun getAllMainList() = viewModelScope.launch {
         _isLoading.value = true
         Log.d("token", tokenRepository.fetchTokenData().toString())
-
         try {
             val response = networkRepository.getMainList(null, null)
             if (response.isSuccessful) {
-
                 val newData = mutableListOf<MainListData.Data>()
                 var currentDateType : String? = null
-
 
                 // 임시로 이미지는 https://picsum.photos/200/300로 적용
                 for (i in response.body()!!.data){
@@ -124,19 +105,10 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
                 _mainListData.value = response.body()?.data
 
                 for (data in response.body()!!.data) {
-//                    val inputData = inputFormat.parse(data.updatedAt!!)
-//                    data.updatedAt = outputFormat.format(inputData!!)
-
                     data.updatedAt = convertToUserTimezone(data.updatedAt!!, TimeZone.getDefault().id)
-
-                    Log.d("data", data.updatedAt.toString())
-
                     val dateType = classifyDate(data.updatedAt!!.toString())
-
                     if (dateType != currentDateType) {
                         currentDateType = dateType
-                        Log.d("data삽입", currentDateType.toString())
-
                         newData.add(MainListData.Data(
                             docId = null,
                             title = null,
@@ -154,49 +126,33 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
                     }
                     newData.add(data)
                 }
-
-
-
                 _mainListData.value = newData
-
-
-
-
-
                 response.body()?.data?.let {
                     cursor = it.last().createdAt
                     docID = it.last().docId
                 }
-
             } else {
                 Log.d("fail", response.errorBody()!!.string())
             }
         } catch (e : Exception) {
+            Log.d("networkError", e.toString())
         }
-
-        Log.d("cursor", cursor.toString())
-        Log.d("docID", docID.toString())
-        Log.d("mainListData", mainListData.value.toString())
         _isLoading.value = false
     }
 
     fun getNewMainList() = viewModelScope.launch {
         _isLoading.value = true
         var tempData = mainListData.value
-
         try {
             val response = networkRepository.getMainList(cursor, docID)
             if (response.isSuccessful) {
                 for (data in response.body()!!.data) {
                     tempData = tempData?.plus(data)
                 }
-
                 response.body()?.data?.let {
                     cursor = it.last().createdAt
                     docID = it.last().docId
                 }
-
-
             } else {
                 Log.d("fail", response.errorBody().toString())
             }
@@ -218,11 +174,8 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         try {
             val response = networkRepository.createMemo(content)
             if (response.isSuccessful) {
-                Log.d("success", response.body().toString())
                 _isMemoCreateSuccess.value = "메모가 생성되었습니다."
-
             } else {
-                Log.d("fail", response.errorBody().toString())
                 _isMemoCreateSuccess.value = "메모 생성에 실패했습니다"
             }
         } catch (e : Exception) {
@@ -268,7 +221,6 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
             Log.d("networkError", e.toString())
         }
     }
-
     fun loginCheck() = viewModelScope.launch {
         if (tokenRepository.fetchTokenData() != null) {
             _isLogIn.value = true

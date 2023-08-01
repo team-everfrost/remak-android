@@ -21,34 +21,23 @@ import com.example.remak.databinding.EditPageMemoBinding
 
 class CreateMemoActivity : AppCompatActivity() {
     private lateinit var binding : EditPageMemoBinding
-
     private val viewModel : MainViewModel by viewModels { MainViewModelFactory(tokenRepository)}
     private lateinit var tokenRepository: TokenRepository
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         tokenRepository = TokenRepository((this.application as App).dataStore)
-
-
         binding = EditPageMemoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         binding.contentEditText.text = null
 
         binding.completeBtn.setOnClickListener {
             viewModel.createMemo(binding.contentEditText.text.toString())
-
         }
 
-        viewModel.isMemoCreateSuccess.observe(this, {
+        viewModel.isMemoCreateSuccess.observe(this) {
             showDialog(it)
-        })
-
-
+        }
     }
-
 
     private fun showDialog(getContent : String) {
         val dialog = Dialog(this)
@@ -91,10 +80,5 @@ class CreateMemoActivity : AppCompatActivity() {
 
         }
         dialog.show()
-
-
     }
-
-
-
 }

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +25,6 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
     private val viewModel : MainViewModel by activityViewModels { MainViewModelFactory(tokenRepository)}
     private lateinit var adapter : HomeRVAdapter
     private var initialLoad = true
-
     lateinit var tokenRepository: TokenRepository
 
 
@@ -43,19 +43,20 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         adapter = HomeRVAdapter(mutableListOf(), this)
-
         val recyclerView : RecyclerView = binding.homeRV
+        val itemDecoration = ItemOffsetDecoration(10, adapter)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+        //리사이클러 뷰 아이템 간격 조정
+        recyclerView.addItemDecoration(itemDecoration)
 
+        viewModel.getAllMainList()
 
         //리사이클러 뷰 무한스크롤 기능
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-
                 val totalItemCount = recyclerView.layoutManager?.itemCount
                 val lastVisibleItemCount = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
 
@@ -65,8 +66,6 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
             }
         })
 
-        val itemDecoration = ItemOffsetDecoration(10, adapter)
-        recyclerView.addItemDecoration(itemDecoration)
 
         viewModel.mainListData.observe(viewLifecycleOwner) {data ->
             adapter.dataSet = data
@@ -80,7 +79,6 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
             binding.swipeRefresh.isRefreshing = false
         }
 
-        viewModel.getAllMainList()
 
         viewModel.uploadFileSuccess.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
@@ -94,17 +92,41 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
             Log.d("selecteditemcounter", adapter.selectedItemsCount.toString())
         }
 
-
+        binding.sampleFilter1.setOnClickListener {
+            filterClickEvent(binding.sampleFilter1)
+        }
+        binding.sampleFilter2.setOnClickListener {
+            filterClickEvent(binding.sampleFilter2)
+        }
+        binding.sampleFilter3.setOnClickListener {
+            filterClickEvent(binding.sampleFilter3)
+        }
+        binding.sampleFilter4.setOnClickListener {
+            filterClickEvent(binding.sampleFilter4)
+        }
     }
 
+    private fun filterClickEvent(button: AppCompatButton) {
+        if (button.backgroundTintList?.defaultColor == -1) {
+            button.backgroundTintList = resources.getColorStateList(
+                com.example.remak.R.color.checkBlue,
+                null
+            )
+        } else {
+            button.backgroundTintList = resources.getColorStateList(
+                com.example.remak.R.color.white,
+                null
+            )
+        }
+    }
+
+    // 다시 접속 시 데이터 갱신
     override fun onResume() {
         super.onResume()
-        Log.d("onResume", "onResume")
         viewModel.getAllMainList()
     }
 
     override fun onItemClick(view: View, position: Int) {
-        Log.d("item", viewModel.mainListData.value!![position].type!!)
         when (viewModel.mainListData.value!![position].type) {
             "MEMO" -> {
                 val intent = Intent(requireContext(), MemoDetailActivity::class.java)

@@ -71,6 +71,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sampleFilter2"
             android:layout_marginStart="10dp"
             android:layout_width="70dp"
             android:layout_height="30dp"
@@ -80,6 +81,7 @@
             android:background="@drawable/white_rect_radius"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sampleFilter3"
             android:layout_marginStart="10dp"
             android:layout_width="70dp"
             android:layout_height="30dp"
@@ -89,6 +91,7 @@
             android:background="@drawable/white_rect_radius"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sampleFilter4"
             android:layout_marginStart="10dp"
             android:layout_width="70dp"
             android:layout_height="30dp"

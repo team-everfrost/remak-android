@@ -26,26 +26,19 @@ class FileDetailActivity : AppCompatActivity() {
 
     private lateinit var extension : String
     private lateinit var binding : DetailPageFileActivityBinding
-
     private val viewModel : DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository)}
-
     private lateinit var tokenRepository: TokenRepository
     private lateinit var fileName : String
-
     private var url : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" , Locale.getDefault())
         inputFormat.timeZone = TimeZone.getTimeZone("UTC")
         val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-
-
         tokenRepository = TokenRepository((this.application as App).dataStore)
         binding = DetailPageFileActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val fileId = intent.getStringExtra("docId")
         viewModel.getDetailData(fileId!!)
 
@@ -85,13 +78,7 @@ class FileDetailActivity : AppCompatActivity() {
         binding.shareBtn.setOnClickListener {
             viewModel.shareFile(this, fileId)
         }
-
-
     }
-
-
-
-
 
     private fun showWarnDialog(getContent : String, fileId : String, type : String) {
         val dialog = Dialog(this)
@@ -104,34 +91,24 @@ class FileDetailActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT < 30) {
             val display = windowManager.defaultDisplay
             val size = Point()
-
             display.getSize(size)
-
             val window = dialog.window
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
             val x = (size.x * 0.85).toInt()
-
-
             window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
-
         } else {
             val rect = windowManager.currentWindowMetrics.bounds
-
             val window = dialog.window
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val x = (rect.width() * 0.85).toInt()
             window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
-
         }
         val confirmBtn = dialog.findViewById<View>(R.id.confirmBtn)
         val cancelBtn = dialog.findViewById<View>(R.id.cancelBtn)
         val content = dialog.findViewById<TextView>(R.id.msgTextView)
         content.text = getContent
-
         confirmBtn.setOnClickListener {
             if (type == "update") {
-//                viewModel.updateMemo(memoId, binding.memoContent.text.toString())
                 binding.titleEditText.isEnabled = false
                 binding.completeBtn.visibility = View.GONE
                 binding.editIcon.visibility = View.VISIBLE
@@ -146,12 +123,9 @@ class FileDetailActivity : AppCompatActivity() {
             dialog.dismiss()
 
         }
-
         cancelBtn.setOnClickListener {
             dialog.dismiss()
         }
         dialog.show()
-
-
     }
 }

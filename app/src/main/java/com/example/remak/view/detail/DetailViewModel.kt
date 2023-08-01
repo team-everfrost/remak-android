@@ -20,9 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
-
     private val networkRepository = NetworkRepository()
-
     private val _detailData = MutableLiveData<DetailData.Data>()
     val detailData : LiveData<DetailData.Data> = _detailData
 
@@ -39,14 +37,12 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         }
     }
 
-
     fun getDetailData(docId : String) = viewModelScope.launch {
         try {
             val response = networkRepository.getDetailData(docId)
             if (response.isSuccessful) {
                 //tag1, tag2 추가
                 response.body()!!.data.tags = listOf("WEB", "LINK", "TEST")
-
                 _detailData.value = response.body()!!.data
                 Log.d("success", response.body().toString())
             } else {
@@ -76,7 +72,6 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             if (response.isSuccessful) {
                 Log.d("success", response.body().toString())
                 val url = response.body()!!.data
-
                 val request = DownloadManager.Request(Uri.parse(url))
                     .setTitle(fileName)
                     .setDescription("Downloading")
@@ -84,10 +79,6 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                     .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
                     .setAllowedOverMetered(true)
                     .setAllowedOverRoaming(true)
-
-                val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-                val downloadId = downloadManager.enqueue(request)
-
                 withContext(Dispatchers.Main) {
                     Toast.makeText(context, "다운로드가 시작되었습니다.", Toast.LENGTH_SHORT).show()
                 }
@@ -121,9 +112,6 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             Log.d("networkError", e.toString())
         }
     }
-
-
-
 }
 
 class DetailViewModelFactory(private val tokenRepository: TokenRepository) : ViewModelProvider.Factory {

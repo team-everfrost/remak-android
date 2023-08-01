@@ -13,7 +13,6 @@ import com.example.remak.databinding.MainTagFragmentBinding
 
 class MainTagFragment : BaseFragment() {
     private lateinit var binding : MainTagFragmentBinding
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,7 +48,4 @@ class MainTagFragment : BaseFragment() {
         super.onDestroy()
         Log.d("TagFragment", "onDestroy")
     }
-
-
-
 }

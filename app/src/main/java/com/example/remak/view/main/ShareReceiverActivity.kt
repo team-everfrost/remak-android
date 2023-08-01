@@ -20,26 +20,20 @@ class ShareReceiverActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         tokenRepository = TokenRepository((application as App).dataStore)
 
-
         viewModel.isWebPageCreateSuccess.observe(this) {
             if(it) {
-                Log.d("ShareReceiverActivity", "WebPage Create Success")
                 Toast.makeText(this, "웹페이지를 공유했습니다.", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
-
-
 
         if(Intent.ACTION_SEND == intent.action && intent.type != null) {
             if("text/plain" == intent.type) {
                 val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
                 if(sharedText != null) {
                     viewModel.createWebPage(sharedText)
-
                 }
             }
         }
-
     }
 }

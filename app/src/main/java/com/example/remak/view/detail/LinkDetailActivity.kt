@@ -241,8 +241,6 @@ class LinkDetailActivity : AppCompatActivity() {
             if (type == "update") {
 //                viewModel.updateMemo(memoId, binding.memoContent.text.toString())
                 binding.title.isEnabled = false
-
-
             } else {
                 viewModel.deleteDocument(fileId)
                 finish()

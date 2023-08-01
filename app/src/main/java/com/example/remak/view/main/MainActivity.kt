@@ -35,11 +35,8 @@ class MainActivity : AppCompatActivity() {
     private val blankFragment = blank()
     private val viewModel : MainViewModel by viewModels { MainViewModelFactory(tokenRepository)  }
     lateinit var tokenRepository: TokenRepository
-
     private var _binding : MainActivityBinding? = null
      val binding get() = _binding!!
-
-    // Active Fragment Tracker
     private var activeFragment: Fragment = homeFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
+        // 시작 시 홈 프래그먼트로 이동
         bottomNavigationView.selectedItemId = R.id.homeFragment
 
         binding.addBtn.setOnClickListener {

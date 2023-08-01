@@ -21,32 +21,24 @@ import com.example.remak.databinding.DetailPageMemoActivityBinding
 
 class MemoDetailActivity : AppCompatActivity() {
     private lateinit var binding : DetailPageMemoActivityBinding
-
     private val viewModel : DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository)}
-
     lateinit var tokenRepository: TokenRepository
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         tokenRepository = TokenRepository((this.application as App).dataStore)
         binding = DetailPageMemoActivityBinding.inflate(layoutInflater)
         binding.root.setOnClickListener {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
-
         }
         setContentView(binding.root)
-
         val memoId = intent.getStringExtra("docId")
 
-        Log.d("memoId", memoId.toString())
         viewModel.getDetailData(memoId!!)
 
-        viewModel.detailData.observe(this, {
+        viewModel.detailData.observe(this) {
             binding.memoContent.setText(it.content)
-        })
+        }
 
         binding.editIcon.setOnClickListener {
             binding.memoContent.isEnabled = true
@@ -58,25 +50,15 @@ class MemoDetailActivity : AppCompatActivity() {
             binding.completeBtn.visibility = View.VISIBLE
             binding.moreIcon.visibility = View.GONE
             binding.shareIcon.visibility = View.GONE
-
         }
 
         binding.completeBtn.setOnClickListener {
             showWarnDialog("수정하시겠습니까?", memoId, "update")
-
         }
-
-
 
         binding.backBtn.setOnClickListener {
             finish()
         }
-
-
-
-
-
-
     }
 
 
@@ -92,17 +74,11 @@ class MemoDetailActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT < 30) {
             val display = windowManager.defaultDisplay
             val size = Point()
-
             display.getSize(size)
-
             val window = dialog.window
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
             val x = (size.x * 0.85).toInt()
-
-
             window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
-
         } else {
             val rect = windowManager.currentWindowMetrics.bounds
 
@@ -110,7 +86,6 @@ class MemoDetailActivity : AppCompatActivity() {
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val x = (rect.width() * 0.85).toInt()
             window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
-
         }
         val confirmBtn = dialog.findViewById<View>(R.id.confirmBtn)
         val cancelBtn = dialog.findViewById<View>(R.id.cancelBtn)
@@ -125,21 +100,15 @@ class MemoDetailActivity : AppCompatActivity() {
                 binding.editIcon.visibility = View.VISIBLE
                 binding.moreIcon.visibility = View.VISIBLE
                 binding.shareIcon.visibility = View.VISIBLE
-
             } else {
                 viewModel.deleteDocument(memoId)
                 finish()
             }
-
             dialog.dismiss()
-
         }
-
         cancelBtn.setOnClickListener {
             dialog.dismiss()
         }
         dialog.show()
-
-
     }
 }

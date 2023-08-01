@@ -14,21 +14,17 @@ class ImageDetailActivity : AppCompatActivity() {
     private lateinit var tokenRepository: TokenRepository
     private var url : String? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         tokenRepository = TokenRepository((this.application as App).dataStore)
         binding = DetailPageImageActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val imageId = intent.getStringExtra("docId")
         viewModel.getDetailData(imageId!!)
 
         viewModel.detailData.observe(this) {
             url = it.url
         }
-
 
         binding.shareBtn.setOnClickListener {
             viewModel.shareFile(this, imageId)

@@ -15,9 +15,7 @@ import com.example.remak.view.search.SearchResultActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainSearchFragment : BaseFragment() {
-
     private lateinit var binding : MainSearchFragmentBinding
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
