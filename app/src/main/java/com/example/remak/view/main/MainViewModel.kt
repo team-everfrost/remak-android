@@ -225,6 +225,7 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
             Log.d("networkError", e.toString())
         }
     }
+
     fun loginCheck() = viewModelScope.launch {
         _isLogIn.value = tokenRepository.fetchTokenData() != null
     }
@@ -242,6 +243,13 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
             Log.d("search_result", e.toString())
         }
     }
+
+    fun resetData() {
+        _searchResult.value = listOf()
+    }
+
+
+
 
 
 }

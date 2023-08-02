@@ -137,13 +137,32 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             if (linkEditText.text.toString().isEmpty()) {
                 showInformDialog("링크를 입력해주세요.")
             } else {
-                var tempUrl = linkEditText.text.toString()
-                if (!tempUrl.startsWith("http://") && !tempUrl.startsWith("https://")) {
-                    tempUrl = "https://$tempUrl"
-                    viewModel.createWebPage(tempUrl)
-                } else {
-                    viewModel.createWebPage(linkEditText.text.toString())
+                val tempUrl = linkEditText.text.toString()
+                val splitText = tempUrl.split("\\n|,".toRegex())
+
+                val urlList = ArrayList<String>()
+                for (item in splitText) {
+                    urlList.add(item.trim())
                 }
+
+                Log.d("urlList", urlList.toString())
+
+                for (i in urlList) {
+                    var url = i
+                    if (!i.startsWith("http://") && !i.startsWith("https://")) {
+                        url = "https://$i"
+                        viewModel.createWebPage(url)
+                    } else {
+                        viewModel.createWebPage(url)
+                    }
+                }
+
+//                if (!tempUrl.startsWith("http://") && !tempUrl.startsWith("https://")) {
+//                    tempUrl = "https://$tempUrl"
+//                    viewModel.createWebPage(tempUrl)
+//                } else {
+//                    viewModel.createWebPage(linkEditText.text.toString())
+//                }
                 dialog.dismiss()
                 (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
                 this.dismiss()

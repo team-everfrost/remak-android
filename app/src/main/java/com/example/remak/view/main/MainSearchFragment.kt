@@ -133,4 +133,14 @@ class MainSearchFragment : BaseFragment(), SearchRVAdapter.OnItemClickListener {
         Log.d("MainSearchFragment", "onDestroy")
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerLayout.stopShimmer()
+        binding.shimmerLayout.visibility = View.GONE
+        binding.searchRecyclerView.visibility = View.GONE
+        binding.searchEditText.setText("")
+        viewModel.resetData()
+
+    }
 }
