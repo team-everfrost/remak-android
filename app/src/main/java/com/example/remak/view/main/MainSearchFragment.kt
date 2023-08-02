@@ -8,14 +8,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.activity.addCallback
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.remak.App
 import com.example.remak.BaseFragment
 import com.example.remak.R
+import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainSearchFragmentBinding
+import com.example.remak.view.detail.FileDetailActivity
+import com.example.remak.view.detail.ImageDetailActivity
+import com.example.remak.view.detail.LinkDetailActivity
+import com.example.remak.view.detail.MemoDetailActivity
+import com.example.remak.view.search.ItemOffsetDecoration
+import com.example.remak.view.search.SearchRVAdapter
 import com.example.remak.view.search.SearchResultActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainSearchFragment : BaseFragment() {
+class MainSearchFragment : BaseFragment(), SearchRVAdapter.OnItemClickListener {
     private lateinit var binding : MainSearchFragmentBinding
+    private val viewModel : MainViewModel by activityViewModels { MainViewModelFactory(tokenRepository)}
+    lateinit var tokenRepository: TokenRepository
+    private lateinit var adapter : SearchRVAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -25,11 +39,18 @@ class MainSearchFragment : BaseFragment() {
         binding.root.setOnClickListener {
             hideKeyboard()
         }
+        tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
+        adapter = SearchRVAdapter(mutableListOf(), this)
+        val recyclerView = binding.searchRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
+
+        val itemDecoration = ItemOffsetDecoration(10, adapter)
+        recyclerView.addItemDecoration(itemDecoration)
         //뒤로가기 시 홈 프래그먼트로 이동
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
             isEnabled = false
-
         }
 
         return binding.root
@@ -38,12 +59,20 @@ class MainSearchFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.searchResult.observe(viewLifecycleOwner) { data ->
+            binding.shimmerLayout.stopShimmer()
+            binding.shimmerLayout.visibility = View.GONE
+            binding.searchRecyclerView.visibility = View.VISIBLE
+            adapter.dataSet = data
+            adapter.notifyDataSetChanged()
+        }
+
         binding.searchEditText.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                val intent = Intent(requireContext(), SearchResultActivity::class.java)
-                intent.putExtra("query", binding.searchEditText.text.toString())
-                startActivity(intent)
-
+                binding.searchRecyclerView.visibility = View.GONE
+                binding.shimmerLayout.startShimmer()
+                binding.shimmerLayout.visibility = View.VISIBLE
+                viewModel.getSearchResult(binding.searchEditText.text.toString())
             }
             false
         }
@@ -65,6 +94,37 @@ class MainSearchFragment : BaseFragment() {
         }
 
 
+    }
+
+    override fun onItemClick(view: View, position: Int) {
+        when (viewModel.searchResult.value!![position].type) {
+            "MEMO" -> {
+                val intent = Intent(requireContext(), MemoDetailActivity::class.java)
+                intent.putExtra("docId", viewModel.searchResult.value!![position].docId)
+                startActivity(intent)
+            }
+
+            "FILE" -> {
+                val intent = Intent(requireContext(), FileDetailActivity::class.java)
+                intent.putExtra("docId", viewModel.searchResult.value!![position].docId)
+                startActivity(intent)
+            }
+
+            "WEBPAGE" -> {
+                val intent = Intent(requireContext(), LinkDetailActivity::class.java)
+                intent.putExtra("docId", viewModel.searchResult.value!![position].docId)
+                startActivity(intent)
+
+            }
+
+            "IMAGE" -> {
+                val intent = Intent(requireContext(), ImageDetailActivity::class.java)
+                intent.putExtra("docId", viewModel.searchResult.value!![position].docId)
+                startActivity(intent)
+            }
+
+
+        }
     }
 
 

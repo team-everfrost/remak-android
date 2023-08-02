@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -58,6 +59,22 @@ class MemoDetailActivity : AppCompatActivity() {
 
         binding.backBtn.setOnClickListener {
             finish()
+        }
+
+        binding.moreIcon.setOnClickListener {
+            val popupMenu = PopupMenu(this, it)
+            popupMenu.menuInflater.inflate(R.menu.detail_more_menu, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener {menuItem ->
+                when(menuItem.itemId) {
+                    R.id.deleteBtn -> {
+                        showWarnDialog("삭제하시겠습니까?", memoId, "delete")
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+            popupMenu.show()
         }
     }
 

@@ -38,7 +38,6 @@ class CreateMemoActivity : AppCompatActivity() {
             showDialog(it)
         }
     }
-
     private fun showDialog(getContent : String) {
         val dialog = Dialog(this)
         val windowManager =

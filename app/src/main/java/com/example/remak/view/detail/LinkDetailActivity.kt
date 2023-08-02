@@ -90,7 +90,6 @@ class LinkDetailActivity : AppCompatActivity() {
         binding.moreIcon.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
             popupMenu.menuInflater.inflate(R.menu.detail_more_menu, popupMenu.menu)
-
             popupMenu.show()
         }
 

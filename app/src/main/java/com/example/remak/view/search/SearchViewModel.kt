@@ -24,12 +24,12 @@ class SearchViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         try {
             if (response.isSuccessful) {
                 _searchResult.value = response.body()!!.data
-                Log.d("search result", _searchResult.value.toString())
+                Log.d("search_result", _searchResult.value.toString())
             } else {
-                Log.d("search result", response.errorBody()!!.string())
+                Log.d("search_result", response.errorBody()!!.string())
             }
         } catch (e : Exception) {
-            Log.d("search result", e.toString())
+            Log.d("search_result", e.toString())
         }
     }
 

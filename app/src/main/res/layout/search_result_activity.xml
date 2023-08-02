@@ -113,9 +113,6 @@
                 android:layout_marginTop="5dp"
                 android:background="@color/grayHint"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
     </com.facebook.shimmer.ShimmerFrameLayout>
 
 

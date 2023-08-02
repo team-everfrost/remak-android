@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.network.model.MainListData
+import com.example.remak.network.model.SearchEmbeddingData
 import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -46,6 +47,9 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
 
     private val _isWebPageCreateSuccess = MutableLiveData<Boolean>()
     val isWebPageCreateSuccess : LiveData<Boolean> = _isWebPageCreateSuccess
+
+    private val _searchResult = MutableLiveData<List<SearchEmbeddingData.Data>>()
+    val searchResult : LiveData<List<SearchEmbeddingData.Data>> = _searchResult
 
     var cursor : String? = null
     var docID : String? = null
@@ -222,10 +226,20 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         }
     }
     fun loginCheck() = viewModelScope.launch {
-        if (tokenRepository.fetchTokenData() != null) {
-            _isLogIn.value = true
-        } else {
-            _isLogIn.value = false
+        _isLogIn.value = tokenRepository.fetchTokenData() != null
+    }
+
+    fun getSearchResult(query : String) = viewModelScope.launch {
+        val response = networkRepository.getEmbeddingData(query)
+        try {
+            if (response.isSuccessful) {
+                _searchResult.value = response.body()!!.data
+                Log.d("search_result", _searchResult.value.toString())
+            } else {
+                Log.d("search_result", response.errorBody()!!.string())
+            }
+        } catch (e : Exception) {
+            Log.d("search_result", e.toString())
         }
     }
 
