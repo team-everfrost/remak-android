@@ -1,4 +1,4 @@
-package com.example.remak.view.search
+package com.example.remak.adapter
 
 import android.graphics.Rect
 import android.util.Log
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.remak.R
 import com.example.remak.network.model.SearchEmbeddingData
-import com.example.remak.view.main.HomeRVAdapter
+import com.example.remak.adapter.HomeRVAdapter
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone

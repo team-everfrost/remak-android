@@ -19,9 +19,8 @@ import com.example.remak.view.detail.FileDetailActivity
 import com.example.remak.view.detail.ImageDetailActivity
 import com.example.remak.view.detail.LinkDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
-import com.example.remak.view.search.ItemOffsetDecoration
-import com.example.remak.view.search.SearchRVAdapter
-import com.example.remak.view.search.SearchResultActivity
+import com.example.remak.adapter.ItemOffsetDecoration
+import com.example.remak.adapter.SearchRVAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainSearchFragment : BaseFragment(), SearchRVAdapter.OnItemClickListener {

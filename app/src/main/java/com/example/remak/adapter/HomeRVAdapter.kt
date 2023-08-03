@@ -1,12 +1,9 @@
-package com.example.remak.view.main
+package com.example.remak.adapter
 
-import android.content.Context
 import android.graphics.Rect
-import android.icu.text.Transliterator.Position
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
@@ -14,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.remak.R
 import com.example.remak.network.model.MainListData
-import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -43,6 +39,16 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
     fun getSelectedItems(): List<String> { // 선택된 아이템들의 docId를 반환
         return dataSet.filter { it.isSelected }.map { it.docId!! }
+    }
+
+    fun isSelectionMode() : Boolean {
+        return isInSelectionMode
+    }
+
+    fun isSelectionModeEnd() {
+        isInSelectionMode = false
+        selectedItemsCount = 0
+        notifyDataSetChanged()
     }
     inner class MemoViewHolder(view : View) : RecyclerView.ViewHolder(view) { // 메모 아이템 뷰홀더
 
@@ -135,6 +141,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
         val checkbox : CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
         val title : TextView = view.findViewById(R.id.title)
+        val link : TextView = view.findViewById(R.id.link)
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -302,7 +309,15 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
             is WebpageViewHolder -> {
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
-                holder.title.text = dataSet[position].title
+                val title = dataSet[position].title!!.replace(" ", "")
+                if (title.isNullOrEmpty()) {
+                    holder.title.text = dataSet[position].url
+                } else {
+                    Log.d("title", dataSet[position].title!!.toString())
+                    holder.title.text = dataSet[position].title
+
+                }
+                holder.link.text = dataSet[position].url
             }
 
             is ImageViewHolder -> {
@@ -325,7 +340,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
 }
 
-class ItemOffsetDecoration(private val mItemOffset: Int, private val adapter: HomeRVAdapter) : RecyclerView.ItemDecoration() {
+class HomeItemOffsetDecoration(private val mItemOffset: Int, private val adapter: HomeRVAdapter) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
     ) {

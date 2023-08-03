@@ -1,4 +1,4 @@
-package com.example.remak.view.main
+package com.example.remak.adapter
 
 import android.view.LayoutInflater
 import android.view.View

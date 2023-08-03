@@ -6,14 +6,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
 import com.example.remak.BaseFragment
+import com.example.remak.R
+import com.example.remak.adapter.HomeItemOffsetDecoration
+import com.example.remak.adapter.HomeRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainHomeFragmentBinding
+import com.example.remak.view.account.AccountActivity
 import com.example.remak.view.detail.FileDetailActivity
 import com.example.remak.view.detail.ImageDetailActivity
 import com.example.remak.view.detail.LinkDetailActivity
@@ -45,13 +50,22 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         adapter = HomeRVAdapter(mutableListOf(), this)
         val recyclerView : RecyclerView = binding.homeRV
-        val itemDecoration = ItemOffsetDecoration(10, adapter)
+        val itemDecoration = HomeItemOffsetDecoration(10, adapter)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         //리사이클러 뷰 아이템 간격 조정
         recyclerView.addItemDecoration(itemDecoration)
 
         viewModel.getAllMainList()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (adapter.isSelectionMode()) {
+                onSelectionEnded()
+            } else {
+                //어플리케이션 종료
+                requireActivity().finish()
+            }
+        }
 
         //리사이클러 뷰 무한스크롤 기능
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -65,7 +79,6 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
                 }
             }
         })
-
 
         viewModel.mainListData.observe(viewLifecycleOwner) {data ->
             adapter.dataSet = data
@@ -90,6 +103,21 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
         binding.deleteBtn.setOnClickListener {
             Log.d("list", adapter.getSelectedItems().toString())
             Log.d("selecteditemcounter", adapter.selectedItemsCount.toString())
+            val selectedItems = adapter.getSelectedItems()
+
+            showWarnDialog(
+                msg = "삭제하시겠습니까?",
+                confirmClick = {
+                    for (i in  selectedItems) {
+                        viewModel.deleteDocument(i)
+                    }
+                    onSelectionEnded()
+                },
+                cancelClick = {
+                    //do nothing
+                }
+            )
+
         }
 
         binding.sampleFilter1.setOnClickListener {
@@ -169,6 +197,7 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
         binding.deleteBtn.alpha = 1f
         binding.deleteBtn.animate().alpha(0f).duration = 300
         binding.swipeRefresh.isEnabled = true
+        adapter.isSelectionModeEnd()
     }
 
     override fun onDestroyView() {

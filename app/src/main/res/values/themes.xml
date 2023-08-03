@@ -7,7 +7,7 @@
 
         <!-- font -->
     <item name="android:fontFamily">@font/custom_font_family</item>
-        <item name="android:statusBarColor">@color/whiteGray</item>
+        <item name="android:statusBarColor">@color/black</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>

@@ -244,6 +244,20 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         }
     }
 
+    fun deleteDocument(docId : String) = viewModelScope.launch {
+        val response = networkRepository.deleteDocument(docId)
+        try {
+            if (response.isSuccessful) {
+                Log.d("delete", "success")
+                getAllMainList()
+            } else {
+                Log.d("delete", response.errorBody()!!.string())
+            }
+        } catch (e : Exception) {
+            Log.d("delete", e.toString())
+        }
+    }
+
     fun resetData() {
         _searchResult.value = listOf()
     }

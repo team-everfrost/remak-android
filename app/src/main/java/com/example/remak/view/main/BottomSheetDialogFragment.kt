@@ -1,5 +1,6 @@
 package com.example.remak.view.main
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.ContentResolver
@@ -14,9 +15,11 @@ import android.os.Bundle
 import android.provider.OpenableColumns
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -40,7 +43,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             val uri = result.data?.data
             val mimeType = requireActivity().contentResolver.getType(uri!!)
             val inputStream = requireActivity().contentResolver.openInputStream(uri!!)
-            val file = inputStreamToFile(inputStream!!,uri, requireActivity().contentResolver.getType(uri))
+            val file = inputStreamToFile(inputStream!!,uri)
             val requestFile = file.asRequestBody(mimeType?.toMediaTypeOrNull())
             val fileList = List<MultipartBody.Part>(1) {
                 MultipartBody.Part.createFormData("files", file.name, requestFile)
@@ -106,6 +109,15 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
         dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.custom_dialog_add_link)
+        dialog.setOnKeyListener { _, keyCode, _ ->
+            if (keyCode == android.view.KeyEvent.KEYCODE_BACK) {
+                dialog.dismiss()
+                true
+            } else {
+                false
+            }
+        }
+
 
         if (Build.VERSION.SDK_INT < 30) {
             val display = windowManager.defaultDisplay
@@ -139,7 +151,6 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             } else {
                 val tempUrl = linkEditText.text.toString()
                 val splitText = tempUrl.split("\\n|,".toRegex())
-
                 val urlList = ArrayList<String>()
                 for (item in splitText) {
                     urlList.add(item.trim())
@@ -157,12 +168,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
                     }
                 }
 
-//                if (!tempUrl.startsWith("http://") && !tempUrl.startsWith("https://")) {
-//                    tempUrl = "https://$tempUrl"
-//                    viewModel.createWebPage(tempUrl)
-//                } else {
-//                    viewModel.createWebPage(linkEditText.text.toString())
-//                }
+
                 dialog.dismiss()
                 (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
                 this.dismiss()
@@ -183,7 +189,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     //uri에서 파일 가져오기
-    private fun inputStreamToFile(inputStream: InputStream, uri: Uri, mimeType : String?) : File {
+    private fun inputStreamToFile(inputStream: InputStream, uri: Uri) : File {
         val fileName = getFileNameFromUri(uri)
         val file = File(requireContext().cacheDir, fileName)
         file.outputStream().use { fileOutputStream ->
@@ -193,7 +199,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
 
-    fun showInformDialog(msg: String) {
+    private fun showInformDialog(msg: String) {
         val dialog = Dialog(requireContext())
         val windowManager =
             requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
