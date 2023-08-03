@@ -8,11 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.activity.addCallback
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remak.App
-import com.example.remak.BaseFragment
 import com.example.remak.R
+import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainSearchFragmentBinding
 import com.example.remak.view.detail.FileDetailActivity
@@ -23,7 +24,7 @@ import com.example.remak.adapter.ItemOffsetDecoration
 import com.example.remak.adapter.SearchRVAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainSearchFragment : BaseFragment(), SearchRVAdapter.OnItemClickListener {
+class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener {
     private lateinit var binding : MainSearchFragmentBinding
     private val viewModel : MainViewModel by activityViewModels { MainViewModelFactory(tokenRepository)}
     lateinit var tokenRepository: TokenRepository
@@ -36,7 +37,7 @@ class MainSearchFragment : BaseFragment(), SearchRVAdapter.OnItemClickListener {
     ): View? {
         binding = MainSearchFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
-            hideKeyboard()
+            UtilitySystem.hideKeyboard(requireActivity())
         }
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
 

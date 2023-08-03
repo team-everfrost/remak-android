@@ -25,7 +25,6 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.fragment.app.activityViewModels
-import com.example.remak.BaseFragment
 import com.example.remak.R
 import com.example.remak.databinding.BottomSheetDialogBinding
 import com.example.remak.network.model.UploadFileData

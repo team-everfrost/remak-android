@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.remak.BaseFragment
+import androidx.fragment.app.Fragment
 import com.example.remak.databinding.BlankBinding
 import com.example.remak.databinding.MainHomeFragmentBinding
 
-class blank : BaseFragment() {
+class blank : Fragment() {
 
     private lateinit var binding : BlankBinding
 

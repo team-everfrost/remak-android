@@ -6,17 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.remak.App
-import com.example.remak.BaseFragment
 import com.example.remak.R
+import com.example.remak.UtilityDialog
+import com.example.remak.UtilityLogin
+import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AccountMainFragmentBinding
 import com.example.remak.view.main.MainActivity
 
 
-class AccountMainFragment : BaseFragment() {
+class AccountMainFragment : Fragment() {
 
     private lateinit var binding : AccountMainFragmentBinding
     //    val testSignInRepository = SignInRepository((requireActivity().application as App).testDataStore)
@@ -38,7 +41,7 @@ class AccountMainFragment : BaseFragment() {
 
         binding = AccountMainFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener{
-            hideKeyboard()
+            UtilitySystem.hideKeyboard(requireActivity())
         }
         viewModel.loginResult.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
@@ -48,11 +51,11 @@ class AccountMainFragment : BaseFragment() {
                 requireActivity().finish()
             }
         }
-        signInCheck(binding.idEditText, binding.pwEditText, binding.signInBtn)
+        UtilityLogin.signInCheck(requireContext(), binding.idEditText, binding.pwEditText, binding.signInBtn)
 
         viewModel.showDialog.observe(viewLifecycleOwner) { showDialog ->
             if (showDialog) {
-                showInformDialog("아이디 또는 비밀번호를 확인해주세요")
+                UtilityDialog.showInformDialog( "아이디 또는 비밀번호를 확인해주세요", requireContext())
                 viewModel.doneDialog()
             }
         }

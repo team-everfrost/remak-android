@@ -5,16 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import com.example.remak.App
-import com.example.remak.BaseFragment
+import com.example.remak.UtilityLogin
+import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AccountSignup3FragmentBinding
 import com.example.remak.view.main.MainActivity
 import kotlinx.coroutines.launch
 
-class AccountSignUp3Fragment : BaseFragment() {
+class AccountSignUp3Fragment : Fragment() {
     private lateinit var binding : AccountSignup3FragmentBinding
     lateinit var signInRepository: TokenRepository
     private val viewModel: SignUpViewModel by activityViewModels { SignUpViewModelFactory(signInRepository) }
@@ -31,7 +33,7 @@ class AccountSignUp3Fragment : BaseFragment() {
 
         binding = AccountSignup3FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
-            hideKeyboard()
+            UtilitySystem.hideKeyboard(requireActivity())
         }
 
         viewModel.verifyCodeResult.observe(viewLifecycleOwner) { isSuccessful ->
@@ -53,10 +55,10 @@ class AccountSignUp3Fragment : BaseFragment() {
 
 
         binding.root.setOnClickListener {
-            hideKeyboard()
+            UtilitySystem.hideKeyboard(requireActivity())
         }
 
-        passwordCheck(binding.passwordEditText, binding.passwordCheckEditText, binding.completeBtn)
+        UtilityLogin.passwordCheck(requireContext(), binding.passwordEditText, binding.passwordCheckEditText, binding.completeBtn)
 
         binding.completeBtn.setOnClickListener {
                 viewModel.viewModelScope.launch {

@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.appcompat.widget.AppCompatButton
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
-import com.example.remak.BaseFragment
 import com.example.remak.R
+import com.example.remak.UtilityDialog
+import com.example.remak.UtilitySystem
 import com.example.remak.adapter.HomeItemOffsetDecoration
 import com.example.remak.adapter.HomeRVAdapter
 import com.example.remak.dataStore.TokenRepository
@@ -24,7 +26,7 @@ import com.example.remak.view.detail.ImageDetailActivity
 import com.example.remak.view.detail.LinkDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
 
-class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
+class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
     private var _binding : MainHomeFragmentBinding? = null
     private val binding get() = _binding!!
     private val viewModel : MainViewModel by activityViewModels { MainViewModelFactory(tokenRepository)}
@@ -41,7 +43,7 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
         _binding = MainHomeFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
-            hideKeyboard()
+            UtilitySystem.hideKeyboard(requireActivity())
         }
         return binding.root
     }
@@ -95,7 +97,7 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
 
         viewModel.uploadFileSuccess.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
-                showInformDialog("파일 업로드에 성공했습니다.")
+                UtilityDialog.showInformDialog("파일 업로드에 성공했습니다.", requireContext())
                 viewModel.isUploadFileSuccess()
             }
         }
@@ -105,8 +107,10 @@ class MainHomeFragment : BaseFragment(), HomeRVAdapter.OnItemClickListener {
             Log.d("selecteditemcounter", adapter.selectedItemsCount.toString())
             val selectedItems = adapter.getSelectedItems()
 
-            showWarnDialog(
-                msg = "삭제하시겠습니까?",
+
+            UtilityDialog.showWarnDialog(
+                requireContext(),
+                "삭제하시겠습니까?",
                 confirmClick = {
                     for (i in  selectedItems) {
                         viewModel.deleteDocument(i)

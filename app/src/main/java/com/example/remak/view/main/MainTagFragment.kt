@@ -6,13 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.remak.BaseFragment
 import com.example.remak.R
+import com.example.remak.UtilitySystem
 import com.example.remak.adapter.TestTagRVAdapter
 import com.example.remak.databinding.MainTagFragmentBinding
 
-class MainTagFragment : BaseFragment() {
+class MainTagFragment : Fragment() {
     private lateinit var binding : MainTagFragmentBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,7 +22,7 @@ class MainTagFragment : BaseFragment() {
     ): View? {
         binding = MainTagFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
-            hideKeyboard()
+            UtilitySystem.hideKeyboard(requireActivity())
         }
         //뒤로가기 시 홈 프래그먼트로 이동
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {

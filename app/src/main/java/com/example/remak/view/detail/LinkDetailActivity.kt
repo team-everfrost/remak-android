@@ -48,7 +48,6 @@ class LinkDetailActivity : AppCompatActivity() {
 
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         inputFormat.timeZone = TimeZone.getTimeZone("UTC")
-        val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         tokenRepository = TokenRepository((this.application as App).dataStore)
         binding = DetailPageLinkActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -212,60 +211,4 @@ class LinkDetailActivity : AppCompatActivity() {
     }
 
 
-    private fun showWarnDialog(getContent: String, fileId: String, type: String) {
-        val dialog = Dialog(this)
-        val windowManager =
-            this.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.custom_dialog_warning)
-
-        if (Build.VERSION.SDK_INT < 30) {
-            val display = windowManager.defaultDisplay
-            val size = Point()
-
-            display.getSize(size)
-
-            val window = dialog.window
-            window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            val x = (size.x * 0.85).toInt()
-
-
-            window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
-
-        } else {
-            val rect = windowManager.currentWindowMetrics.bounds
-
-            val window = dialog.window
-            window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            val x = (rect.width() * 0.85).toInt()
-            window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
-
-        }
-        val confirmBtn = dialog.findViewById<View>(R.id.confirmBtn)
-        val cancelBtn = dialog.findViewById<View>(R.id.cancelBtn)
-        val content = dialog.findViewById<TextView>(R.id.msgTextView)
-        content.text = getContent
-
-        confirmBtn.setOnClickListener {
-            if (type == "update") {
-//                viewModel.updateMemo(memoId, binding.memoContent.text.toString())
-                binding.title.isEnabled = false
-            } else {
-                viewModel.deleteDocument(fileId)
-                finish()
-            }
-
-            dialog.dismiss()
-
-        }
-
-        cancelBtn.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.show()
-
-
-    }
 }

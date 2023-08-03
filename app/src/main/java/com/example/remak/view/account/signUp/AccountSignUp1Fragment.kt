@@ -5,15 +5,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.remak.BaseFragment
 import com.example.remak.R
 import com.example.remak.databinding.AccountSignup1FragmentBinding
 import com.example.remak.App
+import com.example.remak.UtilityDialog
+import com.example.remak.UtilityLogin
+import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 
-class AccountSignUp1Fragment : BaseFragment() {
+class AccountSignUp1Fragment : Fragment() {
     private lateinit var binding : AccountSignup1FragmentBinding
 
     private val viewModel: SignUpViewModel by activityViewModels { SignUpViewModelFactory(signInRepository) }
@@ -41,20 +44,20 @@ class AccountSignUp1Fragment : BaseFragment() {
 
         viewModel.isEmailExist.observe(viewLifecycleOwner) { isEmailExist ->
             if (isEmailExist) {
-                showInformDialog("이미 존재하는 이메일입니다.")
+                UtilityDialog.showInformDialog("이미 존재하는 이메일입니다.", requireContext())
                 viewModel.doneEmailCheck()
             }
         }
 
         viewModel.isEmailInvalid.observe(viewLifecycleOwner) { isEmailValid ->
             if (isEmailValid) {
-                showInformDialog("이메일 형식이 올바르지 않습니다.")
+                UtilityDialog.showInformDialog("이메일 형식이 올바르지 않습니다.", requireContext())
                 viewModel.doneEmailCheck()
             }
         }
 
         binding.root.setOnClickListener {
-            hideKeyboard()
+            UtilitySystem.hideKeyboard(requireActivity())
         }
 
         return binding.root
@@ -70,7 +73,7 @@ class AccountSignUp1Fragment : BaseFragment() {
             viewModel.getVerifyCode(binding.emailEditText.text.toString())
 
         }
-        emailCheck(binding.emailEditText, binding.nextBtn, binding.emailErrorMessage)
+        UtilityLogin.emailCheck(requireContext(), binding.emailEditText, binding.nextBtn, binding.emailErrorMessage)
 
 
 

@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.remak.BaseFragment
 import com.example.remak.R
+import com.example.remak.UtilityLogin
+import com.example.remak.UtilitySystem
 import com.example.remak.databinding.FindPassword1FragmentBinding
 
-class AccountFindPassword1Fragment : BaseFragment() {
+class AccountFindPassword1Fragment : Fragment() {
     private lateinit var binding : FindPassword1FragmentBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,12 +30,13 @@ class AccountFindPassword1Fragment : BaseFragment() {
         }
 
         binding.root.setOnClickListener {
-            hideKeyboard()
+            UtilitySystem.hideKeyboard(requireActivity())
         }
 
 
 
-        emailCheck(binding.emailEditText, binding.nextBtn, binding.emailErrorMessage)
+        UtilityLogin.emailCheck(requireContext(), binding.emailEditText, binding.nextBtn, binding.emailErrorMessage)
+
 
 
 

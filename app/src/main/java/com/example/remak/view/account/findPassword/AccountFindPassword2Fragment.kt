@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.remak.BaseFragment
+import androidx.fragment.app.Fragment
+import com.example.remak.UtilitySystem
 import com.example.remak.databinding.FindPassword2FragmentBinding
 
-class AccountFindPassword2Fragment : BaseFragment() {
+class AccountFindPassword2Fragment : Fragment() {
     private lateinit var binding : FindPassword2FragmentBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,7 +22,7 @@ class AccountFindPassword2Fragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.root.setOnClickListener {
-            hideKeyboard()
+            UtilitySystem.hideKeyboard(requireActivity())
         }
 
 

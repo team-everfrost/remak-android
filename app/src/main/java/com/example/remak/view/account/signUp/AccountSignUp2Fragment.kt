@@ -4,17 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.example.remak.App
-import com.example.remak.BaseFragment
 import com.example.remak.R
+import com.example.remak.UtilityDialog
+import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AccountSignup2FragmentBinding
 import kotlinx.coroutines.launch
 
-class AccountSignUp2Fragment : BaseFragment() {
+class AccountSignUp2Fragment : Fragment() {
     private lateinit var binding : AccountSignup2FragmentBinding
     private val viewModel: SignUpViewModel by activityViewModels { SignUpViewModelFactory(signInRepository) }
 
@@ -28,7 +30,7 @@ class AccountSignUp2Fragment : BaseFragment() {
 
         binding = AccountSignup2FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
-            hideKeyboard()
+            UtilitySystem.hideKeyboard(requireActivity())
         }
 
         //이메일 인증 성공 시 다음 화면으로 이동
@@ -41,7 +43,7 @@ class AccountSignUp2Fragment : BaseFragment() {
 
         viewModel.isSignUpCodeInvalid.observe(viewLifecycleOwner) { isSignUpCodeInvalid ->
             if (isSignUpCodeInvalid) {
-                showInformDialog("인증코드가 올바르지 않습니다.")
+                UtilityDialog.showInformDialog("인증코드가 올바르지 않습니다.", requireContext())
                 viewModel.doneSignUpCodeCheck()
             }
         }

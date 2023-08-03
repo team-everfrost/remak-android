@@ -1,29 +1,22 @@
 package com.example.remak.view.main
 
-import android.app.Dialog
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.Point
-import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.TextView
 import androidx.activity.addCallback
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.remak.App
-import com.example.remak.BaseFragment
 import com.example.remak.R
+import com.example.remak.UtilityDialog
+import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainProfileFragmentBinding
 import com.example.remak.view.account.AccountActivity
 
-class MainProfileFragment : BaseFragment() {
+class MainProfileFragment : Fragment() {
     private lateinit var binding : MainProfileFragmentBinding
     private val viewModel : MainViewModel by activityViewModels { MainViewModelFactory(tokenRepository)}
     lateinit var tokenRepository: TokenRepository
@@ -34,7 +27,7 @@ class MainProfileFragment : BaseFragment() {
     ): View? {
         binding = MainProfileFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
-            hideKeyboard()
+            UtilitySystem.hideKeyboard(requireActivity())
         }
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
 
@@ -45,18 +38,14 @@ class MainProfileFragment : BaseFragment() {
         }
 
         binding.logoutButton.setOnClickListener {
-            showWarnDialog(
-                msg = "로그아웃 하시겠습니까?",
-                confirmClick = {
-                    viewModel.deleteToken()
-                    val intent = Intent(requireContext(), AccountActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    startActivity(intent)
-                },
-                cancelClick = {
-                    //do nothing
-                }
-            )
+            UtilityDialog.showWarnDialog(requireContext(), "로그아웃 하시겠습니까?", confirmClick = {
+                viewModel.deleteToken()
+                val intent = Intent(requireContext(), AccountActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+            }, cancelClick = {
+                //do nothing
+            })
         }
 
         return binding.root
