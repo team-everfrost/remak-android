@@ -56,45 +56,41 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.mainFragmentContainerView, homeFragment)
-            .add(R.id.mainFragmentContainerView, searchFragment).hide(searchFragment)
-            .add(R.id.mainFragmentContainerView, tagFragment).hide(tagFragment)
-            .add(R.id.mainFragmentContainerView, profileFragment).hide(profileFragment)
-            .add(R.id.mainFragmentContainerView, blankFragment).hide(blankFragment)
-            .commit()
+//        supportFragmentManager.beginTransaction()
+//            .add(R.id.mainFragmentContainerView, homeFragment)
+//            .add(R.id.mainFragmentContainerView, searchFragment).hide(searchFragment)
+//            .add(R.id.mainFragmentContainerView, tagFragment).hide(tagFragment)
+//            .add(R.id.mainFragmentContainerView, profileFragment).hide(profileFragment)
+//            .add(R.id.mainFragmentContainerView, blankFragment).hide(blankFragment)
+//            .commit()
 
         val bottomNavigationView = binding.bottomNavigation
         bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId){
                 R.id.homeFragment -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, homeFragment).commit()
-                    activeFragment = homeFragment
+                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, MainHomeFragment()).commit()
                     true
                 }
                 R.id.searchFragment -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, searchFragment).commit()
-                    activeFragment = searchFragment
+                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, MainSearchFragment()).commit()
                     true
                 }
                 R.id.blankFragment -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, blankFragment).commit()
-                    activeFragment = blankFragment
+                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, blank()).commit()
                     true
                 }
                 R.id.tagFragment -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, tagFragment).commit()
-                    activeFragment = tagFragment
+                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, MainTagFragment()).commit()
                     true
                 }
                 R.id.profileFragment -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, profileFragment).commit()
-                    activeFragment = profileFragment
+                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, MainProfileFragment()).commit()
                     true
                 }
                 else -> false
             }
         }
+
         // 시작 시 홈 프래그먼트로 이동
         bottomNavigationView.selectedItemId = R.id.homeFragment
 

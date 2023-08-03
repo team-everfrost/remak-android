@@ -258,8 +258,9 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         }
     }
 
-    fun resetData() {
+    fun resetSearchData() {
         _searchResult.value = listOf()
+
     }
 
 

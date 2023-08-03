@@ -39,7 +39,9 @@ class MainSearchFragment : BaseFragment(), SearchRVAdapter.OnItemClickListener {
             hideKeyboard()
         }
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
+
         adapter = SearchRVAdapter(mutableListOf(), this)
+
         val recyclerView = binding.searchRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
@@ -135,11 +137,17 @@ class MainSearchFragment : BaseFragment(), SearchRVAdapter.OnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        binding.shimmerLayout.stopShimmer()
-        binding.shimmerLayout.visibility = View.GONE
-        binding.searchRecyclerView.visibility = View.GONE
-        binding.searchEditText.setText("")
-        viewModel.resetData()
+//        binding.shimmerLayout.stopShimmer()
+//        binding.shimmerLayout.visibility = View.GONE
+//        binding.searchRecyclerView.visibility = View.GONE
+//        binding.searchEditText.setText("")
+//        viewModel.resetData()
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.resetSearchData()
 
     }
 }

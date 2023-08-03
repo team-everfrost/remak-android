@@ -13,6 +13,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.remak.App
@@ -24,6 +25,29 @@ class MemoDetailActivity : AppCompatActivity() {
     private lateinit var binding : DetailPageMemoActivityBinding
     private val viewModel : DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository)}
     lateinit var tokenRepository: TokenRepository
+    var isEditMode = false
+
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (isEditMode) {
+                showWarnDialog(
+            "수정을 취소하시겠습니까?",
+                        confirmClick = {
+                            isEditMode = false
+                            binding.completeBtn.visibility = View.GONE
+                            binding.moreIcon.visibility = View.VISIBLE
+                            binding.shareIcon.visibility = View.VISIBLE
+                            binding.memoContent.clearFocus()
+                        },
+                        cancelClick = {
+                            //do nothing
+                        }
+                    )
+            } else {
+                finish()
+            }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         tokenRepository = TokenRepository((this.application as App).dataStore)
@@ -35,30 +59,47 @@ class MemoDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         val memoId = intent.getStringExtra("docId")
 
+        this.onBackPressedDispatcher.addCallback(this, callback)
+
         viewModel.getDetailData(memoId!!)
 
         viewModel.detailData.observe(this) {
             binding.memoContent.setText(it.content)
         }
 
-        binding.editIcon.setOnClickListener {
-            binding.memoContent.isEnabled = true
-            binding.memoContent.isFocusableInTouchMode = true
-            binding.memoContent.requestFocus()
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(binding.memoContent, InputMethodManager.SHOW_IMPLICIT)
-            binding.editIcon.visibility = View.GONE
-            binding.completeBtn.visibility = View.VISIBLE
-            binding.moreIcon.visibility = View.GONE
-            binding.shareIcon.visibility = View.GONE
-        }
+
+
+         binding.memoContent.setOnFocusChangeListener { _, hasFocus ->
+             if (hasFocus) {
+                    isEditMode = true
+                    binding.completeBtn.visibility = View.VISIBLE
+                    binding.moreIcon.visibility = View.GONE
+                    binding.shareIcon.visibility = View.GONE
+             }
+         }
 
         binding.completeBtn.setOnClickListener {
-            showWarnDialog("수정하시겠습니까?", memoId, "update")
+            viewModel.updateMemo(memoId, binding.memoContent.text.toString())
+            isEditMode = false
+            binding.completeBtn.visibility = View.GONE
+            binding.moreIcon.visibility = View.VISIBLE
+            binding.shareIcon.visibility = View.VISIBLE
+            binding.memoContent.clearFocus()
         }
 
         binding.backBtn.setOnClickListener {
-            finish()
+            if (isEditMode) {
+                isEditMode = false
+                binding.completeBtn.visibility = View.GONE
+                binding.moreIcon.visibility = View.VISIBLE
+                binding.shareIcon.visibility = View.VISIBLE
+                binding.memoContent.clearFocus()
+                //키보드 내리기
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
+            } else {
+                finish()
+            }
         }
 
         binding.moreIcon.setOnClickListener {
@@ -67,7 +108,17 @@ class MemoDetailActivity : AppCompatActivity() {
             popupMenu.setOnMenuItemClickListener {menuItem ->
                 when(menuItem.itemId) {
                     R.id.deleteBtn -> {
-                        showWarnDialog("삭제하시겠습니까?", memoId, "delete")
+                        showWarnDialog(
+                            "삭제하시겠습니까?",
+                            confirmClick = {
+                                viewModel.deleteDocument(memoId)
+                                finish()
+                            },
+
+                            cancelClick = {
+                                //do nothing
+                            }
+                        )
                         true
                     }
 
@@ -76,11 +127,17 @@ class MemoDetailActivity : AppCompatActivity() {
             }
             popupMenu.show()
         }
+
+        binding.frameLayout.setOnClickListener {
+            binding.memoContent.requestFocus()
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(binding.memoContent, InputMethodManager.SHOW_IMPLICIT)
+        }
     }
 
 
 
-    private fun showWarnDialog(getContent : String, memoId : String, type : String) {
+    private fun showWarnDialog(getContent : String, confirmClick: () -> Unit, cancelClick: () -> Unit) {
         val dialog = Dialog(this)
         val windowManager =
             this.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -110,21 +167,12 @@ class MemoDetailActivity : AppCompatActivity() {
         content.text = getContent
 
         confirmBtn.setOnClickListener {
-            if (type == "update") {
-                viewModel.updateMemo(memoId, binding.memoContent.text.toString())
-                binding.memoContent.isEnabled = false
-                binding.completeBtn.visibility = View.GONE
-                binding.editIcon.visibility = View.VISIBLE
-                binding.moreIcon.visibility = View.VISIBLE
-                binding.shareIcon.visibility = View.VISIBLE
-            } else {
-                viewModel.deleteDocument(memoId)
-                finish()
-            }
             dialog.dismiss()
+            confirmClick()
         }
         cancelBtn.setOnClickListener {
             dialog.dismiss()
+            cancelClick()
         }
         dialog.show()
     }

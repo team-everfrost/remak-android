@@ -31,6 +31,11 @@ class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val 
         private const val IMAGE_VIEW_TYPE = 3
     }
 
+    fun resetData() {
+        dataSet = listOf()
+        notifyDataSetChanged()
+    }
+
     inner class MemoViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         val title : TextView = view.findViewById(R.id.title)
         init {
