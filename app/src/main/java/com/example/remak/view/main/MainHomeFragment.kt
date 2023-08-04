@@ -69,6 +69,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             }
         }
 
+
         //리사이클러 뷰 무한스크롤 기능
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -82,11 +83,15 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             }
         })
 
+        var count = 0
+
         viewModel.mainListData.observe(viewLifecycleOwner) {data ->
+            Log.d("mainlistdataaaa${count}", data.toString())
             adapter.dataSet = data
             if (initialLoad) { //첫 로드일 경우
                 adapter.notifyDataSetChanged()
             }
+            count++
         }
 
         binding.swipeRefresh.setOnRefreshListener { //위로 스와이프 했을 때 새로고침 기능

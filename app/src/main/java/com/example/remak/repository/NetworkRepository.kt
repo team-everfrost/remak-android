@@ -81,6 +81,10 @@ class NetworkRepository {
         return client.getEmbeddingData(query)
     }
 
+    suspend fun getTextSearchData(query : String) : Response<SearchEmbeddingData.ResponseBody> {
+        return client.getTextSearchData(query)
+    }
+
 
 
 }

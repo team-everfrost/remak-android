@@ -9,6 +9,7 @@ import android.text.Layout
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
@@ -106,5 +107,6 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         _binding = null
     }
+
 
 }

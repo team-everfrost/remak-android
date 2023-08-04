@@ -75,4 +75,7 @@ interface Api {
     @GET("document/search/embedding")
     suspend fun getEmbeddingData(@Query("query") query: String?) : retrofit2.Response<SearchEmbeddingData.ResponseBody>
 
+    @GET("document/search/text")
+    suspend fun getTextSearchData(@Query("query") query: String?) : retrofit2.Response<SearchEmbeddingData.ResponseBody>
+
 }

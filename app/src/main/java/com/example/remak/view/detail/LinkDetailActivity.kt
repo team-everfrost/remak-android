@@ -25,6 +25,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import com.example.remak.App
 import com.example.remak.R
+import com.example.remak.UtilityDialog
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageLinkActivityBinding
 import com.example.remak.network.model.DetailData
@@ -55,6 +56,7 @@ class LinkDetailActivity : AppCompatActivity() {
         viewModel.getDetailData(linkId!!)
 
         viewModel.detailData.observe(this) {
+            Log.d("dataCheck", it.toString())
             updateUI(it)
         }
 
@@ -97,7 +99,20 @@ class LinkDetailActivity : AppCompatActivity() {
                         startActivity(i)
                         true
                     }
-
+                    R.id.deleteBtn -> {
+                        UtilityDialog.showWarnDialog(
+                            this,
+                            "링크를 삭제하시겠습니까?",
+                            confirmClick = {
+                                viewModel.deleteDocument(linkId)
+                                finish()
+                            },
+                            cancelClick = {
+                                //do nothing
+                            }
+                        )
+                        true
+                    }
                     else -> false
                 }
             }
@@ -142,6 +157,7 @@ class LinkDetailActivity : AppCompatActivity() {
             .replace(Regex("\\\\n"), "<br>")
             .replace(Regex("\\\\r"), "<br>")
             .replace(Regex("#"), "%23")
+            .replace(Regex("</p>"), "</p><br>")
     }
 
     private fun showContent(linkData: String) {

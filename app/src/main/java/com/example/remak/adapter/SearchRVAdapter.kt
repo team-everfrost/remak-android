@@ -41,9 +41,14 @@ class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val 
         init {
             view.setOnClickListener {
                 val position = adapterPosition
-                Log.d("position", position.toString())
-                itemClickListener.onItemClick(it, position)
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener.onItemClick(it, position)
+                }
             }
+//            val position = adapterPosition
+//            view.setOnClickListener {
+//                itemClickListener.onItemClick(it, position)
+//            }
         }
     }
 
@@ -51,28 +56,48 @@ class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val 
         val title: TextView = view.findViewById<TextView>(R.id.title)
         val subject : TextView = view.findViewById(R.id.subject)
         init {
-            val position = adapterPosition
             view.setOnClickListener {
-                itemClickListener.onItemClick(it, position)
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener.onItemClick(it, position)
+                }
             }
+//            val position = adapterPosition
+//            view.setOnClickListener {
+//                itemClickListener.onItemClick(it, position)
+//            }
         }
     }
 
     inner class WebPageViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+        val title : TextView = view.findViewById(R.id.title)
+        val link : TextView = view.findViewById(R.id.link)
         init {
-            val position = adapterPosition
             view.setOnClickListener {
-                itemClickListener.onItemClick(it, position)
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener.onItemClick(it, position)
+                }
             }
+//            val position = adapterPosition
+//            view.setOnClickListener {
+//                itemClickListener.onItemClick(it, position)
+//            }
         }
     }
 
     inner class ImageViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         init {
-            val position = adapterPosition
             view.setOnClickListener {
-                itemClickListener.onItemClick(it, position)
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener.onItemClick(it, position)
+                }
             }
+//            val position = adapterPosition
+//            view.setOnClickListener {
+//                itemClickListener.onItemClick(it, position)
+//            }
         }
     }
 
@@ -150,6 +175,15 @@ class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val 
             }
 
             is WebPageViewHolder -> {
+                val title = dataSet[position].title!!.replace(" ", "")
+                if (title.isNullOrEmpty()) {
+                    holder.title.text = dataSet[position].url
+                } else {
+                    Log.d("title", dataSet[position].title!!.toString())
+                    holder.title.text = dataSet[position].title
+
+                }
+                holder.link.text = dataSet[position].url
             }
             is ImageViewHolder -> {
                 Glide.with(holder.itemView.context)

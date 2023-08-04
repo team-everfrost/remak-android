@@ -53,8 +53,7 @@ object UtilityDialog {
 
     fun showInformDialog(msg: String, context: Context) {
         val dialog = Dialog(context)
-        val windowManager =
-            context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.custom_dialog_information)

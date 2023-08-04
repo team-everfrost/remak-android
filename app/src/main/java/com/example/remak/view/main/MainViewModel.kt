@@ -1,8 +1,6 @@
 package com.example.remak.view.main
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,19 +12,14 @@ import com.example.remak.network.model.SearchEmbeddingData
 import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
-import okhttp3.ResponseBody
-import java.text.SimpleDateFormat
-import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.time.temporal.TemporalAdjuster
-import java.time.temporal.TemporalAdjusters
-import java.util.Locale
 import java.util.TimeZone
 
 class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
+    private var currentDateType : String? = null
 
     private val networkRepository = NetworkRepository()
     //메인 리스트
@@ -50,6 +43,8 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
 
     private val _searchResult = MutableLiveData<List<SearchEmbeddingData.Data>>()
     val searchResult : LiveData<List<SearchEmbeddingData.Data>> = _searchResult
+
+
 
     var cursor : String? = null
     var docID : String? = null
@@ -97,15 +92,10 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         try {
             val response = networkRepository.getMainList(null, null)
             if (response.isSuccessful) {
-                val newData = mutableListOf<MainListData.Data>()
-                var currentDateType : String? = null
+                currentDateType = null
 
-                // 임시로 이미지는 https://picsum.photos/200/300로 적용
-                for (i in response.body()!!.data){
-                    if (i.type == "IMAGE") {
-                        response.body()!!.data[response.body()!!.data.indexOf(i)].url = "https://picsum.photos/200/300"
-                    }
-                }
+                val newData = mutableListOf<MainListData.Data>()
+
                 _mainListData.value = response.body()?.data
 
                 for (data in response.body()!!.data) {
@@ -131,6 +121,7 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
                     newData.add(data)
                 }
                 _mainListData.value = newData
+                Log.d("mainlistdatas", _mainListData.value.toString())
                 response.body()?.data?.let {
                     cursor = it.last().createdAt
                     docID = it.last().docId
@@ -145,13 +136,35 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
     }
 
     fun getNewMainList() = viewModelScope.launch {
+
         _isLoading.value = true
-        var tempData = mainListData.value
+        var tempData = mainListData.value?.toMutableList() ?: mutableListOf()
         try {
             val response = networkRepository.getMainList(cursor, docID)
             if (response.isSuccessful) {
+
                 for (data in response.body()!!.data) {
-                    tempData = tempData?.plus(data)
+                    data.updatedAt = convertToUserTimezone(data.updatedAt!!, TimeZone.getDefault().id)
+                    val dateType = classifyDate(data.updatedAt!!.toString())
+                    if (dateType != currentDateType) {
+                        currentDateType = dateType
+                        tempData.add(MainListData.Data(
+                            docId = null,
+                            title = null,
+                            type = "DATE",
+                            url = null,
+                            content = null,
+                            summary = null,
+                            status = null,
+                            createdAt = null,
+                            updatedAt = null,
+                            tags = listOf(),
+                            isSelected = false,
+                            header = dateType
+                        ))
+                    }
+
+                    tempData.add(data)
                 }
                 response.body()?.data?.let {
                     cursor = it.last().createdAt
@@ -167,9 +180,8 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         Log.d("cursor", cursor.toString())
         Log.d("docID", docID.toString())
         Log.d("mainListData", mainListData.value.toString())
-        if(tempData != null) {
-            _mainListData.value = tempData!!
-        }
+
+        _mainListData.value = tempData
         _isLoading.value = false
     }
 
@@ -230,7 +242,7 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         _isLogIn.value = tokenRepository.fetchTokenData() != null
     }
 
-    fun getSearchResult(query : String) = viewModelScope.launch {
+    fun getEmbeddingSearchResult(query : String) = viewModelScope.launch {
         val response = networkRepository.getEmbeddingData(query)
         try {
             if (response.isSuccessful) {
@@ -242,6 +254,21 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         } catch (e : Exception) {
             Log.d("search_result", e.toString())
         }
+    }
+
+    fun getTextSearchResult(query: String) = viewModelScope.launch {
+        val response = networkRepository.getTextSearchData(query)
+        try {
+            if (response.isSuccessful) {
+                _searchResult.value = response.body()!!.data
+                Log.d("search_result", _searchResult.value.toString())
+            } else {
+                Log.d("search_result", response.errorBody()!!.string())
+            }
+        } catch (e : Exception) {
+            Log.d("search_result", e.toString())
+        }
+
     }
 
     fun deleteDocument(docId : String) = viewModelScope.launch {
