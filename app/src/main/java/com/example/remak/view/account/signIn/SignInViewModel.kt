@@ -62,7 +62,6 @@ class SignInViewModel(private val signInRepository: TokenRepository): ViewModel(
 
 
     fun kakaoLogin(context: Activity) {
-
         // 카카오계정으로 로그인 공통 callback 구성
         // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
@@ -72,7 +71,6 @@ class SignInViewModel(private val signInRepository: TokenRepository): ViewModel(
                 Log.i("kakao", "카카오계정으로 로그인 성공 ${token.accessToken}")
             }
         }
-
 
         // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
@@ -99,8 +97,6 @@ class SignInViewModel(private val signInRepository: TokenRepository): ViewModel(
         }
 
     }
-
-
 }
 
 class SignInViewModelFactory(private val signInRepository: TokenRepository) : ViewModelProvider.Factory{

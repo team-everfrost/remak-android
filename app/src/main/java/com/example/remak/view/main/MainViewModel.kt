@@ -44,7 +44,7 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
     private val _searchResult = MutableLiveData<List<SearchEmbeddingData.Data>>()
     val searchResult : LiveData<List<SearchEmbeddingData.Data>> = _searchResult
 
-
+    private var isLoadEnd : Boolean = false
 
     var cursor : String? = null
     var docID : String? = null
@@ -136,53 +136,59 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
     }
 
     fun getNewMainList() = viewModelScope.launch {
+        if (!isLoadEnd) {
+            _isLoading.value = true
+            var tempData = mainListData.value?.toMutableList() ?: mutableListOf()
+            try {
+                val response = networkRepository.getMainList(cursor, docID)
+                if (response.isSuccessful) {
+                    Log.d("getnewmainlistSuccess", response.body().toString())
 
-        _isLoading.value = true
-        var tempData = mainListData.value?.toMutableList() ?: mutableListOf()
-        try {
-            val response = networkRepository.getMainList(cursor, docID)
-            if (response.isSuccessful) {
+                    for (data in response.body()!!.data) {
+                        data.updatedAt =
+                            convertToUserTimezone(data.updatedAt!!, TimeZone.getDefault().id)
+                        val dateType = classifyDate(data.updatedAt!!.toString())
+                        if (dateType != currentDateType) {
+                            currentDateType = dateType
+                            tempData.add(
+                                MainListData.Data(
+                                    docId = null,
+                                    title = null,
+                                    type = "DATE",
+                                    url = null,
+                                    content = null,
+                                    summary = null,
+                                    status = null,
+                                    createdAt = null,
+                                    updatedAt = null,
+                                    tags = listOf(),
+                                    isSelected = false,
+                                    header = dateType
+                                )
+                            )
+                        }
 
-                for (data in response.body()!!.data) {
-                    data.updatedAt = convertToUserTimezone(data.updatedAt!!, TimeZone.getDefault().id)
-                    val dateType = classifyDate(data.updatedAt!!.toString())
-                    if (dateType != currentDateType) {
-                        currentDateType = dateType
-                        tempData.add(MainListData.Data(
-                            docId = null,
-                            title = null,
-                            type = "DATE",
-                            url = null,
-                            content = null,
-                            summary = null,
-                            status = null,
-                            createdAt = null,
-                            updatedAt = null,
-                            tags = listOf(),
-                            isSelected = false,
-                            header = dateType
-                        ))
+                        tempData.add(data)
                     }
-
-                    tempData.add(data)
+                    response.body()?.data?.let {
+                        cursor = it.last().createdAt
+                        docID = it.last().docId
+                    }
+                } else {
+                    Log.d("getnewmainlistFail", response.errorBody().toString())
                 }
-                response.body()?.data?.let {
-                    cursor = it.last().createdAt
-                    docID = it.last().docId
-                }
-            } else {
-                Log.d("fail", response.errorBody().toString())
+            } catch (e: Exception) {
+                Log.d("getnewmainlistNetwork", e.toString())
+                isLoadEnd = true
             }
-        } catch (e : Exception) {
-            Log.d("networkError", e.toString())
+
+            Log.d("cursor", cursor.toString())
+            Log.d("docID", docID.toString())
+            Log.d("mainListData", mainListData.value.toString())
+
+            _mainListData.value = tempData
+            _isLoading.value = false
         }
-
-        Log.d("cursor", cursor.toString())
-        Log.d("docID", docID.toString())
-        Log.d("mainListData", mainListData.value.toString())
-
-        _mainListData.value = tempData
-        _isLoading.value = false
     }
 
 
@@ -287,6 +293,13 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
 
     fun resetSearchData() {
         _searchResult.value = listOf()
+    }
+
+    fun resetMainData() {
+        isLoadEnd = false
+        cursor = null
+        docID = null
+        _mainListData.value = listOf()
     }
 }
 

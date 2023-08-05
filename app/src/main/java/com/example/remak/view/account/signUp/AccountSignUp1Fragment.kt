@@ -75,8 +75,6 @@ class AccountSignUp1Fragment : Fragment() {
         }
         UtilityLogin.emailCheck(requireContext(), binding.emailEditText, binding.nextBtn, binding.emailErrorMessage)
 
-
-
     }
 
 

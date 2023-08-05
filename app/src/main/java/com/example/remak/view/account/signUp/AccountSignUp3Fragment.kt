@@ -14,15 +14,11 @@ import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AccountSignup3FragmentBinding
 import com.example.remak.view.main.MainActivity
-import kotlinx.coroutines.launch
 
 class AccountSignUp3Fragment : Fragment() {
     private lateinit var binding : AccountSignup3FragmentBinding
     lateinit var signInRepository: TokenRepository
     private val viewModel: SignUpViewModel by activityViewModels { SignUpViewModelFactory(signInRepository) }
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,10 +57,7 @@ class AccountSignUp3Fragment : Fragment() {
         UtilityLogin.passwordCheck(requireContext(), binding.passwordEditText, binding.passwordCheckEditText, binding.completeBtn)
 
         binding.completeBtn.setOnClickListener {
-                viewModel.viewModelScope.launch {
-                viewModel.signup(viewModel.userEmail.value.toString(), binding.passwordEditText.text.toString())
-            }
-
+            viewModel.signup(viewModel.userEmail.value.toString(), binding.passwordEditText.text.toString())
         }
     }
 

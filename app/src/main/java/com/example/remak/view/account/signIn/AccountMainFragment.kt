@@ -20,29 +20,20 @@ import com.example.remak.view.main.MainActivity
 
 
 class AccountMainFragment : Fragment() {
-
     private lateinit var binding : AccountMainFragmentBinding
-    //    val testSignInRepository = SignInRepository((requireActivity().application as App).testDataStore)
-
-//    val signInRepository = SignInRepository((requireActivity().application as App).dataStore)
-
     private val viewModel: SignInViewModel by activityViewModels { SignInViewModelFactory(signInRepository) }
-
     lateinit var signInRepository : TokenRepository
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         signInRepository = TokenRepository((requireActivity().application as App).dataStore)
-
-
-
         binding = AccountMainFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener{
             UtilitySystem.hideKeyboard(requireActivity())
         }
+
         viewModel.loginResult.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
                 val intent = Intent(activity, MainActivity::class.java)
@@ -51,6 +42,7 @@ class AccountMainFragment : Fragment() {
                 requireActivity().finish()
             }
         }
+
         UtilityLogin.signInCheck(requireContext(), binding.idEditText, binding.pwEditText, binding.signInBtn)
 
         viewModel.showDialog.observe(viewLifecycleOwner) { showDialog ->
@@ -77,8 +69,6 @@ class AccountMainFragment : Fragment() {
         }
         binding.signInBtn.setOnClickListener{
             viewModel.emailLogin(binding.idEditText.text.toString(), binding.pwEditText.text.toString())
-
-//            viewModel.emailLogin("test@naver.com", "test")
         }
 
 

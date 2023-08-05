@@ -33,16 +33,6 @@ class AccountFindPassword1Fragment : Fragment() {
             UtilitySystem.hideKeyboard(requireActivity())
         }
 
-
-
         UtilityLogin.emailCheck(requireContext(), binding.emailEditText, binding.nextBtn, binding.emailErrorMessage)
-
-
-
-
     }
-
-
-    //이메일 정규표현식 체크
-
 }

@@ -60,6 +60,8 @@ class LinkDetailActivity : AppCompatActivity() {
             updateUI(it)
         }
 
+
+
         binding.shareBtn.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
@@ -127,7 +129,6 @@ class LinkDetailActivity : AppCompatActivity() {
     private fun updateUI(detailData: DetailData.Data) {
         binding.url.text = detailData.url
         url = detailData.url!!
-
         val linkData = prepareLinkData(detailData.content)
         logLongMessage("dataCheck", linkData)
 
@@ -162,6 +163,8 @@ class LinkDetailActivity : AppCompatActivity() {
 
     private fun showContent(linkData: String) {
         binding.webView.visibility = View.VISIBLE
+        binding.webView.focusable = View.NOT_FOCUSABLE // 웹뷰 터치 시 자동 스크롤 방지
+        binding.webView.isFocusableInTouchMode = false //웹뷰 터치 시 자동 스크롤 방지
         binding.webView.apply {
             visibility = View.VISIBLE
             setupWebView()
@@ -177,7 +180,8 @@ class LinkDetailActivity : AppCompatActivity() {
     }
 
     private fun WebView.loadHtmlData(linkData: String) {
-        val css = """
+        // 받아온 html코드에 header를 추가하여 웹뷰에 로드
+        val css = """ 
         <style type='text/css'>
         body {
             font-weight: 400;
@@ -211,12 +215,11 @@ class LinkDetailActivity : AppCompatActivity() {
         </body>
         </html>
     """.trimIndent()
-        binding.webView.loadData(htmlData, "text/html", "utf-8")
         loadData(htmlData, "text/html", "utf-8")
     }
 
 
-    fun logLongMessage(tag: String, message: String) {
+    private fun logLongMessage(tag: String, message: String) {
         val maxLogSize = 1000
         for (i in 0..message.length / maxLogSize) {
             val start = i * maxLogSize

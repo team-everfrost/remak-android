@@ -211,7 +211,8 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        Log.d("ondestroyview", "ondestroyview")
+        viewModel.resetMainData()
     }
 
 }

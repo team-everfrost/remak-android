@@ -24,9 +24,5 @@ class AccountFindPassword2Fragment : Fragment() {
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())
         }
-
-
-
-
     }
 }
