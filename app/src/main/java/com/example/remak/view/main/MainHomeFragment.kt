@@ -160,6 +160,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
     // 다시 접속 시 데이터 갱신
     override fun onResume() {
         super.onResume()
+        viewModel.resetLoadData()
         viewModel.getAllMainList()
     }
 
@@ -214,6 +215,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         Log.d("ondestroyview", "ondestroyview")
         viewModel.resetMainData()
     }
+
 
 }
 

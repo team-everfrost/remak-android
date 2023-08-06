@@ -301,6 +301,12 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         docID = null
         _mainListData.value = listOf()
     }
+
+    fun resetLoadData() {
+        isLoadEnd = false
+        cursor = null
+        docID = null
+    }
 }
 
 class MainViewModelFactory(private val tokenRepository: TokenRepository) : ViewModelProvider.Factory {

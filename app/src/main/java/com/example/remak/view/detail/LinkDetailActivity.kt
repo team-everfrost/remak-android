@@ -124,6 +124,14 @@ class LinkDetailActivity : AppCompatActivity() {
         binding.backBtn.setOnClickListener {
             finish()
         }
+
+        binding.scrollView.viewTreeObserver.addOnScrollChangedListener {
+            if (binding.scrollView.scrollY == 0) {
+                binding.line.visibility = View.INVISIBLE
+            } else {
+                binding.line.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun updateUI(detailData: DetailData.Data) {
