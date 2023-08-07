@@ -72,14 +72,16 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             if (response.isSuccessful) {
                 Log.d("success", response.body().toString())
                 val url = response.body()!!.data
-                val request = DownloadManager.Request(Uri.parse(url))
+                val request = DownloadManager.Request(Uri.parse(url)) // 다운로드 요청 세팅
                     .setTitle(fileName)
                     .setDescription("Downloading")
-                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
-                    .setAllowedOverMetered(true)
-                    .setAllowedOverRoaming(true)
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) // Notification bar에 다운로드 중임을 알려줌
+                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName) // 다운로드 경로 및 파일 이름
+                    .setAllowedOverMetered(true) // 데이터 사용시에도 다운로드 여부
+                    .setAllowedOverRoaming(true) // 로밍 여부
                 withContext(Dispatchers.Main) {
+                    val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                    downloadManager.enqueue(request) //다운로드 시작
                     Toast.makeText(context, "다운로드가 시작되었습니다.", Toast.LENGTH_SHORT).show()
                 }
 

@@ -1,5 +1,6 @@
 package com.example.remak.view.detail
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -29,6 +30,8 @@ import com.example.remak.UtilityDialog
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageLinkActivityBinding
 import com.example.remak.network.model.DetailData
+import com.example.remak.view.main.MainViewModel
+import com.example.remak.view.main.MainViewModelFactory
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
 import org.apache.commons.text.StringEscapeUtils
@@ -39,6 +42,7 @@ import java.util.TimeZone
 class LinkDetailActivity : AppCompatActivity() {
     private lateinit var binding: DetailPageLinkActivityBinding
     private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
+    private val mainViewModel : MainViewModel by viewModels { MainViewModelFactory(tokenRepository) }
     lateinit var tokenRepository: TokenRepository
     lateinit var url: String
     private lateinit var linkData: String
@@ -107,6 +111,9 @@ class LinkDetailActivity : AppCompatActivity() {
                             "링크를 삭제하시겠습니까?",
                             confirmClick = {
                                 viewModel.deleteDocument(linkId)
+                                val resultIntent = Intent()
+                                resultIntent.putExtra("isDelete", true)
+                                setResult(Activity.RESULT_OK, resultIntent)
                                 finish()
                             },
                             cancelClick = {
@@ -139,8 +146,6 @@ class LinkDetailActivity : AppCompatActivity() {
         url = detailData.url!!
         val linkData = prepareLinkData(detailData.content)
         logLongMessage("dataCheck", linkData)
-
-
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         val date = inputFormat.parse(detailData.updatedAt)
         val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
@@ -181,6 +186,7 @@ class LinkDetailActivity : AppCompatActivity() {
     }
 
     private fun WebView.setupWebView() {
+        webChromeClient = WebChromeClient()
         overScrollMode = WebView.OVER_SCROLL_NEVER
         isHorizontalScrollBarEnabled = false
         isVerticalScrollBarEnabled = false
@@ -190,33 +196,49 @@ class LinkDetailActivity : AppCompatActivity() {
     private fun WebView.loadHtmlData(linkData: String) {
         // 받아온 html코드에 header를 추가하여 웹뷰에 로드
         val css = """ 
-        <style type='text/css'>
-        body {
-            font-weight: 400;
-            line-height: 1.6; 
-            max-width: 100%;
-            overflow-x: hidden;
-            word-wrap: break-word;
-            word-break: break-all;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-        pre {
-            white-space: pre-wrap;
-        }
-        p {
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-        </style>
-    """
+            
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/go.min.js"></script>
+<script>hljs.highlightAll();</script>
+         
+            
+    <style type='text/css'>
+    body {
+        font-weight: 400;
+        line-height: 1.6; 
+        max-width: 100%;
+        overflow-x: hidden;
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    pre {
+        white-space: pre-wrap;
+    }
+    p {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+    }
+    </style>
+"""
 
         val htmlData = """
         <html>
         <head>
-        $css
+            
+            $css
         </head>
         <body>
         $linkData
@@ -224,6 +246,7 @@ class LinkDetailActivity : AppCompatActivity() {
         </html>
     """.trimIndent()
         loadData(htmlData, "text/html", "utf-8")
+
     }
 
 

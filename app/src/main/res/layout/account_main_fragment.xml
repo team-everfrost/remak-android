@@ -11,19 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-
+        <TextView
             android:id="@+id/logo"
-            android:layout_width="0dp"
-            android:layout_height="149dp"
-            android:src="@drawable/main_logo"
-            android:layout_marginTop="100dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.388"
-            app:layout_constraintHorizontal_bias="0.0"
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="REMAK"
+            android:textSize="50sp"
+            android:textFontWeight="700"
+            android:textColor="@color/checkBlue"
+            android:layout_marginTop="40dp"/>
+
 
         <LinearLayout
             android:id="@+id/editTextLayout"

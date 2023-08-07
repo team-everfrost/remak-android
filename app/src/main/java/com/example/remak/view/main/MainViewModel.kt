@@ -167,7 +167,6 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
                                 )
                             )
                         }
-
                         tempData.add(data)
                     }
                     response.body()?.data?.let {

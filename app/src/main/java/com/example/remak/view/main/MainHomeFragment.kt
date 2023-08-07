@@ -1,5 +1,6 @@
 package com.example.remak.view.main
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -33,6 +36,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
     private lateinit var adapter : HomeRVAdapter
     private var initialLoad = true
     lateinit var tokenRepository: TokenRepository
+    private lateinit var resultLauncher : ActivityResultLauncher<Intent>
 
 
     override fun onCreateView(
@@ -50,6 +54,17 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val isDelete = data?.getBooleanExtra("isDelete", false)
+                if (isDelete == true) {
+                    viewModel.resetMainData()
+                    viewModel.getAllMainList()
+                }
+
+            }
+        }
         adapter = HomeRVAdapter(mutableListOf(), this)
         val recyclerView : RecyclerView = binding.homeRV
         val itemDecoration = HomeItemOffsetDecoration(10, adapter)
@@ -160,8 +175,9 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
     // 다시 접속 시 데이터 갱신
     override fun onResume() {
         super.onResume()
-        viewModel.resetLoadData()
-        viewModel.getAllMainList()
+        Log.d("onresume", "onresume")
+//        viewModel.resetLoadData()
+//        viewModel.getAllMainList()
     }
 
     override fun onItemClick(view: View, position: Int) {
@@ -169,26 +185,25 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             "MEMO" -> {
                 val intent = Intent(requireContext(), MemoDetailActivity::class.java)
                 intent.putExtra("docId", viewModel.mainListData.value!![position].docId)
-                startActivity(intent)
+                resultLauncher.launch(intent)
             }
 
             "FILE" -> {
                 val intent = Intent(requireContext(), FileDetailActivity::class.java)
                 intent.putExtra("docId", viewModel.mainListData.value!![position].docId)
-                startActivity(intent)
+                resultLauncher.launch(intent)
             }
 
             "WEBPAGE" -> {
                 val intent = Intent(requireContext(), LinkDetailActivity::class.java)
                 intent.putExtra("docId", viewModel.mainListData.value!![position].docId)
-                startActivity(intent)
-
+                resultLauncher.launch(intent)
             }
 
             "IMAGE" -> {
                 val intent = Intent(requireContext(), ImageDetailActivity::class.java)
                 intent.putExtra("docId", viewModel.mainListData.value!![position].docId)
-                startActivity(intent)
+                resultLauncher.launch(intent)
             }
 
 

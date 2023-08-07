@@ -118,7 +118,6 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             }
         }
 
-
         if (Build.VERSION.SDK_INT < 30) {
             val display = windowManager.defaultDisplay
             val size = Point()
@@ -168,6 +167,8 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
                 dialog.dismiss()
                 (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
                 this.dismiss()
+                viewModel.resetMainData()
+                viewModel.getAllMainList()
             }
         }
         dialog.show()

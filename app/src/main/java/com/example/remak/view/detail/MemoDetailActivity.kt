@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.UtilityDialog
+import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageMemoActivityBinding
 
@@ -31,9 +32,7 @@ class MemoDetailActivity : AppCompatActivity() {
                             endEditMode()
                             binding.memoContent.clearFocus()
                         },
-                        cancelClick = {
-                            //do nothing
-                        }
+                        cancelClick = {}
                     )
             } else {
                 finish()
@@ -45,21 +44,16 @@ class MemoDetailActivity : AppCompatActivity() {
         tokenRepository = TokenRepository((this.application as App).dataStore)
         binding = DetailPageMemoActivityBinding.inflate(layoutInflater)
         binding.root.setOnClickListener {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
+            UtilitySystem.hideKeyboard(this)
         }
         setContentView(binding.root)
         val memoId = intent.getStringExtra("docId")
 
         this.onBackPressedDispatcher.addCallback(this, callback)
-
         viewModel.getDetailData(memoId!!)
-
         viewModel.detailData.observe(this) {
             binding.memoContent.setText(it.content)
         }
-
-
 
          binding.memoContent.setOnFocusChangeListener { _, hasFocus ->
              if (hasFocus) {
@@ -69,8 +63,11 @@ class MemoDetailActivity : AppCompatActivity() {
 
         binding.completeBtn.setOnClickListener {
             viewModel.updateMemo(memoId, binding.memoContent.text.toString())
-            startEditMode()
+            endEditMode()
             binding.memoContent.clearFocus()
+            //키보드 내려오기
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
         }
 
         binding.backBtn.setOnClickListener {
@@ -96,6 +93,9 @@ class MemoDetailActivity : AppCompatActivity() {
                             "삭제하시겠습니까?",
                             confirmClick = {
                                 viewModel.deleteDocument(memoId)
+                                val resultIntent = Intent()
+                                resultIntent.putExtra("isDelete", true)
+                                setResult(RESULT_OK, resultIntent)
                                 finish()
                             },
                             cancelClick = {}
@@ -112,6 +112,7 @@ class MemoDetailActivity : AppCompatActivity() {
             binding.memoContent.requestFocus()
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(binding.memoContent, InputMethodManager.SHOW_IMPLICIT)
+            binding.memoContent.setSelection(binding.memoContent.text.length)
         }
 
         binding.shareIcon.setOnClickListener {
