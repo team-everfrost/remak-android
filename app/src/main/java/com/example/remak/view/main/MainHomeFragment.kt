@@ -59,7 +59,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
                 val data: Intent? = result.data
                 val isDelete = data?.getBooleanExtra("isDelete", false)
                 if (isDelete == true) {
-                    viewModel.resetMainData()
+                    viewModel.resetScrollData()
                     viewModel.getAllMainList()
                 }
 
@@ -109,7 +109,9 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             count++
         }
 
-        binding.swipeRefresh.setOnRefreshListener { //위로 스와이프 했을 때 새로고침 기능
+        //위로 스와이프 했을 때 새로고침 기능
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.resetScrollData()
             viewModel.getAllMainList()
             binding.swipeRefresh.isRefreshing = false
         }

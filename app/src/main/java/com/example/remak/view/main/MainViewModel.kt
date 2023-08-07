@@ -301,7 +301,7 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         _mainListData.value = listOf()
     }
 
-    fun resetLoadData() {
+    fun resetScrollData() {
         isLoadEnd = false
         cursor = null
         docID = null

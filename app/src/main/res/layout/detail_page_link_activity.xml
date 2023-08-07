@@ -104,9 +104,8 @@
             app:layout_constraintTop_toBottomOf="@id/topBar"
             android:orientation="vertical">
 
-            <EditText
+            <TextView
                 android:layout_marginTop="20dp"
-                android:enabled="false"
                 android:id="@+id/title"
                 android:textColor="@color/black"
                 android:layout_width="match_parent"

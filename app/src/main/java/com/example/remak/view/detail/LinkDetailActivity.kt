@@ -78,11 +78,20 @@ class LinkDetailActivity : AppCompatActivity() {
             val colorSchemeParams = CustomTabColorSchemeParams.Builder()
                 .setToolbarColor(ContextCompat.getColor(this, R.color.black))
                 .build()
-
             val customTabsIntent = CustomTabsIntent.Builder()
                 .setDefaultColorSchemeParams(colorSchemeParams)
                 .build()
+            customTabsIntent.launchUrl(this, Uri.parse(url))
+        }
 
+        binding.title.setOnClickListener {
+            Log.d("dataCheck", "title click")
+            val colorSchemeParams = CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(ContextCompat.getColor(this, R.color.black))
+                .build()
+            val customTabsIntent = CustomTabsIntent.Builder()
+                .setDefaultColorSchemeParams(colorSchemeParams)
+                .build()
             customTabsIntent.launchUrl(this, Uri.parse(url))
         }
 
