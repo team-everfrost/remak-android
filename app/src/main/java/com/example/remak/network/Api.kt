@@ -73,9 +73,18 @@ interface Api {
     suspend fun createWebPage(@Body body: CreateData.WebPageRequestBody): retrofit2.Response<CreateData.WebPageResponseBody>
 
     @GET("document/search/embedding")
-    suspend fun getEmbeddingData(@Query("query") query: String?) : retrofit2.Response<SearchEmbeddingData.ResponseBody>
+    suspend fun getEmbeddingData(
+        @Query("query") query: String?,
+        @Query("limit") limit : Int? = 15,
+        @Query("offset") offset : Int?
+    ) : retrofit2.Response<SearchEmbeddingData.ResponseBody>
 
     @GET("document/search/text")
-    suspend fun getTextSearchData(@Query("query") query: String?) : retrofit2.Response<SearchEmbeddingData.ResponseBody>
+    suspend fun getTextSearchData(
+        @Query("query") query: String?,
+        @Query("cursor")  cursor : String?,
+        @Query("doc-id")  docID : String?,
+        @Query("limit") limit : Int? = 20
+    ) : retrofit2.Response<SearchEmbeddingData.ResponseBody>
 
 }

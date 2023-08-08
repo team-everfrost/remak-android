@@ -37,6 +37,8 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener {
     lateinit var tokenRepository: TokenRepository
     private lateinit var adapter : SearchRVAdapter
     var isSearchBtnClicked = false
+    private var isTextSearch = false
+    private var isEmbeddingSearch = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,16 +47,9 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener {
     ): View? {
         binding = MainSearchFragmentBinding.inflate(inflater, container, false)
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
-
         adapter = SearchRVAdapter(mutableListOf(), this)
 
-        val recyclerView = binding.searchRecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = adapter
 
-        val itemDecoration = ItemOffsetDecoration(10, adapter)
-        recyclerView.addItemDecoration(itemDecoration)
-        recyclerView.visibility = View.GONE
         //뒤로가기 시 홈 프래그먼트로 이동
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
@@ -66,6 +61,14 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val recyclerView = binding.searchRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
+
+        val itemDecoration = ItemOffsetDecoration(10, adapter)
+        recyclerView.addItemDecoration(itemDecoration)
+        recyclerView.visibility = View.GONE
 
         binding.root.setOnClickListener {
             Log.d("MainSearchFragment", "root click")
@@ -87,6 +90,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener {
             adapter.notifyDataSetChanged()
         }
 
+        //엔터 누를시
         binding.searchEditText.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 handler.removeCallbacksAndMessages(null)
@@ -95,6 +99,11 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener {
                 binding.shimmerLayout.startShimmer()
                 binding.shimmerLayout.visibility = View.VISIBLE
                 viewModel.getEmbeddingSearchResult(binding.searchEditText.text.toString())
+                isEmbeddingSearch = true
+                isTextSearch = false
+                viewModel.resetScrollData()
+
+
             }
             false
         }
@@ -129,10 +138,34 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener {
                     runnable = Runnable {
                         if (p0.toString().isNotEmpty()) {
                             viewModel.getTextSearchResult(p0.toString())
+                            isTextSearch = true
+                            isEmbeddingSearch = false
+                            viewModel.resetScrollData()
+                            Log.d(isEmbeddingSearch.toString(), isTextSearch.toString())
                         } else {
                             viewModel.resetSearchData()
                             binding.searchRecyclerView.visibility = View.GONE
                         }
+                    }
+                }
+            }
+        })
+
+        //리사이클러 뷰 무한스크롤 기능
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val totalItemCount = recyclerView.layoutManager?.itemCount
+                val lastVisibleItemCount = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+
+                if (!viewModel.isLoading.value!! && totalItemCount!! <= (lastVisibleItemCount + 5)) {
+                    if (isTextSearch) {
+                        viewModel.getNewTextSearchResult()
+                        Log.d("새로운 데이터 받아옴", "getNewTextSearchResult")
+                    }
+                    else if (isEmbeddingSearch && !viewModel.isEmbeddingLoading.value!!) {
+                        viewModel.getNewEmbeddingSearch()
+                        Log.d("새로운 데이터 받아옴", "getNewEmbeddingSearch")
                     }
                 }
             }

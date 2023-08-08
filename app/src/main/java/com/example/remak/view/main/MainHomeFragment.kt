@@ -39,6 +39,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
     private lateinit var resultLauncher : ActivityResultLauncher<Intent>
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -175,12 +176,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
     }
 
     // 다시 접속 시 데이터 갱신
-    override fun onResume() {
-        super.onResume()
-        Log.d("onresume", "onresume")
-//        viewModel.resetLoadData()
-//        viewModel.getAllMainList()
-    }
+
 
     override fun onItemClick(view: View, position: Int) {
         when (viewModel.mainListData.value!![position].type) {

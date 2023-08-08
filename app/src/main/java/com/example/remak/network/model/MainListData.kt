@@ -20,6 +20,7 @@ class MainListData {
         val tags : List<String?>,
         var isSelected : Boolean = false,
         var header : String? = null,
+        var isDragSelected : Boolean = false
 
         )
 

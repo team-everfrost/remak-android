@@ -21,9 +21,6 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
     private var isInSelectionMode = false // 선택모드 유무
     var selectedItemsCount = 0 // 선택된 아이템 개수
-
-
-
     companion object {
         private const val MEMO = "MEMO"
         private const val FILE = "FILE"
@@ -50,47 +47,63 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         selectedItemsCount = 0
         notifyDataSetChanged()
     }
-    inner class MemoViewHolder(view : View) : RecyclerView.ViewHolder(view) { // 메모 아이템 뷰홀더
 
+    //클릭 이벤트 처리
+    private fun handleItemClick(clickedView : View, position: Int, checkbox: CheckBox) {
+        if (isInSelectionMode) {
+            toggleSelection(position, checkbox)
+            if (selectedItemsCount == 0) {
+                isInSelectionMode = false
+                itemClickListener.onSelectionEnded()
+                notifyDataSetChanged()
+            }
+        } else {
+            itemClickListener.onItemClick(clickedView, position)
+        }
+    }
+
+    // 롱클릭 이벤트 처리
+    private fun handleItemLongClick(position: Int, checkbox: CheckBox) {
+        if (!isInSelectionMode) {
+            isInSelectionMode = true
+            notifyDataSetChanged()
+            itemClickListener.onSelectionStarted()
+            toggleSelection(position, checkbox)
+        }
+    }
+
+    // 선택된 아이템의 isSelected 값을 반전시키고, 체크박스도 반전시킴
+    private fun toggleSelection(position: Int, checkbox: CheckBox) {
+        dataSet[position].isSelected = !dataSet[position].isSelected
+        checkbox.isChecked = dataSet[position].isSelected
+        selectedItemsCount = if (checkbox.isChecked) selectedItemsCount + 1 else selectedItemsCount - 1
+    }
+
+    fun toggleCheckbox(position: Int) {
+        val checkBox = dataSet[position].isSelected
+        dataSet[position].isSelected = !dataSet[position].isSelected
+        notifyDataSetChanged()
+    }
+
+    inner class MemoViewHolder(view : View) : RecyclerView.ViewHolder(view) { // 메모 아이템 뷰홀더
         val title : TextView = view.findViewById<TextView>(R.id.title)
         val checkbox : CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
         init {
             view.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) { // 선택한 아이템이 실제로 존재하는지 -> 예외처리
-                    if (isInSelectionMode) { // 선택모드일 때
-                        dataSet[position].isSelected = !dataSet[position].isSelected
-                        checkbox.isChecked = dataSet[position].isSelected
-                        selectedItemsCount = if (checkbox.isChecked) selectedItemsCount + 1 else selectedItemsCount - 1 //체크박스가 체크되어있으면 선택된 아이템 개수 +1, 체크되어있지 않으면 -1
-                        if (selectedItemsCount == 0) { // 선택된 아이템이 없을 때
-                            isInSelectionMode = false // 선택모드 해제
-                            itemClickListener.onSelectionEnded() // 선택모드 해제 리스너 호출
-                            notifyDataSetChanged()
-                        }
-                    } else {
-                        itemClickListener.onItemClick(it, position)
-                    }
+                    handleItemClick(it, position, checkbox)
                 }
             }
 
             view.setOnLongClickListener { // 아이템을 길게 눌렀을 때
-                if (!isInSelectionMode) { // 선택 모드가 아닐 때만 이벤트 처리
-                    val position = adapterPosition // 아이템의 위치를 가져옴
-                    if (position != RecyclerView.NO_POSITION) { // 선택한 아이템이 실제로 존재하는지 -> 예외처리
-                        isInSelectionMode = true // 선택모드 활성화
-                        notifyDataSetChanged()
-                        itemClickListener.onSelectionStarted() // 선택모드 시작 리스너 호출
-                        dataSet[position].isSelected = !dataSet[position].isSelected // 선택된 아이템의 isSelected를 true로 변경
-                        checkbox.isChecked = dataSet[position].isSelected // 체크박스 체크
-                        if (checkbox.isChecked) { // 체크박스가 체크되었을 때
-                            selectedItemsCount++  // 선택된 아이템 개수 증가
-                        }
-                    }
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    handleItemLongClick(position, checkbox)
                 }
                 true
             }
         }
-
     }
 
     inner class FileViewHolder(view : View) : RecyclerView.ViewHolder(view) {
@@ -101,35 +114,15 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         init {
             view.setOnClickListener {
                 val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    if (isInSelectionMode) {
-                        dataSet[position].isSelected = !dataSet[position].isSelected
-                        checkbox.isChecked = dataSet[position].isSelected
-                        selectedItemsCount = if (checkbox.isChecked) selectedItemsCount + 1 else selectedItemsCount - 1
-                        if (selectedItemsCount == 0) {
-                            isInSelectionMode = false
-                            itemClickListener.onSelectionEnded()
-                            notifyDataSetChanged() // This will refresh the RecyclerView and hide checkboxes
-                        }
-                    } else {
-                        itemClickListener.onItemClick(it, position)
-                    }
+                if (position != RecyclerView.NO_POSITION) { // 선택한 아이템이 실제로 존재하는지 -> 예외처리
+                    handleItemClick(it, position, checkbox)
                 }
             }
 
             view.setOnLongClickListener { // 아이템을 길게 눌렀을 때
-                if (!isInSelectionMode) { // 선택 모드가 아닐 때만 이벤트 처리
-                    val position = adapterPosition // 아이템의 위치를 가져옴
-                    if (position != RecyclerView.NO_POSITION) {
-                        isInSelectionMode = true // 선택모드 활성화
-                        notifyDataSetChanged()
-                        itemClickListener.onSelectionStarted() // 선택모드 시작 리스너 호출
-                        dataSet[position].isSelected = !dataSet[position].isSelected // 선택된 아이템의 isSelected를 true로 변경
-                        checkbox.isChecked = dataSet[position].isSelected // 체크박스 체크
-                        if (checkbox.isChecked) { // 체크박스가 체크되었을 때
-                            selectedItemsCount++  // 선택된 아이템 개수 증가
-                        }
-                    }
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    handleItemLongClick(position, checkbox)
                 }
                 true
             }
@@ -145,35 +138,15 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         init {
             view.setOnClickListener {
                 val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    if (isInSelectionMode) {
-                        dataSet[position].isSelected = !dataSet[position].isSelected
-                        checkbox.isChecked = dataSet[position].isSelected
-                        selectedItemsCount = if (checkbox.isChecked) selectedItemsCount + 1 else selectedItemsCount - 1
-                        if (selectedItemsCount == 0) {
-                            isInSelectionMode = false
-                            itemClickListener.onSelectionEnded()
-                            notifyDataSetChanged() // This will refresh the RecyclerView and hide checkboxes
-                        }
-                    } else {
-                        itemClickListener.onItemClick(it, position)
-                    }
+                if (position != RecyclerView.NO_POSITION) { // 선택한 아이템이 실제로 존재하는지 -> 예외처리
+                    handleItemClick(it, position, checkbox)
                 }
             }
 
             view.setOnLongClickListener { // 아이템을 길게 눌렀을 때
-                if (!isInSelectionMode) { // 선택 모드가 아닐 때만 이벤트 처리
-                    val position = adapterPosition // 아이템의 위치를 가져옴
-                    if (position != RecyclerView.NO_POSITION) {
-                        isInSelectionMode = true // 선택모드 활성화
-                        notifyDataSetChanged()
-                        itemClickListener.onSelectionStarted() // 선택모드 시작 리스너 호출
-                        dataSet[position].isSelected = !dataSet[position].isSelected // 선택된 아이템의 isSelected를 true로 변경
-                        checkbox.isChecked = dataSet[position].isSelected // 체크박스 체크
-                        if (checkbox.isChecked) { // 체크박스가 체크되었을 때
-                            selectedItemsCount++  // 선택된 아이템 개수 증가
-                        }
-                    }
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    handleItemLongClick(position, checkbox)
                 }
                 true
             }
@@ -186,35 +159,15 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         init {
             view.setOnClickListener {
                 val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    if (isInSelectionMode) {
-                        dataSet[position].isSelected = !dataSet[position].isSelected
-                        checkbox.isChecked = dataSet[position].isSelected
-                        selectedItemsCount = if (checkbox.isChecked) selectedItemsCount + 1 else selectedItemsCount - 1
-                        if (selectedItemsCount == 0) {
-                            isInSelectionMode = false
-                            itemClickListener.onSelectionEnded()
-                            notifyDataSetChanged() // This will refresh the RecyclerView and hide checkboxes
-                        }
-                    } else {
-                        itemClickListener.onItemClick(it, position)
-                    }
+                if (position != RecyclerView.NO_POSITION) { // 선택한 아이템이 실제로 존재하는지 -> 예외처리
+                    handleItemClick(it, position, checkbox)
                 }
             }
 
             view.setOnLongClickListener { // 아이템을 길게 눌렀을 때
-                if (!isInSelectionMode) { // 선택 모드가 아닐 때만 이벤트 처리
-                    val position = adapterPosition // 아이템의 위치를 가져옴
-                    if (position != RecyclerView.NO_POSITION) {
-                        isInSelectionMode = true // 선택모드 활성화
-                        notifyDataSetChanged()
-                        itemClickListener.onSelectionStarted() // 선택모드 시작 리스너 호출
-                        dataSet[position].isSelected = !dataSet[position].isSelected // 선택된 아이템의 isSelected를 true로 변경
-                        checkbox.isChecked = dataSet[position].isSelected // 체크박스 체크
-                        if (checkbox.isChecked) { // 체크박스가 체크되었을 때
-                            selectedItemsCount++  // 선택된 아이템 개수 증가
-                        }
-                    }
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    handleItemLongClick(position, checkbox)
                 }
                 true
             }

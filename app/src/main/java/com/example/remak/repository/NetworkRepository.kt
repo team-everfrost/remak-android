@@ -77,12 +77,12 @@ class NetworkRepository {
         return client.createWebPage(requestBody)
     }
 
-    suspend fun getEmbeddingData(query : String) : Response<SearchEmbeddingData.ResponseBody> {
-        return client.getEmbeddingData(query)
+    suspend fun getEmbeddingData(query : String?, offset : Int?) : Response<SearchEmbeddingData.ResponseBody> {
+        return client.getEmbeddingData(query, 20, offset)
     }
 
-    suspend fun getTextSearchData(query : String) : Response<SearchEmbeddingData.ResponseBody> {
-        return client.getTextSearchData(query)
+    suspend fun getTextSearchData(query : String?, cursor: String?, docId: String?) : Response<SearchEmbeddingData.ResponseBody> {
+        return client.getTextSearchData(query, cursor, docId)
     }
 
 
