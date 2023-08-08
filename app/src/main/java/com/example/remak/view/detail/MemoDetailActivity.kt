@@ -3,8 +3,14 @@ package com.example.remak.view.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
@@ -124,6 +130,10 @@ class MemoDetailActivity : AppCompatActivity() {
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
         }
+
+        binding.memoContent.addTextChangedListener(textWatcher)
+
+
     }
 
     private fun startEditMode() {
@@ -139,5 +149,51 @@ class MemoDetailActivity : AppCompatActivity() {
         binding.moreIcon.visibility = View.VISIBLE
         binding.shareIcon.visibility = View.VISIBLE
     }
+
+    private fun setFirstLineBold(editText: EditText) {
+        val content = editText.text.toString()
+        val spannable = SpannableStringBuilder(content)
+
+        val spans: Array<Any> = editText.text.getSpans(0, content.length, Any::class.java)
+        var isComposing = false
+        for (span in spans) {
+            if (editText.text.getSpanFlags(span) and Spanned.SPAN_COMPOSING == Spanned.SPAN_COMPOSING) {
+                isComposing = true
+                break
+            }
+        }
+
+        if (!isComposing) {
+            editText.removeTextChangedListener(textWatcher)
+
+            val firstNewLineIndex = content.indexOf('\n')
+            if (firstNewLineIndex > 0) {
+                spannable.setSpan(android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+                    0, firstNewLineIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            } else if (content.isNotEmpty()) {
+                spannable.setSpan(android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+                    0, content.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            editText.setText(spannable)
+            editText.setSelection(content.length) // 커서를 텍스트 끝으로 이동
+            editText.addTextChangedListener(textWatcher)  // 다시 TextWatcher 추가
+        }
+    }
+
+
+
+    private val textWatcher = object : TextWatcher {
+        override fun afterTextChanged(editable: Editable?) {
+            setFirstLineBold(binding.memoContent)
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+    }
+
+
+
+
 
 }
