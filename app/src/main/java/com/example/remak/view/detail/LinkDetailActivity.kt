@@ -24,9 +24,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.UtilityDialog
+import com.example.remak.adapter.LinkTagRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageLinkActivityBinding
 import com.example.remak.network.model.DetailData
@@ -34,6 +37,10 @@ import com.example.remak.view.main.MainViewModel
 import com.example.remak.view.main.MainViewModelFactory
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import org.apache.commons.text.StringEscapeUtils
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -47,7 +54,6 @@ class LinkDetailActivity : AppCompatActivity() {
     lateinit var url: String
     private lateinit var linkData: String
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -59,10 +65,28 @@ class LinkDetailActivity : AppCompatActivity() {
         val linkId = intent.getStringExtra("docId")
         viewModel.getDetailData(linkId!!)
 
+
+
+        val adapter = LinkTagRVAdapter(listOf("1", "2", "3", "4"))
+//        binding.tagRV.adapter = adapter
+//        binding.tagRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        val flexboxLayoutManager = FlexboxLayoutManager(this).apply {
+            flexWrap = FlexWrap.WRAP
+            flexDirection = FlexDirection.ROW
+        }
+
+        binding.tagRV.layoutManager = flexboxLayoutManager
+        binding.tagRV.adapter = adapter
+
         viewModel.detailData.observe(this) {
             Log.d("dataCheck", it.toString())
             updateUI(it)
+            adapter.tags = it.tags
+            adapter.notifyDataSetChanged()
+            Log.d("tag", it.tags.toString())
         }
+
 
 
 
@@ -160,7 +184,6 @@ class LinkDetailActivity : AppCompatActivity() {
         val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         val outputDateStr = outputFormat.format(date)
         binding.date.text = outputDateStr
-        val formattedTags = detailData.tags.joinToString(separator = "    ", transform = { it -> "#$it" })
         binding.title.setText(detailData.title)
 
         if (detailData.status != "SCRAPE_PENDING" && detailData.status != "SCRAPE_PROCESSING") {
@@ -168,7 +191,6 @@ class LinkDetailActivity : AppCompatActivity() {
         } else {
             binding.animation.visibility = View.VISIBLE
         }
-        binding.tags.text = formattedTags
 
 
 

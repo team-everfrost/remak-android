@@ -69,7 +69,12 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId){
                 R.id.homeFragment -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, MainHomeFragment()).commit()
+                    val currentFragment = supportFragmentManager.findFragmentById(R.id.mainFragmentContainerView)
+                    if (currentFragment is MainHomeFragment) {
+                        currentFragment.scrollToTop()
+                    } else {
+                        supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, MainHomeFragment()).commit()
+                    }
                     true
                 }
                 R.id.searchFragment -> {

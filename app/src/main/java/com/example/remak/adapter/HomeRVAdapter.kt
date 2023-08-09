@@ -270,7 +270,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                     holder.title.text = dataSet[position].title
 
                 }
-                holder.link.text = dataSet[position].url
+                holder.link.text = dataSet[position].summary
             }
 
             is ImageViewHolder -> {

@@ -41,8 +41,8 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         try {
             val response = networkRepository.getDetailData(docId)
             if (response.isSuccessful) {
-                //tag1, tag2 추가
-                response.body()!!.data.tags = listOf("WEB", "LINK", "TEST")
+
+
                 _detailData.value = response.body()!!.data
                 Log.d("success", response.body().toString())
             } else {

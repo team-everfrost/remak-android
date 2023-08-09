@@ -37,6 +37,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
     private var initialLoad = true
     lateinit var tokenRepository: TokenRepository
     private lateinit var resultLauncher : ActivityResultLauncher<Intent>
+    private lateinit var recyclerView : RecyclerView
 
 
 
@@ -67,7 +68,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             }
         }
         adapter = HomeRVAdapter(mutableListOf(), this)
-        val recyclerView : RecyclerView = binding.homeRV
+        recyclerView = binding.homeRV
         val itemDecoration = HomeItemOffsetDecoration(10, adapter)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
@@ -227,6 +228,10 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         super.onDestroyView()
         Log.d("ondestroyview", "ondestroyview")
         viewModel.resetMainData()
+    }
+
+    fun scrollToTop() {
+        recyclerView.scrollToPosition(0)
     }
 
 
