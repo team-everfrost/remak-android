@@ -15,6 +15,7 @@ class MainListData {
         var content : String?,
         val summary : String?,
         val status : String?,
+        val thumbnailUrl : String?,
         val createdAt : String?,
         var updatedAt : String?,
         val tags : List<String?>,

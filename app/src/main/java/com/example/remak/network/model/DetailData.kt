@@ -14,6 +14,7 @@ class DetailData {
         val url: String?,
         val content: String,
         val summary: String?,
+        val thumbnailUrl: String?,
         val status: String,
         val createdAt: String,
         val updatedAt: String,

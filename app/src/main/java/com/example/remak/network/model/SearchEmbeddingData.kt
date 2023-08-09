@@ -14,6 +14,7 @@ class SearchEmbeddingData {
         val content : String?,
         val summary : String?,
         val status : String,
+        val thumbnailUrl : String?,
         val createdAt : String,
         val updatedAt : String,
         val tags : List<String?>,

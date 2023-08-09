@@ -277,6 +277,12 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                         holder.link.text = dataSet[position].summary
                     }
                 }
+                if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
+                    Glide.with(holder.itemView.context)
+                        .load(dataSet[position].thumbnailUrl)
+                        .into(holder.itemView.findViewById(R.id.likeBtn))
+                }
+
             }
 
             is ImageViewHolder -> {
