@@ -28,6 +28,11 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     private val _tagDetailData = MutableLiveData<List<TagDetailData.Data>>()
     val tagDetailData : LiveData<List<TagDetailData.Data>> = _tagDetailData
 
+    private var cursor : String? = null
+    private var docId : String? = null
+
+    var isLoadEnd = false
+
 
    fun deleteDocument(docId : String) = viewModelScope.launch {
         try {
@@ -127,12 +132,45 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             if (response.isSuccessful) {
                 Log.d("tagDetailApi", response.body().toString())
                 _tagDetailData.value = response.body()!!.data
+                response.body()!!.data.let {
+                    cursor = it.last().updatedAt
+                    docId = it.last().docId
+                }
             } else {
                 Log.d("fail", response.errorBody().toString())
             }
         } catch (e : Exception) {
             Log.d("networkError", e.toString())
         }
+    }
+
+    fun getNewTagDetailData(tagName : String) = viewModelScope.launch {
+        if (!isLoadEnd) {
+            val tempData = tagDetailData.value?.toMutableList() ?: mutableListOf()
+            try {
+                val response = networkRepository.getTagDetailData(tagName, cursor, docId)
+                if (response.isSuccessful) {
+                    Log.d("tagDetailApi", response.body().toString())
+                    response.body()!!.data.let {
+                        if (it.isNotEmpty()) {
+                            tempData.addAll(it)
+                            _tagDetailData.value = tempData
+                            cursor = it.last().updatedAt
+                            docId = it.last().docId
+                        } else {
+                            isLoadEnd = true
+                        }
+                    }
+                    _tagDetailData.value = tempData
+                } else {
+                    Log.d("fail", response.errorBody().toString())
+                }
+            } catch (e : Exception) {
+                Log.d("networkError", e.toString())
+            }
+        }
+
+
     }
 
 

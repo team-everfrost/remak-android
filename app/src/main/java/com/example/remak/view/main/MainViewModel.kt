@@ -277,7 +277,7 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
                 _searchResult.value = response.body()!!.data
                 Log.d("search_result", _searchResult.value.toString())
                 response.body()!!.data.let {
-                    searchCursor = it.last().createdAt
+                    searchCursor = it.last().updatedAt
                     searchDocID = it.last().docId
                 }
             } else {
