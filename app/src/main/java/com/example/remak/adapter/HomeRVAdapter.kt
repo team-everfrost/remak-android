@@ -9,6 +9,8 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.remak.R
 import com.example.remak.network.model.MainListData
 import java.text.SimpleDateFormat
@@ -280,6 +282,12 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
                     Glide.with(holder.itemView.context)
                         .load(dataSet[position].thumbnailUrl)
+                        .transform(CenterCrop(), RoundedCorners(10))
+                        .into(holder.itemView.findViewById(R.id.likeBtn))
+                } else {
+                    Glide.with(holder.itemView.context)
+                        .load(R.drawable.sample_image)
+                        .transform(CenterCrop(), RoundedCorners(10))
                         .into(holder.itemView.findViewById(R.id.likeBtn))
                 }
 
