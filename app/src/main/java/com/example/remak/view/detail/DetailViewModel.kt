@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.network.model.DetailData
+import com.example.remak.network.model.TagDetailData
 import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,6 +24,10 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     private val networkRepository = NetworkRepository()
     private val _detailData = MutableLiveData<DetailData.Data>()
     val detailData : LiveData<DetailData.Data> = _detailData
+
+    private val _tagDetailData = MutableLiveData<List<TagDetailData.Data>>()
+    val tagDetailData : LiveData<List<TagDetailData.Data>> = _tagDetailData
+
 
    fun deleteDocument(docId : String) = viewModelScope.launch {
         try {
@@ -113,6 +118,26 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         } catch (e : Exception) {
             Log.d("networkError", e.toString())
         }
+    }
+
+    fun getTagDetailData(tagName : String) = viewModelScope.launch {
+        try {
+            Log.d("tagDetailApi", tagName)
+            val response = networkRepository.getTagDetailData(tagName, null, null)
+            if (response.isSuccessful) {
+                Log.d("tagDetailApi", response.body().toString())
+                _tagDetailData.value = response.body()!!.data
+            } else {
+                Log.d("fail", response.errorBody().toString())
+            }
+        } catch (e : Exception) {
+            Log.d("networkError", e.toString())
+        }
+    }
+
+
+    fun resetTagDetailData() {
+        _tagDetailData.value = listOf()
     }
 }
 

@@ -9,6 +9,7 @@ import com.example.remak.network.model.MainListData
 import com.example.remak.network.model.SearchEmbeddingData
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
+import com.example.remak.network.model.TagDetailData
 import com.example.remak.network.model.UpdateData
 import com.example.remak.network.model.UploadFileData
 import okhttp3.MultipartBody
@@ -87,4 +88,11 @@ interface Api {
         @Query("limit") limit : Int? = 20
     ) : retrofit2.Response<SearchEmbeddingData.ResponseBody>
 
+    @GET("document/search/tag")
+    suspend fun getTagDetailData(
+        @Query("tagName") tagName: String?,
+        @Query("cursor")  cursor : String?,
+        @Query("doc-id")  docID : String?,
+        @Query("limit") limit : Int? = 20
+    ) : retrofit2.Response<TagDetailData.Response>
 }

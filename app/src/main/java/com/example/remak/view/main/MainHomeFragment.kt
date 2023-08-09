@@ -64,7 +64,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
                     viewModel.resetScrollData()
                     viewModel.getAllMainList()
                 }
-
             }
         }
         adapter = HomeRVAdapter(mutableListOf(), this)
@@ -204,8 +203,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
                 intent.putExtra("docId", viewModel.mainListData.value!![position].docId)
                 resultLauncher.launch(intent)
             }
-
-
         }
     }
 

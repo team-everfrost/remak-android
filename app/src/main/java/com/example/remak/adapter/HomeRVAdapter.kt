@@ -218,9 +218,6 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
             }
             else -> throw IllegalArgumentException("Invalid type of data " + viewType)
         }
-
-
-
     }
 
     override fun getItemCount(): Int {
@@ -228,8 +225,6 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = dataSet[position]
-        Log.d(position.toString(), item.toString())
 
         when (holder) {
             is MemoViewHolder -> { // 메모
@@ -270,7 +265,18 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                     holder.title.text = dataSet[position].title
 
                 }
-                holder.link.text = dataSet[position].summary
+                if (dataSet[position].summary.isNullOrEmpty()) {
+                    holder.link.text = "Ai가 문서를 요약중이에요!"
+                } else {
+                    val summary = dataSet[position].summary
+                    //summary의 엔터 다음 문자는 제거
+                    if (summary!!.contains("\n")) {
+                        val index = summary.indexOf("\n")
+                        holder.link.text = summary.substring(0, index)
+                    } else {
+                        holder.link.text = dataSet[position].summary
+                    }
+                }
             }
 
             is ImageViewHolder -> {

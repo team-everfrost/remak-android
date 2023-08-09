@@ -1,31 +1,19 @@
 package com.example.remak.view.detail
 
 import android.app.Activity
-import android.app.Dialog
-import android.content.Context
 import android.content.Intent
-import android.graphics.BlurMaskFilter
-import android.graphics.Color
-import android.graphics.Point
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.text.Html
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.PopupMenu
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.UtilityDialog
@@ -35,18 +23,14 @@ import com.example.remak.databinding.DetailPageLinkActivityBinding
 import com.example.remak.network.model.DetailData
 import com.example.remak.view.main.MainViewModel
 import com.example.remak.view.main.MainViewModelFactory
-import com.facebook.shimmer.Shimmer
-import com.facebook.shimmer.ShimmerDrawable
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
-import org.apache.commons.text.StringEscapeUtils
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 
-class LinkDetailActivity : AppCompatActivity() {
+class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickListener {
     private lateinit var binding: DetailPageLinkActivityBinding
     private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
     private val mainViewModel : MainViewModel by viewModels { MainViewModelFactory(tokenRepository) }
@@ -65,11 +49,7 @@ class LinkDetailActivity : AppCompatActivity() {
         val linkId = intent.getStringExtra("docId")
         viewModel.getDetailData(linkId!!)
 
-
-
-        val adapter = LinkTagRVAdapter(listOf("1", "2", "3", "4"))
-//        binding.tagRV.adapter = adapter
-//        binding.tagRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        val adapter = LinkTagRVAdapter(listOf(), this)
 
         val flexboxLayoutManager = FlexboxLayoutManager(this).apply {
             flexWrap = FlexWrap.WRAP
@@ -86,8 +66,6 @@ class LinkDetailActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
             Log.d("tag", it.tags.toString())
         }
-
-
 
 
         binding.shareBtn.setOnClickListener {
@@ -289,6 +267,12 @@ class LinkDetailActivity : AppCompatActivity() {
             end = if (end > message.length) message.length else end
             Log.v(tag, message.substring(start, end))
         }
+    }
+
+    override fun onItemClick(position: Int) {
+        val intent = Intent(this, TagDetailActivity::class.java)
+        intent.putExtra("tagName", viewModel.detailData.value!!.tags[position])
+        startActivity(intent)
     }
 
 

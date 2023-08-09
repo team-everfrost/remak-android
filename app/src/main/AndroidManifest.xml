@@ -62,7 +62,7 @@
 
         </activity>
 
-         <activity android:name=".view.search.SearchResultActivity"
+         <activity android:name=".view.detail.TagDetailActivity"
             android:exported="true">
          </activity>
 

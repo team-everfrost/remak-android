@@ -12,6 +12,7 @@ import com.example.remak.network.model.SearchEmbeddingData
 
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
+import com.example.remak.network.model.TagDetailData
 import com.example.remak.network.model.UpdateData
 import com.example.remak.network.model.UploadFileData
 import okhttp3.MultipartBody
@@ -85,6 +86,8 @@ class NetworkRepository {
         return client.getTextSearchData(query, cursor, docId)
     }
 
-
+    suspend fun getTagDetailData(tagName : String, cursor : String?, docId : String?) : Response<TagDetailData.Response> {
+        return client.getTagDetailData(tagName, cursor, docId)
+    }
 
 }
