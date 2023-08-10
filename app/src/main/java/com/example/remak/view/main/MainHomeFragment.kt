@@ -231,6 +231,9 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         recyclerView.scrollToPosition(0)
     }
 
+    fun isRecyclerViewInitialized() = ::recyclerView.isInitialized
+
+
 
 }
 

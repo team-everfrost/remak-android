@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.PopupMenu
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -185,6 +186,13 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
 
     private fun showContent(linkData: String) {
         binding.webView.visibility = View.VISIBLE
+        binding.webView.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                binding.tagRV.visibility = View.VISIBLE
+                binding.bottomBtnLayout.visibility = View.VISIBLE
+            }
+        }
         binding.webView.focusable = View.NOT_FOCUSABLE // 웹뷰 터치 시 자동 스크롤 방지
         binding.webView.isFocusableInTouchMode = false //웹뷰 터치 시 자동 스크롤 방지
         binding.webView.apply {

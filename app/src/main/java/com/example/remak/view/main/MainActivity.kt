@@ -57,13 +57,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        supportFragmentManager.beginTransaction()
-//            .add(R.id.mainFragmentContainerView, homeFragment)
-//            .add(R.id.mainFragmentContainerView, searchFragment).hide(searchFragment)
-//            .add(R.id.mainFragmentContainerView, tagFragment).hide(tagFragment)
-//            .add(R.id.mainFragmentContainerView, profileFragment).hide(profileFragment)
-//            .add(R.id.mainFragmentContainerView, blankFragment).hide(blankFragment)
-//            .commit()
 
         val bottomNavigationView = binding.bottomNavigation
         bottomNavigationView.setOnItemSelectedListener { item ->
@@ -71,7 +64,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment -> {
                     val currentFragment = supportFragmentManager.findFragmentById(R.id.mainFragmentContainerView)
                     if (currentFragment is MainHomeFragment) {
-                        currentFragment.scrollToTop()
+                        if (currentFragment.isRecyclerViewInitialized()){
+                            currentFragment.scrollToTop()
+
+                        }
                     } else {
                         supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, MainHomeFragment()).commit()
                     }
