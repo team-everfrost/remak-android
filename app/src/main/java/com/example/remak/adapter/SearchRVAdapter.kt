@@ -9,6 +9,8 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.remak.R
 import com.example.remak.network.model.SearchEmbeddingData
 import com.example.remak.adapter.HomeRVAdapter
@@ -183,12 +185,29 @@ class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val 
                     holder.title.text = dataSet[position].title
 
                 }
-                holder.link.text = dataSet[position].url
-            }
-            is ImageViewHolder -> {
-                Glide.with(holder.itemView.context)
-                    .load(dataSet[position].url)
-                    .into(holder.itemView.findViewById(R.id.imageView))
+                if (dataSet[position].summary.isNullOrEmpty()) {
+                    holder.link.text = "Ai가 문서를 요약중이에요!"
+                } else {
+                    val summary = dataSet[position].summary
+                    //summary의 엔터 다음 문자는 제거
+                    if (summary!!.contains("\n")) {
+                        val index = summary.indexOf("\n")
+                        holder.link.text = summary.substring(0, index)
+                    } else {
+                        holder.link.text = dataSet[position].summary
+                    }
+                }
+                if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
+                    Glide.with(holder.itemView.context)
+                        .load(dataSet[position].thumbnailUrl)
+                        .transform(CenterCrop(), RoundedCorners(10))
+                        .into(holder.itemView.findViewById(R.id.likeBtn))
+                } else {
+                    Glide.with(holder.itemView.context)
+                        .load(R.drawable.sample_image)
+                        .transform(CenterCrop(), RoundedCorners(10))
+                        .into(holder.itemView.findViewById(R.id.likeBtn))
+                }
             }
         }
     }

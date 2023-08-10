@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.remak.dataStore.SearchHistoryRepository
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.network.model.MainListData
 import com.example.remak.network.model.SearchEmbeddingData
@@ -40,9 +41,6 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
 
     private val _isWebPageCreateSuccess = MutableLiveData<Boolean>()
     val isWebPageCreateSuccess : LiveData<Boolean> = _isWebPageCreateSuccess
-
-    private val _searchResult = MutableLiveData<List<SearchEmbeddingData.Data>>()
-    val searchResult : LiveData<List<SearchEmbeddingData.Data>> = _searchResult
 
     private var isLoadEnd : Boolean = false
 
@@ -255,92 +253,6 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         _isLogIn.value = tokenRepository.fetchTokenData() != null
     }
 
-    fun getEmbeddingSearchResult(query : String) = viewModelScope.launch {
-        lastQuery = query
-        val response = networkRepository.getEmbeddingData(query, null)
-        try {
-            if (response.isSuccessful) {
-                _searchResult.value = response.body()!!.data
-                Log.d("search_result", _searchResult.value.toString())
-                embeddingOffset = 1
-            } else {
-                Log.d("search_result", response.errorBody()!!.string())
-            }
-        } catch (e : Exception) {
-            Log.d("search_result", e.toString())
-        }
-    }
-
-    fun getTextSearchResult(query: String) = viewModelScope.launch {
-        lastQuery = query
-        val response = networkRepository.getTextSearchData(query, null, null)
-        try {
-            if (response.isSuccessful) {
-                _searchResult.value = response.body()!!.data
-                Log.d("search_result", _searchResult.value.toString())
-                response.body()!!.data.let {
-                    searchCursor = it.last().updatedAt
-                    searchDocID = it.last().docId
-                }
-            } else {
-                Log.d("search_result", response.errorBody()!!.string())
-            }
-        } catch (e : Exception) {
-            Log.d("search_result", e.toString())
-        }
-
-    }
-
-    fun getNewTextSearchResult() = viewModelScope.launch {
-        if (!isLoadEnd) {
-            val tempData = searchResult.value?.toMutableList() ?: mutableListOf()
-            val response = networkRepository.getTextSearchData(lastQuery, searchCursor, searchDocID)
-            try {
-                if (response.isSuccessful) {
-                    Log.d("search_result", response.body()!!.data.toString())
-                    for (data in response.body()!!.data) {
-                        tempData.add(data)
-                    }
-                    response.body()!!.data.let {
-                        searchCursor = it.last().createdAt
-                        searchDocID = it.last().docId
-                    }
-                    _searchResult.value = tempData
-
-                } else {
-                    Log.d("search_result", response.errorBody()!!.string())
-                }
-            } catch (e : Exception) {
-                Log.d("search_result", e.toString())
-                isLoadEnd = true
-            }
-        }
-    }
-
-    fun getNewEmbeddingSearch() = viewModelScope.launch {
-        isEmbeddingLoading.value = true
-        var tempData = searchResult.value?.toMutableList() ?: mutableListOf()
-
-            Log.d("embeddingOffset", embeddingOffset.toString())
-            val response = networkRepository.getEmbeddingData(lastQuery, embeddingOffset)
-            try {
-                if (response.isSuccessful) {
-                    for (data in response.body()!!.data) {
-                        tempData.add(data)
-                    }
-                    embeddingOffset = embeddingOffset?.plus(1)
-
-                } else {
-                    Log.d("search_result", response.errorBody()!!.string())
-                }
-            } catch (e : Exception) {
-                Log.d("search_result", e.toString())
-                isLoadEnd = true
-            }
-
-        _searchResult.value = tempData
-        isEmbeddingLoading.value = false
-    }
 
     fun deleteDocument(docId : String) = viewModelScope.launch {
         val response = networkRepository.deleteDocument(docId)
@@ -356,9 +268,6 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         }
     }
 
-    fun resetSearchData() {
-        _searchResult.value = listOf()
-    }
 
     fun resetMainData() {
         isLoadEnd = false
@@ -376,13 +285,10 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         embeddingOffset = null
     }
 
-    fun increaseOffset() {
-embeddingOffset = embeddingOffset?.plus(1)
-    }
 
 }
 
-class MainViewModelFactory(private val tokenRepository: TokenRepository) : ViewModelProvider.Factory {
+class MainViewModelFactory(private val tokenRepository: TokenRepository, ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

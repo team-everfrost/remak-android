@@ -82,6 +82,39 @@
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="0dp" />
 
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/historyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filterLayout"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="최근 검색 내역"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textFontWeight="400"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"/>
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchHistoryRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
     <com.facebook.shimmer.ShimmerFrameLayout
         android:visibility="gone"
         android:id="@+id/shimmerLayout"

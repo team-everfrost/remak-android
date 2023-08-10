@@ -30,7 +30,7 @@ class TokenRepository(private val dataStore: DataStore<Preferences>) {
     //토큰 정보를 삭제하는 함수
     suspend fun deleteUser() {
         dataStore.edit { preferences ->
-            preferences.clear()
+            preferences.remove(PreferencesKeys.ACCESS_TOKEN)
         }
     }
 

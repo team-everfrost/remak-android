@@ -30,15 +30,17 @@ import com.example.remak.view.detail.LinkDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
 import com.example.remak.adapter.ItemOffsetDecoration
 import com.example.remak.adapter.SearchRVAdapter
+import com.example.remak.dataStore.SearchHistoryRepository
 
 class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener {
     private lateinit var binding : MainSearchFragmentBinding
-    private val viewModel : MainViewModel by activityViewModels { MainViewModelFactory(tokenRepository)}
+    private val viewModel : SearchViewModel by activityViewModels { SearchViewModelFactory(searchHistoryRepository)}
     lateinit var tokenRepository: TokenRepository
     private lateinit var adapter : SearchRVAdapter
     var isSearchBtnClicked = false
     private var isTextSearch = false
     private var isEmbeddingSearch = false
+    private lateinit var searchHistoryRepository: SearchHistoryRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +50,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener {
         binding = MainSearchFragmentBinding.inflate(inflater, container, false)
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
         adapter = SearchRVAdapter(mutableListOf(), this)
+        searchHistoryRepository = SearchHistoryRepository((requireActivity().application as App).dataStore)
 
 
         //뒤로가기 시 홈 프래그먼트로 이동
@@ -102,7 +105,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener {
                 isEmbeddingSearch = true
                 isTextSearch = false
                 viewModel.resetScrollData()
-
+                viewModel.saveSearchHistory(binding.searchEditText.text.toString())
 
             }
             false
@@ -158,7 +161,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener {
                 val totalItemCount = recyclerView.layoutManager?.itemCount
                 val lastVisibleItemCount = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
 
-                if (!viewModel.isLoading.value!! && totalItemCount!! <= (lastVisibleItemCount + 5)) {
+                if (totalItemCount!! <= (lastVisibleItemCount + 5)) {
                     if (isTextSearch) {
                         viewModel.getNewTextSearchResult()
                         Log.d("새로운 데이터 받아옴", "getNewTextSearchResult")

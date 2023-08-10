@@ -1,44 +1,22 @@
 package com.example.remak.view.main
 
-import android.app.Dialog
-import android.content.Context
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Layout
-import android.util.AttributeSet
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
 import androidx.activity.viewModels
-import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
 import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainActivityBinding
-import com.example.remak.databinding.MainHomeFragmentBinding
 import com.example.remak.view.account.AccountActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.navigation.NavigationBarView
+
 
 class MainActivity : AppCompatActivity() {
-    private val homeFragment = MainHomeFragment()
-    private val searchFragment = MainSearchFragment()
-    private val tagFragment = MainTagFragment()
-    private val profileFragment = MainProfileFragment()
-    private val blankFragment = blank()
     private val viewModel : MainViewModel by viewModels { MainViewModelFactory(tokenRepository)  }
     lateinit var tokenRepository: TokenRepository
     private var _binding : MainActivityBinding? = null
      val binding get() = _binding!!
-    private var activeFragment: Fragment = homeFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
