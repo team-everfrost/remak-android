@@ -26,15 +26,20 @@ class MainProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = MainProfileFragmentBinding.inflate(inflater, container, false)
-        binding.root.setOnClickListener {
-            UtilitySystem.hideKeyboard(requireActivity())
-        }
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
 
         //뒤로가기 시 홈 프래그먼트로 이동
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
             isEnabled = false
+        }
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.root.setOnClickListener {
+            UtilitySystem.hideKeyboard(requireActivity())
         }
 
         binding.logoutButton.setOnClickListener {
@@ -47,8 +52,6 @@ class MainProfileFragment : Fragment() {
                 //do nothing
             })
         }
-
-        return binding.root
     }
 
     //ondestroy

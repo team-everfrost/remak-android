@@ -18,6 +18,7 @@ class TagViewModel (private val tokenRepository: TokenRepository) : ViewModel() 
     val tagList : LiveData<List<TagListData.Data>> = _tagList
 
     private var offset : Int? = null
+    private var isListEnd : Boolean = false
     private var isLoadEnd : Boolean = false
 
 
@@ -37,14 +38,15 @@ class TagViewModel (private val tokenRepository: TokenRepository) : ViewModel() 
 
     fun getNewTagList() = viewModelScope.launch {
         var tempData = tagList.value?.toMutableList() ?: mutableListOf()
-        if (!isLoadEnd) {
+        if (!isListEnd && !isLoadEnd) {
+            isLoadEnd = true
             try {
                 val response = networkRepository.getTagListData(offset!!)
                 if (response.isSuccessful) {
                     if (response.body()!!.data.isEmpty()) {
-                        isLoadEnd = true
+                        isListEnd = true
                     } else {
-                        Log.d("tag_list", response.body()!!.data.toString())
+                        Log.d("tag_list", offset.toString())
                         for (data in response.body()!!.data) {
                             tempData.add(data)
                         }
@@ -52,19 +54,20 @@ class TagViewModel (private val tokenRepository: TokenRepository) : ViewModel() 
                     }
                 } else {
                     Log.d("tag_list", response.errorBody()!!.string())
-                    isLoadEnd = true
+                    isListEnd = true
                 }
             } catch (e: Exception) {
                 Log.d("tag_list", e.toString())
-                isLoadEnd = true
+                isListEnd = true
             }
             _tagList.value = tempData
+            isLoadEnd = false
         }
     }
 
     fun resetScrollData() {
         offset = null
-        isLoadEnd = false
+        isListEnd = false
     }
 }
 

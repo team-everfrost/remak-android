@@ -120,6 +120,10 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
 
     fun resetSearchData() {
         _searchResult.value = listOf()
+        isLoadEnd = false
+        searchCursor = null
+        searchDocID = null
+        embeddingOffset = null
     }
 
 

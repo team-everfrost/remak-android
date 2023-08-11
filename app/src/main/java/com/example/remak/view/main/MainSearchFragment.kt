@@ -17,6 +17,7 @@ import androidx.activity.addCallback
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
@@ -35,11 +36,11 @@ import com.example.remak.dataStore.SearchHistoryRepository
 
 class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, SearchHistoryRVAdapter.OnItemClickListener {
     private lateinit var binding : MainSearchFragmentBinding
-    private val viewModel : SearchViewModel by activityViewModels { SearchViewModelFactory(searchHistoryRepository)}
+    private val viewModel : SearchViewModel by viewModels { SearchViewModelFactory(searchHistoryRepository)}
     lateinit var tokenRepository: TokenRepository
     private lateinit var adapter : SearchRVAdapter
     private lateinit var historyAdapter : SearchHistoryRVAdapter
-    var isSearchBtnClicked = false
+    private var isSearchBtnClicked = false
     private var isTextSearch = false
     private var isEmbeddingSearch = false
     private lateinit var searchHistoryRepository: SearchHistoryRepository
@@ -259,6 +260,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
 
     override fun onResume() {
         super.onResume()
+        Log.d("MainSearchFragment", "onResume")
         if (viewModel.searchResult.value == null || viewModel.searchResult.value!!.isEmpty()) {
             binding.searchRecyclerView.visibility = View.GONE
         }
@@ -267,6 +269,8 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
     override fun onDestroy() {
         super.onDestroy()
         Log.d("MainSearchFragment", "onDestroy")
+        viewModel.resetSearchData()
+
 
     }
 
@@ -276,5 +280,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
         super.onDestroyView()
         Log.d("MainSearchFragment", "onDestroyView")
         viewModel.resetSearchData()
+
     }
 }
