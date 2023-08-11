@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/topLinear"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,12 +18,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/remak"
+            android:text="Tags"
+            android:textColor="@color/checkBlue"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -35,12 +35,106 @@
         app:layout_constraintTop_toBottomOf="@id/topLinear"
         />
 
+    <TextView
+        android:id="@+id/collectionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="컬렉션"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    
+    <RelativeLayout
+        android:id="@+id/sample1"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintTop_toBottomOf="@id/collectionText"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⭐프로젝트 자료"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="43dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/sample2"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintTop_toBottomOf="@id/sample1"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🧸소장 자료들"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="43dp"
+            />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/whiteGray"
+        app:layout_constraintTop_toBottomOf="@id/sample2"
+        />
+
+    <TextView
+        android:id="@+id/tagText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="태그"
+        app:layout_constraintTop_toBottomOf="@id/divider2"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tagRV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintTop_toBottomOf="@id/tagText"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    
+
+
+
+
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/tagRV"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/divider"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"/>-->
 
 
 

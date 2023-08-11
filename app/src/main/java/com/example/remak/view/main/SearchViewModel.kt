@@ -37,7 +37,7 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
             if (response.isSuccessful) {
                 _searchResult.value = response.body()!!.data
                 Log.d("search_result", _searchResult.value.toString())
-                embeddingOffset = 1
+                embeddingOffset = 20
             } else {
                 Log.d("search_result", response.errorBody()!!.string())
             }
@@ -71,8 +71,8 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
             val tempData = searchResult.value?.toMutableList() ?: mutableListOf()
             val response = networkRepository.getTextSearchData(lastQuery, searchCursor, searchDocID)
             try {
+                Log.d("search_result", response.body()!!.data.toString())
                 if (response.isSuccessful) {
-                    Log.d("search_result", response.body()!!.data.toString())
                     for (data in response.body()!!.data) {
                         tempData.add(data)
                     }
@@ -103,7 +103,7 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
                 for (data in response.body()!!.data) {
                     tempData.add(data)
                 }
-                embeddingOffset = embeddingOffset?.plus(1)
+                embeddingOffset = embeddingOffset?.plus(20)
 
             } else {
                 Log.d("search_result", response.errorBody()!!.string())
@@ -137,6 +137,11 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
 
     fun getSearchHistory()  = viewModelScope.launch {
         _searchHistory.value = searchHistoryRepository.fetchSearchHistory()
+    }
+
+    fun deleteSearchHistory(query : String) = viewModelScope.launch {
+        searchHistoryRepository.deleteSearchQuery(query)
+        getSearchHistory()
     }
 }
 

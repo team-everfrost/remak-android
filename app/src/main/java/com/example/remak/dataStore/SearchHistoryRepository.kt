@@ -27,12 +27,16 @@ class SearchHistoryRepository(private val dataStore: DataStore<Preferences>) {
         val newList = mutableListOf<String>()
         newList.addAll(currentList)
 
-        if (!newList.contains(history)) {
-            newList.add(history)
-        }
+        // 이미 리스트에 해당 검색 기록이 있다면 제거
+        newList.remove(history)
+
+        // 맨 앞에 검색 기록 추가
+        newList.add(0, history)
 
         return newList
     }
+
+
 
     // 검색 기록 삭제
     suspend fun deleteSearchQuery(query: String) {

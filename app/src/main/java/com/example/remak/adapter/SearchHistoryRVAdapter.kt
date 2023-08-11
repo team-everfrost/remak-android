@@ -1,5 +1,6 @@
 package com.example.remak.adapter
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
@@ -8,16 +9,24 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.R
 
-class SearchHistoryRVAdapter (val history : List<String>, private val itemClickListener : OnItemClickListener) : RecyclerView.Adapter<SearchHistoryRVAdapter.SearchHistoryRVViewHolder>() {
+class SearchHistoryRVAdapter (var history : List<String>, private val itemClickListener : OnItemClickListener) : RecyclerView.Adapter<SearchHistoryRVAdapter.SearchHistoryRVViewHolder>() {
 
     inner class SearchHistoryRVViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         val deleteBtn : TextView = view.findViewById(R.id.deleteBtn)
+        val searchHistoryText : TextView = view.findViewById(R.id.searchHistoryText)
         init {
             deleteBtn.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener.onDeleteBtnClick(position)
+                }
 
             }
-
             view.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener.onItemViewClick(position)
+                }
             }
         }
     }
@@ -32,11 +41,12 @@ class SearchHistoryRVAdapter (val history : List<String>, private val itemClickL
     }
 
     override fun onBindViewHolder(holder: SearchHistoryRVViewHolder, position: Int) {
-
+        holder.searchHistoryText.text = history[position]
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchHistoryRVViewHolder {
-        TODO("Not yet implemented")
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search_history, parent, false)
+        return SearchHistoryRVViewHolder(view)
     }
 
 }

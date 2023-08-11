@@ -13,6 +13,7 @@ import com.example.remak.network.model.SearchEmbeddingData
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
 import com.example.remak.network.model.TagDetailData
+import com.example.remak.network.model.TagListData
 import com.example.remak.network.model.UpdateData
 import com.example.remak.network.model.UploadFileData
 import okhttp3.MultipartBody
@@ -90,4 +91,7 @@ class NetworkRepository {
         return client.getTagDetailData(tagName, cursor, docId)
     }
 
+    suspend fun getTagListData(offset: Int?) : Response<TagListData.Response> {
+        return client.getTagListData(20, offset)
+    }
 }
