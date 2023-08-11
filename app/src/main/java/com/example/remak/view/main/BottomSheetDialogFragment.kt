@@ -1,9 +1,7 @@
 package com.example.remak.view.main
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -13,42 +11,53 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.OpenableColumns
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.fragment.app.activityViewModels
 import com.example.remak.R
 import com.example.remak.UtilityDialog
 import com.example.remak.databinding.BottomSheetDialogBinding
-import com.example.remak.network.model.UploadFileData
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.InputStream
-import java.net.URI
 
 class BottomSheetDialogFragment : BottomSheetDialogFragment() {
     private val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val uri = result.data?.data
-            val mimeType = requireActivity().contentResolver.getType(uri!!)
-            val inputStream = requireActivity().contentResolver.openInputStream(uri!!)
-            val file = inputStreamToFile(inputStream!!,uri)
-            val requestFile = file.asRequestBody(mimeType?.toMediaTypeOrNull())
-            val fileList = List<MultipartBody.Part>(1) {
-                MultipartBody.Part.createFormData("files", file.name, requestFile)
+            val clipData = result.data?.clipData
+            val uriList = mutableListOf<Uri>()
+            var isUploadAble = true
+            if (clipData != null && clipData.itemCount <= 10) {
+                for (i in 0 until clipData.itemCount) {
+                    uriList.add(clipData.getItemAt(i).uri)
+                }
+            } else if (clipData == null) {  // 단일 파일이 선택된 경우
+                result.data?.data?.let {
+                    uriList.add(it)
+                }
+            } else {
+                UtilityDialog.showInformDialog("파일은 최대 10개까지 선택 가능합니다.", requireContext())
+                isUploadAble = false
             }
-            viewModel.uploadFile(fileList)
+
+            if (isUploadAble) {
+                val fileList = mutableListOf<MultipartBody.Part>()
+                for (uri in uriList){
+                    val mimeType = requireActivity().contentResolver.getType(uri)
+                    val inputStream = requireActivity().contentResolver.openInputStream(uri)
+                    val file = inputStreamToFile(inputStream!!,uri)
+                    val requestFile = file.asRequestBody(mimeType?.toMediaTypeOrNull())
+                    fileList.add(MultipartBody.Part.createFormData("files", file.name, requestFile))
+                }
+                viewModel.uploadFile(fileList)
+            }
             this.dismiss()
             (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
         }
@@ -89,6 +98,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
                 type = "*/*"
                 addCategory(Intent.CATEGORY_OPENABLE)
+                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             }
             getContent.launch(intent)
         }
@@ -97,6 +107,8 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
                 type = "image/*"
                 addCategory(Intent.CATEGORY_OPENABLE)
+                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+
             }
             getContent.launch(intent)
         }
