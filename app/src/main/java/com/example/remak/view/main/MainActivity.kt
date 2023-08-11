@@ -72,7 +72,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 시작 시 홈 프래그먼트로 이동
-        bottomNavigationView.selectedItemId = R.id.homeFragment
+        if (savedInstanceState == null) {
+            bottomNavigationView.selectedItemId = R.id.homeFragment
+        }
 
         binding.addBtn.setOnClickListener {
             val myBottomSheet = BottomSheetDialogFragment()

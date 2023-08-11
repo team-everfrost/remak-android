@@ -48,6 +48,8 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
     private lateinit var handler : Handler
     private var isHistorySearch = false
     var runnable: Runnable? = null
+    private var isRotating: Boolean = false
+
 
 
     private val textWatcher = object  : TextWatcher {
@@ -60,6 +62,11 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            if (isRotating) {  // 화면 회전 시 로직 건너뛰기
+                isRotating = false  // 플래그 초기화
+                return
+            }
+
             if (!isHistorySearch) {
                 runnable = Runnable {
                     if (p0.toString().isNotEmpty()) {
@@ -93,6 +100,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
         searchHistoryRepository = SearchHistoryRepository((requireActivity().application as App).dataStore)
 
 
+
         //뒤로가기 시 홈 프래그먼트로 이동
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
@@ -104,6 +112,22 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val isRotate = savedInstanceState?.getBoolean("isRotate") ?: false
+        val searchKeyword = savedInstanceState?.getString("searchKeyword") ?: ""
+
+        if (isRotate && searchKeyword.isNotEmpty()) {
+            isRotating = true
+            binding.searchEditText.removeTextChangedListener(textWatcher)
+            binding.searchEditText.setText(searchKeyword)
+            binding.searchEditText.addTextChangedListener(textWatcher)
+
+
+            binding.searchRecyclerView.visibility = View.VISIBLE
+            binding.historyLayout.visibility = View.GONE
+        } else {
+            binding.searchEditText.addTextChangedListener(textWatcher)
+        }
 
         val recyclerView = binding.searchRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -177,7 +201,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
             }
         }
 
-        binding.searchEditText.addTextChangedListener(textWatcher)
 
         //리사이클러 뷰 무한스크롤 기능
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -201,6 +224,8 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
 
 
     }
+
+
 
     override fun onItemViewClick(position: Int) {
         isHistorySearch = true
@@ -256,8 +281,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
         }
     }
 
-
-
     override fun onResume() {
         super.onResume()
         Log.d("MainSearchFragment", "onResume")
@@ -269,17 +292,18 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
     override fun onDestroy() {
         super.onDestroy()
         Log.d("MainSearchFragment", "onDestroy")
-        viewModel.resetSearchData()
-
-
+        viewModel.resetScrollData()
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         Log.d("MainSearchFragment", "onDestroyView")
-        viewModel.resetSearchData()
+        viewModel.resetScrollData()
+    }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("isRotate", true)
+        outState.putString("searchKeyword", binding.searchEditText.text.toString())
     }
 }
