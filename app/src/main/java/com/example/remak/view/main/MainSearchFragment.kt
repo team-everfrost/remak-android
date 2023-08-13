@@ -56,7 +56,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
         override fun afterTextChanged(p0: Editable?) {
             if (runnable != null) {
                 handler.removeCallbacks(runnable!!)
-                handler.postDelayed(runnable!!, 500)
+                handler.postDelayed(runnable!!, 700)
             }
         }
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -113,8 +113,15 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         val isRotate = savedInstanceState?.getBoolean("isRotate") ?: false
         val searchKeyword = savedInstanceState?.getString("searchKeyword") ?: ""
+
+        binding.searchHistoryRV.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                UtilitySystem.hideKeyboard(requireActivity())
+            }
+        })
 
         if (isRotate && searchKeyword.isNotEmpty()) {
             isRotating = true
@@ -166,17 +173,22 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
         //엔터 누를시
         binding.searchEditText.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                handler.removeCallbacksAndMessages(null)
-                isSearchBtnClicked = true
-                binding.searchRecyclerView.visibility = View.GONE
-                binding.shimmerLayout.startShimmer()
-                binding.shimmerLayout.visibility = View.VISIBLE
-                viewModel.getEmbeddingSearchResult(binding.searchEditText.text.toString())
-                isEmbeddingSearch = true
-                isTextSearch = false
-                viewModel.resetScrollData()
-                viewModel.saveSearchHistory(binding.searchEditText.text.toString())
-                binding.historyLayout.visibility = View.GONE
+                if (binding.searchEditText.text.toString().isNotEmpty()) {
+                    handler.removeCallbacksAndMessages(null)
+                    isSearchBtnClicked = true
+                    binding.searchRecyclerView.visibility = View.GONE
+                    binding.shimmerLayout.startShimmer()
+                    binding.shimmerLayout.visibility = View.VISIBLE
+                    viewModel.getEmbeddingSearchResult(binding.searchEditText.text.toString())
+                    isEmbeddingSearch = true
+                    isTextSearch = false
+                    viewModel.resetScrollData()
+                    viewModel.saveSearchHistory(binding.searchEditText.text.toString())
+                    binding.historyLayout.visibility = View.GONE
+                    binding.searchEditText.clearFocus()
+                } else {
+                    return@setOnEditorActionListener true
+                }
             }
             false
         }
@@ -209,6 +221,11 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
                 val totalItemCount = recyclerView.layoutManager?.itemCount
                 val lastVisibleItemCount = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
 
+                if (dy != 0) {
+                    UtilitySystem.hideKeyboard(requireActivity())
+
+                }
+
                 if (totalItemCount!! <= (lastVisibleItemCount + 5)) {
                     if (isTextSearch) {
                         viewModel.getNewTextSearchResult()
@@ -227,6 +244,8 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
 
 
 
+
+    //히스토리 버튼 클릭 시
     override fun onItemViewClick(position: Int) {
         isHistorySearch = true
         isSearchBtnClicked = true
@@ -243,6 +262,8 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
         binding.searchEditText.setText(historyAdapter.history[position])
         binding.searchEditText.addTextChangedListener(textWatcher)
         binding.searchEditText.setSelection(binding.searchEditText.text!!.length)
+        binding.searchEditText.clearFocus()
+        UtilitySystem.hideKeyboard(requireActivity())
     }
 
     override fun onDeleteBtnClick(position: Int) {

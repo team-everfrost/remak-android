@@ -248,7 +248,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 val text = holder.itemView.context.getString(R.string.filetype_date, "PDF", outputDateStr)
 
                 // .앞에 있는 파일 이름만 가져오기
-                val title = dataSet[position].title!!.substringBefore(".")
+                val title = dataSet[position].title!!.substringBeforeLast(".")
 
                 holder.title.text = title//제목
                 holder.subject.text = text //파일타입, 날짜
