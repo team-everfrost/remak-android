@@ -4,6 +4,7 @@ package com.example.remak.view.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import com.example.remak.App
 import com.example.remak.R
@@ -20,20 +21,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("MainActivity", "onCreate")
 
         tokenRepository = TokenRepository((application as App).dataStore)
         _binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel.loginCheck()
 
-        viewModel.isLogIn.observe(this) {
-            if (!it) {
-                val intent = Intent(this, AccountActivity::class.java)
-                startActivity(intent)
-                finish()
-
-            }
-        }
+//        viewModel.isLogIn.observe(this) {
+//            if (!it) {
+//                val intent = Intent(this, AccountActivity::class.java)
+//                startActivity(intent)
+//                finish()
+//            }
+//        }
 
 
         val bottomNavigationView = binding.bottomNavigation
@@ -82,7 +83,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

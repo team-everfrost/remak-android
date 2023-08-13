@@ -45,6 +45,7 @@
         </activity>
 
         <activity android:name=".view.SplashActivity"
+            android:theme="@style/Theme.SplashScreen.Remak"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

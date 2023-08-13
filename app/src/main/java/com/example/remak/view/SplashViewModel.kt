@@ -10,17 +10,35 @@ import kotlinx.coroutines.launch
 
 class SplashViewModel(private val signInRepository: TokenRepository) : ViewModel()  {
 
+    private val _isReady = MutableLiveData<Boolean>()
+    val isReady: LiveData<Boolean> get() = _isReady
+
+
+
     private val _isToken = MutableLiveData<Boolean>()
     val isToken : LiveData<Boolean> = _isToken
 
     init {
         checkToken()
+        _isReady.postValue(false)
+
     }
 
     private fun checkToken() {
         viewModelScope.launch{
             _isToken.value = signInRepository.checkToken()
         }
+    }
+
+    suspend fun isTokenAvailable(): Boolean {
+        val result = signInRepository.checkToken()
+        // After checking the token, set the isReady to true
+        _isReady.postValue(true)
+        return result
+    }
+
+   fun returnIsReady() : Boolean {
+        return _isReady.value ?: false
     }
 
 

@@ -238,8 +238,6 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
                 val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
 
-                Log.d("errordate", dataSet[position].updatedAt!!)
-
                 val dateTime = ZonedDateTime.parse(dataSet[position].updatedAt, inputFormatter)
                 val outputDateStr = dateTime.format(outputFormatter)
 

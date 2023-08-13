@@ -46,6 +46,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("oncreateview", "oncreateview")
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
         _binding = MainHomeFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
