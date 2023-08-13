@@ -13,11 +13,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.remak.R
 import com.example.remak.network.model.MainListData
-import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import java.util.TimeZone
 
 class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClickListener : OnItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -136,7 +134,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
         val checkbox : CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
         val title : TextView = view.findViewById(R.id.title)
-        val link : TextView = view.findViewById(R.id.link)
+        val description : TextView = view.findViewById(R.id.link)
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -259,37 +257,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
             is WebpageViewHolder -> {
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
-                val title = dataSet[position].title!!.replace(" ", "")
-                if (title.isNullOrEmpty()) {
-                    holder.title.text = dataSet[position].url
-                } else {
-                    Log.d("title", dataSet[position].title!!.toString())
-                    holder.title.text = dataSet[position].title
-
-                }
-                if (dataSet[position].summary.isNullOrEmpty()) {
-                    holder.link.text = "Ai가 문서를 요약중이에요!"
-                } else {
-                    val summary = dataSet[position].summary
-                    //summary의 엔터 다음 문자는 제거
-                    if (summary!!.contains("\n")) {
-                        val index = summary.indexOf("\n")
-                        holder.link.text = summary.substring(0, index)
-                    } else {
-                        holder.link.text = dataSet[position].summary
-                    }
-                }
-                if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
-                    Glide.with(holder.itemView.context)
-                        .load(dataSet[position].thumbnailUrl)
-                        .transform(CenterCrop(), RoundedCorners(10))
-                        .into(holder.itemView.findViewById(R.id.likeBtn))
-                } else {
-                    Glide.with(holder.itemView.context)
-                        .load(R.drawable.sample_image)
-                        .transform(CenterCrop(), RoundedCorners(10))
-                        .into(holder.itemView.findViewById(R.id.likeBtn))
-                }
+                setWebpageData(position, holder)
 
             }
 
@@ -311,6 +279,75 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         return dataSet[position]
     }
 
+    private fun setWebpageData(position: Int, holder: WebpageViewHolder) {
+        val title = dataSet[position].title!!.replace(" ", "")
+        val summary = dataSet[position].summary
+        //summary의 엔터 다음 문자는 제거
+
+        if (summary != null) {
+            if (summary!!.contains("\n")) {
+                val index = summary.indexOf("\n")
+                holder.description.text = summary.substring(0, index)
+            } else {
+                holder.description.text = dataSet[position].summary
+            }
+        }
+
+
+        when (dataSet[position].status!!) {
+            "SCRAPE_PENDING" -> {
+                holder.title.text = dataSet[position].url
+                holder.description.text = "스크랩 대기중이에요."
+            }
+
+            "SCRAPE_PROCESSING" -> {
+                holder.title.text = dataSet[position].url
+                holder.description.text = "스크랩이 진행중이에요!"
+            }
+
+            "SCRAPE_REJECTED" -> {
+                holder.title.text = dataSet[position].url
+                holder.description.text = "스크랩에 실패했어요."
+            }
+
+            "EMBED_PENDING" -> {
+                holder.title.text = title
+                holder.description.text = "AI가 곧 자료를 요약할거에요."
+            }
+
+            "EMBED_PROCESSING" -> {
+                holder.title.text = title
+                holder.description.text = "AI가 자료를 요약중이에요!"
+            }
+
+            "EMBED_REJECTED" -> {
+                holder.title.text = dataSet[position].title
+                holder.description.text = "AI가 자료를 요약하지 못했어요."
+            }
+
+            "COMPLETE" -> {
+                holder.title.text = title
+                holder.description.text = summary
+            }
+        }
+        if (title.isEmpty()) {
+            holder.title.text = dataSet[position].url
+        } else {
+            holder.title.text = dataSet[position].title
+        }
+
+        if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
+            Glide.with(holder.itemView.context)
+                .load(dataSet[position].thumbnailUrl)
+                .transform(CenterCrop(), RoundedCorners(10))
+                .into(holder.itemView.findViewById(R.id.likeBtn))
+        } else {
+            Glide.with(holder.itemView.context)
+                .load(R.drawable.sample_image)
+                .transform(CenterCrop(), RoundedCorners(10))
+                .into(holder.itemView.findViewById(R.id.likeBtn))
+        }
+    }
 }
 
 class HomeItemOffsetDecoration(private val mItemOffset: Int, private val adapter: HomeRVAdapter) : RecyclerView.ItemDecoration() {
