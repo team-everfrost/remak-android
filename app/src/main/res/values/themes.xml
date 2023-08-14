@@ -4,8 +4,10 @@
         <item name="colorScheme">@color/colorPrimary</item>
         <item name="colorSurface">@color/white</item>
 
+        <item name="android:textColor">@color/black</item>
+
         <!-- font -->
-    <item name="android:fontFamily">@font/custom_font_family</item>
+        <item name="android:fontFamily">@font/custom_font_family</item>
         <item name="android:statusBarColor">@color/black</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->

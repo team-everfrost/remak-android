@@ -36,6 +36,8 @@ class SplashActivity : AppCompatActivity() {
 
         signInRepository = TokenRepository((this.application as App).dataStore)
         val content: View = findViewById(android.R.id.content)
+
+        // 로직이 끝날때까지 화면을 보여주지 않음
         content.viewTreeObserver.addOnPreDrawListener(
             object : ViewTreeObserver.OnPreDrawListener {
                 override fun onPreDraw(): Boolean {
@@ -48,16 +50,39 @@ class SplashActivity : AppCompatActivity() {
             }
         )
 
+//        lifecycleScope.launch {
+//            val isToken = withContext(Dispatchers.IO) {
+//                viewModel.isTokenAvailable()
+//            }
+//            if (isToken) {
+//                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+//            } else {
+//                startActivity(Intent(this@SplashActivity, AccountActivity::class.java))
+//            }
+//            finish()
+//        }
+
         lifecycleScope.launch {
-            val isToken = withContext(Dispatchers.IO) {
-                viewModel.isTokenAvailable()
+            //로딩화면을 보여주기 위해 0.5초 딜레이
+            delay(500)
+            //토큰이 있는지 없는지 확인
+            withContext(Dispatchers.Main) {
+                viewModel.isToken.observe(this@SplashActivity, Observer { isToken ->
+                    if (isToken) {
+                        //토큰이 있을 때 메인화면으로
+                        val intent = Intent(this@SplashActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        //토큰이 없을 때 로그인 화면으로
+                        val intent = Intent(this@SplashActivity, AccountActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                })
             }
-            if (isToken) {
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-            } else {
-                startActivity(Intent(this@SplashActivity, AccountActivity::class.java))
-            }
-            finish()
         }
     }
+
+
 }

@@ -3,49 +3,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Thin -->
-        <font
-        android:font="@font/spoqahansansneothin"
-        android:fontStyle="normal"
-        android:fontWeight="100"
-        app:font="@font/spoqahansansneothin"
-        app:fontStyle="normal"
-        app:fontWeight="100" />
+    <font
+    android:font="@font/pretendard_thin"
+    android:fontStyle="normal"
+    android:fontWeight="100"/>
 
     <!-- Light -->
     <font
-        android:font="@font/spoqahansansneolight"
+        android:font="@font/pretendard_light"
         android:fontStyle="normal"
-        android:fontWeight="300"
-        app:font="@font/spoqahansansneolight"
-        app:fontStyle="normal"
-        app:fontWeight="300" />
+        android:fontWeight="300"/>
 
     <!-- Regular -->
     <font
-        android:font="@font/spoqahansansneoregular"
+        android:font="@font/pretendard_regular"
         android:fontStyle="normal"
-        android:fontWeight="400"
-        app:font="@font/spoqahansansneoregular"
-        app:fontStyle="normal"
-        app:fontWeight="400" />
+        android:fontWeight="400"/>
 
     <!-- Medium -->
     <font
-        android:font="@font/spoqahansansneomedium"
+        android:font="@font/pretendard_medium"
         android:fontStyle="normal"
-        android:fontWeight="500"
-        app:font="@font/spoqahansansneomedium"
-        app:fontStyle="normal"
-        app:fontWeight="500" />
+        android:fontWeight="500"/>
 
     <!-- Bold -->
     <font
-        android:font="@font/spoqahansansneobold"
+        android:font="@font/pretendard_bold"
         android:fontStyle="normal"
-        android:fontWeight="700"
-        app:font="@font/spoqahansansneobold"
-        app:fontStyle="normal"
-        app:fontWeight="700" />
+        android:fontWeight="700"/>
+
+    <!-- ExtraBold -->
+    <font
+        android:font="@font/pretendard_extrabold"
+        android:fontStyle="normal"
+        android:fontWeight="800"/>
+
+    <!-- Black -->
+    <font
+        android:font="@font/pretendard_black"
+        android:fontStyle="normal"
+        android:fontWeight="900"/>
 
 
 </font-family>
