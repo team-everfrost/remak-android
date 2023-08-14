@@ -13,4 +13,13 @@ object UtilitySystem {
             inputManager.hideSoftInputFromWindow(currentFocusView.windowToken, 0)
         }
     }
+
+    fun showKeyboard(activity: Activity) {
+        val inputManager: InputMethodManager =
+            activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val currentFocusView = activity.currentFocus
+        if (currentFocusView != null) {
+            inputManager.showSoftInput(currentFocusView, InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
 }

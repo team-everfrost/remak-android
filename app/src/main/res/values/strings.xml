@@ -7,6 +7,8 @@
     <string name="authNumberHint"><font size = "14">인증번호를 입력해주세요</font></string>
     <string name="searchHint"><font size = "30">Search</font></string>
 
+    <string name="verification_text">"%1$s로 발송 된\n인증번호를 입력해주세요"</string>
+
     <string name="navSample">navSample</string>
 
 

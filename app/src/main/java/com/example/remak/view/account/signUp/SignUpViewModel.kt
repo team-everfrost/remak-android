@@ -32,8 +32,8 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     private val _isEmailInvalid = MutableLiveData<Boolean>()
     val isEmailInvalid : LiveData<Boolean> = _isEmailInvalid
 
-    private val _isSignUpCodeInvalid = MutableLiveData<Boolean>()
-    val isSignUpCodeInvalid : LiveData<Boolean> = _isSignUpCodeInvalid
+    private val _isVerifyCodeValid = MutableLiveData<Boolean?>(null)
+    val isVerifyCodeValid : LiveData<Boolean?> = _isVerifyCodeValid
 
 
 
@@ -77,29 +77,25 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         _isEmailInvalid.value = false
     }
 
-    fun doneSignUpCodeCheck() {
-        _isSignUpCodeInvalid.value = false
-    }
+
 
     //확인코드 입력 후 검증받는 로직
-    fun checkVerifyCode (signupCode : String, email : String) = viewModelScope.launch {
+    fun checkVerifyCode (signupCode : String) = viewModelScope.launch {
         try {
-            val response = networkRepository.checkVerifyCode(signupCode, email)
+            val response = networkRepository.checkVerifyCode(signupCode, _userEmail.value.toString())
 
             if (response.isSuccessful) {
                 //response내용을 각각 log로 출력
-                _verifyCodeResult.value = true
+                _isVerifyCodeValid.value = true
 
             } else {
-                _verifyCodeResult.value = false
-                if (response.code() == 403) {
-                    _isSignUpCodeInvalid.value = true
-                }
+                _isVerifyCodeValid.value = false
+
                 Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignUpData.CheckVerifyResponseBody::class.java).message)
 
             }
         } catch (e : Exception) {
-            _verifyCodeResult.value = false
+            _isVerifyCodeValid.value = false
             Log.d("networkError", "Exception: ", e)
             e.printStackTrace()
         }
@@ -141,6 +137,10 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         _userEmail.value = ""
         _userPassword.value = ""
         _verifyCodeResult.value = false
+    }
+
+    fun resetVerifyCodeResult() {
+        _isVerifyCodeValid.value = null
     }
 
     fun setUserEmail(email : String) {

@@ -4,6 +4,7 @@
 
         <item name="colorScheme">@color/colorPrimary</item>
         <item name="colorSurface">@color/white</item>
+        <item name="android:textColor">@color/black</item>
 
 
 
