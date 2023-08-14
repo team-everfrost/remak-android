@@ -96,6 +96,9 @@ class AccountSignUp2Fragment : Fragment() {
                 //Todo : 에러메시지 출력 및 edittext 색 변경
                 binding.emailVerifyCodeText.text = "인증번호가 일치하지 않습니다\n다시확인해주세요"
                 binding.emailVerifyCodeText.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                verifyEditTexts.forEach {
+                    it.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_verify_code_error)
+                }
 
             }
         }
