@@ -247,15 +247,86 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 val title = dataSet[position].title!!.substringBeforeLast(".")
 
                 holder.title.text = title//제목
-                holder.subject.text = text //파일타입, 날짜
+                holder.subject.text = dataSet[position].summary
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
             }
 
             is WebpageViewHolder -> {
+                val title = dataSet[position].title!!.replace(" ", "")
+                val summary = dataSet[position].summary
+
+
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
-                setWebpageData(position, holder)
+
+
+                if (summary != null) {
+                    if (summary!!.contains("\n")) {
+                        val index = summary.indexOf("\n")
+                        holder.description.text = summary.substring(0, index)
+                    } else {
+                        holder.description.text = dataSet[position].summary
+                    }
+                }
+
+
+                when (dataSet[position].status!!) {
+                    "SCRAPE_PENDING" -> {
+                        holder.title.text = dataSet[position].url
+                        holder.description.text = "스크랩 대기중이에요."
+                    }
+
+                    "SCRAPE_PROCESSING" -> {
+                        holder.title.text = dataSet[position].url
+                        holder.description.text = "스크랩이 진행중이에요!"
+                    }
+
+                    "SCRAPE_REJECTED" -> {
+                        holder.title.text = dataSet[position].url
+                        holder.description.text = "스크랩에 실패했어요."
+                    }
+
+                    "EMBED_PENDING" -> {
+                        holder.title.text = title
+                        holder.description.text = "AI가 곧 자료를 요약할거에요."
+                    }
+
+                    "EMBED_PROCESSING" -> {
+                        holder.title.text = title
+                        holder.description.text = "AI가 자료를 요약중이에요!"
+                    }
+
+                    "EMBED_REJECTED" -> {
+                        holder.title.text = dataSet[position].title
+                        holder.description.text = "AI가 자료를 요약하지 못했어요."
+                    }
+
+                    "COMPLETED" -> {
+                        holder.title.text = title
+                        holder.description.text = summary
+                    }
+                }
+                if (title.isEmpty()) {
+                    holder.title.text = dataSet[position].url
+                } else {
+                    holder.title.text = dataSet[position].title
+                }
+
+                if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
+                    Glide.with(holder.itemView.context)
+                        .load(dataSet[position].thumbnailUrl)
+                        .transform(CenterCrop(), RoundedCorners(10))
+                        .into(holder.itemView.findViewById(R.id.likeBtn))
+                } else {
+                    Glide.with(holder.itemView.context)
+                        .load(R.drawable.sample_image)
+                        .transform(CenterCrop(), RoundedCorners(10))
+                        .into(holder.itemView.findViewById(R.id.likeBtn))
+                }
+
+
+//                setWebpageData(position, holder)
 
             }
 

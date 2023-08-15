@@ -26,15 +26,18 @@ object UtilityLogin {
                 if (isEmailValid(email.text.toString())) {
                     btn.isEnabled = true
                     val drawable =
-                        ContextCompat.getDrawable(context, R.drawable.custom_ripple_effect)
+                        ContextCompat.getDrawable(context, R.drawable.custom_ripple_effect_blue_rec)
                     email.background =
                         ContextCompat.getDrawable(context, R.drawable.edit_text_round)
+                    btn.setTextColor(ContextCompat.getColor(context, R.color.white))
                     btn.background = drawable
                     emailErrorMessage.visibility = View.INVISIBLE
                 } else {
                     email.background =
                         ContextCompat.getDrawable(context, R.drawable.edit_text_round_red)
                     btn.isEnabled = false
+                    btn.background = ContextCompat.getDrawable(context, R.drawable.custom_ripple_effect)
+                    btn.setTextColor(ContextCompat.getColor(context, R.color.whiteGray))
                     emailErrorMessage.visibility = View.VISIBLE
                 }
             }

@@ -1,18 +1,24 @@
 package com.example.remak.view.detail
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.remak.App
 import com.example.remak.UtilityDialog
+import com.example.remak.adapter.LinkTagRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageFileActivityBinding
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 
-class FileDetailActivity : AppCompatActivity() {
+class FileDetailActivity : AppCompatActivity(),  LinkTagRVAdapter.OnItemClickListener {
 
 
     private lateinit var extension : String
@@ -33,6 +39,17 @@ class FileDetailActivity : AppCompatActivity() {
         val fileId = intent.getStringExtra("docId")
         viewModel.getDetailData(fileId!!)
 
+        val flexboxLayoutManager = FlexboxLayoutManager(this).apply {
+            flexWrap = FlexWrap.WRAP
+            flexDirection = FlexDirection.ROW
+        }
+
+
+        val adapter = LinkTagRVAdapter(listOf(), this)
+        binding.tagRV.layoutManager = flexboxLayoutManager
+        binding.tagRV.adapter = adapter
+
+
         viewModel.detailData.observe(this) {
             url = it.url
             binding.titleEditText.setText(it.title!!.substringBefore("."))
@@ -42,6 +59,9 @@ class FileDetailActivity : AppCompatActivity() {
             binding.dateTextView.text = outputDateStr
 
             fileName = it.title!!
+
+            adapter.tags = it.tags
+            adapter.notifyDataSetChanged()
         }
 
         binding.downloadBtn.setOnClickListener {
@@ -77,6 +97,12 @@ class FileDetailActivity : AppCompatActivity() {
         binding.shareBtn.setOnClickListener {
             viewModel.shareFile(this, fileId)
         }
+    }
+
+    override fun onItemClick(position: Int) {
+        val intent = Intent(this, TagDetailActivity::class.java)
+        intent.putExtra("tagName", viewModel.detailData.value!!.tags[position])
+        startActivity(intent)
     }
 
 

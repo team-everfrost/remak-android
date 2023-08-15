@@ -9,6 +9,7 @@
 
     <string name="verification_text">"%1$s로 발송 된\n인증번호를 입력해주세요"</string>
 
+
     <string name="navSample">navSample</string>
 
 
@@ -20,7 +21,7 @@
     <string name="edit_email">이메일을 입력해 주세요</string>
     <string name="edit_email_login">로그인 시 사용할 이메일을 입력해주세요</string>
     <string name="example_email">abcd@naver.com</string>
-    <string name="next">다음</string>
+    <string name="next">다음으로</string>
     <string name="edit_verify_code">이메일로 발송 된 인증번호를 입력해주세요</string>
     <string name="edit_6_verify_code">6자리 인증코드를 입력해주세오.</string>
     <string name="verify_code">인증번호</string>

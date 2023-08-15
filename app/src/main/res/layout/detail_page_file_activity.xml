@@ -133,6 +133,15 @@
                 android:src="@drawable/sample_image_3"
                 android:scaleType="fitXY"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tagRV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:layout_marginTop="10dp"
+                android:overScrollMode="never"
+                />
+
 
             <RelativeLayout
                 app:layout_constraintBottom_toBottomOf="parent"

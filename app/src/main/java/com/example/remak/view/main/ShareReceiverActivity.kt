@@ -22,7 +22,7 @@ class ShareReceiverActivity : AppCompatActivity() {
 
         viewModel.isWebPageCreateSuccess.observe(this) {
             if(it) {
-                Toast.makeText(this, "웹페이지를 공유했습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Remak에 저장했습니다.", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }

@@ -53,6 +53,7 @@
                 android:textFontWeight="300"
                 android:text="@string/filetype_date"
                 app:layout_constraintStart_toStartOf="parent"
+                android:maxLines="2"
                 android:textSize="12sp"
                 />
 

@@ -83,8 +83,18 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        val intent = Intent(requireContext(), TagDetailActivity::class.java)
-        intent.putExtra("tagName", adapter.getTagName(position))
-        startActivity(intent)
+        when (viewModel.tagList.value!![position].type) {
+            "COLLECTION" -> {
+                val intent = Intent(requireContext(), TagDetailActivity::class.java)
+                intent.putExtra("tagName", adapter.getTagName(position))
+                startActivity(intent)
+            }
+            "TAG" -> {
+                val intent = Intent(requireContext(), TagDetailActivity::class.java)
+                intent.putExtra("tagName", adapter.getTagName(position))
+                startActivity(intent)
+            }
+        }
+
     }
 }
