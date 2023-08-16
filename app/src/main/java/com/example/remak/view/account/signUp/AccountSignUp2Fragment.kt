@@ -53,13 +53,49 @@ class AccountSignUp2Fragment : Fragment() {
         binding.verifyCodeEditText1.requestFocus()
         UtilitySystem.showKeyboard(requireActivity())
 
+
+
+        verifyEditTexts.forEach { editText ->
+            editText.setOnClickListener {
+                Log.d("test", "click")
+                for (i in verifyEditTexts.indices) {
+                    if (verifyEditTexts[i].text.toString().isEmpty()) {
+                        verifyEditTexts[i].isFocusableInTouchMode = true
+                        verifyEditTexts[i].isFocusable = true
+                        verifyEditTexts[i].requestFocus()
+                        UtilitySystem.showKeyboard(requireActivity())
+                        for (j in verifyEditTexts.indices) {
+                            if (j != i) {
+                                Log.d("test", "j : $j")
+                                verifyEditTexts[j].isFocusableInTouchMode = false
+                                verifyEditTexts[j].isFocusable = false
+                            }
+                        }
+                        return@setOnClickListener
+                    }
+                }
+            }
+        }
+
         for (i in verifyEditTexts.indices) {
             verifyEditTexts[i].addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     if (s?.length == 1 && i < verifyEditTexts.lastIndex) {
+                        verifyEditTexts[i + 1].isFocusable = true
+                        verifyEditTexts[i + 1].isFocusableInTouchMode = true
                         verifyEditTexts[i + 1].requestFocus()
+
+                        for (j in verifyEditTexts.indices) {
+                            if (j != i+1) {
+                                Log.d("test", "j : $j")
+                                verifyEditTexts[j].isFocusableInTouchMode = false
+                                verifyEditTexts[j].isFocusable = false
+                            }
+                        }
+
+
                     }
                 }
 
@@ -79,6 +115,14 @@ class AccountSignUp2Fragment : Fragment() {
                         verifyEditTexts[i - 1].isFocusable = true
                         verifyEditTexts[i - 1].isFocusableInTouchMode = true
                         verifyEditTexts[i - 1].requestFocus()
+
+                        for (j in verifyEditTexts.indices) {
+                            if (j != i-1) {
+                                Log.d("test", "j : $j")
+                                verifyEditTexts[j].isFocusableInTouchMode = false
+                                verifyEditTexts[j].isFocusable = false
+                            }
+                        }
                         return@setOnKeyListener true
                     }
                 }

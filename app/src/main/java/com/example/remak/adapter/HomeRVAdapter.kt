@@ -245,11 +245,43 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
                 // .앞에 있는 파일 이름만 가져오기
                 val title = dataSet[position].title!!.substringBeforeLast(".")
+                val summary = dataSet[position].summary
+
+
 
                 holder.title.text = title//제목
-                holder.subject.text = dataSet[position].summary
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
+
+                when (dataSet[position].status!!) {
+
+
+                    "EMBED_PENDING" -> {
+                        holder.subject.text = "AI가 곧 자료를 요약할거에요."
+                    }
+
+                    "EMBED_PROCESSING" -> {
+                        holder.subject.text = "AI가 자료를 요약중이에요!"
+                    }
+
+                    "EMBED_REJECTED" -> {
+                        holder.subject.text = "AI가 자료를 요약하지 못했어요."
+                    }
+
+                    "COMPLETED" -> {
+                        if (summary != null) {
+                            if (summary!!.contains("\n")) {
+                                val index = summary.indexOf("\n")
+                                holder.subject.text = summary.substring(0, index)
+                            } else {
+                                holder.subject.text = dataSet[position].summary
+                            }
+                        } else {
+                            holder.subject.text = ""
+                        }
+
+                    }
+                }
             }
 
             is WebpageViewHolder -> {
@@ -261,14 +293,6 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 holder.checkbox.isChecked = dataSet[position].isSelected
 
 
-                if (summary != null) {
-                    if (summary!!.contains("\n")) {
-                        val index = summary.indexOf("\n")
-                        holder.description.text = summary.substring(0, index)
-                    } else {
-                        holder.description.text = dataSet[position].summary
-                    }
-                }
 
 
                 when (dataSet[position].status!!) {
@@ -304,7 +328,16 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
                     "COMPLETED" -> {
                         holder.title.text = title
-                        holder.description.text = summary
+                        if (summary != null) {
+                            if (summary!!.contains("\n")) {
+                                val index = summary.indexOf("\n")
+                                holder.description.text = summary.substring(0, index)
+                            } else {
+                                holder.description.text = dataSet[position].summary
+                            }
+                        } else {
+                            holder.description.text = ""
+                        }
                     }
                 }
                 if (title.isEmpty()) {
