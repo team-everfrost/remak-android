@@ -52,7 +52,13 @@ class FileDetailActivity : AppCompatActivity(),  LinkTagRVAdapter.OnItemClickLis
 
         viewModel.detailData.observe(this) {
             url = it.url
-            binding.titleEditText.setText(it.title!!.substringBefore("."))
+            var summary = it.summary
+            //summary의 첫 한줄은 제거
+            if (summary != null) {
+                summary = summary.substringAfter('\n').trim()
+            }
+            binding.summaryTextView.text = summary
+            binding.titleEditText.setText(it.title!!)
             extension = it.title.substringAfter(".")
             val date = inputFormat.parse(it.updatedAt)
             val outputDateStr = outputFormat.format(date)

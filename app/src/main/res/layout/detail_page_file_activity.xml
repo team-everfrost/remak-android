@@ -131,7 +131,20 @@
                 android:layout_height="200dp"
                 android:layout_marginTop="90dp"
                 android:src="@drawable/sample_image_3"
+                android:visibility="gone"
                 android:scaleType="fitXY"/>
+
+            <TextView
+                android:layout_marginTop="50dp"
+                android:id="@+id/summaryTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textFontWeight="400"
+                android:text="test"
+                android:textSize="17sp"
+                android:lineSpacingExtra="8dp"
+                android:background="@color/semi_gray"
+                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tagRV"
