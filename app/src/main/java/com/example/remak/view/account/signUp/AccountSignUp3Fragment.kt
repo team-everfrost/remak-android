@@ -11,7 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import com.example.remak.App
+import com.example.remak.R
 import com.example.remak.UtilityLogin
 import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
@@ -35,14 +37,14 @@ class AccountSignUp3Fragment : Fragment() {
             UtilitySystem.hideKeyboard(requireActivity())
         }
 
-        viewModel.verifyCodeResult.observe(viewLifecycleOwner) { isSuccessful ->
-            if (isSuccessful) {
-                val intent = Intent(activity, MainActivity::class.java)
-                startActivity(intent)
-                viewModel.doneVerifyCodeResult()
-                requireActivity().finish()
-            }
-        }
+//        viewModel.verifyCodeResult.observe(viewLifecycleOwner) { isSuccessful ->
+//            if (isSuccessful) {
+//                val intent = Intent(activity, MainActivity::class.java)
+//                startActivity(intent)
+//                viewModel.doneVerifyCodeResult()
+//                requireActivity().finish()
+//            }
+//        }
 
 
         return binding.root
@@ -72,11 +74,12 @@ class AccountSignUp3Fragment : Fragment() {
             }
         })
 
-        UtilityLogin.passwordCheck(requireContext(), binding.passwordEditText, binding.passwordCheckEditText, binding.completeBtn)
+
 
         binding.completeBtn.setOnClickListener {
             viewModel.setUserPassword(binding.passwordEditText.text.toString())
-            viewModel.signup(viewModel.userEmail.value.toString(), binding.passwordEditText.text.toString())
+            findNavController().navigate(R.id.action_accountSignUp3Fragment_to_accountSignUp4Fragment)
+
         }
     }
 

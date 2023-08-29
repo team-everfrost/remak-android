@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="회원가입"
+        android:text="로그인"
         android:textFontWeight="500"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
         android:id="@+id/emailEditText"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="96dp"
         android:background="@drawable/edit_text_round"
         android:hint="이메일을 입력해주세요"
         android:inputType="textEmailAddress"
@@ -43,22 +43,11 @@
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emailText"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.91"
         app:layout_constraintHeight_percent="0.084"/>
 
-    <TextView
-        android:id="@+id/emailText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="60dp"
-        android:text="이메일"
-        android:textFontWeight="500"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backButton" />
+
 
 
     <TextView
@@ -67,13 +56,45 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginTop="8dp"
-        android:text="올바른 이메일을 입력해 주세요."
+        android:text="이메일을 다시확인해주세요"
         android:textColor="@color/red"
         android:textFontWeight="400"
         android:textSize="10dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/pwEditText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:visibility="invisible"
+        android:background="@drawable/edit_text_round"
+        android:hint="비밀번호를 입력해주세요"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emailEditText"
+        app:layout_constraintWidth_percent="0.91"
+        app:layout_constraintHeight_percent="0.084"/>
+
+    <TextView
+        android:id="@+id/pwErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="8dp"
+        android:text="비밀번호를 다시 확인해주세요"
+        android:textColor="@color/red"
+        android:textFontWeight="400"
+        android:textSize="10dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pwEditText" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/nextBtn"
@@ -92,7 +113,21 @@
         app:layout_constraintTop_toBottomOf="@id/emailEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-       />
+        />
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nextBtn"
+        android:text="@string/useFirst"
+        android:textColor="#646F7C"
+        android:layout_marginTop="22dp"
+        android:textSize="12sp"
+        android:textFontWeight="500"
+        android:textDecorationLine="underline"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

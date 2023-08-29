@@ -62,30 +62,38 @@
         app:layout_constraintHeight_percent="0.084"
         />
 
+    <TextView
+        android:id="@+id/passwordErrorText"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/red"
+        android:text="비밀번호를 다시 확인해주세요"
+        app:layout_constraintTop_toBottomOf="@id/passwordEditText"
+        app:layout_constraintStart_toStartOf="@id/passwordEditText"
+        android:layout_marginTop="12dp"
+        android:textFontWeight="500"/>
+
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/completeBtn"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="132dp"
-        app:layout_constraintHeight_percent="0.082"
-        android:enabled="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="140dp"
         android:background="@drawable/custom_ripple_effect"
+        android:enabled="false"
         android:gravity="center"
         android:text="@string/complete"
-        android:textFontWeight="700"
         android:textColor="@color/disableTextColor"
+        android:textFontWeight="700"
         android:textSize="18dp"
+        app:layout_constraintHeight_percent="0.082"
+        app:layout_constraintWidth_percent="0.911"
         app:layout_constraintTop_toBottomOf="@id/passwordEditText"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        />
-
-
-
-
-
-
+        tools:layout_editor_absoluteX="0dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

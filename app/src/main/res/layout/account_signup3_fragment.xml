@@ -63,32 +63,9 @@
         />
 
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/passwordCheckEditText"
-        android:layout_width="358dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="304dp"
-        android:hint="@string/passwordRepeatHint"
-        android:background="@drawable/edit_text_round"
-        android:inputType="textPassword"
-        android:padding="10dp"
-        android:textSize="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.7" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/password_repeat"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
+
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/completeBtn"
@@ -99,7 +76,7 @@
         android:enabled="false"
         android:background="@drawable/custom_ripple_effect"
         android:gravity="center"
-        android:text="@string/complete"
+        android:text="@string/next"
         android:textFontWeight="700"
         android:textColor="@color/disableTextColor"
         android:textSize="18dp"

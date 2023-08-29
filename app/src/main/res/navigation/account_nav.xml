@@ -75,6 +75,13 @@
             app:destination="@id/accountSignUp2Fragment2"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_accountSignUp3Fragment_to_accountSignUp4Fragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:destination="@id/accountSignUp4Fragment" />
     </fragment>
     <fragment
         android:id="@+id/accountFindPassword1Fragment"
@@ -122,6 +129,17 @@
         <action
             android:id="@+id/action_accountFindPassword3Fragment_to_accountFindPassword2Fragment"
             app:destination="@id/accountFindPassword2Fragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/accountSignUp4Fragment"
+        android:name="com.example.remak.view.account.signUp.AccountSignUp4Fragment"
+        android:label="AccountSignUp4Fragment"
+        tools:layout="@layout/account_signup4_fragment">
+        <action
+            android:id="@+id/action_accountSignUp4Fragment_to_accountSignUp3Fragment"
+            app:destination="@id/accountSignUp3Fragment"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right"/>
     </fragment>

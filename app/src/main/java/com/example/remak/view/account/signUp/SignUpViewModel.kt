@@ -23,8 +23,8 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     private val _userPassword = MutableLiveData<String>()
     val userPassword : LiveData<String> = _userPassword
 
-    private val _verifyCodeResult = MutableLiveData<Boolean>()
-    val verifyCodeResult : LiveData<Boolean> = _verifyCodeResult
+    private val _isSignInSuccess = MutableLiveData<Boolean>()
+    val isSignInSuccess : LiveData<Boolean> = _isSignInSuccess
 
     private val _isEmailExist = MutableLiveData<Boolean>()
     val isEmailExist : LiveData<Boolean> = _isEmailExist
@@ -50,10 +50,10 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             Log.d("email", email)
             if (response.isSuccessful) {
                 _userEmail.value = email
-                _verifyCodeResult.value = true
+                _isSignInSuccess.value = true
                 Log.d("success", response.body().toString())
             } else {
-                _verifyCodeResult.value = false
+                _isSignInSuccess.value = false
                 if (response.code() == 400) { //이메일 형식이 잘못되었을 때
                     _isEmailInvalid.value = true
                 } else if (response.code() == 409) { //이미 존재하는 이메일일 때
@@ -63,13 +63,13 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                 Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignUpData.GetVerifyResponseBody::class.java).message)
             }
         } catch (e : Exception) {
-            _verifyCodeResult.value = false
+            _isSignInSuccess.value = false
             e.printStackTrace()
         }
     }
 
     fun doneVerifyCodeResult() {
-        _verifyCodeResult.value = false
+        _isSignInSuccess.value = false
     }
 
     fun doneEmailCheck() {
@@ -115,15 +115,15 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                 val token = TokenData(response.body()?.data!!.accessToken)
                 tokenRepository.saveUser(token)
                 //확인값 true로 변경
-                _verifyCodeResult.value = true
+                _isSignInSuccess.value = true
 
             } else {
-                _verifyCodeResult.value = false
+                _isSignInSuccess.value = false
                 Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignUpData.SignUpResponseBody::class.java).message)
 
             }
         } catch (e : Exception) {
-            _verifyCodeResult.value = false
+            _isSignInSuccess.value = false
             Log.d("networkError", "Exception: ", e)
             e.printStackTrace()
         }
@@ -136,7 +136,7 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     private fun resetData() {
         _userEmail.value = ""
         _userPassword.value = ""
-        _verifyCodeResult.value = false
+        _isSignInSuccess.value = false
     }
 
     fun resetVerifyCodeResult() {

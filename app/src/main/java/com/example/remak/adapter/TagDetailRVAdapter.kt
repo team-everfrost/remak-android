@@ -199,8 +199,6 @@ class TagItemOffsetDecoration(private val mItemOffset: Int) : RecyclerView.ItemD
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         outRect.top = mItemOffset
-
-
         // Add top margin only for the first item to avoid double space between items
         if (parent.getChildAdapterPosition(view) == 0) {
             outRect.top = mItemOffset

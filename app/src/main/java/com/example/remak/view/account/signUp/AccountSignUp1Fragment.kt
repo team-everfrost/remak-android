@@ -34,7 +34,7 @@ class AccountSignUp1Fragment : Fragment() {
         binding = AccountSignup1FragmentBinding.inflate(inflater, container, false)
 
 
-        viewModel.verifyCodeResult.observe(viewLifecycleOwner) { isSuccessful ->
+        viewModel.isSignInSuccess.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
                 findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountSignUp2Fragment2)
                 viewModel.doneVerifyCodeResult()
