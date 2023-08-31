@@ -1,6 +1,7 @@
 package com.example.remak.view.account.signIn
 
 import android.app.Activity
+import android.telephony.CarrierConfigManager.ImsSms
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,9 +29,24 @@ class SignInViewModel(private val signInRepository: TokenRepository): ViewModel(
     private val _showDialog = MutableLiveData<Boolean>()
     val showDialog : LiveData<Boolean> = _showDialog
 
+    private val _isEmailValid = MutableLiveData<Boolean>()
+    val isEmailValid : LiveData<Boolean> = _isEmailValid
 
 
-
+    fun checkEmail(email : String) = viewModelScope.launch {
+        try {
+            val response = networkRepository.checkEmail(email)
+            if (response.isSuccessful) {
+                Log.d("success", response.body().toString())
+               _isEmailValid.value = true
+            } else {
+                Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignInData.CheckEmailResponse::class.java).message)
+                _isEmailValid.value = false
+            }
+        } catch (e: Exception) {
+            Log.d("networkError", e.toString())
+        }
+    }
 
     //이메일 로그인 로직
     fun emailLogin(email : String, password : String) = viewModelScope.launch {

@@ -57,6 +57,14 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val displayMetrics = resources.displayMetrics
+        val widthDp = displayMetrics.widthPixels / displayMetrics.density
+        val heightDp = displayMetrics.heightPixels / displayMetrics.density
+        Log.d("DeviceWidth", "Width in dp: $widthDp")
+        Log.d("DeviceHeight", "Height in dp: $heightDp")
+
+
+
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data

@@ -103,5 +103,9 @@ interface Api {
         @Query("offset") offset : Int?
     ) : retrofit2.Response<TagListData.Response>
 
+    @POST("auth/check-email")
+    suspend fun checkEmail(@Body body: SignInData.CheckEmailRequest): retrofit2.Response<SignInData.CheckEmailResponse>
+
+
 
 }

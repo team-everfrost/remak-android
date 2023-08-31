@@ -29,7 +29,7 @@ class AuthInterceptor (private val tokenRepository: TokenRepository) : Intercept
 
 }
 object RetrofitInstance {
-    private val BASE_URL = "http://remak-backend-env-1.eba-pmq6jtyi.ap-northeast-2.elasticbeanstalk.com/"
+    private val BASE_URL = "http://api-dev.remak.io/"
     private val dataStore = App.context().provideDataStore()
     private val tokenRepository = TokenRepository(dataStore)
     private val authInterceptor = AuthInterceptor(tokenRepository)

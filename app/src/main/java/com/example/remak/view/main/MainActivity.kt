@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.d("MainActivity", "onCreate")
 
+
+
         tokenRepository = TokenRepository((application as App).dataStore)
         _binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)

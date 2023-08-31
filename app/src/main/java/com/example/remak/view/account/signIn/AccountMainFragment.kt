@@ -30,11 +30,14 @@ import com.example.remak.view.main.MainActivity
 import java.sql.Time
 import java.util.Timer
 import java.util.TimerTask
+import kotlin.concurrent.scheduleAtFixedRate
 
 
 class AccountMainFragment : Fragment() {
     private lateinit var binding : AccountMainFragmentBinding
     private var timer = Timer()
+    private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var adapter: TestRVAdapter
 
     private val viewModel: SignInViewModel by activityViewModels { SignInViewModelFactory(signInRepository) }
     lateinit var signInRepository : TokenRepository
@@ -77,8 +80,9 @@ class AccountMainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       val adapter = TestRVAdapter(iconData)
+        adapter = TestRVAdapter(iconData)
         binding.recyclerView.adapter = adapter
+        layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerView.layoutManager = layoutManager
@@ -140,8 +144,28 @@ class AccountMainFragment : Fragment() {
         Log.d("timer", "cancel")
     }
 
-
-
+    override fun onResume() {
+        super.onResume()
+        timer.cancel()
+        timer = Timer()
+        timer.scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
+                activity?.runOnUiThread {
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() == adapter.itemCount - 2) {
+                        // 마지막 아이템에 도달하면 첫 번째 아이템으로 스크롤
+                        binding.recyclerView.scrollToPosition(1)
+                    } else {
+                        binding.recyclerView.scrollBy(1, 0) // 50 픽셀만큼 오른쪽으로 스크롤
+                    }
+                }
+            }
+        }, 0, 10) // 100ms 마다 스크롤 동작 실행
+    }
 
 
 }
+
+
+
+
+

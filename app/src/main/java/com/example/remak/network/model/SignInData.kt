@@ -12,4 +12,13 @@ class SignInData {
         val accessToken : String
     )
 
+    data class CheckEmailRequest(
+        val email : String
+    )
+
+    data class CheckEmailResponse(
+        val message : String,
+        val data : String?
+    )
+
 }

@@ -1,6 +1,5 @@
 package com.example.remak.repository
 
-import androidx.room.Update
 import com.example.remak.network.Api
 import com.example.remak.network.RetrofitInstance
 import com.example.remak.network.model.CreateData
@@ -93,5 +92,10 @@ class NetworkRepository {
 
     suspend fun getTagListData(offset: Int?) : Response<TagListData.Response> {
         return client.getTagListData(20, offset)
+    }
+
+    suspend fun checkEmail(email : String) : Response<SignInData.CheckEmailResponse> {
+        val requestBody = SignInData.CheckEmailRequest(email = email)
+        return client.checkEmail(requestBody)
     }
 }
