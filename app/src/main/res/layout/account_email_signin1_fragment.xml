@@ -36,7 +36,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="96dp"
         android:background="@drawable/edit_text_round"
-        android:hint="이메일을 입력해주세요"
+        android:hint="@string/emailHint"
         android:inputType="textEmailAddress"
         android:padding="10dp"
         android:singleLine="true"
@@ -126,7 +126,7 @@
         android:layout_marginTop="22dp"
         android:textSize="12sp"
         android:textFontWeight="500"
-        android:textDecorationLine="underline"/>
+       />
 
 
 

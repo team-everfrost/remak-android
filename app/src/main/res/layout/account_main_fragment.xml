@@ -24,15 +24,14 @@
             android:textColor="@color/checkBlue"
             android:layout_marginTop="40dp"/>
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/logo"
-            />
-
-
+            tools:layout_editor_absoluteX="0dp" />
 
         <LinearLayout
             android:id="@+id/editTextLayout"
@@ -129,11 +128,14 @@
                 android:text="@string/forget_password"
                 android:textColor="@color/silver"
                 android:textSize="10sp" />
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
+            <TextView
+                android:id="@+id/test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="test"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"/>
+
 
 
             <TextView

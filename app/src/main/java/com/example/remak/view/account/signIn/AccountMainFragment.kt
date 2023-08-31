@@ -2,6 +2,7 @@ package com.example.remak.view.account.signIn
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,12 +27,15 @@ import com.example.remak.adapter.TestRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AccountMainFragmentBinding
 import com.example.remak.view.main.MainActivity
+import java.sql.Time
 import java.util.Timer
 import java.util.TimerTask
 
 
 class AccountMainFragment : Fragment() {
     private lateinit var binding : AccountMainFragmentBinding
+    private var timer = Timer()
+
     private val viewModel: SignInViewModel by activityViewModels { SignInViewModelFactory(signInRepository) }
     lateinit var signInRepository : TokenRepository
     val iconData = listOf<String>(
@@ -86,8 +90,7 @@ class AccountMainFragment : Fragment() {
         val itemDecoration = TestItemOffsetDecoration(30)
         binding.recyclerView.addItemDecoration(itemDecoration)
 
-
-        val timer = Timer()
+        timer = Timer()
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 activity?.runOnUiThread {
@@ -118,6 +121,10 @@ class AccountMainFragment : Fragment() {
             viewModel.emailLogin(binding.idEditText.text.toString(), binding.pwEditText.text.toString())
         }
 
+        binding.test.setOnClickListener {
+            findNavController().navigate(R.id.action_accountMainFragment_to_accountEmailSignInFragment)
+        }
+
 
 
 
@@ -125,6 +132,12 @@ class AccountMainFragment : Fragment() {
             requireActivity().finish()
         }
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        timer.cancel()
+        Log.d("timer", "cancel")
     }
 
 
