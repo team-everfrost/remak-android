@@ -1,19 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Remak" parent="Theme.AppCompat.Light.NoActionBar">
-
         <item name="colorScheme">@color/colorPrimary</item>
         <item name="colorSurface">@color/white</item>
         <item name="android:textColor">@color/black</item>
 
-
-
-
         <!-- font -->
         <item name="android:fontFamily">@font/custom_font_family</item>
-        <item name="android:statusBarColor">@color/whiteGray</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="TransparentStatusBar" parent="Base.Theme.Remak">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
@@ -31,4 +31,27 @@
     </style>
 
     <style name="Theme.Remak" parent="Base.Theme.Remak" />
+
+    <style name="Theme.AppCompat.Transparent.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="Theme.SplashScreen.Remak" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/colorPrimary</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_splash</item>
+        <item name="postSplashScreenTheme">@style/Theme.Remak</item>
+
+        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+    </style>
+
+
+
 </resources>

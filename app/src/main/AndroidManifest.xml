@@ -40,7 +40,9 @@
 
 
         <activity android:name=".view.account.AccountActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/TransparentStatusBar">
+
 
         </activity>
 

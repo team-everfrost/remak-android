@@ -18,7 +18,7 @@ class TestRVAdapter (var testList : List<String>) : RecyclerView.Adapter<TestRVA
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestRVViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_account_document, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_sign_in_big_icon, parent, false)
         return TestRVViewHolder(view)
     }
 
