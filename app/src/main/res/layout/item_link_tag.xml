@@ -4,13 +4,16 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
+        android:background="@drawable/item_link_tag_radius_gray"
         android:id="@+id/tagName"
+        android:paddingHorizontal="13.5dp"
+        android:paddingVertical="9dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="#Tag1"
-        android:textSize="20sp"
+        android:textSize="15.75sp"
         android:layout_margin="10dp"
         />
 

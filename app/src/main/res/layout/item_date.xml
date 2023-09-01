@@ -7,6 +7,7 @@
     <TextView
         android:id="@+id/date"
         android:layout_marginStart="20dp"
+        android:textFontWeight="700"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Today"

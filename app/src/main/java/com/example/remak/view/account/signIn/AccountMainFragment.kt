@@ -115,7 +115,7 @@ class AccountMainFragment : Fragment() {
                 activity?.runOnUiThread {
                     if (smallIconLayoutManager.findLastCompletelyVisibleItemPosition() == smallIconAdapter.itemCount - 2) {
                         // 마지막 아이템에 도달하면 첫 번째 아이템으로 스크롤
-                        binding.smallIconRecyclerView.scrollToPosition(1)
+                        binding.smallIconRecyclerView.scrollToPosition(smallIconAdapter.itemCount - 5)
                     } else {
                         binding.smallIconRecyclerView.scrollBy(-1, 0) // 50 픽셀만큼 오른쪽으로 스크롤
                     }
@@ -144,6 +144,7 @@ class AccountMainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        Log.d("onResume", "onResume: ")
         bigIconTimer.cancel()
         bigIconTimer = Timer()
         bigIconTimer.scheduleAtFixedRate(object : TimerTask() {
@@ -160,14 +161,14 @@ class AccountMainFragment : Fragment() {
         }, 0, 10) // 100ms 마다 스크롤 동작 실행
 
         smallIconTimer.cancel()
-        binding.smallIconRecyclerView.scrollToPosition(smallIconAdapter.itemCount - 5)
         smallIconTimer = Timer()
+        binding.smallIconRecyclerView.scrollToPosition(smallIconAdapter.itemCount - 5)
         smallIconTimer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 activity?.runOnUiThread {
                     if (smallIconLayoutManager.findLastCompletelyVisibleItemPosition() == smallIconAdapter.itemCount - 2) {
                         // 마지막 아이템에 도달하면 첫 번째 아이템으로 스크롤
-                        binding.smallIconRecyclerView.scrollToPosition(1)
+                        binding.smallIconRecyclerView.scrollToPosition(smallIconAdapter.itemCount - 5)
                     } else {
                         binding.smallIconRecyclerView.scrollBy(-1, 0) // 50 픽셀만큼 오른쪽으로 스크롤
                     }

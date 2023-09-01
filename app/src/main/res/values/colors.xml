@@ -23,4 +23,6 @@
     <color name="fileColor">#222222</color>
     <color name="checkBlue">#009CF4</color>
     <color name="disableTextColor">#C5C8CE</color>
+    <color name="selectedColor">#28323C</color>
+    <color name="unselectedColor">#C5C8CE</color>
 </resources>

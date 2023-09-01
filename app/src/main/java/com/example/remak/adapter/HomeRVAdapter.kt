@@ -1,7 +1,6 @@
 package com.example.remak.adapter
 
 import android.graphics.Rect
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -349,13 +348,13 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
                     Glide.with(holder.itemView.context)
                         .load(dataSet[position].thumbnailUrl)
-                        .transform(CenterCrop(), RoundedCorners(10))
-                        .into(holder.itemView.findViewById(R.id.likeBtn))
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
                 } else {
                     Glide.with(holder.itemView.context)
                         .load(R.drawable.sample_image)
-                        .transform(CenterCrop(), RoundedCorners(10))
-                        .into(holder.itemView.findViewById(R.id.likeBtn))
+                        .transform(CenterCrop(), RoundedCorners(47 ))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
                 }
 
 
@@ -441,13 +440,13 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
                 .load(dataSet[position].thumbnailUrl)
-                .transform(CenterCrop(), RoundedCorners(10))
-                .into(holder.itemView.findViewById(R.id.likeBtn))
+                .transform(CenterCrop(), RoundedCorners(130))
+                .into(holder.itemView.findViewById(R.id.thumbnail))
         } else {
             Glide.with(holder.itemView.context)
                 .load(R.drawable.sample_image)
-                .transform(CenterCrop(), RoundedCorners(10))
-                .into(holder.itemView.findViewById(R.id.likeBtn))
+                .transform(CenterCrop(), RoundedCorners(130))
+                .into(holder.itemView.findViewById(R.id.thumbnail))
         }
     }
 }

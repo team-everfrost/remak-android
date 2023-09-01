@@ -77,7 +77,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         }
         adapter = HomeRVAdapter(mutableListOf(), this)
         recyclerView = binding.homeRV
-        val itemDecoration = HomeItemOffsetDecoration(10, adapter)
+        val itemDecoration = HomeItemOffsetDecoration(30, adapter)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         //리사이클러 뷰 아이템 간격 조정
@@ -156,18 +156,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
 
         }
 
-        binding.sampleFilter1.setOnClickListener {
-            filterClickEvent(binding.sampleFilter1)
-        }
-        binding.sampleFilter2.setOnClickListener {
-            filterClickEvent(binding.sampleFilter2)
-        }
-        binding.sampleFilter3.setOnClickListener {
-            filterClickEvent(binding.sampleFilter3)
-        }
-        binding.sampleFilter4.setOnClickListener {
-            filterClickEvent(binding.sampleFilter4)
-        }
+
     }
 
     private fun filterClickEvent(button: AppCompatButton) {

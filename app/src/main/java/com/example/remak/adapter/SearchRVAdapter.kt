@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView.OnItemClickListener
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -13,7 +12,6 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.remak.R
 import com.example.remak.network.model.SearchEmbeddingData
-import com.example.remak.adapter.HomeRVAdapter
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
@@ -201,12 +199,12 @@ class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val 
                     Glide.with(holder.itemView.context)
                         .load(dataSet[position].thumbnailUrl)
                         .transform(CenterCrop(), RoundedCorners(10))
-                        .into(holder.itemView.findViewById(R.id.likeBtn))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
                 } else {
                     Glide.with(holder.itemView.context)
                         .load(R.drawable.sample_image)
                         .transform(CenterCrop(), RoundedCorners(10))
-                        .into(holder.itemView.findViewById(R.id.likeBtn))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
                 }
             }
         }

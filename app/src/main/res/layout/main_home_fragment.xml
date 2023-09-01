@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".view.main.MainHomeFragment"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,22 +12,22 @@
         android:background="@color/white"
         android:id="@+id/topLinear"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="54dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/moreIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/remak"
-            android:textSize="30sp"
-            android:textColor="@color/checkBlue"
+            android:layout_marginEnd="19dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:src="@drawable/baseline_more_horiz_24"
+            android:background="@color/white"/>
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/deleteBtn"
@@ -51,76 +52,13 @@
         app:layout_constraintTop_toBottomOf="@id/topLinear"
         />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/filterLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:paddingStart="10dp"
-        app:layout_constraintTop_toTopOf="@id/divider"
-        >
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sampleFilter1"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:text="MEMO"
-            android:stateListAnimator="@null"
-            android:textSize="10sp"
-            android:backgroundTint="@color/white"
-            android:background="@drawable/white_rect_radius"/>
-
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sampleFilter2"
-            android:layout_marginStart="10dp"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:stateListAnimator="@null"
-            android:text="WEB"
-            android:textSize="10sp"
-            android:background="@drawable/white_rect_radius"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sampleFilter3"
-            android:layout_marginStart="10dp"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:stateListAnimator="@null"
-            android:text="IMAGE"
-            android:textSize="10sp"
-            android:background="@drawable/white_rect_radius"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sampleFilter4"
-            android:layout_marginStart="10dp"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:stateListAnimator="@null"
-            android:text="FILE"
-            android:textSize="10sp"
-            android:background="@drawable/white_rect_radius"/>
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:layout_width="20dp"
-            android:layout_gravity="center"
-            android:stateListAnimator="@null"
-            android:background="@drawable/custom_ripple_effect_transparent"
-            android:layout_height="20dp"
-            android:layout_marginStart="10dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/setting"/>
-
-
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
     
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/filterLayout"
+        app:layout_constraintTop_toBottomOf="@id/divider"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView

@@ -5,10 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView.OnItemClickListener
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -173,12 +171,12 @@ class TagDetailRVAdapter(var dataSet : List<TagDetailData.Data>, private val ite
                     Glide.with(holder.itemView.context)
                         .load(dataSet[position].thumbnailUrl)
                         .transform(CenterCrop(), RoundedCorners(10))
-                        .into(holder.itemView.findViewById(R.id.likeBtn))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
                 } else {
                     Glide.with(holder.itemView.context)
                         .load(R.drawable.sample_image)
                         .transform(CenterCrop(), RoundedCorners(10))
-                        .into(holder.itemView.findViewById(R.id.likeBtn))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
                 }
             }
 
