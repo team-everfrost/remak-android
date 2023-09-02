@@ -36,20 +36,24 @@ class AccountMainFragment : Fragment() {
 
     private val viewModel: SignInViewModel by activityViewModels { SignInViewModelFactory(signInRepository) }
     lateinit var signInRepository : TokenRepository
-    val iconData = listOf<String>(
+    private val iconData = listOf(
         "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx","통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx",
         "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx",
         "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx",
         "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx")
 
 
-    val smallIconData = listOf(
+    private val smallIconData = listOf(
         listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
         listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
         listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
         listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
-        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일")
-
+        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
     )
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -113,9 +117,10 @@ class AccountMainFragment : Fragment() {
         smallIconTimer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 activity?.runOnUiThread {
-                    if (smallIconLayoutManager.findLastCompletelyVisibleItemPosition() == smallIconAdapter.itemCount - 2) {
+                    if (smallIconLayoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
                         // 마지막 아이템에 도달하면 첫 번째 아이템으로 스크롤
-                        binding.smallIconRecyclerView.scrollToPosition(smallIconAdapter.itemCount - 5)
+                        binding.smallIconRecyclerView.scrollToPosition(smallIconAdapter.itemCount - 1)
+
                     } else {
                         binding.smallIconRecyclerView.scrollBy(-1, 0) // 50 픽셀만큼 오른쪽으로 스크롤
                     }
@@ -166,9 +171,10 @@ class AccountMainFragment : Fragment() {
         smallIconTimer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 activity?.runOnUiThread {
-                    if (smallIconLayoutManager.findLastCompletelyVisibleItemPosition() == smallIconAdapter.itemCount - 2) {
+                    if (smallIconLayoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
                         // 마지막 아이템에 도달하면 첫 번째 아이템으로 스크롤
-                        binding.smallIconRecyclerView.scrollToPosition(smallIconAdapter.itemCount - 5)
+                        binding.smallIconRecyclerView.scrollToPosition(smallIconAdapter.itemCount - 1)
+
                     } else {
                         binding.smallIconRecyclerView.scrollBy(-1, 0) // 50 픽셀만큼 오른쪽으로 스크롤
                     }
