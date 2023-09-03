@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +23,6 @@ import com.example.remak.adapter.HomeItemOffsetDecoration
 import com.example.remak.adapter.HomeRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainHomeFragmentBinding
-import com.example.remak.view.account.AccountActivity
 import com.example.remak.view.detail.FileDetailActivity
 import com.example.remak.view.detail.ImageDetailActivity
 import com.example.remak.view.detail.LinkDetailActivity
@@ -38,8 +37,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
     lateinit var tokenRepository: TokenRepository
     private lateinit var resultLauncher : ActivityResultLauncher<Intent>
     private lateinit var recyclerView : RecyclerView
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,12 +54,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val displayMetrics = resources.displayMetrics
-        val widthDp = displayMetrics.widthPixels / displayMetrics.density
-        val heightDp = displayMetrics.heightPixels / displayMetrics.density
-        Log.d("DeviceWidth", "Width in dp: $widthDp")
-        Log.d("DeviceHeight", "Height in dp: $heightDp")
-
 
 
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -75,6 +66,8 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
                 }
             }
         }
+
+        //어댑터 초기화
         adapter = HomeRVAdapter(mutableListOf(), this)
         recyclerView = binding.homeRV
         val itemDecoration = HomeItemOffsetDecoration(30, adapter)
@@ -82,9 +75,9 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         recyclerView.adapter = adapter
         //리사이클러 뷰 아이템 간격 조정
         recyclerView.addItemDecoration(itemDecoration)
-
         viewModel.getAllMainList()
 
+        //뒤로가기 누를 시 선택모드면 선택모드 종료 아니면 앱 종료
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             if (adapter.isSelectionMode()) {
                 onSelectionEnded()
@@ -108,15 +101,11 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             }
         })
 
-        var count = 0
-
         viewModel.mainListData.observe(viewLifecycleOwner) {data ->
-            Log.d("mainlistdataaaa${count}", data.toString())
             adapter.dataSet = data
             if (initialLoad) { //첫 로드일 경우
                 adapter.notifyDataSetChanged()
             }
-            count++
         }
 
         //위로 스와이프 했을 때 새로고침 기능
@@ -126,7 +115,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             binding.swipeRefresh.isRefreshing = false
         }
 
-
         viewModel.uploadFileSuccess.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
                 UtilityDialog.showInformDialog("파일 업로드에 성공했습니다.", requireContext())
@@ -135,11 +123,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         }
 
         binding.deleteBtn.setOnClickListener {
-            Log.d("list", adapter.getSelectedItems().toString())
-            Log.d("selecteditemcounter", adapter.selectedItemsCount.toString())
             val selectedItems = adapter.getSelectedItems()
-
-
             UtilityDialog.showWarnDialog(
                 requireContext(),
                 "삭제하시겠습니까?",
@@ -149,32 +133,25 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
                     }
                     onSelectionEnded()
                 },
-                cancelClick = {
-                    //do nothing
+                cancelClick = {}
+            )
+        }
+
+        binding.moreIcon.setOnClickListener {
+            val popupMenu = PopupMenu(requireContext(), it)
+            popupMenu.menuInflater.inflate(R.menu.main_home_menu, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener {menuItem ->
+                when(menuItem.itemId) {
+                    R.id.addBtn -> {
+                        TODO()
+                        true
+                    }
+                    else -> false
                 }
-            )
-
-        }
-
-
-    }
-
-    private fun filterClickEvent(button: AppCompatButton) {
-        if (button.backgroundTintList?.defaultColor == -1) {
-            button.backgroundTintList = resources.getColorStateList(
-                com.example.remak.R.color.checkBlue,
-                null
-            )
-        } else {
-            button.backgroundTintList = resources.getColorStateList(
-                com.example.remak.R.color.white,
-                null
-            )
+            }
+            popupMenu.show()
         }
     }
-
-    // 다시 접속 시 데이터 갱신
-
 
     override fun onItemClick(view: View, position: Int) {
         when (viewModel.mainListData.value!![position].type) {
