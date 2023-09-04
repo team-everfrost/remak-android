@@ -23,6 +23,7 @@ import com.example.remak.adapter.HomeItemOffsetDecoration
 import com.example.remak.adapter.HomeRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainHomeFragmentBinding
+import com.example.remak.view.add.AddActivity
 import com.example.remak.view.detail.FileDetailActivity
 import com.example.remak.view.detail.ImageDetailActivity
 import com.example.remak.view.detail.LinkDetailActivity
@@ -143,7 +144,8 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             popupMenu.setOnMenuItemClickListener {menuItem ->
                 when(menuItem.itemId) {
                     R.id.addBtn -> {
-                        TODO()
+                        val intent = Intent(requireContext(), AddActivity::class.java)
+                        startActivity(intent)
                         true
                     }
                     else -> false

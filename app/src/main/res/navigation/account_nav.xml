@@ -8,7 +8,7 @@
         android:id="@+id/accountMainFragment"
         android:name="com.example.remak.view.account.signIn.AccountMainFragment"
         android:label="account_main_fragment"
-        tools:layout="@layout/account_main_fragment" >
+        tools:layout="@layout/temp_main_fragment" >
         <action
             android:id="@+id/action_accountMainFragment_to_accountSignUp1Fragment2"
             app:destination="@id/accountSignUp1Fragment2"

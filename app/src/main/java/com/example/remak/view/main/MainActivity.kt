@@ -21,11 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("MainActivity", "onCreate")
-
-
-
-        tokenRepository = TokenRepository((application as App).dataStore)
+      tokenRepository = TokenRepository((application as App).dataStore)
         _binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel.loginCheck()
