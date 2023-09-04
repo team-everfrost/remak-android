@@ -30,15 +30,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel.loginCheck()
 
-//        viewModel.isLogIn.observe(this) {
-//            if (!it) {
-//                val intent = Intent(this, AccountActivity::class.java)
-//                startActivity(intent)
-//                finish()
-//            }
-//        }
-
-
         val bottomNavigationView = binding.bottomNavigation
         bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId){
