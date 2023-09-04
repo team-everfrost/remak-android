@@ -1,15 +1,17 @@
 package com.example.remak.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.R
 import com.example.remak.network.model.TagListData
 
-class TagRVAdapter (var tagData : List<TagListData.Data>,private val itemClickListener :  OnItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class TagRVAdapter (private val context : Context, var tagData : List<TagListData.Data>,private val itemClickListener :  OnItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     companion object {
         private const val COLLECTION = "COLLECTION"
@@ -92,7 +94,10 @@ class TagRVAdapter (var tagData : List<TagListData.Data>,private val itemClickLi
             }
             is TagViewHolder -> {
                 holder.title.text = "#${tagData[position].name}"
-                holder.count.text = tagData[position].count.toString()
+//                holder.count.text = context.getString(R.string.tag_count_text, tagData[position].count.toString())
+                holder.count.text = HtmlCompat.fromHtml(context.getString(R.string.tag_count_text, tagData[position].count.toString()), HtmlCompat.FROM_HTML_MODE_LEGACY)
+
+
             }
             is TypeViewHolder -> {
                 holder.type.text = tagData[position].name

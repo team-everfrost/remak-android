@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.UtilitySystem
+import com.example.remak.adapter.TagItemOffsetDecoration
 import com.example.remak.adapter.TagRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainTagFragmentBinding
@@ -47,7 +48,7 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = TagRVAdapter(listOf(), this)
+        adapter = TagRVAdapter(requireActivity(), listOf(), this)
         binding.tagRV.adapter = adapter
         binding.tagRV.layoutManager = LinearLayoutManager(requireContext())
 
@@ -61,6 +62,9 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
                 }
             }
         })
+
+        val itemDecoration = TagItemOffsetDecoration(30)
+        binding.tagRV.addItemDecoration(itemDecoration)
 
         viewModel.getTagList()
         viewModel.tagList.observe(viewLifecycleOwner) {

@@ -9,5 +9,19 @@
         android:id="@+id/addFragment"
         tools:layout="@layout/add_fragment"
         android:name="com.example.remak.view.add.AddFragment"
-        android:label="add_fragment" />
+        android:label="add_fragment" >
+        <action
+            android:id="@+id/action_addFragment_to_addLinkFragment"
+            app:destination="@id/addLinkFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addLinkFragment"
+        android:name="com.example.remak.view.add.AddLinkFragment"
+        android:label="AddLinkFragment"
+        tools:layout="@layout/add_link_fragment"
+        >
+        <action
+            android:id="@+id/action_addLinkFragment_to_addFragment"
+            app:destination="@id/addFragment" />
+    </fragment>
 </navigation>
