@@ -69,15 +69,9 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         }
 
 
-        binding.shareBtn.setOnClickListener {
-            val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, url)
-            }
-            startActivity(Intent.createChooser(shareIntent, "Share link"))
-        }
 
-        binding.movePageBtn.setOnClickListener {
+
+        binding.shareBtn.setOnClickListener {
             val colorSchemeParams = CustomTabColorSchemeParams.Builder()
                 .setToolbarColor(ContextCompat.getColor(this, R.color.black))
                 .build()
@@ -98,13 +92,7 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
             customTabsIntent.launchUrl(this, Uri.parse(url))
         }
 
-        binding.shareIcon.setOnClickListener {
-            val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, url)
-            }
-            startActivity(Intent.createChooser(shareIntent, "Share link"))
-        }
+
 
         binding.moreIcon.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
@@ -128,10 +116,16 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                                 setResult(Activity.RESULT_OK, resultIntent)
                                 finish()
                             },
-                            cancelClick = {
-                                //do nothing
-                            }
+                            cancelClick = {}
                         )
+                        true
+                    }
+                    R.id.shareBtn -> {
+                        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_TEXT, url)
+                        }
+                        startActivity(Intent.createChooser(shareIntent, "Share link"))
                         true
                     }
                     else -> false
@@ -167,8 +161,6 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
 
         if (detailData.status != "SCRAPE_PENDING" && detailData.status != "SCRAPE_PROCESSING") {
             showContent(linkData)
-        } else {
-            binding.animation.visibility = View.VISIBLE
         }
 
 
@@ -190,7 +182,7 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 binding.tagRV.visibility = View.VISIBLE
-                binding.bottomBtnLayout.visibility = View.VISIBLE
+                binding.shareBtn.visibility = View.VISIBLE
             }
         }
         binding.webView.focusable = View.NOT_FOCUSABLE // 웹뷰 터치 시 자동 스크롤 방지

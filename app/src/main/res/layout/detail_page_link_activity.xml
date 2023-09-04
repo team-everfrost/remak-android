@@ -39,37 +39,19 @@
                 android:src="@drawable/baseline_more_horiz_24"
                 android:background="@color/white"/>
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/shareIcon"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            app:layout_constraintEnd_toStartOf="@id/moreIcon"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/outline_share_24"
-            android:background="@drawable/custom_ripple_effect_transparent"/>
+
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/editIcon"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            app:layout_constraintEnd_toStartOf="@id/shareIcon"
+            app:layout_constraintEnd_toStartOf="@id/moreIcon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:src="@drawable/baseline_edit_24"
             android:background="@color/white"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/completeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/complete"
-            android:textSize="20dp"
-            android:textFontWeight="600"
-            android:visibility="gone"
-            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -209,47 +191,24 @@
                 android:visibility="gone"
                 />
 
-            <RelativeLayout
-                android:id="@+id/bottomBtnLayout"
-                android:visibility="gone"
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/shareBtn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="62dp"
+                android:layout_marginBottom="36dp"
                 android:layout_marginTop="40dp"
-                android:layout_marginBottom="20dp"
-                app:layout_constraintBottom_toBottomOf="parent">
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/shareBtn"
-                    android:layout_width="170dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentStart="true"
-                    android:background="@drawable/custom_ripple_effect_white_rec_border_radius"
-                    android:stateListAnimator="@null"
-                    android:text="공유"
-                    android:textColor="@color/gray"
-                    android:textFontWeight="600"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/movePageBtn"
-                    android:layout_width="170dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="1dp"
-                    android:background="@drawable/custom_ripple_effect_white_rec_border_radius"
-                    android:elevation="0dp"
-                    android:stateListAnimator="@null"
-                    android:text="페이지 이동"
-                    android:textColor="@color/gray"
-                    android:textFontWeight="600"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-
-            </RelativeLayout>
+                android:background="@drawable/custom_ripple_effect_blue_rec"
+                android:gravity="center"
+                android:text="웹 페이지로 이동하기"
+                android:textColor="@color/white"
+                android:textFontWeight="700"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                 />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>
