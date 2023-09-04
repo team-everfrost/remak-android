@@ -17,6 +17,7 @@ import com.example.remak.R
 import com.example.remak.UtilityDialog
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AddFragmentBinding
+import com.example.remak.view.main.CreateMemoActivity
 import com.example.remak.view.main.MainActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -103,6 +104,11 @@ class AddFragment : Fragment() {
                 putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             }
             getContent.launch(intent)
+        }
+
+        binding.memoAddBtn.setOnClickListener {
+            val intent = Intent(activity, CreateMemoActivity::class.java)
+            startActivity(intent)
         }
 
     }

@@ -206,7 +206,6 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         } catch (e : Exception) {
             Log.d("networkError", e.toString())
         }
-
     }
 
     /** 파일 업로드 */
