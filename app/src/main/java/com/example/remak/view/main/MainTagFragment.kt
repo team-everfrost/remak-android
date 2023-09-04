@@ -96,6 +96,7 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
             "TAG" -> {
                 val intent = Intent(requireContext(), TagDetailActivity::class.java)
                 intent.putExtra("tagName", adapter.getTagName(position))
+                intent.putExtra("tagCount", adapter.getTagCount(position))
                 startActivity(intent)
             }
         }

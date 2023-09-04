@@ -39,6 +39,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/tagCount"
         android:text="가 있어요"
+        android:textFontWeight="600"
         app:layout_constraintTop_toBottomOf="@id/tagName"
         android:textColor="#646F7C"
         android:textSize="12sp"/>

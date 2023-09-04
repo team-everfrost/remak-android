@@ -10,7 +10,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.remak.App
+import com.example.remak.R
+import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AddLinkFragmentBinding
 
@@ -26,6 +29,9 @@ class AddLinkFragment : Fragment() {
     ): View? {
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
         binding = AddLinkFragmentBinding.inflate(inflater, container, false)
+        binding.root.setOnClickListener {
+            UtilitySystem.hideKeyboard(requireActivity())
+        }
         return binding.root
     }
 
@@ -66,6 +72,11 @@ class AddLinkFragment : Fragment() {
                 }
             }
             requireActivity().finish()
+        }
+
+        binding.backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_addLinkFragment_to_addFragment)
+            TODO("현재 프래그먼트 지워지게 처리")
         }
     }
 

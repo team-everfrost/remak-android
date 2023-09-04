@@ -66,6 +66,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/cancelBtn"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
             android:layout_width="0dp"
             android:layout_height="58.5dp"
             app:layout_constraintWidth_percent="0.43"

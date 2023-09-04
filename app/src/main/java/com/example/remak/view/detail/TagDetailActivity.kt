@@ -28,6 +28,7 @@ class TagDetailActivity : AppCompatActivity(), TagDetailRVAdapter.OnItemClickLis
         binding = TagDetailActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val tagName = intent.getStringExtra("tagName")
+        val tagCount = intent.getIntExtra("tagCount", 0)
         adapter = TagDetailRVAdapter(listOf(), this)
         recyclerView = binding.tagDetailRV
         recyclerView.adapter = adapter
@@ -37,6 +38,7 @@ class TagDetailActivity : AppCompatActivity(), TagDetailRVAdapter.OnItemClickLis
 
         viewModel.getTagDetailData(tagName!!)
         binding.tagName.text = "#$tagName"
+        binding.tagCount.text = "${tagCount}개"
 
         viewModel.tagDetailData.observe(this) {
             Log.d("tagDetailData", it.toString())

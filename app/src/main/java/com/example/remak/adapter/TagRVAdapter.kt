@@ -57,6 +57,10 @@ class TagRVAdapter (private val context : Context, var tagData : List<TagListDat
         return tagData[adapterPosition].name
     }
 
+    fun getTagCount(adapterPosition: Int) : Int {
+        return tagData[adapterPosition].count
+    }
+
     override fun getItemViewType(position: Int): Int = when (tagData[position].type) {
         COLLECTION -> COLLECTION_VIEW_TYPE
         TAG -> TAG_VIEW_TYPE
