@@ -109,10 +109,10 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
                 type = "image/*"
                 addCategory(Intent.CATEGORY_OPENABLE)
                 putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-
             }
             getContent.launch(intent)
         }
+
     }
 
     private fun showDialog() {

@@ -119,7 +119,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         viewModel.uploadFileSuccess.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
                 UtilityDialog.showInformDialog("파일 업로드에 성공했습니다.", requireContext())
-                viewModel.isUploadFileSuccess()
+                viewModel.resetUploadFileSuccess()
             }
         }
 

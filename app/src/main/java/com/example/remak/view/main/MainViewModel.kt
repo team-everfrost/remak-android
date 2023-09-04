@@ -6,10 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.remak.dataStore.SearchHistoryRepository
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.network.model.MainListData
-import com.example.remak.network.model.SearchEmbeddingData
 import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -229,7 +227,7 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         }
     }
 
-    fun isUploadFileSuccess() {
+    fun resetUploadFileSuccess() {
         _uploadFileSuccess.value = false
     }
 
