@@ -16,7 +16,7 @@
     <item
         android:title="태그"
         android:id="@+id/blankFragment"
-        android:icon="@drawable/baseline_add_box_24"
+        android:icon="@drawable/selector_tag"
         />
     <item
         android:title="컬렉션"

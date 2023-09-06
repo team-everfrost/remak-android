@@ -6,79 +6,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/topLinear"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center_vertical"
+    <TextView
+        android:id="@+id/searchText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="54dp"
+        android:text="검색"
+        android:layout_marginStart="16dp"
+        android:textSize="24sp"
+        android:textFontWeight="700"
+        />
+
+
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/searchEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_height="63dp"
             android:inputType="textNoSuggestions"
-            android:background="@color/mainBackgroundColor"
-            android:hint="@string/searchHint"
-            android:imeOptions="actionDone"
-            android:textColorHint="@color/black"
-            android:textFontWeight="200"
-            android:textSize="30sp" />
-
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/whiteGray"
-        app:layout_constraintTop_toBottomOf="@id/topLinear"
-        />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_marginTop="10dp"
-        android:id="@+id/filterLayout"
-        android:layout_marginHorizontal="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/divider">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sampleFilter1"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:text="검색기간"
-            android:stateListAnimator="@null"
-            android:textSize="10sp"
-            android:backgroundTint="@color/white"
-            android:background="@drawable/white_rect_radius"/>
-
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_marginStart="10dp"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:stateListAnimator="@null"
-
-            android:text="+ 태그추가"
-            android:textSize="10sp"
-            android:background="@drawable/white_rect_radius"/>
+            android:background="@drawable/edit_text_round"
+            android:drawablePadding="10dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="27dp"
+            android:drawableLeft="@drawable/search_icon"
+            android:paddingStart="16dp"
+            android:hint="검색어를 입력해주세요"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchText"
+            android:textFontWeight="500"
+            android:textColorHint="#C5C8CE"
+            android:textSize="16sp" />
 
 
 
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchRecyclerView"
         android:visibility="gone"
+        android:layout_marginTop="25dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filterLayout"
+        app:layout_constraintTop_toBottomOf="@id/searchEditText"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -89,19 +61,19 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filterLayout"
+        app:layout_constraintTop_toBottomOf="@id/searchEditText"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/test"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="최근 검색 내역"
-            android:textSize="20sp"
+            android:textSize="16dp"
             android:textColor="@color/black"
-            android:textFontWeight="400"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"/>
+            android:textFontWeight="700"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="36dp"/>
 
 
 
@@ -109,6 +81,7 @@
             android:id="@+id/searchHistoryRV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
 
             />
 
@@ -125,7 +98,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filterLayout"
+        app:layout_constraintTop_toBottomOf="@id/searchEditText"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="0dp">
         <androidx.appcompat.widget.LinearLayoutCompat

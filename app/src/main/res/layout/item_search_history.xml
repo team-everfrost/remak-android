@@ -9,18 +9,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="20dp">
 
-        <androidx.constraintlayout.utils.widget.ImageFilterView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/baseline_history_24"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"/>
+
 
         <TextView
             android:id="@+id/searchHistoryText"
@@ -29,28 +20,21 @@
             android:text="최근 검색어"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/icon"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_gravity="center"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_marginStart="10dp"/>
 
-        <TextView
+        <ImageButton
             android:id="@+id/deleteBtn"
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="x"
-            android:textSize="30sp"
-            android:paddingStart="10dp"
-            android:textFontWeight="400"
-            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/custom_ripple_effect_transparent"
-            />
-
-
+            android:src="@drawable/close_icon"
+            android:background="@color/backgroundColor"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

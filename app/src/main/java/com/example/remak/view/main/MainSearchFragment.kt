@@ -30,8 +30,10 @@ import com.example.remak.view.detail.ImageDetailActivity
 import com.example.remak.view.detail.LinkDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
 import com.example.remak.adapter.ItemOffsetDecoration
+import com.example.remak.adapter.SearchHistoryItemOffsetDecoration
 import com.example.remak.adapter.SearchHistoryRVAdapter
 import com.example.remak.adapter.SearchRVAdapter
+import com.example.remak.adapter.TagItemOffsetDecoration
 import com.example.remak.dataStore.SearchHistoryRepository
 
 class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, SearchHistoryRVAdapter.OnItemClickListener {
@@ -66,7 +68,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
                 isRotating = false  // 플래그 초기화
                 return
             }
-
             if (!isHistorySearch) {
                 runnable = Runnable {
                     if (p0.toString().isNotEmpty()) {
@@ -147,6 +148,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
         historyRecyclerView = binding.searchHistoryRV
         historyRecyclerView.adapter = historyAdapter
         historyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        historyRecyclerView.addItemDecoration(SearchHistoryItemOffsetDecoration(50))
 
         binding.root.setOnClickListener {
             Log.d("MainSearchFragment", "root click")
@@ -198,20 +200,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
             historyAdapter.notifyDataSetChanged()
         }
 
-        binding.sampleFilter1.setOnClickListener {
-            //backgroundtint가 white일경우 checkblue로 변경
-            if (binding.sampleFilter1.backgroundTintList?.defaultColor == -1) {
-                binding.sampleFilter1.backgroundTintList = resources.getColorStateList(
-                    com.example.remak.R.color.checkBlue,
-                    null
-                )
-            } else {
-                binding.sampleFilter1.backgroundTintList = resources.getColorStateList(
-                    R.color.white,
-                    null
-                )
-            }
-        }
+
 
 
         //리사이클러 뷰 무한스크롤 기능
