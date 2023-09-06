@@ -43,12 +43,14 @@
             android:layout_width="match_parent"
             android:layout_height="67dp"
             android:layout_marginHorizontal="16dp">
+
             <androidx.constraintlayout.utils.widget.ImageFilterView
                 android:id="@+id/linkImg"
                 android:layout_width="67dp"
                 android:layout_height="67dp"
-                android:src="@drawable/sample_image"
-                android:scaleType="fitXY"
+                android:background="@drawable/circle_background"
+                android:scaleType="centerInside"
+                android:src="@drawable/link_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 />
@@ -93,8 +95,9 @@
                 android:id="@+id/fileImg"
                 android:layout_width="67dp"
                 android:layout_height="67dp"
-                android:src="@drawable/sample_image"
-                android:scaleType="fitXY"
+                android:background="@drawable/circle_background"
+                android:scaleType="centerInside"
+                android:src="@drawable/document_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 />
@@ -137,8 +140,9 @@
                 android:id="@+id/photoImg"
                 android:layout_width="67dp"
                 android:layout_height="67dp"
-                android:src="@drawable/sample_image"
-                android:scaleType="fitXY"
+                android:background="@drawable/circle_background"
+                android:scaleType="centerInside"
+                android:src="@drawable/image_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 />
@@ -181,8 +185,9 @@
                 android:id="@+id/memoImg"
                 android:layout_width="67dp"
                 android:layout_height="67dp"
-                android:src="@drawable/sample_image"
-                android:scaleType="fitXY"
+                android:background="@drawable/circle_background"
+                android:scaleType="centerInside"
+                android:src="@drawable/memo_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 />

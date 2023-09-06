@@ -1,5 +1,6 @@
 package com.example.remak
 
+import android.app.ActionBar.LayoutParams
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
@@ -12,7 +13,16 @@ import android.widget.TextView
 
 object UtilityDialog {
     fun showWarnDialog(context: Context, getContent : String, confirmClick: () -> Unit, cancelClick: () -> Unit) {
+
+
         val dialog = Dialog(context)
+        val window = dialog.window
+        window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val layoutParams = window?.attributes
+        layoutParams?.dimAmount = 0.7f // 어둡게 할 배경의 투명도를 설정
+        window?.attributes = layoutParams
+        window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+
         val windowManager =
             context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)

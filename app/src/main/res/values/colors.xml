@@ -25,4 +25,5 @@
     <color name="disableTextColor">#C5C8CE</color>
     <color name="selectedColor">#28323C</color>
     <color name="unselectedColor">#C5C8CE</color>
+    <color name="backgroundColor">#F4F6F8</color>
 </resources>
