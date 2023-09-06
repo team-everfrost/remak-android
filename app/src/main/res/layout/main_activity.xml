@@ -38,6 +38,7 @@
             android:layout_gravity="bottom"
             app:itemIconTint="@color/bottom_nav_colors"
             app:itemTextColor="@color/bottom_nav_colors"
+            app:itemIconSize="22dp"
             app:itemBackground="@color/white"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -45,15 +46,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_nav">
 
-            <ImageButton
-                android:id="@+id/addBtn"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center|bottom"
-                android:background="@drawable/custom_ripple_effect_white_rectangle"
-                android:src="@drawable/baseline_add_box_24"
 
-                />
         </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     </FrameLayout>

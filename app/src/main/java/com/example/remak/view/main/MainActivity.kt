@@ -1,16 +1,13 @@
 package com.example.remak.view.main
 
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainActivityBinding
-import com.example.remak.view.account.AccountActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -45,11 +42,11 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, MainSearchFragment()).commit()
                     true
                 }
-                R.id.blankFragment -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, blank()).commit()
+                R.id.tagFragment -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, MainTagFragment()).commit()
                     true
                 }
-                R.id.tagFragment -> {
+                R.id.collectionFragment -> {
                     supportFragmentManager.beginTransaction().replace(R.id.mainFragmentContainerView, MainTagFragment()).commit()
                     true
                 }
@@ -66,10 +63,10 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationView.selectedItemId = R.id.homeFragment
         }
 
-        binding.addBtn.setOnClickListener {
-            val myBottomSheet = BottomSheetDialogFragment()
-            myBottomSheet.show(supportFragmentManager, myBottomSheet.tag)
-        }
+//        binding.addBtn.setOnClickListener {
+//            val myBottomSheet = BottomSheetDialogFragment()
+//            myBottomSheet.show(supportFragmentManager, myBottomSheet.tag)
+//        }
 
     }
 

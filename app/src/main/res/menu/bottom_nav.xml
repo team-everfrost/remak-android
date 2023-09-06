@@ -10,23 +10,23 @@
     <item
         android:title="검색"
         android:id="@+id/searchFragment"
-        android:icon="@drawable/selector_search"
+        android:icon="@drawable/search_icon"
         />
 
     <item
         android:title="태그"
-        android:id="@+id/blankFragment"
-        android:icon="@drawable/selector_tag"
-        />
-    <item
-        android:title="컬렉션"
         android:id="@+id/tagFragment"
         android:icon="@drawable/selector_tag"
         />
     <item
+        android:title="컬렉션"
+        android:id="@+id/collectionFragment"
+        android:icon="@drawable/collection_icon"
+        />
+    <item
         android:title="내 정보"
         android:id="@+id/profileFragment"
-        android:icon="@drawable/selector_profile"
+        android:icon="@drawable/profile_icon_unselect"
         />
 
 
