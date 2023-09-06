@@ -153,7 +153,13 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             }
             popupMenu.show()
         }
+
+        binding.addBtn.setOnClickListener {
+            val intent = Intent(requireContext(), AddActivity::class.java)
+            startActivity(intent)
+        }
     }
+
 
     override fun onItemClick(view: View, position: Int) {
         when (viewModel.mainListData.value!![position].type) {
