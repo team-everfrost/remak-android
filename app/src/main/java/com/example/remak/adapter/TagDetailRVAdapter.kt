@@ -191,7 +191,7 @@ class TagDetailRVAdapter(var dataSet : List<TagDetailData.Data>, private val ite
 
 }
 
-class TagItemOffsetDecoration(private val mItemOffset: Int) : RecyclerView.ItemDecoration() {
+class TagDetailItemOffsetDecoration(private val mItemOffset: Int) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
     ) {

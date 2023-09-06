@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.UtilitySystem
+import com.example.remak.adapter.TagDetailItemOffsetDecoration
 import com.example.remak.adapter.TagItemOffsetDecoration
 import com.example.remak.adapter.TagRVAdapter
 import com.example.remak.dataStore.TokenRepository
@@ -87,19 +88,10 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        when (viewModel.tagList.value!![position].type) {
-            "COLLECTION" -> {
-                val intent = Intent(requireContext(), TagDetailActivity::class.java)
-                intent.putExtra("tagName", adapter.getTagName(position))
-                startActivity(intent)
-            }
-            "TAG" -> {
-                val intent = Intent(requireContext(), TagDetailActivity::class.java)
-                intent.putExtra("tagName", adapter.getTagName(position))
-                intent.putExtra("tagCount", adapter.getTagCount(position))
-                startActivity(intent)
-            }
-        }
+        val intent = Intent(requireContext(), TagDetailActivity::class.java)
+        intent.putExtra("tagName", adapter.getTagName(position))
+        intent.putExtra("tagCount", adapter.getTagCount(position))
+        startActivity(intent)
 
     }
 }

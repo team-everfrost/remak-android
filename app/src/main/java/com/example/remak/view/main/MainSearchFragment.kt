@@ -14,9 +14,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.addCallback
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +31,6 @@ import com.example.remak.adapter.ItemOffsetDecoration
 import com.example.remak.adapter.SearchHistoryItemOffsetDecoration
 import com.example.remak.adapter.SearchHistoryRVAdapter
 import com.example.remak.adapter.SearchRVAdapter
-import com.example.remak.adapter.TagItemOffsetDecoration
 import com.example.remak.dataStore.SearchHistoryRepository
 
 class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, SearchHistoryRVAdapter.OnItemClickListener {

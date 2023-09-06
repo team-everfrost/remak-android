@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
 import com.example.remak.adapter.TagDetailRVAdapter
-import com.example.remak.adapter.TagItemOffsetDecoration
+import com.example.remak.adapter.TagDetailItemOffsetDecoration
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.TagDetailActivityBinding
 
@@ -32,13 +32,12 @@ class TagDetailActivity : AppCompatActivity(), TagDetailRVAdapter.OnItemClickLis
         adapter = TagDetailRVAdapter(listOf(), this)
         recyclerView = binding.tagDetailRV
         recyclerView.adapter = adapter
-        val itemDecoration = TagItemOffsetDecoration(10)
+        val itemDecoration = TagDetailItemOffsetDecoration(10)
         recyclerView.addItemDecoration(itemDecoration)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         viewModel.getTagDetailData(tagName!!)
-        binding.tagName.text = "#$tagName"
-        binding.tagCount.text = "${tagCount}개"
+        binding.tagName.text = "${tagName} (${tagCount})"
 
         viewModel.tagDetailData.observe(this) {
             Log.d("tagDetailData", it.toString())

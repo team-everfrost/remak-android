@@ -1,6 +1,7 @@
 package com.example.remak.adapter
 
 import android.content.Context
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,31 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.R
 import com.example.remak.network.model.TagListData
 
-class TagRVAdapter (private val context : Context, var tagData : List<TagListData.Data>,private val itemClickListener :  OnItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class TagRVAdapter (private val context : Context, var tagData : List<TagListData.Data>,private val itemClickListener :  OnItemClickListener) : RecyclerView.Adapter<TagRVAdapter.TagRVViewHolder>(){
 
-    companion object {
-        private const val COLLECTION = "COLLECTION"
-        private const val TAG = "TAG"
-        private const val TYPE = "TYPE"
-        private const val COLLECTION_VIEW_TYPE = 0
-        private const val TAG_VIEW_TYPE = 1
-        private const val TYPE_VIEW_TYPE = 2
-    }
 
-    inner class CollectionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView = view.findViewById<TextView>(R.id.tagName)
-        val count: TextView = view.findViewById<TextView>(R.id.tagCount)
-        init {
-            view.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    itemClickListener.onItemClick(position)
-                }
-            }
-        }
-    }
 
-    inner class TagViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class TagRVViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<TextView>(R.id.tagName)
         val count: TextView = view.findViewById<TextView>(R.id.tagCount)
         init {
@@ -49,9 +30,6 @@ class TagRVAdapter (private val context : Context, var tagData : List<TagListDat
     }
 
 
-    inner class TypeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val type : TextView = view.findViewById<TextView>(R.id.tagType)
-    }
 
     fun getTagName(adapterPosition : Int) : String {
         return tagData[adapterPosition].name
@@ -61,55 +39,44 @@ class TagRVAdapter (private val context : Context, var tagData : List<TagListDat
         return tagData[adapterPosition].count
     }
 
-    override fun getItemViewType(position: Int): Int = when (tagData[position].type) {
-        COLLECTION -> COLLECTION_VIEW_TYPE
-        TAG -> TAG_VIEW_TYPE
-        TYPE -> TYPE_VIEW_TYPE
-        else -> throw IllegalArgumentException("Invalid type of data " + position)
-    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            COLLECTION_VIEW_TYPE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tag, parent, false)
-                CollectionViewHolder(view)
-            }
-            TAG_VIEW_TYPE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tag, parent, false)
-                TagViewHolder(view)
-            }
-            TYPE_VIEW_TYPE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tag_type, parent, false)
-                TypeViewHolder(view)
-            }
-            else -> throw IllegalArgumentException("Invalid type of data " + viewType)
-        }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagRVViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tag, parent, false)
+        return TagRVViewHolder(view)
     }
 
     override fun getItemCount(): Int {
         return tagData.size
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is CollectionViewHolder -> {
-                holder.title.text = tagData[position].name
-                holder.count.text = tagData[position].count.toString()
-            }
-            is TagViewHolder -> {
-                holder.title.text = "#${tagData[position].name}"
-//                holder.count.text = context.getString(R.string.tag_count_text, tagData[position].count.toString())
-                holder.count.text = HtmlCompat.fromHtml(context.getString(R.string.tag_count_text, tagData[position].count.toString()), HtmlCompat.FROM_HTML_MODE_LEGACY)
+    override fun onBindViewHolder(holder: TagRVViewHolder, position: Int) {
+        holder.title.text = tagData[position].name
+        holder.count.text = HtmlCompat.fromHtml("<font color=\"#1F8CE6\">${tagData[position].count}개</font><font color=\"#646F7C\">가 있어요</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
 
-
-            }
-            is TypeViewHolder -> {
-                holder.type.text = tagData[position].name
-            }
-        }
     }
     interface OnItemClickListener {
         fun onItemClick(position: Int)
+    }
+
+}
+
+
+
+class TagItemOffsetDecoration(private val mItemOffset: Int) : RecyclerView.ItemDecoration() {
+    override fun getItemOffsets(
+        outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
+    ) {
+        super.getItemOffsets(outRect, view, parent, state)
+        outRect.top = mItemOffset
+
+        val position = parent.getChildAdapterPosition(view)
+
+        // Add top margin only for the first item to avoid double space between items
+        if (parent.getChildAdapterPosition(view) == 0) {
+            outRect.top = mItemOffset * 2
+        }
+
     }
 
 }
