@@ -51,6 +51,12 @@
         <item name="android:windowLightStatusBar">true</item>
 
     </style>
+    
+    <style name="CustomCheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_selector</item>
+        <item name="android:background">@drawable/custom_ripple_effect_transparent_oval</item>
+
+    </style>
 
 
 
