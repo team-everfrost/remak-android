@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.collectionFragment -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.mainFragmentContainerView, MainTagFragment()).commit()
+                        .replace(R.id.mainFragmentContainerView, MainCollectionFragment()).commit()
                     true
                 }
 

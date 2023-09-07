@@ -31,8 +31,6 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
-
-
         binding = MainTagFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())

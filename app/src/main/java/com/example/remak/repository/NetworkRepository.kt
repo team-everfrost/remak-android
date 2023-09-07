@@ -2,6 +2,7 @@ package com.example.remak.repository
 
 import com.example.remak.network.Api
 import com.example.remak.network.RetrofitInstance
+import com.example.remak.network.model.CollectionListData
 import com.example.remak.network.model.CreateData
 import com.example.remak.network.model.DeleteData
 import com.example.remak.network.model.DetailData
@@ -111,5 +112,9 @@ class NetworkRepository {
     suspend fun checkEmail(email: String): Response<SignInData.CheckEmailResponse> {
         val requestBody = SignInData.CheckEmailRequest(email = email)
         return client.checkEmail(requestBody)
+    }
+
+    suspend fun getCollectionListData(offset: Int?): Response<CollectionListData.Response> {
+        return client.getCollectionListData(20, offset)
     }
 }

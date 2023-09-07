@@ -5,95 +5,124 @@
     android:layout_height="match_parent"
     android:background="@color/mainBackgroundColor">
 
-    <TextView
-        android:id="@+id/collectionText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="54dp"
-        android:text="컬렉션"
-        android:textFontWeight="700"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/emptyCollectionLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="252dp"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.utils.widget.ImageFilterView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/icon_box" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <TextView
+            android:id="@+id/collectionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="40.5dp"
-            android:text="등록된 컬렉션이 없어요"
-            android:textColor="#646F7C"
-            android:textFontWeight="300"
-            android:textSize="14sp" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="54dp"
+            android:text="컬렉션"
+            android:textFontWeight="700"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="252dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.utils.widget.ImageFilterView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_box" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="40.5dp"
+                android:text="등록된 컬렉션이 없어요"
+                android:textColor="#646F7C"
+                android:textFontWeight="300"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/addCollectionButton"
+                android:layout_width="148dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="27dp"
+                android:background="@drawable/search_edit_text_radius"
+                android:elevation="0dp"
+                android:stateListAnimator="@null"
+                android:text="새 컬렉션 만들기"
+                android:textColor="#646F7C"
+                android:textSize="16sp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/collectionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/collectionText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="54dp"
+            android:text="컬렉션"
+            android:textFontWeight="700"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/addCollectionButton"
-            android:layout_width="148dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="27dp"
-            android:background="@drawable/search_edit_text_radius"
+            android:id="@+id/addBtn"
+            android:layout_width="67dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="54dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/small_button_radius"
             android:elevation="0dp"
             android:stateListAnimator="@null"
-            android:text="새 컬렉션 만들기"
-            android:textColor="#646F7C"
-            android:textSize="16sp" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            android:text="추가하기"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/addBtn"
-        android:layout_width="67dp"
-        android:layout_height="34dp"
-        android:layout_marginTop="54dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/small_button_radius"
-        android:elevation="0dp"
-        android:stateListAnimator="@null"
-        android:text="추가하기"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/filterBtn"
+            android:layout_width="85dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/small_button_radius"
+            android:drawableEnd="@drawable/icon_up_arrow"
+            android:elevation="0dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:stateListAnimator="@null"
+            android:text="추가한 순"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/collectionText2" />
 
-    <Button
-        android:id="@+id/filterBtn"
-        android:layout_width="80dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="18dp"
-        android:background="@drawable/small_button_radius"
-        android:drawableEnd="@drawable/icon_up_arrow"
-        android:elevation="0dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:stateListAnimator="@null"
-        android:text="추가한 순"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/collectionText" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/collectionRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filterBtn" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/collectionRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filterBtn" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

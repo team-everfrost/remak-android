@@ -18,7 +18,6 @@ class TagRVAdapter(
     private val itemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<TagRVAdapter.TagRVViewHolder>() {
 
-
     inner class TagRVViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<TextView>(R.id.tagName)
         val count: TextView = view.findViewById<TextView>(R.id.tagCount)

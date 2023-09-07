@@ -1,6 +1,7 @@
 package com.example.remak.network
 
 
+import com.example.remak.network.model.CollectionListData
 import com.example.remak.network.model.CreateData
 import com.example.remak.network.model.DeleteData
 import com.example.remak.network.model.DetailData
@@ -109,5 +110,10 @@ interface Api {
     @POST("auth/check-email")
     suspend fun checkEmail(@Body body: SignInData.CheckEmailRequest): retrofit2.Response<SignInData.CheckEmailResponse>
 
+    @GET("collection")
+    suspend fun getCollectionListData(
+        @Query("limit") limit: Int? = 20,
+        @Query("offset") offset: Int?
+    ): retrofit2.Response<CollectionListData.Response>
 
 }

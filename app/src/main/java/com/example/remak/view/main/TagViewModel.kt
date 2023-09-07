@@ -13,10 +13,8 @@ import kotlinx.coroutines.launch
 
 class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private val networkRepository = NetworkRepository()
-
     private val _tagList = MutableLiveData<List<TagListData.Data>>()
     val tagList: LiveData<List<TagListData.Data>> = _tagList
-
     private var offset: Int? = null
     private var isListEnd: Boolean = false
     private var isLoadEnd: Boolean = false
