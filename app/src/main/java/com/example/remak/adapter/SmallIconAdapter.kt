@@ -4,21 +4,22 @@ import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.R
 
-class SmallIconAdapter(var dataSet : List<List<String>>) : RecyclerView.Adapter<SmallIconAdapter.SmallIconViewHolder>() {
+class SmallIconAdapter(var dataSet: List<List<String>>) :
+    RecyclerView.Adapter<SmallIconAdapter.SmallIconViewHolder>() {
 
-    inner class SmallIconViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+    inner class SmallIconViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val titleText = view.findViewById(R.id.titleTextView) as TextView
         val contentText = view.findViewById(R.id.contentTextView) as TextView
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SmallIconViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_sign_in_small_icon, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_sign_in_small_icon, parent, false)
         return SmallIconViewHolder(view)
     }
 

@@ -2,7 +2,6 @@ package com.example.remak.view.detail
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -18,19 +17,19 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 
-class FileDetailActivity : AppCompatActivity(),  LinkTagRVAdapter.OnItemClickListener {
+class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickListener {
 
 
-    private lateinit var extension : String
-    private lateinit var binding : DetailPageFileActivityBinding
-    private val viewModel : DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository)}
+    private lateinit var extension: String
+    private lateinit var binding: DetailPageFileActivityBinding
+    private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
     private lateinit var tokenRepository: TokenRepository
-    private lateinit var fileName : String
-    private var url : String? = null
+    private lateinit var fileName: String
+    private var url: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" , Locale.getDefault())
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         inputFormat.timeZone = TimeZone.getTimeZone("UTC")
         val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         tokenRepository = TokenRepository((this.application as App).dataStore)
@@ -64,7 +63,7 @@ class FileDetailActivity : AppCompatActivity(),  LinkTagRVAdapter.OnItemClickLis
             val outputDateStr = outputFormat.format(date)
             binding.dateTextView.text = outputDateStr
 
-            fileName = it.title!!
+            fileName = it.title
 
             adapter.tags = it.tags
             adapter.notifyDataSetChanged()
@@ -94,7 +93,7 @@ class FileDetailActivity : AppCompatActivity(),  LinkTagRVAdapter.OnItemClickLis
             })
         }
 
-  
+
 
         binding.backBtn.setOnClickListener {
             finish()

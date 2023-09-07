@@ -1,6 +1,5 @@
 package com.example.remak
 
-import android.app.ActionBar.LayoutParams
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
@@ -12,16 +11,21 @@ import android.view.WindowManager
 import android.widget.TextView
 
 object UtilityDialog {
-    fun showWarnDialog(context: Context, getContent : String, confirmClick: () -> Unit, cancelClick: () -> Unit) {
+    fun showWarnDialog(
+        context: Context,
+        getContent: String,
+        confirmClick: () -> Unit,
+        cancelClick: () -> Unit
+    ) {
 
 
         val dialog = Dialog(context)
         val window = dialog.window
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val layoutParams = window?.attributes
+        val layoutParams = window.attributes
         layoutParams?.dimAmount = 0.7f // 어둡게 할 배경의 투명도를 설정
-        window?.attributes = layoutParams
-        window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        window.attributes = layoutParams
+        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
         val windowManager =
             context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -36,14 +40,14 @@ object UtilityDialog {
             val window = dialog.window
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val x = (size.x * 0.85).toInt()
-            window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
+            window.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
         } else {
             val rect = windowManager.currentWindowMetrics.bounds
 
             val window = dialog.window
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val x = (rect.width() * 0.85).toInt()
-            window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
+            window.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
         }
         val confirmBtn = dialog.findViewById<View>(R.id.confirmBtn)
         val cancelBtn = dialog.findViewById<View>(R.id.cancelBtn)
@@ -80,7 +84,7 @@ object UtilityDialog {
             val x = (size.x * 0.7).toInt()
 
 
-            window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
+            window.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
 
         } else {
             val rect = windowManager.currentWindowMetrics.bounds
@@ -88,7 +92,7 @@ object UtilityDialog {
             val window = dialog.window
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val x = (rect.width() * 0.7).toInt()
-            window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
+            window.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
 
         }
 

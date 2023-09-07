@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.viewModelScope
 import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.UtilitySystem
@@ -19,15 +18,19 @@ import com.example.remak.databinding.AccountSignup4FragmentBinding
 import com.example.remak.view.main.MainActivity
 
 class AccountSignUp4Fragment : Fragment() {
-    private lateinit var binding : AccountSignup4FragmentBinding
+    private lateinit var binding: AccountSignup4FragmentBinding
     lateinit var signInRepository: TokenRepository
-    private val viewModel: SignUpViewModel by activityViewModels { SignUpViewModelFactory(signInRepository) }
+    private val viewModel: SignUpViewModel by activityViewModels {
+        SignUpViewModelFactory(
+            signInRepository
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         signInRepository = TokenRepository((requireActivity().application as App).dataStore)
         binding = AccountSignup4FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
@@ -48,23 +51,40 @@ class AccountSignUp4Fragment : Fragment() {
             }
         }
 
-        binding.passwordEditText.addTextChangedListener(object : TextWatcher{
+        binding.passwordEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 if (binding.passwordEditText.text.toString() == viewModel.userPassword.value) {
-                    binding.passwordEditText.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round)
+                    binding.passwordEditText.background =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round)
                     binding.completeBtn.isEnabled = true
-                    binding.completeBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                    binding.completeBtn.background = ContextCompat.getDrawable(requireContext(), R.drawable.custom_ripple_effect_blue_rec)
+                    binding.completeBtn.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.white
+                        )
+                    )
+                    binding.completeBtn.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.custom_ripple_effect_blue_rec
+                    )
                     binding.passwordErrorText.visibility = View.INVISIBLE
 
                 } else {
-                    binding.passwordEditText.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round_red)
+                    binding.passwordEditText.background =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_round_red)
                     binding.completeBtn.isEnabled = false
-                    binding.completeBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.disableTextColor))
-                    binding.completeBtn.background = ContextCompat.getDrawable(requireContext(), R.drawable.custom_ripple_effect)
+                    binding.completeBtn.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.disableTextColor
+                        )
+                    )
+                    binding.completeBtn.background =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.custom_ripple_effect)
                     binding.passwordErrorText.visibility = View.VISIBLE
                 }
             }
+
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })

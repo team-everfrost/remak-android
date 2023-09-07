@@ -34,7 +34,7 @@ import java.util.TimeZone
 class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickListener {
     private lateinit var binding: DetailPageLinkActivityBinding
     private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
-    private val mainViewModel : MainViewModel by viewModels { MainViewModelFactory(tokenRepository) }
+    private val mainViewModel: MainViewModel by viewModels { MainViewModelFactory(tokenRepository) }
     lateinit var tokenRepository: TokenRepository
     lateinit var url: String
     private lateinit var linkData: String
@@ -97,14 +97,15 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         binding.moreIcon.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
             popupMenu.menuInflater.inflate(R.menu.detail_more_menu, popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener {menuItem ->
-                when(menuItem.itemId) {
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
                     R.id.BrowserBtn -> {
                         val i = Intent(Intent.ACTION_VIEW)
                         i.data = Uri.parse(url)
                         startActivity(i)
                         true
                     }
+
                     R.id.deleteBtn -> {
                         UtilityDialog.showWarnDialog(
                             this,
@@ -120,6 +121,7 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                         )
                         true
                     }
+
                     R.id.shareBtn -> {
                         val shareIntent = Intent(Intent.ACTION_SEND).apply {
                             type = "text/plain"
@@ -128,6 +130,7 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                         startActivity(Intent.createChooser(shareIntent, "Share link"))
                         true
                     }
+
                     else -> false
                 }
             }
@@ -157,17 +160,16 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         val outputDateStr = outputFormat.format(date)
         binding.date.text = outputDateStr
-        binding.title.setText(detailData.title)
+        binding.title.text = detailData.title
 
         if (detailData.status != "SCRAPE_PENDING" && detailData.status != "SCRAPE_PROCESSING") {
             showContent(linkData)
         }
 
 
-
     }
 
-    private fun prepareLinkData(content : String) : String {
+    private fun prepareLinkData(content: String): String {
         return content
             .replace(Regex("\\\\t"), "    ")
             .replace(Regex("\\\\n"), "<br>")

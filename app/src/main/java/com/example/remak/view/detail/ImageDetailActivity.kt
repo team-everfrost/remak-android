@@ -1,6 +1,5 @@
 package com.example.remak.view.detail
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -9,10 +8,10 @@ import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageImageActivityBinding
 
 class ImageDetailActivity : AppCompatActivity() {
-    private lateinit var binding : DetailPageImageActivityBinding
-    private val viewModel : DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository)}
+    private lateinit var binding: DetailPageImageActivityBinding
+    private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
     private lateinit var tokenRepository: TokenRepository
-    private var url : String? = null
+    private var url: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

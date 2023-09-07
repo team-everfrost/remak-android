@@ -11,7 +11,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.OpenableColumns
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,48 +29,56 @@ import java.io.File
 import java.io.InputStream
 
 class BottomSheetDialogFragment : BottomSheetDialogFragment() {
-    private val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val clipData = result.data?.clipData
-            val uriList = mutableListOf<Uri>()
-            var isUploadAble = true
-            if (clipData != null && clipData.itemCount <= 10) {
-                for (i in 0 until clipData.itemCount) {
-                    uriList.add(clipData.getItemAt(i).uri)
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val clipData = result.data?.clipData
+                val uriList = mutableListOf<Uri>()
+                var isUploadAble = true
+                if (clipData != null && clipData.itemCount <= 10) {
+                    for (i in 0 until clipData.itemCount) {
+                        uriList.add(clipData.getItemAt(i).uri)
+                    }
+                } else if (clipData == null) {  // 단일 파일이 선택된 경우
+                    result.data?.data?.let {
+                        uriList.add(it)
+                    }
+                } else {
+                    UtilityDialog.showInformDialog("파일은 최대 10개까지 선택 가능합니다.", requireContext())
+                    isUploadAble = false
                 }
-            } else if (clipData == null) {  // 단일 파일이 선택된 경우
-                result.data?.data?.let {
-                    uriList.add(it)
-                }
-            } else {
-                UtilityDialog.showInformDialog("파일은 최대 10개까지 선택 가능합니다.", requireContext())
-                isUploadAble = false
-            }
 
-            if (isUploadAble) {
-                val fileList = mutableListOf<MultipartBody.Part>()
-                for (uri in uriList){
-                    val mimeType = requireActivity().contentResolver.getType(uri)
-                    val inputStream = requireActivity().contentResolver.openInputStream(uri)
-                    val file = inputStreamToFile(inputStream!!,uri)
-                    val requestFile = file.asRequestBody(mimeType?.toMediaTypeOrNull())
-                    fileList.add(MultipartBody.Part.createFormData("files", file.name, requestFile))
+                if (isUploadAble) {
+                    val fileList = mutableListOf<MultipartBody.Part>()
+                    for (uri in uriList) {
+                        val mimeType = requireActivity().contentResolver.getType(uri)
+                        val inputStream = requireActivity().contentResolver.openInputStream(uri)
+                        val file = inputStreamToFile(inputStream!!, uri)
+                        val requestFile = file.asRequestBody(mimeType?.toMediaTypeOrNull())
+                        fileList.add(
+                            MultipartBody.Part.createFormData(
+                                "files",
+                                file.name,
+                                requestFile
+                            )
+                        )
+                    }
+                    viewModel.uploadFile(fileList)
                 }
-                viewModel.uploadFile(fileList)
+                this.dismiss()
+                (activity as MainActivity).binding.bottomNavigation.selectedItemId =
+                    R.id.homeFragment
             }
-            this.dismiss()
-            (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
         }
-    }
 
     private lateinit var binding: BottomSheetDialogBinding
-    private val viewModel : MainViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = BottomSheetDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -139,7 +146,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
             val x = (size.x * 0.85).toInt()
-            window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
+            window.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
 
         } else {
             val rect = windowManager.currentWindowMetrics.bounds
@@ -147,7 +154,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
             val window = dialog.window
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val x = (rect.width() * 0.85).toInt()
-            window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
+            window.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
 
         }
         val cancelBtn = dialog.findViewById<View>(R.id.cancelBtn)
@@ -178,7 +185,8 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
                     }
                 }
                 dialog.dismiss()
-                (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
+                (activity as MainActivity).binding.bottomNavigation.selectedItemId =
+                    R.id.homeFragment
                 this.dismiss()
                 viewModel.resetMainData()
                 viewModel.getAllMainList()
@@ -188,7 +196,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     //uri에서 파일명 가져오기
-    private fun getFileNameFromUri(uri: Uri) : String? {
+    private fun getFileNameFromUri(uri: Uri): String? {
         var fileName: String? = null
         requireActivity().contentResolver.query(uri, null, null, null, null)?.use {
             val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
@@ -199,7 +207,7 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     //uri에서 파일 가져오기
-    private fun inputStreamToFile(inputStream: InputStream, uri: Uri) : File {
+    private fun inputStreamToFile(inputStream: InputStream, uri: Uri): File {
         val fileName = getFileNameFromUri(uri)
         val file = File(requireContext().cacheDir, fileName)
         file.outputStream().use { fileOutputStream ->

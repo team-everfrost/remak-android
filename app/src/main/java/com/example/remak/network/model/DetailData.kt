@@ -3,8 +3,8 @@ package com.example.remak.network.model
 class DetailData {
 
     data class ResponseBody(
-        val message : String,
-        val data : Data
+        val message: String,
+        val data: Data
     )
 
     data class Data(

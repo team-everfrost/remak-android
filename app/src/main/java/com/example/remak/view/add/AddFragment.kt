@@ -18,7 +18,6 @@ import com.example.remak.UtilityDialog
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AddFragmentBinding
 import com.example.remak.view.main.CreateMemoActivity
-import com.example.remak.view.main.MainActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -27,47 +26,54 @@ import java.io.InputStream
 
 class AddFragment : Fragment() {
 
-    private val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val clipData = result.data?.clipData
-            val uriList = mutableListOf<Uri>()
-            var isUploadAble = true
-            if (clipData != null && clipData.itemCount <= 10) {
-                for (i in 0 until clipData.itemCount) {
-                    uriList.add(clipData.getItemAt(i).uri)
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val clipData = result.data?.clipData
+                val uriList = mutableListOf<Uri>()
+                var isUploadAble = true
+                if (clipData != null && clipData.itemCount <= 10) {
+                    for (i in 0 until clipData.itemCount) {
+                        uriList.add(clipData.getItemAt(i).uri)
+                    }
+                } else if (clipData == null) {  // 단일 파일이 선택된 경우
+                    result.data?.data?.let {
+                        uriList.add(it)
+                    }
+                } else {
+                    UtilityDialog.showInformDialog("파일은 최대 10개까지 선택 가능합니다.", requireContext())
+                    isUploadAble = false
                 }
-            } else if (clipData == null) {  // 단일 파일이 선택된 경우
-                result.data?.data?.let {
-                    uriList.add(it)
-                }
-            } else {
-                UtilityDialog.showInformDialog("파일은 최대 10개까지 선택 가능합니다.", requireContext())
-                isUploadAble = false
-            }
 
-            if (isUploadAble) {
-                val fileList = mutableListOf<MultipartBody.Part>()
-                for (uri in uriList){
-                    val mimeType = requireActivity().contentResolver.getType(uri)
-                    val inputStream = requireActivity().contentResolver.openInputStream(uri)
-                    val file = inputStreamToFile(inputStream!!,uri)
-                    val requestFile = file.asRequestBody(mimeType?.toMediaTypeOrNull())
-                    fileList.add(MultipartBody.Part.createFormData("files", file.name, requestFile))
+                if (isUploadAble) {
+                    val fileList = mutableListOf<MultipartBody.Part>()
+                    for (uri in uriList) {
+                        val mimeType = requireActivity().contentResolver.getType(uri)
+                        val inputStream = requireActivity().contentResolver.openInputStream(uri)
+                        val file = inputStreamToFile(inputStream!!, uri)
+                        val requestFile = file.asRequestBody(mimeType?.toMediaTypeOrNull())
+                        fileList.add(
+                            MultipartBody.Part.createFormData(
+                                "files",
+                                file.name,
+                                requestFile
+                            )
+                        )
+                    }
+                    viewModel.uploadFile(fileList)
                 }
-                viewModel.uploadFile(fileList)
             }
         }
-    }
 
-    private val viewModel : AddViewModel by activityViewModels { AddViewModelFactory(tokenRepository)  }
-    private lateinit var binding : AddFragmentBinding
+    private val viewModel: AddViewModel by activityViewModels { AddViewModelFactory(tokenRepository) }
+    private lateinit var binding: AddFragmentBinding
     lateinit var tokenRepository: TokenRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
         binding = AddFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -115,7 +121,7 @@ class AddFragment : Fragment() {
 
 
     //uri에서 파일 가져오기
-    private fun inputStreamToFile(inputStream: InputStream, uri: Uri) : File {
+    private fun inputStreamToFile(inputStream: InputStream, uri: Uri): File {
         val fileName = getFileNameFromUri(uri)
         val file = File(requireContext().cacheDir, fileName)
         file.outputStream().use { fileOutputStream ->
@@ -125,7 +131,7 @@ class AddFragment : Fragment() {
     }
 
     //uri에서 파일명 가져오기
-    private fun getFileNameFromUri(uri: Uri) : String? {
+    private fun getFileNameFromUri(uri: Uri): String? {
         var fileName: String? = null
         requireActivity().contentResolver.query(uri, null, null, null, null)?.use {
             val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)

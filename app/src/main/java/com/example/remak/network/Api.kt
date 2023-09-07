@@ -49,27 +49,30 @@ interface Api {
     //메인 리스트
     @GET("document")
     suspend fun getMainList(
-        @Query("cursor")  cursor : String?,
-        @Query("doc-id")  docID : String?,
-        @Query("limit") limit : Int? = 20
-    ) : retrofit2.Response<MainListData.Response>
+        @Query("cursor") cursor: String?,
+        @Query("doc-id") docID: String?,
+        @Query("limit") limit: Int? = 20
+    ): retrofit2.Response<MainListData.Response>
 
     //자료 상세
     @GET("document/{docId}")
-    suspend fun getDetailData(@Path("docId") docId : String) : retrofit2.Response<DetailData.ResponseBody>
+    suspend fun getDetailData(@Path("docId") docId: String): retrofit2.Response<DetailData.ResponseBody>
 
     @PATCH("document/memo/update/{docId}")
-    suspend fun updateMemo(@Path("docId") docId : String, @Body body: UpdateData.MemoRequestBody) : retrofit2.Response<UpdateData.MemoResponseBody>
+    suspend fun updateMemo(
+        @Path("docId") docId: String,
+        @Body body: UpdateData.MemoRequestBody
+    ): retrofit2.Response<UpdateData.MemoResponseBody>
 
     @DELETE("document/{docId}")
-    suspend fun deleteMemo(@Path("docId") docId : String) : retrofit2.Response<DeleteData.ResponseBody>
+    suspend fun deleteMemo(@Path("docId") docId: String): retrofit2.Response<DeleteData.ResponseBody>
 
     @Multipart
     @POST("document/file/upload")
-    suspend fun uploadFile(@Part files : List<MultipartBody.Part>) : retrofit2.Response<UploadFileData.ResponseBody>
+    suspend fun uploadFile(@Part files: List<MultipartBody.Part>): retrofit2.Response<UploadFileData.ResponseBody>
 
     @GET("document/file/download/{docId}")
-    suspend fun downloadFile(@Path("docId") docId : String) : retrofit2.Response<DownloadData.ResponseBody>
+    suspend fun downloadFile(@Path("docId") docId: String): retrofit2.Response<DownloadData.ResponseBody>
 
     @POST("document/webpage/create")
     suspend fun createWebPage(@Body body: CreateData.WebPageRequestBody): retrofit2.Response<CreateData.WebPageResponseBody>
@@ -77,35 +80,34 @@ interface Api {
     @GET("document/search/embedding")
     suspend fun getEmbeddingData(
         @Query("query") query: String?,
-        @Query("limit") limit : Int? = 15,
-        @Query("offset") offset : Int?
-    ) : retrofit2.Response<SearchEmbeddingData.ResponseBody>
+        @Query("limit") limit: Int? = 15,
+        @Query("offset") offset: Int?
+    ): retrofit2.Response<SearchEmbeddingData.ResponseBody>
 
     @GET("document/search/text")
     suspend fun getTextSearchData(
         @Query("query") query: String?,
-        @Query("cursor")  cursor : String?,
-        @Query("doc-id")  docID : String?,
-        @Query("limit") limit : Int? = 20
-    ) : retrofit2.Response<SearchEmbeddingData.ResponseBody>
+        @Query("cursor") cursor: String?,
+        @Query("doc-id") docID: String?,
+        @Query("limit") limit: Int? = 20
+    ): retrofit2.Response<SearchEmbeddingData.ResponseBody>
 
     @GET("document/search/tag")
     suspend fun getTagDetailData(
         @Query("tagName") tagName: String?,
-        @Query("cursor")  cursor : String?,
-        @Query("doc-id")  docID : String?,
-        @Query("limit") limit : Int? = 20
-    ) : retrofit2.Response<TagDetailData.Response>
+        @Query("cursor") cursor: String?,
+        @Query("doc-id") docID: String?,
+        @Query("limit") limit: Int? = 20
+    ): retrofit2.Response<TagDetailData.Response>
 
     @GET("tag")
     suspend fun getTagListData(
-        @Query("limit") limit : Int? = 20,
-        @Query("offset") offset : Int?
-    ) : retrofit2.Response<TagListData.Response>
+        @Query("limit") limit: Int? = 20,
+        @Query("offset") offset: Int?
+    ): retrofit2.Response<TagListData.Response>
 
     @POST("auth/check-email")
     suspend fun checkEmail(@Body body: SignInData.CheckEmailRequest): retrofit2.Response<SignInData.CheckEmailResponse>
-
 
 
 }

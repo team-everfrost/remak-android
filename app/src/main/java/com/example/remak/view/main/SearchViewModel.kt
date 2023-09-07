@@ -14,23 +14,23 @@ import kotlinx.coroutines.launch
 class SearchViewModel(private val searchHistoryRepository: SearchHistoryRepository) : ViewModel() {
 
     private val _searchResult = MutableLiveData<List<SearchEmbeddingData.Data>>()
-    val searchResult : LiveData<List<SearchEmbeddingData.Data>> = _searchResult
+    val searchResult: LiveData<List<SearchEmbeddingData.Data>> = _searchResult
 
     private val _searchHistory = MutableLiveData<List<String>>()
-    val searchHistory : LiveData<List<String>> = _searchHistory
+    val searchHistory: LiveData<List<String>> = _searchHistory
 
-    private var isLoadEnd : Boolean = false
+    private var isLoadEnd: Boolean = false
 
 
     private val networkRepository = NetworkRepository()
-    var searchCursor : String? = null
-    var searchDocID : String? = null
-    var embeddingOffset : Int? = null
+    var searchCursor: String? = null
+    var searchDocID: String? = null
+    var embeddingOffset: Int? = null
     val isEmbeddingLoading = MutableLiveData<Boolean>().apply { value = false }
-    private var lastQuery : String? = null
+    private var lastQuery: String? = null
 
 
-    fun getEmbeddingSearchResult(query : String) = viewModelScope.launch {
+    fun getEmbeddingSearchResult(query: String) = viewModelScope.launch {
         lastQuery = query
         val response = networkRepository.getEmbeddingData(query, null)
         try {
@@ -41,7 +41,7 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
             } else {
                 Log.d("search_result", response.errorBody()!!.string())
             }
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.d("search_result", e.toString())
         }
     }
@@ -60,7 +60,7 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
             } else {
                 Log.d("search_result", response.errorBody()!!.string())
             }
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.d("search_result", e.toString())
         }
 
@@ -85,7 +85,7 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
                 } else {
                     Log.d("search_result", response.errorBody()!!.string())
                 }
-            } catch (e : Exception) {
+            } catch (e: Exception) {
                 Log.d("search_result", e.toString())
                 isLoadEnd = true
             }
@@ -108,7 +108,7 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
             } else {
                 Log.d("search_result", response.errorBody()!!.string())
             }
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.d("search_result", e.toString())
             isLoadEnd = true
         }
@@ -127,7 +127,6 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
     }
 
 
-
     fun resetScrollData() {
         isLoadEnd = false
         searchCursor = null
@@ -135,21 +134,22 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
         embeddingOffset = null
     }
 
-    fun saveSearchHistory(query : String) = viewModelScope.launch {
+    fun saveSearchHistory(query: String) = viewModelScope.launch {
         searchHistoryRepository.saveSearchHistory(query)
     }
 
-    fun getSearchHistory()  = viewModelScope.launch {
+    fun getSearchHistory() = viewModelScope.launch {
         _searchHistory.value = searchHistoryRepository.fetchSearchHistory()
     }
 
-    fun deleteSearchHistory(query : String) = viewModelScope.launch {
+    fun deleteSearchHistory(query: String) = viewModelScope.launch {
         searchHistoryRepository.deleteSearchQuery(query)
         getSearchHistory()
     }
 }
 
-class SearchViewModelFactory(private val searchHistoryRepository: SearchHistoryRepository) : ViewModelProvider.Factory {
+class SearchViewModelFactory(private val searchHistoryRepository: SearchHistoryRepository) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

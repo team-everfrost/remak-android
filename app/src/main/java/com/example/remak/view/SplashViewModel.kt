@@ -8,15 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.remak.dataStore.TokenRepository
 import kotlinx.coroutines.launch
 
-class SplashViewModel(private val signInRepository: TokenRepository) : ViewModel()  {
+class SplashViewModel(private val signInRepository: TokenRepository) : ViewModel() {
 
     private val _isReady = MutableLiveData<Boolean>()
     val isReady: LiveData<Boolean> get() = _isReady
 
 
-
     private val _isToken = MutableLiveData<Boolean>()
-    val isToken : LiveData<Boolean> = _isToken
+    val isToken: LiveData<Boolean> = _isToken
 
     init {
         checkToken()
@@ -25,7 +24,7 @@ class SplashViewModel(private val signInRepository: TokenRepository) : ViewModel
     }
 
     private fun checkToken() {
-        viewModelScope.launch{
+        viewModelScope.launch {
             _isToken.value = signInRepository.checkToken()
         }
     }
@@ -37,15 +36,15 @@ class SplashViewModel(private val signInRepository: TokenRepository) : ViewModel
         return result
     }
 
-   fun returnIsReady() : Boolean {
+    fun returnIsReady(): Boolean {
         return _isReady.value ?: false
     }
 
 
-
 }
 
-class SplashViewModelFactory(private val signInRepository: TokenRepository) : ViewModelProvider.Factory{
+class SplashViewModelFactory(private val signInRepository: TokenRepository) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SplashViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

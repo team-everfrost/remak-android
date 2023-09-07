@@ -17,14 +17,18 @@ import com.example.remak.databinding.MainProfileFragmentBinding
 import com.example.remak.view.account.AccountActivity
 
 class MainProfileFragment : Fragment() {
-    private lateinit var binding : MainProfileFragmentBinding
-    private val viewModel : MainViewModel by activityViewModels { MainViewModelFactory(tokenRepository)}
+    private lateinit var binding: MainProfileFragmentBinding
+    private val viewModel: MainViewModel by activityViewModels {
+        MainViewModelFactory(
+            tokenRepository
+        )
+    }
     lateinit var tokenRepository: TokenRepository
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = MainProfileFragmentBinding.inflate(inflater, container, false)
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
 

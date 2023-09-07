@@ -16,10 +16,14 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClickListener : OnItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeRVAdapter(
+    var dataSet: List<MainListData.Data>,
+    private val itemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var isInSelectionMode = false // 선택모드 유무
     var selectedItemsCount = 0 // 선택된 아이템 개수
+
     companion object {
         private const val MEMO = "MEMO"
         private const val FILE = "FILE"
@@ -37,7 +41,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         return dataSet.filter { it.isSelected }.map { it.docId!! }
     }
 
-    fun isSelectionMode() : Boolean {
+    fun isSelectionMode(): Boolean {
         return isInSelectionMode
     }
 
@@ -48,7 +52,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
     }
 
     //클릭 이벤트 처리
-    private fun handleItemClick(clickedView : View, position: Int, checkbox: CheckBox) {
+    private fun handleItemClick(clickedView: View, position: Int, checkbox: CheckBox) {
         if (isInSelectionMode) {
             toggleSelection(position, checkbox)
             if (selectedItemsCount == 0) {
@@ -75,7 +79,8 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
     private fun toggleSelection(position: Int, checkbox: CheckBox) {
         dataSet[position].isSelected = !dataSet[position].isSelected
         checkbox.isChecked = dataSet[position].isSelected
-        selectedItemsCount = if (checkbox.isChecked) selectedItemsCount + 1 else selectedItemsCount - 1
+        selectedItemsCount =
+            if (checkbox.isChecked) selectedItemsCount + 1 else selectedItemsCount - 1
     }
 
     fun toggleCheckbox(position: Int) {
@@ -84,9 +89,10 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         notifyDataSetChanged()
     }
 
-    inner class MemoViewHolder(view : View) : RecyclerView.ViewHolder(view) { // 메모 아이템 뷰홀더
-        val title : TextView = view.findViewById<TextView>(R.id.title)
-        val checkbox : CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
+    inner class MemoViewHolder(view: View) : RecyclerView.ViewHolder(view) { // 메모 아이템 뷰홀더
+        val title: TextView = view.findViewById<TextView>(R.id.title)
+        val checkbox: CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
+
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -105,11 +111,12 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         }
     }
 
-    inner class FileViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+    inner class FileViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val title: TextView = view.findViewById<TextView>(R.id.title)
-        val subject : TextView = view.findViewById(R.id.subject)
-        val checkbox : CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
+        val subject: TextView = view.findViewById(R.id.subject)
+        val checkbox: CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
+
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -129,11 +136,12 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
     }
 
-    inner class WebpageViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+    inner class WebpageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val checkbox : CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
-        val title : TextView = view.findViewById(R.id.title)
-        val description : TextView = view.findViewById(R.id.link)
+        val checkbox: CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
+        val title: TextView = view.findViewById(R.id.title)
+        val description: TextView = view.findViewById(R.id.link)
+
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -152,9 +160,10 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         }
     }
 
-    inner class ImageViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+    inner class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val checkbox : CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
+        val checkbox: CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
+
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -173,8 +182,8 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         }
     }
 
-    inner class DateViewHolder(view : View) : RecyclerView.ViewHolder(view) {
-        val date : TextView = view.findViewById(R.id.date)
+    inner class DateViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val date: TextView = view.findViewById(R.id.date)
     }
 
     interface OnItemClickListener {
@@ -196,25 +205,35 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             MEMO_VIEW_TYPE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_memo, parent, false)
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_memo, parent, false)
                 MemoViewHolder(view)
             }
+
             FILE_VIEW_TYPE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
                 FileViewHolder(view)
             }
+
             WEBPAGE_VIEW_TYPE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_link, parent, false)
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_link, parent, false)
                 WebpageViewHolder(view)
             }
+
             IMAGE_VIEW_TYPE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
                 ImageViewHolder(view)
             }
+
             DATE_VIEW_TYPE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_date, parent, false)
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_date, parent, false)
                 DateViewHolder(view)
             }
+
             else -> throw IllegalArgumentException("Invalid type of data " + viewType)
         }
     }
@@ -229,18 +248,22 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
             is MemoViewHolder -> { // 메모
 
                 holder.title.text = dataSet[position].content
-                holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE //선택모드일때만 보이게
+                holder.checkbox.visibility =
+                    if (isInSelectionMode) View.VISIBLE else View.GONE //선택모드일때만 보이게
                 holder.checkbox.isChecked = dataSet[position].isSelected //선택된 아이템이면 체크박스 체크
             }
+
             is FileViewHolder -> {
                 //날짜 포맷 변경
-                val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+                val inputFormatter =
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
                 val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
 
                 val dateTime = ZonedDateTime.parse(dataSet[position].updatedAt, inputFormatter)
                 val outputDateStr = dateTime.format(outputFormatter)
 
-                val text = holder.itemView.context.getString(R.string.filetype_date, "PDF", outputDateStr)
+                val text =
+                    holder.itemView.context.getString(R.string.filetype_date, "PDF", outputDateStr)
 
                 // .앞에 있는 파일 이름만 가져오기
                 val title = dataSet[position].title!!.substringBeforeLast(".")
@@ -269,7 +292,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
 
                     "COMPLETED" -> {
                         if (summary != null) {
-                            if (summary!!.contains("\n")) {
+                            if (summary.contains("\n")) {
                                 val index = summary.indexOf("\n")
                                 holder.subject.text = summary.substring(0, index)
                             } else {
@@ -328,7 +351,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                     "COMPLETED" -> {
                         holder.title.text = title
                         if (summary != null) {
-                            if (summary!!.contains("\n")) {
+                            if (summary.contains("\n")) {
                                 val index = summary.indexOf("\n")
                                 holder.description.text = summary.substring(0, index)
                             } else {
@@ -353,7 +376,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
                 } else {
                     Glide.with(holder.itemView.context)
                         .load(R.drawable.sample_image)
-                        .transform(CenterCrop(), RoundedCorners(47 ))
+                        .transform(CenterCrop(), RoundedCorners(47))
                         .into(holder.itemView.findViewById(R.id.thumbnail))
                 }
 
@@ -386,7 +409,7 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
         //summary의 엔터 다음 문자는 제거
 
         if (summary != null) {
-            if (summary!!.contains("\n")) {
+            if (summary.contains("\n")) {
                 val index = summary.indexOf("\n")
                 holder.description.text = summary.substring(0, index)
             } else {
@@ -451,7 +474,8 @@ class HomeRVAdapter(var dataSet : List<MainListData.Data>, private val itemClick
     }
 }
 
-class HomeItemOffsetDecoration(private val mItemOffset: Int, private val adapter: HomeRVAdapter) : RecyclerView.ItemDecoration() {
+class HomeItemOffsetDecoration(private val mItemOffset: Int, private val adapter: HomeRVAdapter) :
+    RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
     ) {

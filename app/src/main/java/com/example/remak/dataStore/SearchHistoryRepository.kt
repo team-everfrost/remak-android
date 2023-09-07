@@ -3,19 +3,12 @@ package com.example.remak.dataStore
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import java.io.IOException
 
 class SearchHistoryRepository(private val dataStore: DataStore<Preferences>) {
-
 
 
     object PreferencesKeys {
@@ -35,7 +28,6 @@ class SearchHistoryRepository(private val dataStore: DataStore<Preferences>) {
 
         return newList
     }
-
 
 
     // 검색 기록 삭제

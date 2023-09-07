@@ -16,8 +16,10 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 
-class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val itemClickListener: OnItemClickListener)
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SearchRVAdapter(
+    var dataSet: List<SearchEmbeddingData.Data>,
+    private val itemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     companion object {
@@ -36,8 +38,9 @@ class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val 
         notifyDataSetChanged()
     }
 
-    inner class MemoViewHolder(view : View) : RecyclerView.ViewHolder(view) {
-        val title : TextView = view.findViewById(R.id.title)
+    inner class MemoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title: TextView = view.findViewById(R.id.title)
+
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -52,9 +55,10 @@ class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val 
         }
     }
 
-    inner class FileViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+    inner class FileViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<TextView>(R.id.title)
-        val subject : TextView = view.findViewById(R.id.subject)
+        val subject: TextView = view.findViewById(R.id.subject)
+
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -69,9 +73,10 @@ class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val 
         }
     }
 
-    inner class WebPageViewHolder(view : View) : RecyclerView.ViewHolder(view) {
-        val title : TextView = view.findViewById(R.id.title)
-        val link : TextView = view.findViewById(R.id.link)
+    inner class WebPageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title: TextView = view.findViewById(R.id.title)
+        val link: TextView = view.findViewById(R.id.link)
+
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -86,7 +91,7 @@ class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val 
         }
     }
 
-    inner class ImageViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+    inner class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -144,6 +149,7 @@ class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val 
             else -> throw IllegalArgumentException("Invalid type of data " + viewType)
         }
     }
+
     override fun getItemCount(): Int {
         return dataSet.size
 
@@ -168,18 +174,18 @@ class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val 
                     holder.itemView.context.getString(R.string.filetype_date, "PDF", outputDateStr)
 
                 // .앞에 있는 파일 이름만 가져오기
-                val title = dataSet[position].title!!.substringBefore(".")
+                val title = dataSet[position].title.substringBefore(".")
 
                 holder.title.text = title//제목
                 holder.subject.text = text //파일타입, 날짜
             }
 
             is WebPageViewHolder -> {
-                val title = dataSet[position].title!!.replace(" ", "")
+                val title = dataSet[position].title.replace(" ", "")
                 if (title.isNullOrEmpty()) {
                     holder.title.text = dataSet[position].url
                 } else {
-                    Log.d("title", dataSet[position].title!!.toString())
+                    Log.d("title", dataSet[position].title.toString())
                     holder.title.text = dataSet[position].title
 
                 }
@@ -210,12 +216,13 @@ class SearchRVAdapter(var dataSet : List<SearchEmbeddingData.Data>, private val 
         }
     }
 
-    fun getItem(position: Int) : SearchEmbeddingData.Data {
+    fun getItem(position: Int): SearchEmbeddingData.Data {
         return dataSet[position]
     }
 }
 
-class ItemOffsetDecoration(private val mItemOffset: Int, private val adapter: SearchRVAdapter) : RecyclerView.ItemDecoration() {
+class ItemOffsetDecoration(private val mItemOffset: Int, private val adapter: SearchRVAdapter) :
+    RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
     ) {

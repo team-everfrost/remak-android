@@ -1,7 +1,6 @@
 package com.example.remak.view.add
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -13,10 +12,10 @@ import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AddActivityBinding
 
 class AddActivity : AppCompatActivity() {
-    private val viewModel : AddViewModel by viewModels { AddViewModelFactory(tokenRepository)  }
+    private val viewModel: AddViewModel by viewModels { AddViewModelFactory(tokenRepository) }
     lateinit var tokenRepository: TokenRepository
-    private var _binding : AddActivityBinding? = null
-    private lateinit var navController : NavController
+    private var _binding: AddActivityBinding? = null
+    private lateinit var navController: NavController
 
     val binding get() = _binding!!
 
@@ -26,10 +25,10 @@ class AddActivity : AppCompatActivity() {
         tokenRepository = TokenRepository((application as App).dataStore)
         _binding = AddActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
         navController = navHostFragment.findNavController()
     }
-
 
 
 }

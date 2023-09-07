@@ -1,6 +1,5 @@
 package com.example.remak.view.account.signUp
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.example.remak.App
 import com.example.remak.R
@@ -18,17 +16,21 @@ import com.example.remak.UtilityLogin
 import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AccountSignup3FragmentBinding
-import com.example.remak.view.main.MainActivity
 
 class AccountSignUp3Fragment : Fragment() {
-    private lateinit var binding : AccountSignup3FragmentBinding
+    private lateinit var binding: AccountSignup3FragmentBinding
     lateinit var signInRepository: TokenRepository
-    private val viewModel: SignUpViewModel by activityViewModels { SignUpViewModelFactory(signInRepository) }
+    private val viewModel: SignUpViewModel by activityViewModels {
+        SignUpViewModelFactory(
+            signInRepository
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         signInRepository = TokenRepository((requireActivity().application as App).dataStore)
 
 
@@ -57,18 +59,35 @@ class AccountSignUp3Fragment : Fragment() {
             UtilitySystem.hideKeyboard(requireActivity())
         }
 
-        binding.passwordEditText.addTextChangedListener(object : TextWatcher{
+        binding.passwordEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 if (UtilityLogin.isPasswordValid(binding.passwordEditText.text.toString())) {
                     binding.completeBtn.isEnabled = true
-                    binding.completeBtn.setTextColor(ContextCompat.getColor(requireContext(), com.example.remak.R.color.white))
-                    binding.completeBtn.background = ContextCompat.getDrawable(requireContext(), com.example.remak.R.drawable.custom_ripple_effect_blue_rec)
+                    binding.completeBtn.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.white
+                        )
+                    )
+                    binding.completeBtn.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.custom_ripple_effect_blue_rec
+                    )
                 } else {
                     binding.completeBtn.isEnabled = false
-                    binding.completeBtn.setTextColor(ContextCompat.getColor(requireContext(), com.example.remak.R.color.disableTextColor))
-                    binding.completeBtn.background = ContextCompat.getDrawable(requireContext(), com.example.remak.R.drawable.custom_ripple_effect)
+                    binding.completeBtn.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.disableTextColor
+                        )
+                    )
+                    binding.completeBtn.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.custom_ripple_effect
+                    )
                 }
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }

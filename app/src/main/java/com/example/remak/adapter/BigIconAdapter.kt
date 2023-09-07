@@ -9,16 +9,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.R
 
-class TestRVAdapter (var testList : List<String>) : RecyclerView.Adapter<TestRVAdapter.TestRVViewHolder>() {
+class TestRVAdapter(var testList: List<String>) :
+    RecyclerView.Adapter<TestRVAdapter.TestRVViewHolder>() {
 
-    inner class TestRVViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+    inner class TestRVViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val titleText = view.findViewById(R.id.titleTextView) as TextView
         val iconImageView = view.findViewById(R.id.iconImageView) as ImageView
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestRVViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_sign_in_big_icon, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_sign_in_big_icon, parent, false)
         return TestRVViewHolder(view)
     }
 

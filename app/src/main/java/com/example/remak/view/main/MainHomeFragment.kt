@@ -30,20 +30,24 @@ import com.example.remak.view.detail.LinkDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
 
 class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
-    private var _binding : MainHomeFragmentBinding? = null
+    private var _binding: MainHomeFragmentBinding? = null
     private val binding get() = _binding!!
-    private val viewModel : MainViewModel by activityViewModels { MainViewModelFactory(tokenRepository)}
-    private lateinit var adapter : HomeRVAdapter
+    private val viewModel: MainViewModel by activityViewModels {
+        MainViewModelFactory(
+            tokenRepository
+        )
+    }
+    private lateinit var adapter: HomeRVAdapter
     private var initialLoad = true
     lateinit var tokenRepository: TokenRepository
-    private lateinit var resultLauncher : ActivityResultLauncher<Intent>
-    private lateinit var recyclerView : RecyclerView
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         Log.d("oncreateview", "oncreateview")
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
         _binding = MainHomeFragmentBinding.inflate(inflater, container, false)
@@ -57,16 +61,17 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
 
-        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data: Intent? = result.data
-                val isDelete = data?.getBooleanExtra("isDelete", false)
-                if (isDelete == true) {
-                    viewModel.resetScrollData()
-                    viewModel.getAllMainList()
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val data: Intent? = result.data
+                    val isDelete = data?.getBooleanExtra("isDelete", false)
+                    if (isDelete == true) {
+                        viewModel.resetScrollData()
+                        viewModel.getAllMainList()
+                    }
                 }
             }
-        }
 
         //어댑터 초기화
         adapter = HomeRVAdapter(mutableListOf(), this)
@@ -94,7 +99,8 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val totalItemCount = recyclerView.layoutManager?.itemCount
-                val lastVisibleItemCount = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                val lastVisibleItemCount =
+                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
 
                 if (!viewModel.isLoading.value!! && totalItemCount!! <= (lastVisibleItemCount + 5)) {
                     viewModel.getNewMainList()
@@ -102,7 +108,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             }
         })
 
-        viewModel.mainListData.observe(viewLifecycleOwner) {data ->
+        viewModel.mainListData.observe(viewLifecycleOwner) { data ->
             adapter.dataSet = data
             if (initialLoad) { //첫 로드일 경우
                 adapter.notifyDataSetChanged()
@@ -129,7 +135,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
                 requireContext(),
                 "삭제하시겠습니까?",
                 confirmClick = {
-                    for (i in  selectedItems) {
+                    for (i in selectedItems) {
                         viewModel.deleteDocument(i)
                     }
                     onSelectionEnded()
@@ -141,13 +147,14 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         binding.moreIcon.setOnClickListener {
             val popupMenu = PopupMenu(requireContext(), it)
             popupMenu.menuInflater.inflate(R.menu.main_home_menu, popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener {menuItem ->
-                when(menuItem.itemId) {
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
                     R.id.addBtn -> {
                         val intent = Intent(requireContext(), AddActivity::class.java)
                         startActivity(intent)
                         true
                     }
+
                     else -> false
                 }
             }
@@ -215,7 +222,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
     }
 
     fun isRecyclerViewInitialized() = ::recyclerView.isInitialized
-
 
 
 }

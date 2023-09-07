@@ -11,7 +11,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.example.remak.App
-import com.example.remak.R
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.SplashActivityBinding
 import com.example.remak.view.account.AccountActivity
@@ -23,9 +22,9 @@ import kotlinx.coroutines.withContext
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: SplashActivityBinding
-    private lateinit var signInRepository : TokenRepository
+    private lateinit var signInRepository: TokenRepository
 
-    private val viewModel : SplashViewModel by viewModels { SplashViewModelFactory(signInRepository)  }
+    private val viewModel: SplashViewModel by viewModels { SplashViewModelFactory(signInRepository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

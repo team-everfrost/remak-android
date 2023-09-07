@@ -21,43 +21,48 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.UtilitySystem
+import com.example.remak.adapter.ItemOffsetDecoration
+import com.example.remak.adapter.SearchHistoryItemOffsetDecoration
+import com.example.remak.adapter.SearchHistoryRVAdapter
+import com.example.remak.adapter.SearchRVAdapter
+import com.example.remak.dataStore.SearchHistoryRepository
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainSearchFragmentBinding
 import com.example.remak.view.detail.FileDetailActivity
 import com.example.remak.view.detail.ImageDetailActivity
 import com.example.remak.view.detail.LinkDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
-import com.example.remak.adapter.ItemOffsetDecoration
-import com.example.remak.adapter.SearchHistoryItemOffsetDecoration
-import com.example.remak.adapter.SearchHistoryRVAdapter
-import com.example.remak.adapter.SearchRVAdapter
-import com.example.remak.dataStore.SearchHistoryRepository
 
-class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, SearchHistoryRVAdapter.OnItemClickListener {
-    private lateinit var binding : MainSearchFragmentBinding
-    private val viewModel : SearchViewModel by viewModels { SearchViewModelFactory(searchHistoryRepository)}
+class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
+    SearchHistoryRVAdapter.OnItemClickListener {
+    private lateinit var binding: MainSearchFragmentBinding
+    private val viewModel: SearchViewModel by viewModels {
+        SearchViewModelFactory(
+            searchHistoryRepository
+        )
+    }
     lateinit var tokenRepository: TokenRepository
-    private lateinit var adapter : SearchRVAdapter
-    private lateinit var historyAdapter : SearchHistoryRVAdapter
+    private lateinit var adapter: SearchRVAdapter
+    private lateinit var historyAdapter: SearchHistoryRVAdapter
     private var isSearchBtnClicked = false
     private var isTextSearch = false
     private var isEmbeddingSearch = false
     private lateinit var searchHistoryRepository: SearchHistoryRepository
-    private lateinit var historyRecyclerView : RecyclerView
-    private lateinit var handler : Handler
+    private lateinit var historyRecyclerView: RecyclerView
+    private lateinit var handler: Handler
     private var isHistorySearch = false
     var runnable: Runnable? = null
     private var isRotating: Boolean = false
 
 
-
-    private val textWatcher = object  : TextWatcher {
+    private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
             if (runnable != null) {
                 handler.removeCallbacks(runnable!!)
                 handler.postDelayed(runnable!!, 700)
             }
         }
+
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -90,13 +95,13 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = MainSearchFragmentBinding.inflate(inflater, container, false)
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
         adapter = SearchRVAdapter(mutableListOf(), this)
         historyAdapter = SearchHistoryRVAdapter(mutableListOf(), this)
-        searchHistoryRepository = SearchHistoryRepository((requireActivity().application as App).dataStore)
-
+        searchHistoryRepository =
+            SearchHistoryRepository((requireActivity().application as App).dataStore)
 
 
         //뒤로가기 시 홈 프래그먼트로 이동
@@ -157,7 +162,8 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
         viewModel.getSearchHistory()
 
         binding.searchEditText.requestFocus()
-        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding.searchEditText, InputMethodManager.SHOW_IMPLICIT)
 
         viewModel.searchResult.observe(viewLifecycleOwner) { data ->
@@ -198,14 +204,13 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
         }
 
 
-
-
         //리사이클러 뷰 무한스크롤 기능
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val totalItemCount = recyclerView.layoutManager?.itemCount
-                val lastVisibleItemCount = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                val lastVisibleItemCount =
+                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
 
                 if (dy != 0) {
                     UtilitySystem.hideKeyboard(requireActivity())
@@ -216,8 +221,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
                     if (isTextSearch) {
                         viewModel.getNewTextSearchResult()
                         Log.d("새로운 데이터 받아옴", "getNewTextSearchResult")
-                    }
-                    else if (isEmbeddingSearch && !viewModel.isEmbeddingLoading.value!!) {
+                    } else if (isEmbeddingSearch && !viewModel.isEmbeddingLoading.value!!) {
                         viewModel.getNewEmbeddingSearch()
                         Log.d("새로운 데이터 받아옴", "getNewEmbeddingSearch")
                     }
@@ -227,8 +231,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener, Sear
 
 
     }
-
-
 
 
     //히스토리 버튼 클릭 시

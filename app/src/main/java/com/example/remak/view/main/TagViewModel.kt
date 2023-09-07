@@ -11,15 +11,15 @@ import com.example.remak.network.model.TagListData
 import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.launch
 
-class TagViewModel (private val tokenRepository: TokenRepository) : ViewModel() {
+class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private val networkRepository = NetworkRepository()
 
     private val _tagList = MutableLiveData<List<TagListData.Data>>()
-    val tagList : LiveData<List<TagListData.Data>> = _tagList
+    val tagList: LiveData<List<TagListData.Data>> = _tagList
 
-    private var offset : Int? = null
-    private var isListEnd : Boolean = false
-    private var isLoadEnd : Boolean = false
+    private var offset: Int? = null
+    private var isListEnd: Boolean = false
+    private var isLoadEnd: Boolean = false
 
 
     fun getTagList() = viewModelScope.launch {
@@ -34,7 +34,7 @@ class TagViewModel (private val tokenRepository: TokenRepository) : ViewModel() 
             } else {
                 Log.d("tag_list", response.errorBody()!!.string())
             }
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.d("tag_list", e.toString())
         }
     }
@@ -75,7 +75,8 @@ class TagViewModel (private val tokenRepository: TokenRepository) : ViewModel() 
     }
 }
 
-class TagViewModelFactory(private val tokenRepository: TokenRepository, ) : ViewModelProvider.Factory {
+class TagViewModelFactory(private val tokenRepository: TokenRepository) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(TagViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

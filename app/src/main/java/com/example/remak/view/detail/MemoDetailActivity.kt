@@ -23,8 +23,8 @@ import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageMemoActivityBinding
 
 class MemoDetailActivity : AppCompatActivity() {
-    private lateinit var binding : DetailPageMemoActivityBinding
-    private val viewModel : DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository)}
+    private lateinit var binding: DetailPageMemoActivityBinding
+    private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
     lateinit var tokenRepository: TokenRepository
     var isEditMode = false
 
@@ -33,18 +33,19 @@ class MemoDetailActivity : AppCompatActivity() {
             if (isEditMode) {
                 UtilityDialog.showWarnDialog(
                     this@MemoDetailActivity,
-            "수정을 취소하시겠습니까?",
-                        confirmClick = {
-                            endEditMode()
-                            binding.memoContent.clearFocus()
-                        },
-                        cancelClick = {}
-                    )
+                    "수정을 취소하시겠습니까?",
+                    confirmClick = {
+                        endEditMode()
+                        binding.memoContent.clearFocus()
+                    },
+                    cancelClick = {}
+                )
             } else {
                 finish()
             }
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         tokenRepository = TokenRepository((this.application as App).dataStore)
@@ -61,11 +62,11 @@ class MemoDetailActivity : AppCompatActivity() {
             binding.memoContent.setText(it.content)
         }
 
-         binding.memoContent.setOnFocusChangeListener { _, hasFocus ->
-             if (hasFocus) {
-                 startEditMode()
-             }
-         }
+        binding.memoContent.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                startEditMode()
+            }
+        }
 
         binding.completeBtn.setOnClickListener {
             viewModel.updateMemo(memoId, binding.memoContent.text.toString())
@@ -91,10 +92,10 @@ class MemoDetailActivity : AppCompatActivity() {
         binding.moreIcon.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
             popupMenu.menuInflater.inflate(R.menu.detail_more_menu, popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener {menuItem ->
-                when(menuItem.itemId) {
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
                     R.id.deleteBtn -> {
-                        com.example.remak.UtilityDialog.showWarnDialog(
+                        UtilityDialog.showWarnDialog(
                             this,
                             "삭제하시겠습니까?",
                             confirmClick = {
@@ -108,6 +109,7 @@ class MemoDetailActivity : AppCompatActivity() {
                         )
                         true
                     }
+
                     else -> false
                 }
             }
@@ -168,18 +170,21 @@ class MemoDetailActivity : AppCompatActivity() {
 
             val firstNewLineIndex = content.indexOf('\n')
             if (firstNewLineIndex > 0) {
-                spannable.setSpan(android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
-                    0, firstNewLineIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                spannable.setSpan(
+                    android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+                    0, firstNewLineIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
             } else if (content.isNotEmpty()) {
-                spannable.setSpan(android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
-                    0, content.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                spannable.setSpan(
+                    android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+                    0, content.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
             }
-            editText.setText(spannable)
+            editText.text = spannable
             editText.setSelection(content.length) // 커서를 텍스트 끝으로 이동
             editText.addTextChangedListener(textWatcher)  // 다시 TextWatcher 추가
         }
     }
-
 
 
     private val textWatcher = object : TextWatcher {
@@ -191,9 +196,6 @@ class MemoDetailActivity : AppCompatActivity() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
-
-
-
 
 
 }

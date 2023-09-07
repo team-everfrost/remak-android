@@ -23,7 +23,7 @@ class NetworkRepository {
     private val client = RetrofitInstance.getInstance().create(Api::class.java)
 
     //로그인
-    suspend fun signIn(email : String, password : String) : Response<SignInData.ResponseBody> {
+    suspend fun signIn(email: String, password: String): Response<SignInData.ResponseBody> {
         val requestBody = SignInData.RequestBody(email = email, password = password)
         return client.signIn(requestBody)
     }
@@ -33,7 +33,10 @@ class NetworkRepository {
         return client.getVerifyCode(requestBody)
     }
 
-    suspend fun checkVerifyCode(signupCode: String, email: String): Response<SignUpData.CheckVerifyResponseBody> {
+    suspend fun checkVerifyCode(
+        signupCode: String,
+        email: String
+    ): Response<SignUpData.CheckVerifyResponseBody> {
         val requestBody = SignUpData.CheckVerifyRequestBody(signupCode = signupCode, email = email)
         return client.checkVerifyCode(requestBody)
     }
@@ -43,58 +46,69 @@ class NetworkRepository {
         return client.signUp(requestBody)
     }
 
-    suspend fun createMemo(content : String) : Response<CreateData.MemoResponseBody> {
+    suspend fun createMemo(content: String): Response<CreateData.MemoResponseBody> {
         val requestBody = CreateData.MemoRequestBody(content = content)
         return client.createMemo(requestBody)
     }
 
-    suspend fun getMainList(cursor : String?, docID : String?) : Response<MainListData.Response> {
+    suspend fun getMainList(cursor: String?, docID: String?): Response<MainListData.Response> {
         return client.getMainList(cursor, docID)
     }
 
-    suspend fun getDetailData(docId : String) : Response<DetailData.ResponseBody> {
+    suspend fun getDetailData(docId: String): Response<DetailData.ResponseBody> {
         return client.getDetailData(docId)
     }
 
-    suspend fun updateMemo(docId : String, content : String) : Response<UpdateData.MemoResponseBody> {
+    suspend fun updateMemo(docId: String, content: String): Response<UpdateData.MemoResponseBody> {
         val requestBody = UpdateData.MemoRequestBody(content = content)
         return client.updateMemo(docId, requestBody)
     }
 
-    suspend fun deleteDocument(docId : String) : Response<DeleteData.ResponseBody> {
+    suspend fun deleteDocument(docId: String): Response<DeleteData.ResponseBody> {
         return client.deleteMemo(docId)
     }
 
-    suspend fun uploadFile(files : List<MultipartBody.Part>) : Response<UploadFileData.ResponseBody> {
+    suspend fun uploadFile(files: List<MultipartBody.Part>): Response<UploadFileData.ResponseBody> {
         return client.uploadFile(files)
     }
 
-    suspend fun downloadFile(docId : String) : Response<DownloadData.ResponseBody> {
+    suspend fun downloadFile(docId: String): Response<DownloadData.ResponseBody> {
         return client.downloadFile(docId)
     }
 
-    suspend fun createWebPage(url : String) : Response<CreateData.WebPageResponseBody> {
-        val requestBody = CreateData.WebPageRequestBody(" ",url = url, " ")
+    suspend fun createWebPage(url: String): Response<CreateData.WebPageResponseBody> {
+        val requestBody = CreateData.WebPageRequestBody(" ", url = url, " ")
         return client.createWebPage(requestBody)
     }
 
-    suspend fun getEmbeddingData(query : String?, offset : Int?) : Response<SearchEmbeddingData.ResponseBody> {
+    suspend fun getEmbeddingData(
+        query: String?,
+        offset: Int?
+    ): Response<SearchEmbeddingData.ResponseBody> {
         return client.getEmbeddingData(query, 20, offset)
     }
 
-    suspend fun getTextSearchData(query : String?, cursor: String?, docId: String?) : Response<SearchEmbeddingData.ResponseBody> {
+    suspend fun getTextSearchData(
+        query: String?,
+        cursor: String?,
+        docId: String?
+    ): Response<SearchEmbeddingData.ResponseBody> {
         return client.getTextSearchData(query, cursor, docId)
     }
 
-    suspend fun getTagDetailData(tagName : String, cursor : String?, docId : String?) : Response<TagDetailData.Response> {
+    suspend fun getTagDetailData(
+        tagName: String,
+        cursor: String?,
+        docId: String?
+    ): Response<TagDetailData.Response> {
         return client.getTagDetailData(tagName, cursor, docId)
     }
 
-    suspend fun getTagListData(offset: Int?) : Response<TagListData.Response> {
+    suspend fun getTagListData(offset: Int?): Response<TagListData.Response> {
         return client.getTagListData(20, offset)
     }
 
-    suspend fun checkEmail(email : String) : Response<SignInData.CheckEmailResponse> {
+    suspend fun checkEmail(email: String): Response<SignInData.CheckEmailResponse> {
         val requestBody = SignInData.CheckEmailRequest(email = email)
         return client.checkEmail(requestBody)
     }

@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
-import com.example.remak.adapter.TagDetailRVAdapter
 import com.example.remak.adapter.TagDetailItemOffsetDecoration
+import com.example.remak.adapter.TagDetailRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.TagDetailActivityBinding
 
@@ -17,7 +17,7 @@ class TagDetailActivity : AppCompatActivity(), TagDetailRVAdapter.OnItemClickLis
     private lateinit var binding: TagDetailActivityBinding
     private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
     lateinit var tokenRepository: TokenRepository
-    private lateinit var adapter : TagDetailRVAdapter
+    private lateinit var adapter: TagDetailRVAdapter
     private lateinit var recyclerView: RecyclerView
 
 
@@ -50,7 +50,8 @@ class TagDetailActivity : AppCompatActivity(), TagDetailRVAdapter.OnItemClickLis
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val totalItemCount = recyclerView.layoutManager?.itemCount
-                val lastVisibleItemCount = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                val lastVisibleItemCount =
+                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
                 if (totalItemCount!! <= (lastVisibleItemCount + 5)) {
                     viewModel.getNewTagDetailData(tagName)
                 }

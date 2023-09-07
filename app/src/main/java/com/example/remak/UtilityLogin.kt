@@ -20,7 +20,12 @@ object UtilityLogin {
     }
 
     //이메일 형식에 맞는지 확인하여 버튼 활성화
-    fun emailCheck(context: Context, email: AppCompatEditText, btn: AppCompatButton, emailErrorMessage: TextView) {
+    fun emailCheck(
+        context: Context,
+        email: AppCompatEditText,
+        btn: AppCompatButton,
+        emailErrorMessage: TextView
+    ) {
         email.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 if (isEmailValid(email.text.toString())) {
@@ -36,11 +41,13 @@ object UtilityLogin {
                     email.background =
                         ContextCompat.getDrawable(context, R.drawable.edit_text_round_red)
                     btn.isEnabled = false
-                    btn.background = ContextCompat.getDrawable(context, R.drawable.custom_ripple_effect)
+                    btn.background =
+                        ContextCompat.getDrawable(context, R.drawable.custom_ripple_effect)
                     btn.setTextColor(ContextCompat.getColor(context, R.color.whiteGray))
                     emailErrorMessage.visibility = View.VISIBLE
                 }
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
@@ -55,8 +62,10 @@ object UtilityLogin {
     ) {
         password.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                btn.isEnabled = isPasswordValid(password.text.toString()) && password.text.toString() == passwordRepeat.text.toString()
+                btn.isEnabled =
+                    isPasswordValid(password.text.toString()) && password.text.toString() == passwordRepeat.text.toString()
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
@@ -75,12 +84,18 @@ object UtilityLogin {
                     btn.isEnabled = false
                 }
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
     }
 
-    fun signInCheck(context: Context, email: AppCompatEditText, password: AppCompatEditText, btn: AppCompatButton) {
+    fun signInCheck(
+        context: Context,
+        email: AppCompatEditText,
+        password: AppCompatEditText,
+        btn: AppCompatButton
+    ) {
         //이메일과 패스워드중 하나라도 비어있으면 버튼 비활성화 또한 이메일 형식에 맞지않으면 버튼 비활성화
         email.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -95,6 +110,7 @@ object UtilityLogin {
                     btn.isEnabled = false
                 }
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
@@ -112,6 +128,7 @@ object UtilityLogin {
                     btn.isEnabled = false
                 }
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })

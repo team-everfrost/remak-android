@@ -10,8 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-
-class AuthInterceptor (private val tokenRepository: TokenRepository) : Interceptor {
+class AuthInterceptor(private val tokenRepository: TokenRepository) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
 
@@ -28,6 +27,7 @@ class AuthInterceptor (private val tokenRepository: TokenRepository) : Intercept
     }
 
 }
+
 object RetrofitInstance {
     private val BASE_URL = "https://api-dev.remak.io/"
     private val dataStore = App.context().provideDataStore()
@@ -46,7 +46,7 @@ object RetrofitInstance {
         .build()
 
 
-    fun getInstance() : Retrofit {
+    fun getInstance(): Retrofit {
         return retrofit
     }
 

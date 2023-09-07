@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.UtilitySystem
-import com.example.remak.adapter.TagDetailItemOffsetDecoration
 import com.example.remak.adapter.TagItemOffsetDecoration
 import com.example.remak.adapter.TagRVAdapter
 import com.example.remak.dataStore.TokenRepository
@@ -22,15 +21,15 @@ import com.example.remak.databinding.MainTagFragmentBinding
 import com.example.remak.view.detail.TagDetailActivity
 
 class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
-    private lateinit var binding : MainTagFragmentBinding
-    private val viewModel : TagViewModel by activityViewModels { TagViewModelFactory(tokenRepository) }
+    private lateinit var binding: MainTagFragmentBinding
+    private val viewModel: TagViewModel by activityViewModels { TagViewModelFactory(tokenRepository) }
     private lateinit var tokenRepository: TokenRepository
-    private lateinit var adapter : TagRVAdapter
+    private lateinit var adapter: TagRVAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
 
 
@@ -57,7 +56,8 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val totalItemCount = recyclerView.layoutManager?.itemCount
-                val lastVisibleItemCount = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                val lastVisibleItemCount =
+                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
                 if (totalItemCount!! <= (lastVisibleItemCount + 5)) {
                     viewModel.getNewTagList()
                 }
@@ -73,7 +73,6 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
             adapter.notifyDataSetChanged()
         }
     }
-
 
 
     override fun onDestroy() {

@@ -20,7 +20,7 @@ class TokenRepository(private val dataStore: DataStore<Preferences>) {
 
 
     //토큰 정보를 저장하는 함수
-    suspend fun saveUser(user : TokenData) {
+    suspend fun saveUser(user: TokenData) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.ACCESS_TOKEN] = user.accessToken
 //            preferences[PreferencesKeys.REFRESH_TOKEN] = user.refreshToken
@@ -36,19 +36,18 @@ class TokenRepository(private val dataStore: DataStore<Preferences>) {
 
 
     //저장된 토큰 정보 가져오기
-    suspend fun fetchTokenData () : TokenData? {
+    suspend fun fetchTokenData(): TokenData? {
         return user.first()
     }
 
     //토큰유무 확인
-    suspend fun checkToken() : Boolean {
+    suspend fun checkToken(): Boolean {
         return fetchTokenData() != null
     }
 
 
-
     //토큰정보를 갖는 변수
-    val user : Flow<TokenData?> = dataStore.data
+    val user: Flow<TokenData?> = dataStore.data
         .catch { exception ->
             if (exception is Exception) {
                 emit(emptyPreferences())

@@ -7,7 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.R
 
-class LinkTagRVAdapter (var tags : List<String>, private val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<LinkTagRVAdapter.LinkTagRVViewHolder>() {
+class LinkTagRVAdapter(var tags: List<String>, private val itemClickListener: OnItemClickListener) :
+    RecyclerView.Adapter<LinkTagRVAdapter.LinkTagRVViewHolder>() {
     inner class LinkTagRVViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tagName: TextView = view.findViewById(R.id.tagName)
 
@@ -22,8 +23,12 @@ class LinkTagRVAdapter (var tags : List<String>, private val itemClickListener: 
         fun onItemClick(position: Int)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LinkTagRVAdapter.LinkTagRVViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_link_tag, parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): LinkTagRVAdapter.LinkTagRVViewHolder {
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_link_tag, parent, false)
 
         return LinkTagRVViewHolder(view)
     }

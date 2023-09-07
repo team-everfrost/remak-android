@@ -23,18 +23,18 @@ import kotlinx.coroutines.withContext
 class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private val networkRepository = NetworkRepository()
     private val _detailData = MutableLiveData<DetailData.Data>()
-    val detailData : LiveData<DetailData.Data> = _detailData
+    val detailData: LiveData<DetailData.Data> = _detailData
 
     private val _tagDetailData = MutableLiveData<List<TagDetailData.Data>>()
-    val tagDetailData : LiveData<List<TagDetailData.Data>> = _tagDetailData
+    val tagDetailData: LiveData<List<TagDetailData.Data>> = _tagDetailData
 
-    private var cursor : String? = null
-    private var docId : String? = null
+    private var cursor: String? = null
+    private var docId: String? = null
 
     var isLoadEnd = false
 
 
-   fun deleteDocument(docId : String) = viewModelScope.launch {
+    fun deleteDocument(docId: String) = viewModelScope.launch {
         try {
             val response = networkRepository.deleteDocument(docId)
             if (response.isSuccessful) {
@@ -42,12 +42,12 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             } else {
                 Log.d("fail", response.errorBody().toString())
             }
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.d("networkError", e.toString())
         }
     }
 
-    fun getDetailData(docId : String) = viewModelScope.launch {
+    fun getDetailData(docId: String) = viewModelScope.launch {
         try {
             val response = networkRepository.getDetailData(docId)
             if (response.isSuccessful) {
@@ -58,12 +58,12 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             } else {
                 Log.d("fail", response.errorBody().toString())
             }
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.d("networkError", e.toString())
         }
     }
 
-    fun updateMemo(docId : String, content : String) = viewModelScope.launch {
+    fun updateMemo(docId: String, content: String) = viewModelScope.launch {
         try {
             val response = networkRepository.updateMemo(docId, content)
             if (response.isSuccessful) {
@@ -71,12 +71,12 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             } else {
                 Log.d("fail", response.errorBody().toString())
             }
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.d("networkError", e.toString())
         }
     }
 
-    fun downloadFile(context: Context, docId : String, fileName : String) = viewModelScope.launch {
+    fun downloadFile(context: Context, docId: String, fileName: String) = viewModelScope.launch {
         try {
             val response = networkRepository.downloadFile(docId)
             if (response.isSuccessful) {
@@ -86,11 +86,15 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                     .setTitle(fileName)
                     .setDescription("Downloading")
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) // Notification bar에 다운로드 중임을 알려줌
-                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName) // 다운로드 경로 및 파일 이름
+                    .setDestinationInExternalPublicDir(
+                        Environment.DIRECTORY_DOWNLOADS,
+                        fileName
+                    ) // 다운로드 경로 및 파일 이름
                     .setAllowedOverMetered(true) // 데이터 사용시에도 다운로드 여부
                     .setAllowedOverRoaming(true) // 로밍 여부
                 withContext(Dispatchers.Main) {
-                    val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                    val downloadManager =
+                        context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
                     downloadManager.enqueue(request) //다운로드 시작
                     Toast.makeText(context, "다운로드가 시작되었습니다.", Toast.LENGTH_SHORT).show()
                 }
@@ -99,7 +103,7 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             } else {
                 Log.d("fail", response.errorBody().toString())
             }
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.d("networkError", e.toString())
         }
     }
@@ -120,12 +124,12 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             } else {
                 Log.d("fail", response.errorBody().toString())
             }
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.d("networkError", e.toString())
         }
     }
 
-    fun getTagDetailData(tagName : String) = viewModelScope.launch {
+    fun getTagDetailData(tagName: String) = viewModelScope.launch {
         try {
             Log.d("tagDetailApi", tagName)
             val response = networkRepository.getTagDetailData(tagName, null, null)
@@ -139,12 +143,12 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             } else {
                 Log.d("fail", response.errorBody().toString())
             }
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.d("networkError", e.toString())
         }
     }
 
-    fun getNewTagDetailData(tagName : String) = viewModelScope.launch {
+    fun getNewTagDetailData(tagName: String) = viewModelScope.launch {
         if (!isLoadEnd) {
             val tempData = tagDetailData.value?.toMutableList() ?: mutableListOf()
             try {
@@ -165,7 +169,7 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                 } else {
                     Log.d("fail", response.errorBody().toString())
                 }
-            } catch (e : Exception) {
+            } catch (e: Exception) {
                 Log.d("networkError", e.toString())
             }
         }
@@ -179,7 +183,8 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     }
 }
 
-class DetailViewModelFactory(private val tokenRepository: TokenRepository) : ViewModelProvider.Factory {
+class DetailViewModelFactory(private val tokenRepository: TokenRepository) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

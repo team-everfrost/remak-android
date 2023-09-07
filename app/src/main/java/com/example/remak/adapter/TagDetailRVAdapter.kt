@@ -16,7 +16,10 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class TagDetailRVAdapter(var dataSet : List<TagDetailData.Data>, private val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TagDetailRVAdapter(
+    var dataSet: List<TagDetailData.Data>,
+    private val itemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         private const val MEMO = "MEMO"
         private const val FILE = "FILE"
@@ -30,21 +33,9 @@ class TagDetailRVAdapter(var dataSet : List<TagDetailData.Data>, private val ite
         private const val DATE_VIEW_TYPE = 4
     }
 
-    inner class MemoViewHolder(view : View) : RecyclerView.ViewHolder(view) {
-        val title : TextView = view.findViewById<TextView>(R.id.title)
-        init {
-            view.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    itemClickListener.onItemClick(position)
-                }
-            }
-        }
-    }
-
-    inner class FileViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+    inner class MemoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<TextView>(R.id.title)
-        val subject : TextView = view.findViewById(R.id.subject)
+
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -55,9 +46,10 @@ class TagDetailRVAdapter(var dataSet : List<TagDetailData.Data>, private val ite
         }
     }
 
-    inner class WebpageViewHolder(view : View) : RecyclerView.ViewHolder(view) {
-        val title : TextView = view.findViewById(R.id.title)
-        val link : TextView = view.findViewById(R.id.link)
+    inner class FileViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title: TextView = view.findViewById<TextView>(R.id.title)
+        val subject: TextView = view.findViewById(R.id.subject)
+
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -68,7 +60,21 @@ class TagDetailRVAdapter(var dataSet : List<TagDetailData.Data>, private val ite
         }
     }
 
-    inner class ImageViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+    inner class WebpageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title: TextView = view.findViewById(R.id.title)
+        val link: TextView = view.findViewById(R.id.link)
+
+        init {
+            view.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener.onItemClick(position)
+                }
+            }
+        }
+    }
+
+    inner class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         init {
             view.setOnClickListener {
@@ -81,7 +87,7 @@ class TagDetailRVAdapter(var dataSet : List<TagDetailData.Data>, private val ite
     }
 
     interface OnItemClickListener {
-        fun onItemClick(position : Int)
+        fun onItemClick(position: Int)
     }
 
     override fun getItemViewType(position: Int): Int = when (dataSet[position].type) {
@@ -95,21 +101,29 @@ class TagDetailRVAdapter(var dataSet : List<TagDetailData.Data>, private val ite
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             MEMO_VIEW_TYPE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_memo, parent, false)
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_memo, parent, false)
                 MemoViewHolder(view)
             }
+
             FILE_VIEW_TYPE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
                 FileViewHolder(view)
             }
+
             WEBPAGE_VIEW_TYPE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_link, parent, false)
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_link, parent, false)
                 WebpageViewHolder(view)
             }
+
             IMAGE_VIEW_TYPE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
                 ImageViewHolder(view)
             }
+
             else -> throw IllegalArgumentException("Invalid type of data " + viewType)
         }
     }

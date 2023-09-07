@@ -11,26 +11,27 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.example.remak.App
 import com.example.remak.R
-import com.example.remak.UtilityDialog
 import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AccountSignup2FragmentBinding
-import kotlinx.coroutines.launch
 
 class AccountSignUp2Fragment : Fragment() {
-    private lateinit var binding : AccountSignup2FragmentBinding
-    private val viewModel: SignUpViewModel by activityViewModels { SignUpViewModelFactory(signInRepository) }
+    private lateinit var binding: AccountSignup2FragmentBinding
+    private val viewModel: SignUpViewModel by activityViewModels {
+        SignUpViewModelFactory(
+            signInRepository
+        )
+    }
 
-    private lateinit var signInRepository : TokenRepository
+    private lateinit var signInRepository: TokenRepository
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         signInRepository = TokenRepository((requireActivity().application as App).dataStore)
 
         binding = AccountSignup2FragmentBinding.inflate(inflater, container, false)
@@ -46,8 +47,16 @@ class AccountSignUp2Fragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val verifyEditTexts = arrayOf(binding.verifyCodeEditText1, binding.verifyCodeEditText2, binding.verifyCodeEditText3, binding.verifyCodeEditText4, binding.verifyCodeEditText5, binding.verifyCodeEditText6)
-        binding.emailVerifyCodeText.text = getString(R.string.verification_text, viewModel.userEmail.value)
+        val verifyEditTexts = arrayOf(
+            binding.verifyCodeEditText1,
+            binding.verifyCodeEditText2,
+            binding.verifyCodeEditText3,
+            binding.verifyCodeEditText4,
+            binding.verifyCodeEditText5,
+            binding.verifyCodeEditText6
+        )
+        binding.emailVerifyCodeText.text =
+            getString(R.string.verification_text, viewModel.userEmail.value)
 
         //키보드 자동으로 올라오게 하는 코드
         binding.verifyCodeEditText1.requestFocus()
@@ -79,7 +88,13 @@ class AccountSignUp2Fragment : Fragment() {
 
         for (i in verifyEditTexts.indices) {
             verifyEditTexts[i].addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     if (s?.length == 1 && i < verifyEditTexts.lastIndex) {
@@ -88,7 +103,7 @@ class AccountSignUp2Fragment : Fragment() {
                         verifyEditTexts[i + 1].requestFocus()
 
                         for (j in verifyEditTexts.indices) {
-                            if (j != i+1) {
+                            if (j != i + 1) {
                                 Log.d("test", "j : $j")
                                 verifyEditTexts[j].isFocusableInTouchMode = false
                                 verifyEditTexts[j].isFocusable = false
@@ -117,7 +132,7 @@ class AccountSignUp2Fragment : Fragment() {
                         verifyEditTexts[i - 1].requestFocus()
 
                         for (j in verifyEditTexts.indices) {
-                            if (j != i-1) {
+                            if (j != i - 1) {
                                 Log.d("test", "j : $j")
                                 verifyEditTexts[j].isFocusableInTouchMode = false
                                 verifyEditTexts[j].isFocusable = false
@@ -139,9 +154,17 @@ class AccountSignUp2Fragment : Fragment() {
             } else if (isSuccessful == false) {
                 //Todo : 에러메시지 출력 및 edittext 색 변경
                 binding.emailVerifyCodeText.text = "인증번호가 일치하지 않습니다\n다시확인해주세요"
-                binding.emailVerifyCodeText.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                binding.emailVerifyCodeText.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.red
+                    )
+                )
                 verifyEditTexts.forEach {
-                    it.background = ContextCompat.getDrawable(requireContext(), R.drawable.edit_text_verify_code_error)
+                    it.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.edit_text_verify_code_error
+                    )
                 }
 
             }
@@ -149,7 +172,7 @@ class AccountSignUp2Fragment : Fragment() {
 
 
 
-        binding.backButton.setOnClickListener{
+        binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_accountSignUp2Fragment2_to_accountSignUp1Fragment2)
         }
 

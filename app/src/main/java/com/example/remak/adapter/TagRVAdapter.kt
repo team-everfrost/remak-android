@@ -12,13 +12,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.R
 import com.example.remak.network.model.TagListData
 
-class TagRVAdapter (private val context : Context, var tagData : List<TagListData.Data>,private val itemClickListener :  OnItemClickListener) : RecyclerView.Adapter<TagRVAdapter.TagRVViewHolder>(){
-
+class TagRVAdapter(
+    private val context: Context,
+    var tagData: List<TagListData.Data>,
+    private val itemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<TagRVAdapter.TagRVViewHolder>() {
 
 
     inner class TagRVViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<TextView>(R.id.tagName)
         val count: TextView = view.findViewById<TextView>(R.id.tagCount)
+
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -30,15 +34,13 @@ class TagRVAdapter (private val context : Context, var tagData : List<TagListDat
     }
 
 
-
-    fun getTagName(adapterPosition : Int) : String {
+    fun getTagName(adapterPosition: Int): String {
         return tagData[adapterPosition].name
     }
 
-    fun getTagCount(adapterPosition: Int) : Int {
+    fun getTagCount(adapterPosition: Int): Int {
         return tagData[adapterPosition].count
     }
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagRVViewHolder {
@@ -52,15 +54,18 @@ class TagRVAdapter (private val context : Context, var tagData : List<TagListDat
 
     override fun onBindViewHolder(holder: TagRVViewHolder, position: Int) {
         holder.title.text = tagData[position].name
-        holder.count.text = HtmlCompat.fromHtml("<font color=\"#1F8CE6\">${tagData[position].count}개</font><font color=\"#646F7C\">가 있어요</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
+        holder.count.text = HtmlCompat.fromHtml(
+            "<font color=\"#1F8CE6\">${tagData[position].count}개</font><font color=\"#646F7C\">가 있어요</font>",
+            HtmlCompat.FROM_HTML_MODE_LEGACY
+        )
 
     }
+
     interface OnItemClickListener {
         fun onItemClick(position: Int)
     }
 
 }
-
 
 
 class TagItemOffsetDecoration(private val mItemOffset: Int) : RecyclerView.ItemDecoration() {

@@ -7,12 +7,10 @@ import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
-import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -23,8 +21,8 @@ import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.EditPageMemoBinding
 
 class CreateMemoActivity : AppCompatActivity() {
-    private lateinit var binding : EditPageMemoBinding
-    private val viewModel : MainViewModel by viewModels { MainViewModelFactory(tokenRepository)}
+    private lateinit var binding: EditPageMemoBinding
+    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(tokenRepository) }
     private lateinit var tokenRepository: TokenRepository
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,14 +35,21 @@ class CreateMemoActivity : AppCompatActivity() {
             override fun afterTextChanged(p0: Editable?) {
                 if (p0.toString().isNotEmpty()) {
                     binding.completeBtn.isEnabled = true
-                    binding.completeBtn.background = AppCompatResources.getDrawable(this@CreateMemoActivity, R.drawable.custom_ripple_effect_blue_rec)
+                    binding.completeBtn.background = AppCompatResources.getDrawable(
+                        this@CreateMemoActivity,
+                        R.drawable.custom_ripple_effect_blue_rec
+                    )
                     binding.completeBtn.setTextColor(getColor(R.color.white))
                 } else {
                     binding.completeBtn.isEnabled = false
-                    binding.completeBtn.background = AppCompatResources.getDrawable(this@CreateMemoActivity, R.drawable.custom_ripple_effect)
+                    binding.completeBtn.background = AppCompatResources.getDrawable(
+                        this@CreateMemoActivity,
+                        R.drawable.custom_ripple_effect
+                    )
                     binding.completeBtn.setTextColor(getColor(R.color.whiteGray))
                 }
             }
+
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
@@ -57,7 +62,8 @@ class CreateMemoActivity : AppCompatActivity() {
             showDialog(it)
         }
     }
-    private fun showDialog(getContent : String) {
+
+    private fun showDialog(getContent: String) {
         val dialog = Dialog(this)
         val windowManager =
             this.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -74,14 +80,14 @@ class CreateMemoActivity : AppCompatActivity() {
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
             val x = (size.x * 0.85).toInt()
-            window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
+            window.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
 
         } else {
             val rect = windowManager.currentWindowMetrics.bounds
             val window = dialog.window
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val x = (rect.width() * 0.85).toInt()
-            window?.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
+            window.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
 
         }
         val confirmBtn = dialog.findViewById<View>(R.id.confirmBtn)

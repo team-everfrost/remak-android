@@ -8,19 +8,14 @@ import androidx.fragment.app.Fragment
 import com.example.remak.databinding.FindPassword3FragmentBinding
 
 class AccountFindPassword3Fragment : Fragment() {
-    private lateinit var binding : FindPassword3FragmentBinding
+    private lateinit var binding: FindPassword3FragmentBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FindPassword3FragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-    }
 }

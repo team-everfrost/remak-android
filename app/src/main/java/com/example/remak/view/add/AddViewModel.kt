@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.repository.NetworkRepository
-import com.example.remak.view.main.MainViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
@@ -16,10 +15,10 @@ class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private val networkRepository = NetworkRepository()
 
     private val _uploadFileSuccess = MutableLiveData<Boolean>()
-    val uploadFileSuccess : LiveData<Boolean> = _uploadFileSuccess
+    val uploadFileSuccess: LiveData<Boolean> = _uploadFileSuccess
 
 
-    fun createWebPage(url : String) = viewModelScope.launch {
+    fun createWebPage(url: String) = viewModelScope.launch {
         try {
             val response = networkRepository.createWebPage(url)
             if (response.isSuccessful) {
@@ -28,14 +27,14 @@ class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
             } else {
                 Log.d("fail", response.errorBody()?.string()!!)
             }
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.d("networkError", e.toString())
         }
     }
 
 
     /** 파일 업로드 */
-    fun uploadFile(files : List<MultipartBody.Part>) = viewModelScope.launch {
+    fun uploadFile(files: List<MultipartBody.Part>) = viewModelScope.launch {
         try {
             val response = networkRepository.uploadFile(files)
             Log.d("file", files.toString())
@@ -47,7 +46,7 @@ class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
             } else {
                 Log.d("fail", response.errorBody()?.string()!!)
             }
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.d("networkError", e.toString())
         }
     }
@@ -59,8 +58,8 @@ class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
 
 }
 
-class AddViewModelFactory(private val tokenRepository: TokenRepository) : ViewModelProvider.Factory {
-
+class AddViewModelFactory(private val tokenRepository: TokenRepository) :
+    ViewModelProvider.Factory {
 
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

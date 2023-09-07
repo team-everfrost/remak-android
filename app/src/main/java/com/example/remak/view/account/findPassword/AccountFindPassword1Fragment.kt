@@ -12,12 +12,12 @@ import com.example.remak.UtilitySystem
 import com.example.remak.databinding.FindPassword1FragmentBinding
 
 class AccountFindPassword1Fragment : Fragment() {
-    private lateinit var binding : FindPassword1FragmentBinding
+    private lateinit var binding: FindPassword1FragmentBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FindPassword1FragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,6 +33,11 @@ class AccountFindPassword1Fragment : Fragment() {
             UtilitySystem.hideKeyboard(requireActivity())
         }
 
-        UtilityLogin.emailCheck(requireContext(), binding.emailEditText, binding.nextBtn, binding.emailErrorMessage)
+        UtilityLogin.emailCheck(
+            requireContext(),
+            binding.emailEditText,
+            binding.nextBtn,
+            binding.emailErrorMessage
+        )
     }
 }

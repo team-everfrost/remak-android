@@ -1,15 +1,14 @@
 package com.example.remak.view.account.signIn
 
 import android.app.Activity
-import android.telephony.CarrierConfigManager.ImsSms
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.remak.model.TokenData
 import com.example.remak.dataStore.TokenRepository
+import com.example.remak.model.TokenData
 import com.example.remak.network.model.SignInData
 import com.example.remak.repository.NetworkRepository
 import com.google.gson.Gson
@@ -19,28 +18,34 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.launch
 
-class SignInViewModel(private val signInRepository: TokenRepository): ViewModel(){
+class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel() {
 
     private val networkRepository = NetworkRepository()
     private val _loginResponse = MutableLiveData<SignInData.ResponseBody>()
     val loginResponse: LiveData<SignInData.ResponseBody> = _loginResponse
     private val _loginResult = MutableLiveData<Boolean>()
-    val loginResult : LiveData<Boolean> = _loginResult
+    val loginResult: LiveData<Boolean> = _loginResult
     private val _showDialog = MutableLiveData<Boolean>()
-    val showDialog : LiveData<Boolean> = _showDialog
+    val showDialog: LiveData<Boolean> = _showDialog
 
     private val _isEmailValid = MutableLiveData<Boolean>()
-    val isEmailValid : LiveData<Boolean> = _isEmailValid
+    val isEmailValid: LiveData<Boolean> = _isEmailValid
 
 
-    fun checkEmail(email : String) = viewModelScope.launch {
+    fun checkEmail(email: String) = viewModelScope.launch {
         try {
             val response = networkRepository.checkEmail(email)
             if (response.isSuccessful) {
                 Log.d("success", response.body().toString())
-               _isEmailValid.value = true
+                _isEmailValid.value = true
             } else {
-                Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignInData.CheckEmailResponse::class.java).message)
+                Log.d(
+                    "fail",
+                    Gson().fromJson(
+                        response.errorBody()?.charStream(),
+                        SignInData.CheckEmailResponse::class.java
+                    ).message
+                )
                 _isEmailValid.value = false
             }
         } catch (e: Exception) {
@@ -49,7 +54,7 @@ class SignInViewModel(private val signInRepository: TokenRepository): ViewModel(
     }
 
     //이메일 로그인 로직
-    fun emailLogin(email : String, password : String) = viewModelScope.launch {
+    fun emailLogin(email: String, password: String) = viewModelScope.launch {
         try {
             val response = networkRepository.signIn(email, password)
             if (response.isSuccessful) {
@@ -59,7 +64,13 @@ class SignInViewModel(private val signInRepository: TokenRepository): ViewModel(
                 Log.d("success", response.body().toString())
             } else {
                 _loginResult.value = false
-                Log.d("fail", Gson().fromJson(response.errorBody()?.charStream(), SignInData.ResponseBody::class.java).message)
+                Log.d(
+                    "fail",
+                    Gson().fromJson(
+                        response.errorBody()?.charStream(),
+                        SignInData.ResponseBody::class.java
+                    ).message
+                )
                 _showDialog.value = true
             }
         } catch (e: Exception) {
@@ -74,7 +85,6 @@ class SignInViewModel(private val signInRepository: TokenRepository): ViewModel(
     fun doneDialog() {
         _showDialog.value = false
     }
-
 
 
     fun kakaoLogin(context: Activity) {
@@ -115,7 +125,8 @@ class SignInViewModel(private val signInRepository: TokenRepository): ViewModel(
     }
 }
 
-class SignInViewModelFactory(private val signInRepository: TokenRepository) : ViewModelProvider.Factory{
+class SignInViewModelFactory(private val signInRepository: TokenRepository) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SignInViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

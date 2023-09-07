@@ -83,7 +83,7 @@
         android:background="@drawable/edit_text_round"
         android:elevation="0dp"
         android:stateListAnimator="@null"
-        android:drawableLeft="@drawable/apple_logo"
+        android:drawableStart="@drawable/apple_logo"
         android:text="Apple로 계속하기"
         android:textSize="18sp"
         android:textFontWeight="500"

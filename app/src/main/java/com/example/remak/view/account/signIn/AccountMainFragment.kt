@@ -25,7 +25,7 @@ import java.util.TimerTask
 
 
 class AccountMainFragment : Fragment() {
-    private lateinit var binding : TempMainFragmentBinding
+    private lateinit var binding: TempMainFragmentBinding
     private var bigIconTimer = Timer()
     private var smallIconTimer = Timer()
     private lateinit var layoutManager: LinearLayoutManager
@@ -34,34 +34,70 @@ class AccountMainFragment : Fragment() {
     private lateinit var smallIconAdapter: SmallIconAdapter
 
 
-    private val viewModel: SignInViewModel by activityViewModels { SignInViewModelFactory(signInRepository) }
-    lateinit var signInRepository : TokenRepository
+    private val viewModel: SignInViewModel by activityViewModels {
+        SignInViewModelFactory(
+            signInRepository
+        )
+    }
+    lateinit var signInRepository: TokenRepository
     private val iconData = listOf(
-        "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx","통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx",
+        "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx", "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx",
         "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx",
         "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx",
-        "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx")
+        "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx"
+    )
 
 
     private val smallIconData = listOf(
-        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
-        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
-        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
-        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
-        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
-        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
-        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
-        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
-        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
-        listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"), listOf("기사", "오늘의 주식 뉴스"), listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
+        listOf("기사", "오늘의 주식 뉴스"),
+        listOf("메모", "오늘 해야할 일"),
     )
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         signInRepository = TokenRepository((requireActivity().application as App).dataStore)
         binding = TempMainFragmentBinding.inflate(inflater, container, false)
-        binding.root.setOnClickListener{
+        binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())
         }
 
@@ -79,7 +115,7 @@ class AccountMainFragment : Fragment() {
         binding.bigIconRecyclerView.adapter = adapter
         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.bigIconRecyclerView.layoutManager = layoutManager
-        binding.bigIconRecyclerView.setOnTouchListener{ _, _ ->
+        binding.bigIconRecyclerView.setOnTouchListener { _, _ ->
             true
         }
         val itemDecoration = TestItemOffsetDecoration(30)
@@ -87,9 +123,10 @@ class AccountMainFragment : Fragment() {
 
         smallIconAdapter = SmallIconAdapter(smallIconData)
         binding.smallIconRecyclerView.adapter = smallIconAdapter
-        smallIconLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        smallIconLayoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.smallIconRecyclerView.layoutManager = smallIconLayoutManager
-        binding.smallIconRecyclerView.setOnTouchListener{ _, _ ->
+        binding.smallIconRecyclerView.setOnTouchListener { _, _ ->
             true
         }
         val smallIconItemDecoration = SmallIconItemOffsetDecoration(30)
