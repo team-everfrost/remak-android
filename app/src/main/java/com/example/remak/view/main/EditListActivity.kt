@@ -51,11 +51,18 @@ class EditListActivity : AppCompatActivity() {
             Log.d("selectedItems", selectedItems.toString())
         }
 
+        binding.addBtn.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putStringArrayList("selected", adapter.getSelectedItems())
+            val bottomSheet = EditCollectionBottomSheetDialog()
+            bottomSheet.arguments = bundle
+            bottomSheet.show(supportFragmentManager, "EditCollectionBottomSheetDialog")
+        }
+
         onBackPressedDispatcher.addCallback(this) {
             val resultIntent = Intent()
             resultIntent.putExtra("isDelete", true)
             setResult(RESULT_OK, resultIntent)
-            Log.d("onBackPressed", "onBackPressed")
             finish()
         }
     }

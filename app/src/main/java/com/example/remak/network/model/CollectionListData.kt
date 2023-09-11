@@ -10,6 +10,7 @@ class CollectionListData {
         val name: String,
         val description: String,
         val count: Int,
+        var isSelected: Boolean = false
     )
 
 }

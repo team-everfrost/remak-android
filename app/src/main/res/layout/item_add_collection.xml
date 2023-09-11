@@ -5,6 +5,7 @@
     android:layout_height="50dp">
 
     <TextView
+        android:id="@+id/collectionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="컬렉션 명"

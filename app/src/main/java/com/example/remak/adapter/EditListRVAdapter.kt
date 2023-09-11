@@ -298,8 +298,9 @@ class EditListRVAdapter(
         }
     }
 
-    fun getSelectedItems(): List<String> { // 선택된 아이템들의 docId를 반환
+    fun getSelectedItems(): ArrayList<String> { // 선택된 아이템들의 docId를 반환
         return dataSet.filter { it.isSelected }.map { it.docId!! }
+            .toList() as ArrayList<String>
     }
 
     fun getItem(position: Int): MainListData.Data {
