@@ -3,6 +3,7 @@ package com.example.remak.repository
 import com.example.remak.network.Api
 import com.example.remak.network.RetrofitInstance
 import com.example.remak.network.model.CollectionListData
+import com.example.remak.network.model.CreateCollectionData
 import com.example.remak.network.model.CreateData
 import com.example.remak.network.model.DeleteData
 import com.example.remak.network.model.DetailData
@@ -116,5 +117,13 @@ class NetworkRepository {
 
     suspend fun getCollectionListData(offset: Int?): Response<CollectionListData.Response> {
         return client.getCollectionListData(20, offset)
+    }
+
+    suspend fun createCollection(
+        name: String,
+        description: String?
+    ): Response<CreateCollectionData.ResponseBody> {
+        val requestBody = CreateCollectionData.RequestBody(name = name, description = description)
+        return client.createCollection(requestBody)
     }
 }

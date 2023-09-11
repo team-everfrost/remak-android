@@ -55,7 +55,6 @@ class TagRVAdapter(
             "<font color=\"#1F8CE6\">${tagData[position].count}개</font><font color=\"#646F7C\">가 있어요</font>",
             HtmlCompat.FROM_HTML_MODE_LEGACY
         )
-
     }
 
     interface OnItemClickListener {

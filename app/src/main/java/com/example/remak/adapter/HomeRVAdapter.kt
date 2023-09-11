@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.constraintlayout.utils.widget.ImageFilterView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -266,8 +267,6 @@ class HomeRVAdapter(
                 val title = dataSet[position].title!!.substringBeforeLast(".")
                 val summary = dataSet[position].summary
 
-
-
                 holder.title.text = title//제목
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
@@ -305,12 +304,8 @@ class HomeRVAdapter(
             is WebpageViewHolder -> {
                 val title = dataSet[position].title!!.replace(" ", "")
                 val summary = dataSet[position].summary
-
-
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
-
-
                 when (dataSet[position].status!!) {
                     "SCRAPE_PENDING" -> {
                         holder.title.text = dataSet[position].url
@@ -369,12 +364,12 @@ class HomeRVAdapter(
                         .into(holder.itemView.findViewById(R.id.thumbnail))
                 } else {
                     Glide.with(holder.itemView.context)
-                        .load(R.drawable.sample_image)
+                        .load(R.drawable.no_thumbnail_image)
                         .transform(CenterCrop(), RoundedCorners(47))
                         .into(holder.itemView.findViewById(R.id.thumbnail))
-                }
+                    holder.itemView.findViewById<ImageFilterView>(R.id.thumbnail).background = null
 
-//                setWebpageData(position, holder)
+                }
 
             }
 

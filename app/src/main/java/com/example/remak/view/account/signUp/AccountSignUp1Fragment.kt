@@ -10,7 +10,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.remak.App
 import com.example.remak.R
-import com.example.remak.UtilityDialog
 import com.example.remak.UtilityLogin
 import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
@@ -48,17 +47,11 @@ class AccountSignUp1Fragment : Fragment() {
 
         viewModel.isEmailExist.observe(viewLifecycleOwner) { isEmailExist ->
             if (isEmailExist) {
-                UtilityDialog.showInformDialog("이미 존재하는 이메일입니다.", requireContext())
                 viewModel.doneEmailCheck()
             }
         }
 
-        viewModel.isEmailInvalid.observe(viewLifecycleOwner) { isEmailValid ->
-            if (isEmailValid) {
-                UtilityDialog.showInformDialog("이메일 형식이 올바르지 않습니다.", requireContext())
-                viewModel.doneEmailCheck()
-            }
-        }
+
 
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())

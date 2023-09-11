@@ -67,7 +67,7 @@ object UtilityDialog {
         dialog.show()
     }
 
-    fun showInformDialog(msg: String, context: Context) {
+    fun showInformDialog(msg: String, subMsg: String, context: Context, confirmClick: () -> Unit) {
         val dialog = Dialog(context)
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
@@ -77,33 +77,30 @@ object UtilityDialog {
         if (Build.VERSION.SDK_INT < 30) {
             val display = windowManager.defaultDisplay
             val size = Point()
-
             display.getSize(size)
-
             val window = dialog.window
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            val x = (size.x * 0.7).toInt()
-
-
+            val x = (size.x * 0.85).toInt()
             window.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
 
         } else {
             val rect = windowManager.currentWindowMetrics.bounds
-
             val window = dialog.window
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            val x = (rect.width() * 0.7).toInt()
+            val x = (rect.width() * 0.85).toInt()
             window.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
 
         }
 
         val confirmBtn = dialog.findViewById<View>(R.id.confirmBtn)
         confirmBtn.setOnClickListener {
+            confirmClick()
             dialog.dismiss()
         }
         val msgText = dialog.findViewById<TextView>(R.id.msgTextView)
+        val subMsgText = dialog.findViewById<TextView>(R.id.subMsgTextView)
         msgText.text = msg
+        subMsgText.text = subMsg
         dialog.show()
     }
 }

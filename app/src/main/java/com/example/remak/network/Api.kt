@@ -1,6 +1,7 @@
 package com.example.remak.network
 
 import com.example.remak.network.model.CollectionListData
+import com.example.remak.network.model.CreateCollectionData
 import com.example.remak.network.model.CreateData
 import com.example.remak.network.model.DeleteData
 import com.example.remak.network.model.DetailData
@@ -113,5 +114,8 @@ interface Api {
         @Query("limit") limit: Int? = 20,
         @Query("offset") offset: Int?
     ): retrofit2.Response<CollectionListData.Response>
+
+    @POST("collection")
+    suspend fun createCollection(@Body body: CreateCollectionData.RequestBody): retrofit2.Response<CreateCollectionData.ResponseBody>
 
 }

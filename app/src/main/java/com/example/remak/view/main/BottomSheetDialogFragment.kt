@@ -19,7 +19,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.fragment.app.activityViewModels
 import com.example.remak.R
-import com.example.remak.UtilityDialog
 import com.example.remak.databinding.BottomSheetDialogBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -44,7 +43,6 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
                         uriList.add(it)
                     }
                 } else {
-                    UtilityDialog.showInformDialog("파일은 최대 10개까지 선택 가능합니다.", requireContext())
                     isUploadAble = false
                 }
 
@@ -167,7 +165,6 @@ class BottomSheetDialogFragment : BottomSheetDialogFragment() {
         confirmBtn.setOnClickListener {
             val url = linkEditText.text.toString().trim()
             if (url.isEmpty()) {
-                UtilityDialog.showInformDialog("링크를 입력해주세요.", requireContext())
             } else {
                 val splitText = url.split("\\n|,".toRegex()) //줄바꿈, 콤마로 구분
                 val urlList = ArrayList<String>()

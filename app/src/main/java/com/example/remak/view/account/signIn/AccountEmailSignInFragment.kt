@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.remak.App
 import com.example.remak.UtilityLogin
 import com.example.remak.UtilitySystem
@@ -162,14 +163,12 @@ class AccountEmailSignInFragment : Fragment() {
                         com.example.remak.R.drawable.edit_text_round_red
                     )
                     //Todo : 모듈로 빼기
-
                 }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(p0: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-
 
         binding.nextBtn.setOnClickListener {
             if (isWritingEmail) {
@@ -180,7 +179,10 @@ class AccountEmailSignInFragment : Fragment() {
                     binding.pwEditText.text.toString()
                 )
             }
+        }
 
+        binding.signUpBtn.setOnClickListener {
+            findNavController().navigate(com.example.remak.R.id.action_accountEmailSignInFragment_to_accountSignUp1Fragment2)
         }
 
     }

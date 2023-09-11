@@ -70,6 +70,7 @@ class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
 
         binding.completeBtn.setOnClickListener {
             Log.d("collection", adapter.getSelectedItem().toString())
+            Log.d("collection", checkedDocuments.toString())
         }
 
         binding.closeBtn.setOnClickListener {

@@ -25,6 +25,7 @@
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="16dp"
         android:text="0개"
+        android:textColor="#646F7C"
         android:textFontWeight="700"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

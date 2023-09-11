@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.R
 import com.example.remak.network.model.CollectionListData
@@ -23,8 +24,16 @@ class CollectionRVAdapter(
     }
 
     override fun onBindViewHolder(holder: CollectionRVViewHolder, position: Int) {
+        val count = collectionData[position].count
         holder.title.text = collectionData[position].name
-        holder.count.text = "${collectionData[position].count}개"
+        if (count == 0) {
+            holder.count.text = "${collectionData[position].count}개"
+        } else {
+            holder.count.text = HtmlCompat.fromHtml(
+                "<font color=\"#1F8CE6\">${collectionData[position].count}개",
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+            )
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionRVViewHolder {

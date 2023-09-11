@@ -298,9 +298,10 @@ class EditListRVAdapter(
         }
     }
 
-    fun getSelectedItems(): ArrayList<String> { // 선택된 아이템들의 docId를 반환
-        return dataSet.filter { it.isSelected }.map { it.docId!! }
-            .toList() as ArrayList<String>
+    fun getSelectedItems(): ArrayList<String> {
+        // 체크된 아이템들의 docId를 반환
+        val selectedItems = dataSet.filter { it.isSelected }.mapNotNull { it.docId }
+        return ArrayList(selectedItems)
     }
 
     fun getItem(position: Int): MainListData.Data {

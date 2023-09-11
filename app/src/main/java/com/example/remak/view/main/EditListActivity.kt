@@ -53,10 +53,13 @@ class EditListActivity : AppCompatActivity() {
 
         binding.addBtn.setOnClickListener {
             val bundle = Bundle()
-            bundle.putStringArrayList("selected", adapter.getSelectedItems())
-            val bottomSheet = EditCollectionBottomSheetDialog()
-            bottomSheet.arguments = bundle
-            bottomSheet.show(supportFragmentManager, "EditCollectionBottomSheetDialog")
+            val selectedItems = adapter.getSelectedItems()
+            if (selectedItems.isNotEmpty()) {
+                bundle.putStringArrayList("selected", selectedItems)
+                val bottomSheet = EditCollectionBottomSheetDialog()
+                bottomSheet.arguments = bundle
+                bottomSheet.show(supportFragmentManager, "EditCollectionBottomSheetDialog")
+            }
         }
 
         onBackPressedDispatcher.addCallback(this) {

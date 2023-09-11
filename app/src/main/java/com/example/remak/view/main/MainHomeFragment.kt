@@ -59,8 +59,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
+        //생성된 activity에서 delete를 받을 시 목록 새로고침
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
@@ -122,12 +121,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             binding.swipeRefresh.isRefreshing = false
         }
 
-        viewModel.uploadFileSuccess.observe(viewLifecycleOwner) { isSuccessful ->
-            if (isSuccessful) {
-                UtilityDialog.showInformDialog("파일 업로드에 성공했습니다.", requireContext())
-                viewModel.resetUploadFileSuccess()
-            }
-        }
+        
 
         binding.deleteBtn.setOnClickListener {
             val selectedItems = adapter.getSelectedItems()

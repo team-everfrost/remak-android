@@ -95,6 +95,10 @@
             android:name=".view.main.EditListActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".view.add.AddCollectionActivity"
+            android:exported="true" />
+
 
     </application>
 

@@ -41,7 +41,11 @@ class AddFragment : Fragment() {
                         uriList.add(it)
                     }
                 } else {
-                    UtilityDialog.showInformDialog("파일은 최대 10개까지 선택 가능합니다.", requireContext())
+                    UtilityDialog.showInformDialog(
+                        "파일은 최대 10개까지 선택 가능합니다.",
+                        "",
+                        requireContext(),
+                        confirmClick = {})
                     isUploadAble = false
                 }
 
@@ -84,7 +88,11 @@ class AddFragment : Fragment() {
 
         viewModel.uploadFileSuccess.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
-                UtilityDialog.showInformDialog("파일 업로드에 성공했습니다.", requireContext())
+                UtilityDialog.showInformDialog(
+                    "파일 업로드에 성공했습니다.",
+                    "",
+                    requireContext(),
+                    confirmClick = {})
                 viewModel.resetUploadFileSuccess()
             }
         }
