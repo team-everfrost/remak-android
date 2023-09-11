@@ -58,5 +58,11 @@
 
     </style>
 
+    <style name="CustomCheckBoxCollection" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_selector_collection</item>
+        <item name="android:background">@drawable/custom_ripple_effect_transparent_oval</item>
+
+    </style>
+
 
 </resources>
