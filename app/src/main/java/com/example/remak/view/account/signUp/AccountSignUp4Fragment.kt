@@ -95,5 +95,4 @@ class AccountSignUp4Fragment : Fragment() {
         }
     }
 
-
 }

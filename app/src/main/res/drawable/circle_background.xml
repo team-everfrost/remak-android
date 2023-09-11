@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#F4F6F8"/> <!-- 원하는 색상으로 변경 -->
-    <corners android:radius="300dp"/> <!-- 반지름을 크게 설정하여 원형처럼 보이게 만들기 -->
+    <solid android:color="#F4F6F8" /> <!-- 원하는 색상으로 변경 -->
+    <corners android:radius="300dp" /> <!-- 반지름을 크게 설정하여 원형처럼 보이게 만들기 -->
 </shape>

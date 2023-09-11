@@ -119,7 +119,6 @@ class AddFragment : Fragment() {
 
     }
 
-
     //uri에서 파일 가져오기
     private fun inputStreamToFile(inputStream: InputStream, uri: Uri): File {
         val fileName = getFileNameFromUri(uri)
@@ -140,6 +139,5 @@ class AddFragment : Fragment() {
         }
         return fileName
     }
-
 
 }

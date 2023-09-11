@@ -2,7 +2,6 @@ package com.example.remak.network.model
 
 class UploadFileData {
 
-
     data class RequestBody(
         val files: List<Any?>
     )
@@ -11,7 +10,6 @@ class UploadFileData {
         val message: String,
         val data: List<Data>
     )
-
 
     data class Data(
         val docId: String,

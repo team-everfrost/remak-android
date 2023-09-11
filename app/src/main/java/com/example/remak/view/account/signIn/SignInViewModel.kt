@@ -31,7 +31,6 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
     private val _isEmailValid = MutableLiveData<Boolean>()
     val isEmailValid: LiveData<Boolean> = _isEmailValid
 
-
     fun checkEmail(email: String) = viewModelScope.launch {
         try {
             val response = networkRepository.checkEmail(email)
@@ -86,7 +85,6 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
         _showDialog.value = false
     }
 
-
     fun kakaoLogin(context: Activity) {
         // 카카오계정으로 로그인 공통 callback 구성
         // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
@@ -109,7 +107,6 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
                     if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                         return@loginWithKakaoTalk
                     }
-
 
                     // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
                     UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)

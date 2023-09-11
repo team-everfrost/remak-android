@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/account_nav"
     app:startDestination="@id/accountMainFragment">
@@ -8,7 +8,7 @@
         android:id="@+id/accountMainFragment"
         android:name="com.example.remak.view.account.signIn.AccountMainFragment"
         android:label="account_main_fragment"
-        tools:layout="@layout/temp_main_fragment" >
+        tools:layout="@layout/temp_main_fragment">
         <action
             android:id="@+id/action_accountMainFragment_to_accountSignUp1Fragment2"
             app:destination="@id/accountSignUp1Fragment2"
@@ -30,13 +30,13 @@
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/accountSignUp1Fragment2"
         android:name="com.example.remak.view.account.signUp.AccountSignUp1Fragment"
         android:label="account_signup1_fragment"
-        tools:layout="@layout/account_signup1_fragment" >
+        tools:layout="@layout/account_signup1_fragment">
         <action
             android:id="@+id/action_accountSignUp1Fragment2_to_accountSignUp2Fragment2"
             app:destination="@id/accountSignUp2Fragment2"
@@ -58,7 +58,7 @@
         android:id="@+id/accountSignUp2Fragment2"
         android:name="com.example.remak.view.account.signUp.AccountSignUp2Fragment"
         android:label="account_signup2_fragment"
-        tools:layout="@layout/account_signup2_fragment" >
+        tools:layout="@layout/account_signup2_fragment">
         <action
             android:id="@+id/action_accountSignUp2Fragment2_to_accountSignUp3Fragment"
             app:destination="@id/accountSignUp3Fragment"
@@ -76,7 +76,7 @@
         android:id="@+id/accountSignUp3Fragment"
         android:name="com.example.remak.view.account.signUp.AccountSignUp3Fragment"
         android:label="account_signup3_fragment"
-        tools:layout="@layout/account_signup3_fragment" >
+        tools:layout="@layout/account_signup3_fragment">
         <action
             android:id="@+id/action_accountSignUp3Fragment_to_accountSignUp2Fragment2"
             app:destination="@id/accountSignUp2Fragment2"
@@ -84,18 +84,18 @@
             app:exitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_accountSignUp3Fragment_to_accountSignUp4Fragment"
+            app:destination="@id/accountSignUp4Fragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"
-            app:destination="@id/accountSignUp4Fragment" />
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/accountFindPassword1Fragment"
         android:name="com.example.remak.view.account.findPassword.AccountFindPassword1Fragment"
         android:label="find_password1_fragment"
-        tools:layout="@layout/find_password1_fragment"
-        tools:ignore="ExtraText">
+        tools:ignore="ExtraText"
+        tools:layout="@layout/find_password1_fragment">
 
         <action
             android:id="@+id/action_accountFindPassword1Fragment_to_accountFindPassword2Fragment"
@@ -108,13 +108,13 @@
             android:id="@+id/action_accountFindPassword1Fragment_to_accountMainFragment2"
             app:destination="@id/accountMainFragment"
             app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"/>
+            app:exitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/accountFindPassword2Fragment"
         android:name="com.example.remak.view.account.findPassword.AccountFindPassword2Fragment"
         android:label="find_password2_fragment"
-        tools:layout="@layout/find_password2_fragment" >
+        tools:layout="@layout/find_password2_fragment">
         <action
             android:id="@+id/action_accountFindPassword2Fragment_to_accountFindPassword3Fragment"
             app:destination="@id/accountFindPassword3Fragment"
@@ -126,18 +126,18 @@
             android:id="@+id/action_accountFindPassword2Fragment_to_accountFindPassword1Fragment"
             app:destination="@id/accountFindPassword1Fragment"
             app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"/>
+            app:exitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/accountFindPassword3Fragment"
         android:name="com.example.remak.view.account.findPassword.AccountFindPassword3Fragment"
         android:label="find_password3_fragment"
-        tools:layout="@layout/find_password3_fragment" >
+        tools:layout="@layout/find_password3_fragment">
         <action
             android:id="@+id/action_accountFindPassword3Fragment_to_accountFindPassword2Fragment"
             app:destination="@id/accountFindPassword2Fragment"
             app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"/>
+            app:exitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/accountSignUp4Fragment"
@@ -148,7 +148,7 @@
             android:id="@+id/action_accountSignUp4Fragment_to_accountSignUp3Fragment"
             app:destination="@id/accountSignUp3Fragment"
             app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"/>
+            app:exitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/accountEmailSignInFragment"
@@ -159,6 +159,6 @@
             android:id="@+id/action_accountEmailSignInFragment_to_accountMainFragment"
             app:destination="@id/accountMainFragment"
             app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"/>
+            app:exitAnim="@anim/to_right" />
     </fragment>
 </navigation>

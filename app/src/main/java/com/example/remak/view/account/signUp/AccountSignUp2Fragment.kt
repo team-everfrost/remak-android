@@ -46,7 +46,6 @@ class AccountSignUp2Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         val verifyEditTexts = arrayOf(
             binding.verifyCodeEditText1,
             binding.verifyCodeEditText2,
@@ -109,7 +108,6 @@ class AccountSignUp2Fragment : Fragment() {
                                 verifyEditTexts[j].isFocusable = false
                             }
                         }
-
 
                     }
                 }

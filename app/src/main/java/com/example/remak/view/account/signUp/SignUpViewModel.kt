@@ -34,11 +34,9 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     private val _isVerifyCodeValid = MutableLiveData<Boolean?>(null)
     val isVerifyCodeValid: LiveData<Boolean?> = _isVerifyCodeValid
 
-
     init {
         resetData()
     }
-
 
     //이메일 전송 후 확인코드 받는 로직
     fun getVerifyCode(email: String) = viewModelScope.launch {
@@ -80,7 +78,6 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         _isEmailExist.value = false
         _isEmailInvalid.value = false
     }
-
 
     //확인코드 입력 후 검증받는 로직
     fun checkVerifyCode(signupCode: String) = viewModelScope.launch {
@@ -145,7 +142,6 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         }
     }
 
-
     private fun resetData() {
         _userEmail.value = ""
         _userPassword.value = ""
@@ -163,7 +159,6 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     fun setUserPassword(password: String) {
         _userPassword.value = password
     }
-
 
 }
 

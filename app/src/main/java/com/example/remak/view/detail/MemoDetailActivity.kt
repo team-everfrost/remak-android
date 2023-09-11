@@ -34,6 +34,7 @@ class MemoDetailActivity : AppCompatActivity() {
                 UtilityDialog.showWarnDialog(
                     this@MemoDetailActivity,
                     "수정을 취소하시겠습니까?",
+                    "",
                     confirmClick = {
                         endEditMode()
                         binding.memoContent.clearFocus()
@@ -98,6 +99,7 @@ class MemoDetailActivity : AppCompatActivity() {
                         UtilityDialog.showWarnDialog(
                             this,
                             "삭제하시겠습니까?",
+                            "삭제시 복구가 불가능해요",
                             confirmClick = {
                                 viewModel.deleteDocument(memoId)
                                 val resultIntent = Intent()
@@ -134,7 +136,6 @@ class MemoDetailActivity : AppCompatActivity() {
         }
 
         binding.memoContent.addTextChangedListener(textWatcher)
-
 
     }
 
@@ -186,7 +187,6 @@ class MemoDetailActivity : AppCompatActivity() {
         }
     }
 
-
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(editable: Editable?) {
             setFirstLineBold(binding.memoContent)
@@ -196,6 +196,5 @@ class MemoDetailActivity : AppCompatActivity() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
-
 
 }

@@ -6,11 +6,9 @@ class CreateData {
         val content: String,
     )
 
-
     data class MemoResponseBody(
         val message: String,
         val data: MemoData
-
 
     )
 
@@ -54,6 +52,5 @@ class CreateData {
         val updatedAt: String,
         val tags: List<String>
     )
-
 
 }

@@ -1,56 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="24dp"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/backBtn"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@color/white"
-                android:scaleType="fitXY"
-                android:src="@drawable/baseline_arrow_back_ios_24" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@color/white"
+            android:scaleType="fitXY"
+            android:src="@drawable/baseline_arrow_back_ios_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/moreIcon"
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:src="@drawable/baseline_more_horiz_24"
-                android:background="@color/white"/>
-
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/moreIcon"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:background="@color/white"
+            android:src="@drawable/baseline_more_horiz_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/editIcon"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            app:layout_constraintEnd_toStartOf="@id/moreIcon"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/white"
             android:src="@drawable/baseline_edit_24"
-            android:background="@color/white"/>
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/moreIcon"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -62,7 +60,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/whiteGray"
         android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@id/topBar"/>
+        app:layout_constraintTop_toBottomOf="@id/topBar" />
 
 
     <ScrollView
@@ -181,35 +179,31 @@
             </com.facebook.shimmer.ShimmerFrameLayout>
 
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tagRV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"
-                android:visibility="gone"
-                />
-
+                android:visibility="gone" />
 
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/shareBtn"
                 android:layout_width="match_parent"
                 android:layout_height="62dp"
-                android:layout_marginBottom="36dp"
                 android:layout_marginTop="40dp"
-                android:visibility="invisible"
+                android:layout_marginBottom="36dp"
                 android:background="@drawable/custom_ripple_effect_blue_rec"
                 android:gravity="center"
                 android:text="웹 페이지로 이동하기"
                 android:textColor="@color/white"
                 android:textFontWeight="700"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                 />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>

@@ -1,53 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="185dp"
-    android:background="@drawable/custom_dialog_transparent_radius"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/custom_dialog_transparent_radius">
 
 
     <TextView
         android:id="@+id/msgTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
         android:text="정말 삭제하시겠어요?"
-        android:textSize="18sp"
         android:textFontWeight="700"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="27dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/subMsgTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/msgTextView"
-        android:text="삭제시 복구가 불가능해요"
         android:layout_marginTop="9dp"
+        android:text="삭제시 복구가 불가능해요"
+        android:textColor="#757779"
         android:textSize="14sp"
-        android:textColor="#757779"/>
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/msgTextView" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@android:color/transparent"
         android:layout_marginTop="27dp"
+        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@id/subMsgTextView"
-        >
+        app:layout_constraintTop_toTopOf="@id/subMsgTextView">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancelBtn"
             android:layout_width="0dp"
             android:layout_height="58.5dp"
-            android:stateListAnimator="@null"
-            android:elevation="0dp"
             android:background="@drawable/custom_dialog_cancel"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
             android:text="취소하기"
             android:textColor="@color/black"
             android:textFontWeight="700"
@@ -59,24 +57,23 @@
             app:layout_constraintWidth_percent="0.43" />
 
 
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/confirmBtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cancelBtn"
-            android:elevation="0dp"
-            android:stateListAnimator="@null"
             android:layout_width="0dp"
             android:layout_height="58.5dp"
-            app:layout_constraintWidth_percent="0.43"
-            android:background="@drawable/custom_dialog_confirm"
             android:layout_weight="1"
+            android:background="@drawable/custom_dialog_confirm"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
             android:text="삭제하기"
             android:textColor="@color/white"
+            android:textFontWeight="700"
             android:textSize="20sp"
-            android:textFontWeight="700"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cancelBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.43" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

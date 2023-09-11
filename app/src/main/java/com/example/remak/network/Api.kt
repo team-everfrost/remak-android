@@ -1,6 +1,5 @@
 package com.example.remak.network
 
-
 import com.example.remak.network.model.CollectionListData
 import com.example.remak.network.model.CreateData
 import com.example.remak.network.model.DeleteData
@@ -24,7 +23,6 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
-
 
 interface Api {
     //로그인

@@ -5,16 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".view.account.signUp.AccountSignUp3Fragment"
-    >
+    tools:context=".view.account.signUp.AccountSignUp3Fragment">
 
     <androidx.constraintlayout.utils.widget.ImageFilterButton
         android:id="@+id/backButton"
-        android:background="@drawable/custom_ripple_effect"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="15dp"
+        android:background="@drawable/custom_ripple_effect"
         android:backgroundTint="@color/white"
         android:src="@drawable/baseline_arrow_back_ios_24"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,14 +22,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
         android:text="회원가입"
         android:textFontWeight="500"
         android:textSize="18sp"
-        android:layout_marginTop="15dp"/>
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
@@ -40,8 +38,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="63dp"
         android:text="@string/verification_text"
-        android:textSize="20sp"
         android:textFontWeight="500"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backButton" />
 
@@ -49,9 +47,9 @@
         android:id="@+id/verifyCodeLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:cursorVisible="false"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
+        android:cursorVisible="false"
         app:layout_constraintDimensionRatio="H, 1:0.16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,11 +61,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/edit_text_verify_code"
+            android:cursorVisible="false"
             android:gravity="center"
             android:inputType="number"
             android:maxLength="1"
             android:textFontWeight="700"
-            android:cursorVisible="false"
             android:textSize="25sp" />
 
         <EditText
@@ -78,9 +76,9 @@
             android:layout_weight="1"
             android:background="@drawable/edit_text_verify_code"
             android:cursorVisible="false"
+            android:focusable="false"
             android:gravity="center"
             android:inputType="number"
-            android:focusable="false"
             android:maxLength="1"
             android:textFontWeight="700"
             android:textSize="25sp" />
@@ -91,10 +89,10 @@
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:cursorVisible="false"
             android:background="@drawable/edit_text_verify_code"
-            android:gravity="center"
+            android:cursorVisible="false"
             android:focusable="false"
+            android:gravity="center"
             android:inputType="number"
             android:maxLength="1"
             android:textFontWeight="700"
@@ -103,12 +101,12 @@
         <EditText
             android:id="@+id/verifyCodeEditText4"
             android:layout_width="0dp"
-            android:focusable="false"
-            android:cursorVisible="false"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:background="@drawable/edit_text_verify_code"
+            android:cursorVisible="false"
+            android:focusable="false"
             android:gravity="center"
             android:inputType="number"
             android:maxLength="1"
@@ -121,9 +119,9 @@
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
+            android:background="@drawable/edit_text_verify_code"
             android:cursorVisible="false"
             android:focusable="false"
-            android:background="@drawable/edit_text_verify_code"
             android:gravity="center"
             android:inputType="number"
             android:maxLength="1"
@@ -133,12 +131,12 @@
         <EditText
             android:id="@+id/verifyCodeEditText6"
             android:layout_width="0dp"
-            android:focusable="false"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:cursorVisible="false"
             android:background="@drawable/edit_text_verify_code"
+            android:cursorVisible="false"
+            android:focusable="false"
             android:gravity="center"
             android:inputType="number"
             android:maxLength="1"

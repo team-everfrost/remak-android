@@ -14,10 +14,10 @@ object UtilityDialog {
     fun showWarnDialog(
         context: Context,
         getContent: String,
+        getSubContent: String,
         confirmClick: () -> Unit,
         cancelClick: () -> Unit
     ) {
-
 
         val dialog = Dialog(context)
         val window = dialog.window
@@ -52,7 +52,9 @@ object UtilityDialog {
         val confirmBtn = dialog.findViewById<View>(R.id.confirmBtn)
         val cancelBtn = dialog.findViewById<View>(R.id.cancelBtn)
         val content = dialog.findViewById<TextView>(R.id.msgTextView)
+        val subContent = dialog.findViewById<TextView>(R.id.subMsgTextView)
         content.text = getContent
+        subContent.text = getSubContent
 
         confirmBtn.setOnClickListener {
             dialog.dismiss()

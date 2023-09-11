@@ -19,7 +19,6 @@ class AddActivity : AppCompatActivity() {
 
     val binding get() = _binding!!
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         tokenRepository = TokenRepository((application as App).dataStore)
@@ -29,6 +28,5 @@ class AddActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
         navController = navHostFragment.findNavController()
     }
-
 
 }

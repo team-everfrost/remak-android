@@ -64,5 +64,4 @@ class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListen
         TODO("Not yet implemented")
     }
 
-
 }

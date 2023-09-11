@@ -19,7 +19,6 @@ class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private var isListEnd: Boolean = false
     private var isLoadEnd: Boolean = false
 
-
     fun getTagList() = viewModelScope.launch {
         try {
             var response = networkRepository.getTagListData(0)

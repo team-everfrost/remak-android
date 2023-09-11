@@ -10,11 +10,9 @@ import kotlinx.coroutines.flow.first
 
 class SearchHistoryRepository(private val dataStore: DataStore<Preferences>) {
 
-
     object PreferencesKeys {
         val SEARCH_HISTORY = stringPreferencesKey("search_history")
     }
-
 
     fun addSearchHistory(history: String, currentList: List<String>): List<String> {
         val newList = mutableListOf<String>()
@@ -28,7 +26,6 @@ class SearchHistoryRepository(private val dataStore: DataStore<Preferences>) {
 
         return newList
     }
-
 
     // 검색 기록 삭제
     suspend fun deleteSearchQuery(query: String) {
@@ -45,7 +42,6 @@ class SearchHistoryRepository(private val dataStore: DataStore<Preferences>) {
         }
     }
 
-
     // Gson 인스턴스 초기화
     val gson = Gson()
 
@@ -58,7 +54,6 @@ class SearchHistoryRepository(private val dataStore: DataStore<Preferences>) {
     fun jsonToList(json: String): List<String> {
         return gson.fromJson(json, object : TypeToken<List<String>>() {}.type)
     }
-
 
     suspend fun saveSearchHistory(history: String) {
         val currentHistory = fetchSearchHistory()

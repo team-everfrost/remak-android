@@ -9,7 +9,6 @@ import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 class AuthInterceptor(private val tokenRepository: TokenRepository) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
@@ -44,7 +43,6 @@ object RetrofitInstance {
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
 
     fun getInstance(): Retrofit {
         return retrofit

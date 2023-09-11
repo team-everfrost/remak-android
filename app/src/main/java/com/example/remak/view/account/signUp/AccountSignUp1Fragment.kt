@@ -86,7 +86,6 @@ class AccountSignUp1Fragment : Fragment() {
 
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         Log.d("destroy", "onDestroy:")

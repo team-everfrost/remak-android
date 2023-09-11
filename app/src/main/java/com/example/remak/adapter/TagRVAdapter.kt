@@ -32,7 +32,6 @@ class TagRVAdapter(
         }
     }
 
-
     fun getTagName(adapterPosition: Int): String {
         return tagData[adapterPosition].name
     }
@@ -40,7 +39,6 @@ class TagRVAdapter(
     fun getTagCount(adapterPosition: Int): Int {
         return tagData[adapterPosition].count
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagRVViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tag, parent, false)
@@ -65,7 +63,6 @@ class TagRVAdapter(
     }
 
 }
-
 
 class TagItemOffsetDecoration(private val mItemOffset: Int) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(

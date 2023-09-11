@@ -48,7 +48,6 @@ class AccountSignUp3Fragment : Fragment() {
 //            }
 //        }
 
-
         return binding.root
     }
 
@@ -101,6 +100,5 @@ class AccountSignUp3Fragment : Fragment() {
 
         }
     }
-
 
 }

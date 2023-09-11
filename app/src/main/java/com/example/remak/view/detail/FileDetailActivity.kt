@@ -19,7 +19,6 @@ import java.util.TimeZone
 
 class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickListener {
 
-
     private lateinit var extension: String
     private lateinit var binding: DetailPageFileActivityBinding
     private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
@@ -42,7 +41,6 @@ class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
             flexWrap = FlexWrap.WRAP
             flexDirection = FlexDirection.ROW
         }
-
 
         val adapter = LinkTagRVAdapter(listOf(), this)
         binding.tagRV.layoutManager = flexboxLayoutManager
@@ -82,7 +80,7 @@ class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         }
 
         binding.completeBtn.setOnClickListener {
-            UtilityDialog.showWarnDialog(this, "제목을 수정하시겠습니까?", confirmClick = {
+            UtilityDialog.showWarnDialog(this, "제목을 수정하시겠습니까?", "", confirmClick = {
                 binding.titleEditText.isEnabled = false
                 binding.completeBtn.visibility = View.GONE
                 binding.editIcon.visibility = View.VISIBLE
@@ -109,6 +107,5 @@ class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         intent.putExtra("tagName", viewModel.detailData.value!!.tags[position])
         startActivity(intent)
     }
-
 
 }

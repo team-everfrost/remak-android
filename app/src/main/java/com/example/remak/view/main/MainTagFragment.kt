@@ -43,7 +43,6 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = TagRVAdapter(requireActivity(), listOf(), this)
@@ -71,7 +70,6 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
             adapter.notifyDataSetChanged()
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

@@ -2,19 +2,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.main.MainHomeFragment"
-    android:background="@color/backgroundColor"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    tools:context=".view.main.MainHomeFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@color/white"
         android:id="@+id/topLinear"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/white"
         android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -22,68 +22,60 @@
             android:id="@+id/moreIcon"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/white"
             android:src="@drawable/baseline_more_horiz_24"
-            android:background="@color/white"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/deleteBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_delete_24"
-            android:background="@drawable/custom_ripple_effect_white_rectangle"
             android:layout_marginEnd="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/custom_ripple_effect_white_rectangle"
+            android:src="@drawable/baseline_delete_24"
             android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent"/>
-        
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.constraintlayout.utils.widget.ImageFilterView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
             android:src="@drawable/home_logo"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.utils.widget.ImageFilterButton
             android:id="@+id/addBtn"
             android:layout_width="40dp"
             android:layout_height="match_parent"
-            app:layout_constraintEnd_toStartOf="@id/moreIcon"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/white"
             android:src="@drawable/plus_icon"
-            android:background="@color/white"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/moreIcon"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-   
-
-    
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/topLinear"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topLinear">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/homeRV"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-       />
+            android:layout_height="0dp" />
 
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

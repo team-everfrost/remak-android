@@ -110,6 +110,7 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                         UtilityDialog.showWarnDialog(
                             this,
                             "링크를 삭제하시겠습니까?",
+                            "삭제시 복구가 불가능해요",
                             confirmClick = {
                                 viewModel.deleteDocument(linkId)
                                 val resultIntent = Intent()
@@ -165,7 +166,6 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         if (detailData.status != "SCRAPE_PENDING" && detailData.status != "SCRAPE_PROCESSING") {
             showContent(linkData)
         }
-
 
     }
 
@@ -260,7 +260,6 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
 
     }
 
-
     private fun logLongMessage(tag: String, message: String) {
         val maxLogSize = 1000
         for (i in 0..message.length / maxLogSize) {
@@ -276,6 +275,5 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         intent.putExtra("tagName", viewModel.detailData.value!!.tags[position])
         startActivity(intent)
     }
-
 
 }

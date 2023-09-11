@@ -1,6 +1,5 @@
 package com.example.remak.network.model
 
-
 class SignUpData {
 
     data class GetVerifyRequestBody(

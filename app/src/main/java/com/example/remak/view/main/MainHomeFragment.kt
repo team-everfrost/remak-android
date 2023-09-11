@@ -67,6 +67,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
                     val data: Intent? = result.data
                     val isDelete = data?.getBooleanExtra("isDelete", false)
                     if (isDelete == true) {
+                        Log.d("isDelete", isDelete.toString())
                         viewModel.resetScrollData()
                         viewModel.getAllMainList()
                     }
@@ -92,7 +93,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
                 requireActivity().finish()
             }
         }
-
 
         //리사이클러 뷰 무한스크롤 기능
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -134,6 +134,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             UtilityDialog.showWarnDialog(
                 requireContext(),
                 "삭제하시겠습니까?",
+                "삭제시 복구가 불가능해요",
                 confirmClick = {
                     for (i in selectedItems) {
                         viewModel.deleteDocument(i)
@@ -150,8 +151,8 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.addBtn -> {
-                        val intent = Intent(requireContext(), AddActivity::class.java)
-                        startActivity(intent)
+                        val intent = Intent(requireContext(), EditListActivity::class.java)
+                        resultLauncher.launch(intent)
                         true
                     }
 
@@ -163,10 +164,9 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
 
         binding.addBtn.setOnClickListener {
             val intent = Intent(requireContext(), AddActivity::class.java)
-            startActivity(intent)
+            resultLauncher.launch(intent)
         }
     }
-
 
     override fun onItemClick(view: View, position: Int) {
         when (viewModel.mainListData.value!![position].type) {
@@ -222,7 +222,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
     }
 
     fun isRecyclerViewInitialized() = ::recyclerView.isInitialized
-
 
 }
 

@@ -54,7 +54,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
     var runnable: Runnable? = null
     private var isRotating: Boolean = false
 
-
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
             if (runnable != null) {
@@ -103,7 +102,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
         searchHistoryRepository =
             SearchHistoryRepository((requireActivity().application as App).dataStore)
 
-
         //뒤로가기 시 홈 프래그먼트로 이동
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
@@ -115,7 +113,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         val isRotate = savedInstanceState?.getBoolean("isRotate") ?: false
         val searchKeyword = savedInstanceState?.getString("searchKeyword") ?: ""
@@ -203,7 +200,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
             historyAdapter.notifyDataSetChanged()
         }
 
-
         //리사이클러 뷰 무한스크롤 기능
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -229,9 +225,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
             }
         })
 
-
     }
-
 
     //히스토리 버튼 클릭 시
     override fun onItemViewClick(position: Int) {
@@ -285,7 +279,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
                 intent.putExtra("docId", viewModel.searchResult.value!![position].docId)
                 startActivity(intent)
             }
-
 
         }
     }

@@ -21,7 +21,6 @@ class SearchRVAdapter(
     private val itemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
     companion object {
         private const val MEMO = "MEMO"
         private const val FILE = "FILE"
@@ -110,7 +109,6 @@ class SearchRVAdapter(
         fun onItemClick(view: View, position: Int)
 
     }
-
 
     override fun getItemViewType(position: Int): Int = when (dataSet[position].type) {
         MEMO -> MEMO_VIEW_TYPE

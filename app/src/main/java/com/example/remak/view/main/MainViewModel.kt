@@ -200,7 +200,6 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         }
     }
 
-
     fun createMemo(content: String) = viewModelScope.launch {
         try {
             val response = networkRepository.createMemo(content)
@@ -256,7 +255,6 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         _isLogIn.value = tokenRepository.fetchTokenData() != null
     }
 
-
     fun deleteDocument(docId: String) = viewModelScope.launch {
         val response = networkRepository.deleteDocument(docId)
         try {
@@ -270,7 +268,6 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
             Log.d("delete", e.toString())
         }
     }
-
 
     fun resetMainData() {
         isLoadEnd = false
@@ -287,7 +284,6 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         searchDocID = null
         embeddingOffset = null
     }
-
 
 }
 

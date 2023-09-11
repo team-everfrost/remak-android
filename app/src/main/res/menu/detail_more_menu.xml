@@ -4,10 +4,12 @@
     <item
 
         android:id="@+id/shareBtn"
-        android:title="공유"/>
-    <item android:id="@+id/BrowserBtn"
+        android:title="공유" />
+    <item
+        android:id="@+id/BrowserBtn"
         android:title="브라우저 보기" />
-    <item android:id="@+id/deleteBtn"
+    <item
+        android:id="@+id/deleteBtn"
         android:title="삭제" />
 
 

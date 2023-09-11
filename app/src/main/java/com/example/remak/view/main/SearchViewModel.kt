@@ -21,14 +21,12 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
 
     private var isLoadEnd: Boolean = false
 
-
     private val networkRepository = NetworkRepository()
     var searchCursor: String? = null
     var searchDocID: String? = null
     var embeddingOffset: Int? = null
     val isEmbeddingLoading = MutableLiveData<Boolean>().apply { value = false }
     private var lastQuery: String? = null
-
 
     fun getEmbeddingSearchResult(query: String) = viewModelScope.launch {
         lastQuery = query
@@ -117,7 +115,6 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
         isEmbeddingLoading.value = false
     }
 
-
     fun resetSearchData() {
         _searchResult.value = listOf()
         isLoadEnd = false
@@ -125,7 +122,6 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
         searchDocID = null
         embeddingOffset = null
     }
-
 
     fun resetScrollData() {
         isLoadEnd = false

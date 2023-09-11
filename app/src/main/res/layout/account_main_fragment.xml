@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.remak.view.account.signIn.AccountMainFragment"
-    android:background="@color/whiteGray">
+    android:background="@color/whiteGray"
+    tools:context="com.example.remak.view.account.signIn.AccountMainFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,14 +15,14 @@
             android:id="@+id/logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="40dp"
             android:text="REMAK"
-            android:textSize="50sp"
-            android:textFontWeight="700"
             android:textColor="@color/checkBlue"
-            android:layout_marginTop="40dp"/>
+            android:textFontWeight="700"
+            android:textSize="50sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -52,39 +52,38 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@string/email"
-                android:textStyle="bold"
+                android:textSize="10sp"
 
-                android:textSize="10sp"/>
+                android:textStyle="bold" />
 
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/idEditText"
-                android:inputType="textEmailAddress"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_text_round"
                 android:hint="@string/emailHint"
+                android:inputType="textEmailAddress"
                 android:paddingHorizontal="20dp"
                 android:textColorHint="@color/silver"
                 android:textSize="20dp" />
 
             <TextView
-                android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="31dp"
+                android:text="@string/password"
                 android:textSize="10sp"
 
-                android:text="@string/password"
-                />
+                android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/pwEditText"
                 android:layout_width="match_parent"
-                android:layout_marginTop="5dp"
                 android:layout_height="50dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/edit_text_round"
                 android:hint="@string/passwordHint"
                 android:inputType="textPassword"
@@ -98,13 +97,12 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
-                android:stateListAnimator="@null"
-                android:enabled="true"
                 android:background="@drawable/custom_ripple_effect"
+                android:enabled="true"
                 android:gravity="center"
+                android:stateListAnimator="@null"
                 android:text="@string/login"
                 android:textSize="15dp" />
-
 
 
         </LinearLayout>
@@ -128,14 +126,14 @@
                 android:text="@string/forget_password"
                 android:textColor="@color/silver"
                 android:textSize="10sp" />
+
             <TextView
                 android:id="@+id/test"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:text="test"
-                android:textSize="20sp"
-                android:layout_marginLeft="20dp"/>
-
+                android:textSize="20sp" />
 
 
             <TextView
@@ -162,7 +160,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat"
             app:layout_constraintVertical_bias="0.115" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

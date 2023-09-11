@@ -25,5 +25,4 @@ class UpdateData {
         val tags: List<String>
     )
 
-
 }

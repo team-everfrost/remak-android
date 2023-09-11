@@ -33,7 +33,6 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
 
     var isLoadEnd = false
 
-
     fun deleteDocument(docId: String) = viewModelScope.launch {
         try {
             val response = networkRepository.deleteDocument(docId)
@@ -51,7 +50,6 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         try {
             val response = networkRepository.getDetailData(docId)
             if (response.isSuccessful) {
-
 
                 _detailData.value = response.body()!!.data
                 Log.d("success", response.body().toString())
@@ -98,7 +96,6 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                     downloadManager.enqueue(request) //다운로드 시작
                     Toast.makeText(context, "다운로드가 시작되었습니다.", Toast.LENGTH_SHORT).show()
                 }
-
 
             } else {
                 Log.d("fail", response.errorBody().toString())
@@ -174,9 +171,7 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             }
         }
 
-
     }
-
 
     fun resetTagDetailData() {
         _tagDetailData.value = listOf()

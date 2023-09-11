@@ -57,7 +57,6 @@ class SearchHistoryRVAdapter(
 
 }
 
-
 class SearchHistoryItemOffsetDecoration(private val mItemOffset: Int) :
     RecyclerView.ItemDecoration() {
     override fun getItemOffsets(

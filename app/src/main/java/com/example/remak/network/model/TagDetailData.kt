@@ -1,6 +1,5 @@
 package com.example.remak.network.model
 
-
 class TagDetailData {
 
     data class Response(

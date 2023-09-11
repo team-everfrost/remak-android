@@ -11,7 +11,6 @@ class blank : Fragment() {
 
     private lateinit var binding: BlankBinding
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

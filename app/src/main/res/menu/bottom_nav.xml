@@ -2,36 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="홈"
         android:id="@+id/homeFragment"
         android:icon="@drawable/selector_home"
-        />
+        android:title="홈" />
 
     <item
-        android:title="검색"
         android:id="@+id/searchFragment"
         android:icon="@drawable/search_icon"
-        />
+        android:title="검색" />
 
     <item
-        android:title="태그"
         android:id="@+id/tagFragment"
         android:icon="@drawable/selector_tag"
-        />
+        android:title="태그" />
     <item
-        android:title="컬렉션"
         android:id="@+id/collectionFragment"
         android:icon="@drawable/collection_icon"
-        />
+        android:title="컬렉션" />
     <item
-        android:title="내 정보"
         android:id="@+id/profileFragment"
         android:icon="@drawable/profile_icon_unselect"
-        />
-
-
-
-
+        android:title="내 정보" />
 
 
 </menu>

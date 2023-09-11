@@ -17,7 +17,6 @@ class AccountActivity : AppCompatActivity() {
     private lateinit var binding: AccountActivityBinding
     private lateinit var navController: NavController
 
-
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +38,5 @@ class AccountActivity : AppCompatActivity() {
         Log.d("keyHash", "onCreate: $keyHash")
 
     }
-
 
 }

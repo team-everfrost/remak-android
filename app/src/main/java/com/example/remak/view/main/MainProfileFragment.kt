@@ -47,14 +47,16 @@ class MainProfileFragment : Fragment() {
         }
 
         binding.logoutButton.setOnClickListener {
-            UtilityDialog.showWarnDialog(requireContext(), "로그아웃 하시겠습니까?", confirmClick = {
-                viewModel.deleteToken()
-                val intent = Intent(requireContext(), AccountActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(intent)
-            }, cancelClick = {
-                //do nothing
-            })
+            UtilityDialog.showWarnDialog(requireContext(), "로그아웃 하시겠습니까?",
+                "",
+                confirmClick = {
+                    viewModel.deleteToken()
+                    val intent = Intent(requireContext(), AccountActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(intent)
+                }, cancelClick = {
+                    //do nothing
+                })
         }
     }
 

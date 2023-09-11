@@ -11,13 +11,11 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-
 class TokenRepository(private val dataStore: DataStore<Preferences>) {
     object PreferencesKeys {
         val ACCESS_TOKEN = stringPreferencesKey("access_token")
         val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
     }
-
 
     //토큰 정보를 저장하는 함수
     suspend fun saveUser(user: TokenData) {
@@ -34,7 +32,6 @@ class TokenRepository(private val dataStore: DataStore<Preferences>) {
         }
     }
 
-
     //저장된 토큰 정보 가져오기
     suspend fun fetchTokenData(): TokenData? {
         return user.first()
@@ -44,7 +41,6 @@ class TokenRepository(private val dataStore: DataStore<Preferences>) {
     suspend fun checkToken(): Boolean {
         return fetchTokenData() != null
     }
-
 
     //토큰정보를 갖는 변수
     val user: Flow<TokenData?> = dataStore.data

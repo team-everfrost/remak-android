@@ -34,7 +34,6 @@ class AddLinkFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -95,6 +94,5 @@ class AddLinkFragment : Fragment() {
             TODO("현재 프래그먼트 지워지게 처리")
         }
     }
-
 
 }

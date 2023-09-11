@@ -19,7 +19,6 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
     val collectionList: LiveData<List<CollectionListData.Data>> = _collectionList
     private var offset: Int? = null
 
-
     fun getCollectionList() = viewModelScope.launch {
         try {
             val response = networkRepository.getCollectionListData(0)
@@ -39,7 +38,6 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
     }
 
 }
-
 
 class CollectionViewModelFactory(private val tokenRepository: TokenRepository) :
     ViewModelProvider.Factory {

@@ -1,17 +1,16 @@
 <resources>
     <string name="app_name">Remak</string>
 
-    <string name="emailHint"><font size = "14">이메일을 입력해 주세요</font></string>
-    <string name="passwordHint"><font size = "14">비밀번호를 입력해 주세요</font></string>
-    <string name="passwordRepeatHint"><font size = "14">비밀번호를 한번 더 입력해 주세요</font></string>
-    <string name="authNumberHint"><font size = "14">인증번호를 입력해주세요</font></string>
-    <string name="searchHint"><font size = "16">검색어를 입력해주세요</font></string>
+    <string name="emailHint"><font size="14">이메일을 입력해 주세요</font></string>
+    <string name="passwordHint"><font size="14">비밀번호를 입력해 주세요</font></string>
+    <string name="passwordRepeatHint"><font size="14">비밀번호를 한번 더 입력해 주세요</font></string>
+    <string name="authNumberHint"><font size="14">인증번호를 입력해주세요</font></string>
+    <string name="searchHint"><font size="16">검색어를 입력해주세요</font></string>
 
     <string name="verification_text">"%1$s로 발송 된\n인증번호를 입력해주세요"</string>
     <string name="useFirst"><u>처음 이용하시나요?</u></string>
     <string name="email_login"><u>이메일로 로그인하기</u></string>
     <string name="tag_count_text"><font color="#1F8CE6">%1$s개</font></string>
-
 
 
     <string name="navSample">navSample</string>

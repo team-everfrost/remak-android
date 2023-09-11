@@ -23,7 +23,6 @@ import com.example.remak.databinding.TempMainFragmentBinding
 import java.util.Timer
 import java.util.TimerTask
 
-
 class AccountMainFragment : Fragment() {
     private lateinit var binding: TempMainFragmentBinding
     private var bigIconTimer = Timer()
@@ -32,7 +31,6 @@ class AccountMainFragment : Fragment() {
     private lateinit var adapter: TestRVAdapter
     private lateinit var smallIconLayoutManager: LinearLayoutManager
     private lateinit var smallIconAdapter: SmallIconAdapter
-
 
     private val viewModel: SignInViewModel by activityViewModels {
         SignInViewModelFactory(
@@ -46,7 +44,6 @@ class AccountMainFragment : Fragment() {
         "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx",
         "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx"
     )
-
 
     private val smallIconData = listOf(
         listOf("기사", "오늘의 주식 뉴스"),
@@ -165,7 +162,6 @@ class AccountMainFragment : Fragment() {
             }
         }, 0, 10) // 100ms 마다 스크롤 동작 실행
 
-
         binding.emailLoginBtn.setOnClickListener {
             findNavController().navigate(R.id.action_accountMainFragment_to_accountEmailSignInFragment)
         }
@@ -219,7 +215,6 @@ class AccountMainFragment : Fragment() {
             }
         }, 0, 10) // 100ms 마다 스크롤 동작 실행
     }
-
 
 }
 
