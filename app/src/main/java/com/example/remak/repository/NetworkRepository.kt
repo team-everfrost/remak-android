@@ -154,4 +154,8 @@ class NetworkRepository {
         val requestBody = AddDataInCollectionData.RemoveRequestBody(docIds)
         return client.removeDataInCollection(name, requestBody)
     }
+
+    suspend fun deleteCollection(name: String): Response<DeleteData.ResponseBody> {
+        return client.deleteCollection(name)
+    }
 }

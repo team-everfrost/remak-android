@@ -145,4 +145,7 @@ interface Api {
         @Path("name") name: String,
         @Body body: AddDataInCollectionData.RemoveRequestBody
     ): retrofit2.Response<AddDataInCollectionData.RemoveResponse>
+
+    @DELETE("collection/delete/{name}")
+    suspend fun deleteCollection(@Path("name") name: String): retrofit2.Response<DeleteData.ResponseBody>
 }

@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
+import com.example.remak.R
+import com.example.remak.UtilityDialog
 import com.example.remak.adapter.TagDetailItemOffsetDecoration
 import com.example.remak.adapter.TagDetailRVAdapter
 import com.example.remak.dataStore.TokenRepository
@@ -70,18 +72,63 @@ class CollectionDetailActivity : AppCompatActivity(), TagDetailRVAdapter.OnItemC
             adapter.notifyDataSetChanged()
         }
 
+        viewModel.isActionComplete.observe(this) {
+            if (it) {
+                closeActivity()
+            }
+        }
+
         binding.editBtn.setOnClickListener {
             val intent = Intent(this, EditCollectionActivity::class.java)
             intent.putExtra("collectionName", collectionName)
             intent.putExtra("collectionCount", collectionCount)
             resultLauncher.launch(intent)
         }
+
+        binding.moreIcon.setOnClickListener {
+            val popupMenu = android.widget.PopupMenu(this, it)
+            popupMenu.menuInflater.inflate(R.menu.collection_menu, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.editBtn -> {
+
+                        true
+                    }
+
+                    R.id.removeBtn -> {
+                        UtilityDialog.showWarnDialog(
+                            this,
+                            "정말 삭제하시겠어요?",
+                            "삭제시 복구가 불가능해요",
+                            confirmClick = {
+                                viewModel.deleteCollection(collectionName)
+
+                            },
+                            cancelClick = {}
+                        )
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+            popupMenu.show()
+        }
+
         onBackPressedDispatcher.addCallback(this) {
             val resultIntent = Intent()
             resultIntent.putExtra("isChange", true)
             setResult(RESULT_OK, resultIntent)
             finish()
         }
+
+    }
+
+    private fun closeActivity() {
+        val resultIntent = Intent()
+        resultIntent.putExtra("isChange", true)
+        setResult(RESULT_OK, resultIntent)
+        finish()
     }
 
     override fun onItemClick(position: Int) {

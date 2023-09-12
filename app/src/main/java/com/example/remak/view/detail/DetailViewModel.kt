@@ -37,6 +37,9 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     private val _selectedItemsCount = MutableLiveData<Int>()
     val selectedItemsCount: LiveData<Int> = _selectedItemsCount
 
+    private val _isActionComplete = MutableLiveData<Boolean>()
+    val isActionComplete: LiveData<Boolean> = _isActionComplete
+
     private var cursor: String? = null
     private var docId: String? = null
 
@@ -241,6 +244,20 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                 Log.d("removeDataInCollection", e.toString())
             }
         }
+
+    fun deleteCollection(name: String) = viewModelScope.launch {
+        val response = networkRepository.deleteCollection(name)
+        try {
+            if (response.isSuccessful) {
+                Log.d("deleteCollection", response.body().toString())
+            } else {
+                Log.d("fail", "fail")
+            }
+            _isActionComplete.value = true
+        } catch (e: Exception) {
+            Log.d("deleteCollection", e.toString())
+        }
+    }
 
     fun resetTagDetailData() {
         _tagDetailData.value = listOf()
