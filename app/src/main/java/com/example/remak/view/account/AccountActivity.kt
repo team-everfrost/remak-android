@@ -24,11 +24,14 @@ class AccountActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //화면을 상태바까지 확장
-        window.insetsController?.let { controller ->
-            val appearance = WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-            controller.setSystemBarsAppearance(appearance, appearance)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.let { controller ->
+                val appearance = WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                controller.setSystemBarsAppearance(appearance, appearance)
+            }
+            window.setDecorFitsSystemWindows(false)
         }
-        window.setDecorFitsSystemWindows(false)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment

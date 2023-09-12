@@ -20,7 +20,7 @@ class EditListRVAdapter(
     var dataSet: List<MainListData.Data>,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var selectedItemsCount = 0
+    private var selectedItemsCount = 0
 
     companion object {
         private const val MEMO = "MEMO"
@@ -88,8 +88,6 @@ class EditListRVAdapter(
     }
 
     inner class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView = view.findViewById<TextView>(R.id.title)
-        val subject: TextView = view.findViewById(R.id.subject)
         val checkbox: CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
 
         init {
@@ -296,6 +294,10 @@ class EditListRVAdapter(
                 holder.date.text = dataSet[position].header
             }
         }
+    }
+
+    fun getSelectedItemsCount(): Int {
+        return selectedItemsCount
     }
 
     fun getSelectedItems(): ArrayList<String> {

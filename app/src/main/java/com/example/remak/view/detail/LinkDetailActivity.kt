@@ -19,6 +19,7 @@ import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.UtilityDialog
 import com.example.remak.adapter.LinkTagRVAdapter
+import com.example.remak.adapter.SpacingItemDecoration
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageLinkActivityBinding
 import com.example.remak.network.model.DetailData
@@ -57,7 +58,9 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
             flexDirection = FlexDirection.ROW
         }
 
+        val itemDecoration = SpacingItemDecoration(10, 10)
         binding.tagRV.layoutManager = flexboxLayoutManager
+        binding.tagRV.addItemDecoration(itemDecoration)
         binding.tagRV.adapter = adapter
 
         viewModel.detailData.observe(this) {
@@ -138,7 +141,7 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
             popupMenu.show()
         }
 
-        binding.backBtn.setOnClickListener {
+        binding.backButton.setOnClickListener {
             finish()
         }
 
@@ -273,6 +276,8 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
     override fun onItemClick(position: Int) {
         val intent = Intent(this, TagDetailActivity::class.java)
         intent.putExtra("tagName", viewModel.detailData.value!!.tags[position])
+        intent.putExtra("tagCount", viewModel.detailData.value!!.tags.size)
+
         startActivity(intent)
     }
 

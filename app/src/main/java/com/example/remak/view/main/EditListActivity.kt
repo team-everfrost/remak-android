@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
+import com.example.remak.UtilityDialog
 import com.example.remak.adapter.EditListItemOffsetDecoration
 import com.example.remak.adapter.EditListRVAdapter
 import com.example.remak.dataStore.TokenRepository
@@ -62,7 +63,31 @@ class EditListActivity : AppCompatActivity() {
             }
         }
 
+        binding.deleteBtn.setOnClickListener {
+            val selectedItemCount = adapter.getSelectedItemsCount()
+            val selectedItems = adapter.getSelectedItems()
+            Log.d("selectedItemCount", selectedItemCount.toString())
+            if (selectedItemCount != 0) {
+                UtilityDialog.showWarnDialog(this, "${selectedItemCount}개의 정보를 삭제하시겠어요?",
+                    "삭제시 복구가 불가능해요",
+                    confirmClick = {
+                        for (item in selectedItems) {
+                            viewModel.deleteDocument(item)
+                        }
+                    },
+                    cancelClick = {}
+                )
+            }
+        }
+
         onBackPressedDispatcher.addCallback(this) {
+            val resultIntent = Intent()
+            resultIntent.putExtra("isDelete", true)
+            setResult(RESULT_OK, resultIntent)
+            finish()
+        }
+
+        binding.backBtn.setOnClickListener {
             val resultIntent = Intent()
             resultIntent.putExtra("isDelete", true)
             setResult(RESULT_OK, resultIntent)

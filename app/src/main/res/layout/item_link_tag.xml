@@ -8,12 +8,12 @@
         android:id="@+id/tagName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:background="@drawable/item_link_tag_radius_gray"
         android:paddingHorizontal="13.5dp"
         android:paddingVertical="9dp"
         android:text="#Tag1"
-        android:textSize="15.75sp"
+        android:textColor="#646F7C"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

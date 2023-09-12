@@ -118,4 +118,10 @@ interface Api {
     @POST("collection")
     suspend fun createCollection(@Body body: CreateCollectionData.RequestBody): retrofit2.Response<CreateCollectionData.ResponseBody>
 
+    @GET("tag/search")
+    suspend fun getTagSearchData(
+        @Query("query") query: String?,
+        @Query("limit") limit: Int? = 20,
+        @Query("offset") offset: Int?
+    ): retrofit2.Response<TagListData.Response>
 }

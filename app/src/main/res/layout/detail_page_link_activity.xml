@@ -10,19 +10,18 @@
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/backBtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@color/white"
-            android:scaleType="fitXY"
+        <androidx.constraintlayout.utils.widget.ImageFilterButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
             android:src="@drawable/baseline_arrow_back_ios_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,17 +36,6 @@
             android:src="@drawable/baseline_more_horiz_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/editIcon"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:background="@color/white"
-            android:src="@drawable/baseline_edit_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/moreIcon"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -70,27 +58,14 @@
         android:layout_marginHorizontal="20dp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line"
-
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="-8dp">
+        app:layout_constraintTop_toBottomOf="@id/line">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/topBar">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@color/white"
-                android:textColor="@color/black"
-                android:textFontWeight="700"
-                android:textSize="25sp"
-                tools:text="Exploring Kotlin’s Rise and Rutube’s Impack on Online Video Sharing" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -102,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:textColor="@color/whiteGray"
+                    android:textColor="#646F7C"
                     android:textSize="13sp"
                     tools:text="2023.06.13" />
 
@@ -117,6 +92,27 @@
                     android:textSize="13sp"
                     tools:text="www.naver.com" />
             </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:background="@color/white"
+                android:textColor="@color/black"
+                android:textFontWeight="700"
+                android:textSize="25sp"
+                tools:text="Exploring Kotlin’s Rise and Rutube’s Impack on Online Video Sharing" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tagRV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                android:visibility="gone" />
+
 
             <WebView
                 android:id="@+id/webView"
@@ -177,15 +173,6 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.facebook.shimmer.ShimmerFrameLayout>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tagRV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:overScrollMode="never"
-                android:visibility="gone" />
 
 
             <androidx.appcompat.widget.AppCompatButton

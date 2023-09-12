@@ -121,7 +121,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             binding.swipeRefresh.isRefreshing = false
         }
 
-        
+
 
         binding.deleteBtn.setOnClickListener {
             val selectedItems = adapter.getSelectedItems()
@@ -140,7 +140,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         }
 
         binding.moreIcon.setOnClickListener {
-            val popupMenu = PopupMenu(requireContext(), it)
+            val popupMenu = PopupMenu(requireContext(), it, 0, 0, R.style.CustomPopupMenu)
             popupMenu.menuInflater.inflate(R.menu.main_home_menu, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {

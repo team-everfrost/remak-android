@@ -10,7 +10,6 @@ import com.example.remak.network.model.DetailData
 import com.example.remak.network.model.DownloadData
 import com.example.remak.network.model.MainListData
 import com.example.remak.network.model.SearchEmbeddingData
-
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
 import com.example.remak.network.model.TagDetailData
@@ -125,5 +124,9 @@ class NetworkRepository {
     ): Response<CreateCollectionData.ResponseBody> {
         val requestBody = CreateCollectionData.RequestBody(name = name, description = description)
         return client.createCollection(requestBody)
+    }
+
+    suspend fun getTagSearchData(query: String?, offset: Int?): Response<TagListData.Response> {
+        return client.getTagSearchData(query, 20, offset)
     }
 }

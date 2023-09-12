@@ -1,10 +1,10 @@
 package com.example.remak.network.model
 
-class TagListData {
+class TagSearchData {
 
     data class Response(
         val message: String,
-        var data: List<Data>
+        val data: List<Data>
     )
 
     data class Data(

@@ -18,15 +18,13 @@ class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private var offset: Int? = null
     private var isListEnd: Boolean = false
     private var isLoadEnd: Boolean = false
+    private lateinit var lastQuery: String
 
     fun getTagList() = viewModelScope.launch {
         try {
             var response = networkRepository.getTagListData(0)
             if (response.isSuccessful) {
-
                 _tagList.value = response.body()!!.data
-
-
                 offset = 20
             } else {
                 Log.d("tag_list", response.errorBody()!!.string())
@@ -37,7 +35,7 @@ class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     }
 
     fun getNewTagList() = viewModelScope.launch {
-        var tempData = tagList.value?.toMutableList() ?: mutableListOf()
+        val tempData = tagList.value?.toMutableList() ?: mutableListOf()
         if (!isListEnd && !isLoadEnd) {
             isLoadEnd = true
             try {
@@ -48,7 +46,6 @@ class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
                     } else {
                         Log.d("tag_list", offset.toString())
                         for (data in response.body()!!.data) {
-                            data.type = "TAG"
                             tempData.add(data)
                         }
                         offset = offset!! + 20
@@ -66,9 +63,54 @@ class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
         }
     }
 
+    fun getTagSearchResult(query: String) = viewModelScope.launch {
+        lastQuery = query
+        val response = networkRepository.getTagSearchData(query, null)
+        try {
+            if (response.isSuccessful) {
+                _tagList.value = response.body()!!.data
+                Log.d("tag_result", _tagList.value.toString())
+                offset = 20
+            } else {
+                Log.d("tag_result", response.errorBody()!!.string())
+            }
+        } catch (e: Exception) {
+            Log.d("tag_result", e.toString())
+        }
+    }
+
+    fun getNewTagSearchResult() = viewModelScope.launch {
+        val tempDat = tagList.value?.toMutableList() ?: mutableListOf()
+        if (!isListEnd && !isLoadEnd) {
+            isLoadEnd = true
+        }
+        val response = networkRepository.getTagSearchData(lastQuery, offset)
+        try {
+            if (response.isSuccessful) {
+                if (response.body()!!.data.isEmpty()) {
+                    isListEnd = true
+                } else {
+                    for (data in response.body()!!.data) {
+                        tempDat.add(data)
+                    }
+                    offset = offset!! + 20
+                }
+            } else {
+                Log.d("tag_result", response.errorBody()!!.string())
+                isListEnd = true
+            }
+        } catch (e: Exception) {
+            Log.d("tag_result", e.toString())
+            isListEnd = true
+        }
+        _tagList.value = tempDat
+        isLoadEnd = false
+    }
+
     fun resetScrollData() {
         offset = null
         isListEnd = false
+        isLoadEnd = false
     }
 }
 

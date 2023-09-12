@@ -1,5 +1,6 @@
 package com.example.remak.adapter
 
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,5 +40,22 @@ class LinkTagRVAdapter(var tags: List<String>, private val itemClickListener: On
 
     override fun onBindViewHolder(holder: LinkTagRVViewHolder, position: Int) {
         holder.tagName.text = "#${tags[position]}"
+    }
+}
+
+class SpacingItemDecoration(private val horizontalSpacing: Int, private val verticalSpacing: Int) :
+    RecyclerView.ItemDecoration() {
+
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
+        val position = parent.getChildAdapterPosition(view)
+        outRect.right = horizontalSpacing
+        outRect.left = horizontalSpacing
+        outRect.top = verticalSpacing
+        outRect.bottom = verticalSpacing
     }
 }

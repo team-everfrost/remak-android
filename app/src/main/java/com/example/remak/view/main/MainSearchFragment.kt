@@ -63,13 +63,12 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             if (isRotating) {  // 화면 회전 시 로직 건너뛰기
                 isRotating = false  // 플래그 초기화
                 return
             }
-            if (!isHistorySearch) {
+            if (!isHistorySearch) {  //검색기록이 클릭되지 않은 경우
                 runnable = Runnable {
                     if (p0.toString().isNotEmpty()) {
                         viewModel.getTextSearchResult(p0.toString())
@@ -85,7 +84,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
                         binding.historyLayout.visibility = View.VISIBLE
                     }
                 }
-
             }
         }
     }
@@ -107,16 +105,13 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
             (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
             isEnabled = false
         }
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val isRotate = savedInstanceState?.getBoolean("isRotate") ?: false
         val searchKeyword = savedInstanceState?.getString("searchKeyword") ?: ""
-
         binding.searchHistoryRV.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 UtilitySystem.hideKeyboard(requireActivity())
@@ -128,8 +123,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
             binding.searchEditText.removeTextChangedListener(textWatcher)
             binding.searchEditText.setText(searchKeyword)
             binding.searchEditText.addTextChangedListener(textWatcher)
-
-
             binding.searchRecyclerView.visibility = View.VISIBLE
             binding.historyLayout.visibility = View.GONE
         } else {
@@ -155,9 +148,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
         }
 
         handler = Handler(Looper.getMainLooper())
-
         viewModel.getSearchHistory()
-
         binding.searchEditText.requestFocus()
         val imm =
             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -229,6 +220,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
 
     //히스토리 버튼 클릭 시
     override fun onItemViewClick(position: Int) {
+        UtilitySystem.hideKeyboard(requireActivity())
         isHistorySearch = true
         isSearchBtnClicked = true
         binding.searchRecyclerView.visibility = View.GONE
@@ -245,7 +237,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
         binding.searchEditText.addTextChangedListener(textWatcher)
         binding.searchEditText.setSelection(binding.searchEditText.text!!.length)
         binding.searchEditText.clearFocus()
-        UtilitySystem.hideKeyboard(requireActivity())
     }
 
     override fun onDeleteBtnClick(position: Int) {
@@ -271,7 +262,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
                 val intent = Intent(requireContext(), LinkDetailActivity::class.java)
                 intent.putExtra("docId", viewModel.searchResult.value!![position].docId)
                 startActivity(intent)
-
             }
 
             "IMAGE" -> {
@@ -279,7 +269,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
                 intent.putExtra("docId", viewModel.searchResult.value!![position].docId)
                 startActivity(intent)
             }
-
         }
     }
 
@@ -305,7 +294,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean("isRotate", true)
+        outState.putBoolean("isRotate", true) // 화면 회전 시 플래그 true
         outState.putString("searchKeyword", binding.searchEditText.text.toString())
     }
 }

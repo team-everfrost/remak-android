@@ -2,6 +2,10 @@ package com.example.remak.view.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +29,10 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
     private val viewModel: TagViewModel by activityViewModels { TagViewModelFactory(tokenRepository) }
     private lateinit var tokenRepository: TokenRepository
     private lateinit var adapter: TagRVAdapter
+    private var isLiveSearch = false //무한스크롤 구현을 위한 라이브서치 여부
+    var runnable: Runnable? = null
+    private lateinit var handler: Handler
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,6 +56,8 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
         adapter = TagRVAdapter(requireActivity(), listOf(), this)
         binding.tagRV.adapter = adapter
         binding.tagRV.layoutManager = LinearLayoutManager(requireContext())
+        handler = Handler(Looper.getMainLooper())
+
 
         binding.tagRV.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -56,19 +66,47 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
                 val lastVisibleItemCount =
                     (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
                 if (totalItemCount!! <= (lastVisibleItemCount + 5)) {
-                    viewModel.getNewTagList()
+                    if (isLiveSearch) {
+                        viewModel.getNewTagSearchResult()
+                    } else {
+                        viewModel.getNewTagList()
+
+                    }
                 }
             }
         })
 
         val itemDecoration = TagItemOffsetDecoration(30)
         binding.tagRV.addItemDecoration(itemDecoration)
-
         viewModel.getTagList()
         viewModel.tagList.observe(viewLifecycleOwner) {
             adapter.tagData = it
             adapter.notifyDataSetChanged()
         }
+
+        binding.tagSearchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                if (runnable != null) {
+                    handler.removeCallbacks(runnable!!)
+                    handler.postDelayed(runnable!!, 700)
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                runnable = Runnable {
+                    if (p0.toString().isNotEmpty()) {
+                        isLiveSearch = true
+                        viewModel.getTagSearchResult(p0.toString())
+                        viewModel.resetScrollData()
+                    } else {
+                        isLiveSearch = false
+                        viewModel.getTagList()
+                        viewModel.resetScrollData()
+                    }
+                }
+            }
+        })
     }
 
     override fun onDestroy() {

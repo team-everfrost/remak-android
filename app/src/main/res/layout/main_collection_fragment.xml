@@ -88,9 +88,11 @@
             android:layout_marginTop="54dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/small_button_radius"
+            android:backgroundTint="#475161"
             android:elevation="0dp"
             android:stateListAnimator="@null"
             android:text="추가하기"
+            android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
