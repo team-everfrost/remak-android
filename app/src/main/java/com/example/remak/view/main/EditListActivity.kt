@@ -32,7 +32,13 @@ class EditListActivity : AppCompatActivity() {
         binding = EditListPageActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = EditListRVAdapter(mutableListOf())
+        adapter = EditListRVAdapter(mutableListOf()) { isChecked ->
+            if (isChecked) {
+                viewModel.increaseSelectionCount()
+            } else {
+                viewModel.decreaseSelectionCount()
+            }
+        }
         recyclerView = binding.editListRecyclerView
         recyclerView.addItemDecoration(EditListItemOffsetDecoration(20, adapter))
         recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
@@ -64,7 +70,7 @@ class EditListActivity : AppCompatActivity() {
         }
 
         binding.deleteBtn.setOnClickListener {
-            val selectedItemCount = adapter.getSelectedItemsCount()
+            val selectedItemCount = viewModel.selectedItemsCount.value
             val selectedItems = adapter.getSelectedItems()
             Log.d("selectedItemCount", selectedItemCount.toString())
             if (selectedItemCount != 0) {
@@ -74,6 +80,7 @@ class EditListActivity : AppCompatActivity() {
                         for (item in selectedItems) {
                             viewModel.deleteDocument(item)
                         }
+                        viewModel.resetSelectionCount()
                     },
                     cancelClick = {}
                 )

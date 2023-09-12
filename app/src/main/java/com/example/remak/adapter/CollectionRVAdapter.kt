@@ -17,6 +17,12 @@ class CollectionRVAdapter(
     inner class CollectionRVViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<TextView>(R.id.collectionNameText)
         val count: TextView = view.findViewById<TextView>(R.id.collectionCount)
+
+        init {
+            view.setOnClickListener {
+                itemClickListener.onItemClick(adapterPosition)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -57,7 +63,6 @@ class SpacingItemDecorator(private val spacing: Int) : RecyclerView.ItemDecorati
     ) {
         val position = parent.getChildAdapterPosition(view)
         val column = position % 2 // 2는 열의 수입니다.
-
         if (column == 0) {
             outRect.left = spacing
             outRect.right = spacing / 2

@@ -1,5 +1,6 @@
 package com.example.remak.network
 
+import com.example.remak.network.model.AddDataInCollectionData
 import com.example.remak.network.model.CollectionListData
 import com.example.remak.network.model.CreateCollectionData
 import com.example.remak.network.model.CreateData
@@ -124,4 +125,24 @@ interface Api {
         @Query("limit") limit: Int? = 20,
         @Query("offset") offset: Int?
     ): retrofit2.Response<TagListData.Response>
+
+    @GET("document/search/collection")
+    suspend fun getCollectionDetailData(
+        @Query("collectionName") collectionName: String?,
+        @Query("cursor") cursor: String?,
+        @Query("doc-id") docID: String?,
+        @Query("limit") limit: Int? = 20
+    ): retrofit2.Response<TagDetailData.Response>
+
+    @POST("collection/add/{name}")
+    suspend fun addDataInCollection(
+        @Path("name") name: String,
+        @Body body: AddDataInCollectionData.AddRequestBody
+    ): retrofit2.Response<AddDataInCollectionData.AddResponse>
+
+    @PATCH("collection/update/{name}")
+    suspend fun removeDataInCollection(
+        @Path("name") name: String,
+        @Body body: AddDataInCollectionData.RemoveRequestBody
+    ): retrofit2.Response<AddDataInCollectionData.RemoveResponse>
 }

@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="22.5dp"
-        android:text="컬렉션 추가"
+        android:text="컬렉션에 등록"
         android:textFontWeight="700"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"

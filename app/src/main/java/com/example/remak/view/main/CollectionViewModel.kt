@@ -22,6 +22,8 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
     private var offset: Int? = null
     private val _isDuplicateName = MutableLiveData<Boolean?>()
     val isDuplicateName: LiveData<Boolean?> = _isDuplicateName
+    private val _isUpdateComplete = MutableLiveData<Boolean>()
+    val isUpdateComplete: LiveData<Boolean> = _isUpdateComplete
 
     fun getCollectionList() = viewModelScope.launch {
         try {
@@ -59,6 +61,24 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
             Log.d("createCollection", e.toString())
         }
     }
+
+    fun addDataInCollection(collectionName: List<String>, docIds: List<String>) =
+        viewModelScope.launch {
+            for (item in collectionName) {
+                val response = networkRepository.addDataInCollection(item, docIds)
+                Log.d("addDataInCollection", response.toString())
+                try {
+                    if (response.isSuccessful) {
+                        Log.d("addDataInCollection", response.body().toString())
+                    } else {
+                        Log.d("addDataInCollection", response.errorBody()!!.string())
+                    }
+                } catch (e: Exception) {
+                    Log.d("addDataInCollection", e.toString())
+                }
+            }
+            _isUpdateComplete.value = true
+        }
 
     fun resetDuplicateName() {
         _isDuplicateName.value = null

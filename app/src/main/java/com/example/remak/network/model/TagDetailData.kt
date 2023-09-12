@@ -19,6 +19,7 @@ class TagDetailData {
         val createdAt: String?,
         var updatedAt: String?,
         val tags: List<String?>,
+        var isSelected: Boolean = false
     )
 
 }

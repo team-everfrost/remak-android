@@ -1,10 +1,10 @@
 package com.example.remak.adapter
 
-import android.graphics.Rect
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.constraintlayout.utils.widget.ImageFilterView
 import androidx.recyclerview.widget.RecyclerView
@@ -17,16 +17,15 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class TagDetailRVAdapter(
+class EditCollectionRVAdapter(
     var dataSet: List<TagDetailData.Data>,
-    private val itemClickListener: OnItemClickListener
+    private val checkCallback: (Boolean) -> Unit,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         private const val MEMO = "MEMO"
         private const val FILE = "FILE"
         private const val WEBPAGE = "WEBPAGE"
         private const val IMAGE = "IMAGE"
-        private const val DATE = "DATE"
         private const val MEMO_VIEW_TYPE = 1
         private const val FILE_VIEW_TYPE = 0
         private const val WEBPAGE_VIEW_TYPE = 2
@@ -34,14 +33,21 @@ class TagDetailRVAdapter(
         private const val DATE_VIEW_TYPE = 4
     }
 
+    private fun toggleSelection(position: Int, checkbox: CheckBox) {
+        dataSet[position].isSelected = !dataSet[position].isSelected
+        checkbox.isChecked = dataSet[position].isSelected
+        checkCallback(dataSet[position].isSelected)
+    }
+
     inner class MemoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<TextView>(R.id.title)
+        val checkbox: CheckBox = view.findViewById(R.id.checkbox)
 
         init {
             view.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    itemClickListener.onItemClick(position)
+                    toggleSelection(position, checkbox)
                 }
             }
         }
@@ -50,12 +56,13 @@ class TagDetailRVAdapter(
     inner class FileViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<TextView>(R.id.title)
         val subject: TextView = view.findViewById(R.id.subject)
+        val checkbox: CheckBox = view.findViewById(R.id.checkbox)
 
         init {
             view.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    itemClickListener.onItemClick(position)
+                    toggleSelection(position, checkbox)
                 }
             }
         }
@@ -64,24 +71,26 @@ class TagDetailRVAdapter(
     inner class WebpageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.title)
         val link: TextView = view.findViewById(R.id.link)
+        val checkbox: CheckBox = view.findViewById(R.id.checkbox)
 
         init {
             view.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    itemClickListener.onItemClick(position)
+                    toggleSelection(position, checkbox)
                 }
             }
         }
     }
 
     inner class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val checkbox: CheckBox = view.findViewById(R.id.checkbox)
 
         init {
             view.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    itemClickListener.onItemClick(position)
+                    toggleSelection(position, checkbox)
                 }
             }
         }
@@ -136,11 +145,14 @@ class TagDetailRVAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is MemoViewHolder -> { // 메모
-
                 holder.title.text = dataSet[position].content
+                holder.checkbox.visibility = View.VISIBLE //선택모드일때만 보이게
+                holder.checkbox.isChecked = dataSet[position].isSelected
             }
 
             is FileViewHolder -> {
+                holder.checkbox.visibility = View.VISIBLE //선택모드일때만 보이게
+                holder.checkbox.isChecked = dataSet[position].isSelected
                 //날짜 포맷 변경
                 val inputFormatter =
                     DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
@@ -163,6 +175,8 @@ class TagDetailRVAdapter(
 
             is WebpageViewHolder -> {
                 val title = dataSet[position].title!!.replace(" ", "")
+                holder.checkbox.visibility = View.VISIBLE //선택모드일때만 보이게
+                holder.checkbox.isChecked = dataSet[position].isSelected
                 if (title.isNullOrEmpty()) {
                     holder.title.text = dataSet[position].url
                 } else {
@@ -198,25 +212,19 @@ class TagDetailRVAdapter(
             }
 
             is ImageViewHolder -> {
+                holder.checkbox.visibility = View.VISIBLE //선택모드일때만 보이게
+                holder.checkbox.isChecked = dataSet[position].isSelected
                 Glide.with(holder.itemView.context)
                     .load(dataSet[position].url)
                     .into(holder.itemView.findViewById(R.id.imageView))
-
             }
         }
     }
 
-}
-
-class TagDetailItemOffsetDecoration(private val mItemOffset: Int) : RecyclerView.ItemDecoration() {
-    override fun getItemOffsets(
-        outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
-    ) {
-        super.getItemOffsets(outRect, view, parent, state)
-        outRect.top = mItemOffset
-        // Add top margin only for the first item to avoid double space between items
-        if (parent.getChildAdapterPosition(view) == 0) {
-            outRect.top = mItemOffset
-        }
+    fun getSelectedItems(): ArrayList<String> {
+        // 체크된 아이템들의 docId를 반환
+        val selectedItems = dataSet.filter { it.isSelected }.mapNotNull { it.docId }
+        return ArrayList(selectedItems)
     }
+
 }

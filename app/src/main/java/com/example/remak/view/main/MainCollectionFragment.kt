@@ -3,6 +3,7 @@ package com.example.remak.view.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.example.remak.adapter.SpacingItemDecorator
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainCollectionFragmentBinding
 import com.example.remak.view.add.AddCollectionActivity
+import com.example.remak.view.detail.CollectionDetailActivity
 
 class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListener {
     private lateinit var binding: MainCollectionFragmentBinding
@@ -44,8 +46,9 @@ class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListen
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
+                    Log.d("result", result.toString())
                     val data: Intent? = result.data
-                    val isDelete = data?.getBooleanExtra("isChange", false)
+                    val isDelete = data?.getBooleanExtra("isChange", true)
                     if (isDelete == true) {
                         viewModel.getCollectionList()
                     }
@@ -77,10 +80,18 @@ class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListen
             resultLauncher.launch(intent)
         }
 
+        binding.addCollectionButton.setOnClickListener {
+            val intent = Intent(requireContext(), AddCollectionActivity::class.java)
+            resultLauncher.launch(intent)
+        }
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        Log.d("position", position.toString())
+        val intent = Intent(requireContext(), CollectionDetailActivity::class.java)
+        intent.putExtra("collectionName", viewModel.collectionList.value!![position].name)
+        intent.putExtra("collectionCount", viewModel.collectionList.value!![position].count)
+        resultLauncher.launch(intent)
     }
 
 }

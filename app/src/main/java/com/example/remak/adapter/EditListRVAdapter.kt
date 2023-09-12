@@ -18,6 +18,7 @@ import java.util.Locale
 
 class EditListRVAdapter(
     var dataSet: List<MainListData.Data>,
+    private val checkCallback: (Boolean) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var selectedItemsCount = 0
@@ -38,6 +39,7 @@ class EditListRVAdapter(
     private fun toggleSelection(position: Int, checkbox: CheckBox) {
         dataSet[position].isSelected = !dataSet[position].isSelected
         checkbox.isChecked = dataSet[position].isSelected
+        checkCallback(dataSet[position].isSelected)
         selectedItemsCount =
             if (checkbox.isChecked) selectedItemsCount + 1 else selectedItemsCount - 1
     }

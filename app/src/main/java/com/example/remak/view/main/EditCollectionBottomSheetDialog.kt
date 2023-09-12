@@ -68,9 +68,23 @@ class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
             adapter.notifyDataSetChanged()
         }
 
+        viewModel.isUpdateComplete.observe(this) {
+            if (it) {
+                this.dismiss()
+            }
+        }
+
         binding.completeBtn.setOnClickListener {
+            val selectedItems = adapter.getSelectedItem()
+            if (selectedItems.isNotEmpty()) {
+                viewModel.addDataInCollection(selectedItems, checkedDocuments!!.toList())
+
+            } else {
+                this.dismiss()
+            }
             Log.d("collection", adapter.getSelectedItem().toString())
             Log.d("collection", checkedDocuments.toString())
+
         }
 
         binding.closeBtn.setOnClickListener {

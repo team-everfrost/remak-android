@@ -41,6 +41,9 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
     private val _isWebPageCreateSuccess = MutableLiveData<Boolean>()
     val isWebPageCreateSuccess: LiveData<Boolean> = _isWebPageCreateSuccess
 
+    private val _selectedItemsCount = MutableLiveData<Int>()
+    val selectedItemsCount: LiveData<Int> = _selectedItemsCount
+
     private var isLoadEnd: Boolean = false
 
     var cursor: String? = null
@@ -269,6 +272,10 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         }
     }
 
+    fun resetSelectionCount() {
+        _selectedItemsCount.value = 0
+    }
+
     fun resetMainData() {
         isLoadEnd = false
         cursor = null
@@ -283,6 +290,14 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         searchCursor = null
         searchDocID = null
         embeddingOffset = null
+    }
+
+    fun increaseSelectionCount() {
+        _selectedItemsCount.value = (_selectedItemsCount.value ?: 0) + 1
+    }
+
+    fun decreaseSelectionCount() {
+        _selectedItemsCount.value = (_selectedItemsCount.value ?: 0) - 1
     }
 
 }

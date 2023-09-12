@@ -99,6 +99,14 @@
             android:name=".view.add.AddCollectionActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".view.detail.CollectionDetailActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".view.main.EditCollectionActivity"
+            android:exported="true" />
+
 
     </application>
 

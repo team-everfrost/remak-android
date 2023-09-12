@@ -2,6 +2,7 @@ package com.example.remak.repository
 
 import com.example.remak.network.Api
 import com.example.remak.network.RetrofitInstance
+import com.example.remak.network.model.AddDataInCollectionData
 import com.example.remak.network.model.CollectionListData
 import com.example.remak.network.model.CreateCollectionData
 import com.example.remak.network.model.CreateData
@@ -128,5 +129,29 @@ class NetworkRepository {
 
     suspend fun getTagSearchData(query: String?, offset: Int?): Response<TagListData.Response> {
         return client.getTagSearchData(query, 20, offset)
+    }
+
+    suspend fun getCollectionDetailData(
+        collectionName: String?,
+        cursor: String?,
+        docId: String?
+    ): Response<TagDetailData.Response> {
+        return client.getCollectionDetailData(collectionName, cursor, docId)
+    }
+
+    suspend fun addDataInCollection(
+        name: String,
+        docIds: List<String>
+    ): Response<AddDataInCollectionData.AddResponse> {
+        val requestBody = AddDataInCollectionData.AddRequestBody(docIds)
+        return client.addDataInCollection(name, requestBody)
+    }
+
+    suspend fun removeDataInCollection(
+        name: String,
+        docIds: List<String>
+    ): Response<AddDataInCollectionData.RemoveResponse> {
+        val requestBody = AddDataInCollectionData.RemoveRequestBody(docIds)
+        return client.removeDataInCollection(name, requestBody)
     }
 }
