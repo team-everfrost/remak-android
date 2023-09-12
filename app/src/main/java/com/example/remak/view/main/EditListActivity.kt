@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
 import com.example.remak.UtilityDialog
@@ -41,9 +42,23 @@ class EditListActivity : AppCompatActivity() {
         }
         recyclerView = binding.editListRecyclerView
         recyclerView.addItemDecoration(EditListItemOffsetDecoration(20, adapter))
-        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
         viewModel.getAllMainList()
+
+        //리사이클러 뷰 무한스크롤 기능
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val totalItemCount = recyclerView.layoutManager?.itemCount
+                val lastVisibleItemCount =
+                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+
+                if (!viewModel.isLoading.value!! && totalItemCount!! <= (lastVisibleItemCount + 5)) {
+                    viewModel.getNewMainList()
+                }
+            }
+        })
 
 
         viewModel.mainListData.observe(this) { data ->

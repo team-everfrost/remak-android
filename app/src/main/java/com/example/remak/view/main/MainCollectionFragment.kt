@@ -70,6 +70,8 @@ class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListen
         recyclerView.addItemDecoration(SpacingItemDecorator(30))
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
+
+
         viewModel.collectionList.observe(viewLifecycleOwner) {
             adapter.collectionData = it
             adapter.notifyDataSetChanged()
