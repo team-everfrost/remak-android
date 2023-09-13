@@ -1,6 +1,8 @@
 package com.example.remak.view.add
 
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -27,6 +29,13 @@ class AddActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
         navController = navHostFragment.findNavController()
+
+        onBackPressedDispatcher.addCallback(this) {
+            val resultIntent = Intent()
+            resultIntent.putExtra("isDelete", true)
+            setResult(RESULT_OK, resultIntent)
+            finish()
+        }
     }
 
 }

@@ -1,7 +1,11 @@
 package com.example.remak.view.main
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.view.WindowManager
+import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -47,9 +51,14 @@ class EditCollectionActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         viewModel.getCollectionDetailData(collectionName!!)
         viewModel.collectionDetailData.observe(this) { data ->
-            binding.collectionName.text = "${collectionName} (${data.size})"
+//            binding.collectionName.text = "${collectionName} (${data.size})"
+            setTruncatedText(
+                collectionName,
+                data.size,
+                binding.collectionName,
+                get70PercentScreenWidth(this)
+            )
             adapter.dataSet = data
-
             adapter.notifyDataSetChanged()
 
         }
@@ -81,6 +90,39 @@ class EditCollectionActivity : AppCompatActivity() {
             resultIntent.putExtra("isChange", true)
             setResult(RESULT_OK, resultIntent)
             finish()
+        }
+    }
+
+    private fun setTruncatedText(name: String, count: Int, textView: TextView, maxWidth: Float) {
+        val suffix = "($count)"
+        var finalText = "$name $suffix"
+
+        // 문자열이 TextView의 최대 너비보다 큰지 확인
+        if (textView.paint.measureText(finalText) > maxWidth) {
+            // "..."와 개수(suffix)의 길이를 포함하여 이름을 줄입니다.
+            var truncatedName = name
+            while (textView.paint.measureText("$truncatedName... $suffix") > maxWidth && truncatedName.isNotEmpty()) {
+                truncatedName = truncatedName.dropLast(1)
+            }
+            finalText = "$truncatedName... $suffix"
+        }
+
+        textView.text = finalText
+    }
+
+    private fun get70PercentScreenWidth(context: Context): Float {
+        if (android.os.Build.VERSION.SDK_INT < 30) {
+            val windowManager =
+                context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val display = windowManager.defaultDisplay
+            val size = DisplayMetrics()
+            display.getMetrics(size)
+            val x = (size.widthPixels * 0.7).toInt()
+            return x.toFloat()
+        } else {
+            val rect = windowManager.currentWindowMetrics.bounds
+            val x = (rect.width() * 0.7).toInt()
+            return x.toFloat()
         }
     }
 

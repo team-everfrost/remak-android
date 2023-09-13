@@ -17,6 +17,9 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_addFragment_to_addLoadingFragment"
+            app:destination="@id/addLoadingFragment" />
     </fragment>
     <fragment
         android:id="@+id/addLinkFragment"
@@ -28,5 +31,16 @@
             app:destination="@id/addFragment"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/addLoadingFragment"
+        android:name="com.example.remak.view.add.AddLoadingFragment"
+        android:label="AddLoadingFragment"
+        tools:layout="@layout/loading_upload_fragment">
+        <action
+            android:id="@+id/action_addLoadingFragment_to_addFragment"
+            app:destination="@id/addFragment"
+            app:popUpTo="@id/addFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

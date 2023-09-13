@@ -20,10 +20,13 @@ class ShareReceiverActivity : AppCompatActivity() {
             if (it) {
                 Toast.makeText(this, "Remak에 저장했습니다.", Toast.LENGTH_SHORT).show()
                 finish()
+            } else {
+                Toast.makeText(this, "Remak에 저장하는데 실패했습니다.", Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
 
-        if (Intent.ACTION_SEND == intent.action && intent.type != null) {
+        if (Intent.ACTION_SEND == intent.action && intent.type != null) { // 공유하기로 들어온 경우
             if ("text/plain" == intent.type) {
                 val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
                 if (sharedText != null) {

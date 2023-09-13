@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -86,14 +87,25 @@ class AddFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.uploadFileSuccess.observe(viewLifecycleOwner) { isSuccessful ->
-            if (isSuccessful) {
-                UtilityDialog.showInformDialog(
-                    "파일 업로드에 성공했습니다.",
-                    "",
-                    requireContext(),
-                    confirmClick = {})
-                viewModel.resetUploadFileSuccess()
+//        viewModel.uploadFileSuccess.observe(viewLifecycleOwner) { isSuccessful ->
+//            if (isSuccessful) {
+//                UtilityDialog.showInformDialog(
+//                    "파일 업로드에 성공했습니다.",
+//                    "",
+//                    requireContext(),
+//                    confirmClick = {})
+//                viewModel.resetUploadFileSuccess()
+//            }
+//        }
+
+        viewModel.uploadState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                UploadState.LOADING -> {
+                    Log.d("loading", "loading")
+                    findNavController().navigate(R.id.action_addFragment_to_addLoadingFragment)
+                }
+
+                else -> {}
             }
         }
 
@@ -124,6 +136,8 @@ class AddFragment : Fragment() {
             val intent = Intent(activity, CreateMemoActivity::class.java)
             startActivity(intent)
         }
+
+        //뒤로가기버튼재정의
 
     }
 

@@ -17,6 +17,9 @@ class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private val _uploadFileSuccess = MutableLiveData<Boolean>()
     val uploadFileSuccess: LiveData<Boolean> = _uploadFileSuccess
 
+    private val _uploadState = MutableLiveData<UploadState>()
+    val uploadState: LiveData<UploadState> = _uploadState
+
     fun createWebPage(url: String) = viewModelScope.launch {
         try {
             val response = networkRepository.createWebPage(url)
@@ -33,12 +36,14 @@ class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
 
     /** 파일 업로드 */
     fun uploadFile(files: List<MultipartBody.Part>) = viewModelScope.launch {
+        _uploadState.value = UploadState.LOADING
         try {
             val response = networkRepository.uploadFile(files)
             Log.d("file", files.toString())
             if (response.isSuccessful) {
                 Log.d("success", response.body().toString())
                 _uploadFileSuccess.value = true
+                _uploadState.value = UploadState.SUCCESS
 
             } else {
                 Log.d("fail", response.errorBody()?.string()!!)
@@ -64,4 +69,8 @@ class AddViewModelFactory(private val tokenRepository: TokenRepository) :
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
+}
+
+enum class UploadState {
+    LOADING, SUCCESS, FAIL
 }

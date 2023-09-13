@@ -43,7 +43,6 @@ object UtilityDialog {
             window.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
         } else {
             val rect = windowManager.currentWindowMetrics.bounds
-
             val window = dialog.window
             window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val x = (rect.width() * 0.85).toInt()

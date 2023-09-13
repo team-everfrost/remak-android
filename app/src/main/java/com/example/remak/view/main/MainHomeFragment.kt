@@ -121,8 +121,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             binding.swipeRefresh.isRefreshing = false
         }
 
-
-
         binding.deleteBtn.setOnClickListener {
             val selectedItems = adapter.getSelectedItems()
             UtilityDialog.showWarnDialog(
