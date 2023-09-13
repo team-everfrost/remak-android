@@ -111,7 +111,6 @@ class CollectionDetailActivity : AppCompatActivity(), TagDetailRVAdapter.OnItemC
                             "삭제시 복구가 불가능해요",
                             confirmClick = {
                                 viewModel.deleteCollection(collectionName)
-
                             },
                             cancelClick = {}
                         )

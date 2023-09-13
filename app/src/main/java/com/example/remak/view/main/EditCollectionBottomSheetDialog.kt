@@ -1,5 +1,7 @@
 package com.example.remak.view.main
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -70,7 +72,10 @@ class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
 
         viewModel.isUpdateComplete.observe(this) {
             if (it) {
-                this.dismiss()
+                val resultIntent = Intent()
+                resultIntent.putExtra("isDelete", true)
+                requireActivity().setResult(Activity.RESULT_OK, resultIntent)
+                requireActivity().finish()
             }
         }
 

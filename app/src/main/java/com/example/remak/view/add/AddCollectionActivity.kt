@@ -90,11 +90,19 @@ class AddCollectionActivity : AppCompatActivity() {
         })
 
         binding.completeBtn.setOnClickListener {
-            viewModel.createCollection(
-                binding.collectionNameEditText.text.toString(),
-                binding.collectionDescriptionText.text.toString()
-            )
-
+            if (binding.collectionNameEditText.text.isNotBlank()) {
+                viewModel.createCollection(
+                    binding.collectionNameEditText.text.toString(),
+                    binding.collectionDescriptionText.text.toString()
+                )
+            } else {
+                UtilityDialog.showInformDialog(
+                    "컬렉션 이름을 입력해주세요.",
+                    "빈 이름은 사용할 수 없어요",
+                    this,
+                    confirmClick = {}
+                )
+            }
         }
     }
 

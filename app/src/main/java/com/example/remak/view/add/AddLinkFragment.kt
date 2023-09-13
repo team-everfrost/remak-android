@@ -1,5 +1,7 @@
 package com.example.remak.view.add
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -36,6 +38,15 @@ class AddLinkFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.isActionComplete.observe(viewLifecycleOwner) {
+            if (it) {
+                val resultIntent = Intent()
+                resultIntent.putExtra("isDelete", true)
+                requireActivity().setResult(Activity.RESULT_OK, resultIntent)
+                requireActivity().finish()
+            }
+        }
 
         binding.addLinkEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -86,12 +97,11 @@ class AddLinkFragment : Fragment() {
                     viewModel.createWebPage(url)
                 }
             }
-            requireActivity().finish()
+
         }
 
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_addLinkFragment_to_addFragment)
-            TODO("현재 프래그먼트 지워지게 처리")
         }
     }
 

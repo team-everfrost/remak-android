@@ -88,7 +88,7 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
             override fun afterTextChanged(p0: Editable?) {
                 if (runnable != null) {
                     handler.removeCallbacks(runnable!!)
-                    handler.postDelayed(runnable!!, 700)
+                    handler.postDelayed(runnable!!, 500)
                 }
             }
 

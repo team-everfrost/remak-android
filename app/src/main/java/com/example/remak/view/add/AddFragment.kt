@@ -137,10 +137,15 @@ class AddFragment : Fragment() {
             startActivity(intent)
         }
 
-        //뒤로가기버튼재정의
-
+        binding.backButton.setOnClickListener {
+            val resultIntent = Intent()
+            resultIntent.putExtra("isDelete", true)
+            requireActivity().setResult(Activity.RESULT_OK, resultIntent)
+            requireActivity().finish()
+        }
     }
 
+    /**/
     //uri에서 파일 가져오기
     private fun inputStreamToFile(inputStream: InputStream, uri: Uri): File {
         val fileName = getFileNameFromUri(uri)

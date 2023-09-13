@@ -20,6 +20,9 @@ class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private val _uploadState = MutableLiveData<UploadState>()
     val uploadState: LiveData<UploadState> = _uploadState
 
+    private val _isActionComplete = MutableLiveData<Boolean>()
+    val isActionComplete: LiveData<Boolean> = _isActionComplete
+
     fun createWebPage(url: String) = viewModelScope.launch {
         try {
             val response = networkRepository.createWebPage(url)
@@ -29,6 +32,8 @@ class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
             } else {
                 Log.d("fail", response.errorBody()?.string()!!)
             }
+            _isActionComplete.value = true
+
         } catch (e: Exception) {
             Log.d("networkError", e.toString())
         }
