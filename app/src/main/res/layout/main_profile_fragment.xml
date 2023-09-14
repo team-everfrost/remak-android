@@ -4,191 +4,140 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/backgroundColor"
     tools:context=".view.main.MainHomeFragment">
 
-    <RelativeLayout
-        android:id="@+id/topLinear"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:gravity="center_vertical"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/myProfileText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="54dp"
+        android:text="내 정보"
+        android:textFontWeight="700"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:text="RipAGU님"
-            android:textFontWeight="500"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="91dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/small_button_radius"
+        android:backgroundTint="#475161"
+        android:elevation="0dp"
+        android:stateListAnimator="@null"
+        android:text="프로필 편집"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/myProfileText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/myProfileText" />
 
-
-    </RelativeLayout>
-
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/whiteGray"
-        app:layout_constraintTop_toBottomOf="@id/topLinear" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
+        android:layout_marginTop="27dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@id/divider">
-
+        app:layout_constraintTop_toBottomOf="@id/myProfileText"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="84dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_marginHorizontal="16dp"
             android:orientation="vertical"
             app:layout_constraintTop_toTopOf="@id/divider">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/storageConstraint"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider">
+                android:layout_height="58dp">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/storageLinear"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toStartOf="@id/subsButton"
-                    app:layout_constraintHorizontal_weight="0.66"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/storage"
-                        android:textColor="@color/checkBlue"
-                        android:textFontWeight="800"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="1/20GB(5%)사용"
-                        android:textFontWeight="600"
-                        android:textSize="15sp" />
-
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/subsButton"
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:text="@string/subscribe"
-                    android:textFontWeight="600"
-                    android:textSize="20sp"
+                    android:text="이용약관"
+                    android:textFontWeight="500"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="0.34"
-                    app:layout_constraintStart_toEndOf="@id/storageLinear"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <androidx.constraintlayout.utils.widget.ImageFilterView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/right_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <TextView
-                android:id="@+id/optionText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:text="옵션"
-                android:textColor="@color/checkBlue"
-                android:textFontWeight="800"
-                android:textSize="15sp" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/alertSettingButton"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/custom_ripple_effect_transparent"
-                android:gravity="start|center_vertical"
-                android:paddingStart="10dp"
-                android:text="알림설정"
-                android:textFontWeight="700"
+                android:layout_height="1dp"
+                android:background="#E6E8EB" />
 
-                android:textSize="14sp" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/emailChangeButton"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/custom_ripple_effect_transparent"
-                android:gravity="start|center_vertical"
-                android:paddingStart="10dp"
-                android:text="이메일 변경"
-                android:textFontWeight="700"
-                android:textSize="14sp" />
+                android:layout_height="58dp">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/termsOfServiceButton"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/custom_ripple_effect_transparent"
-                android:gravity="start|center_vertical"
-                android:paddingStart="10dp"
-                android:text="이용약관"
-                android:textFontWeight="700"
-                android:textSize="14sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="개인정보처리방침"
+                    android:textFontWeight="500"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/privacyPolicyButton"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/custom_ripple_effect_transparent"
-                android:gravity="start|center_vertical"
-                android:paddingStart="10dp"
-                android:text="개인정보처리방침"
-                android:textFontWeight="700"
-                android:textSize="14sp" />
+                <androidx.constraintlayout.utils.widget.ImageFilterView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/right_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/logoutButton"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/custom_ripple_effect_transparent"
-                android:gravity="start|center_vertical"
-                android:paddingStart="10dp"
-                android:text="로그아웃"
-                android:textFontWeight="700"
-                android:textSize="14sp" />
+                android:layout_height="1dp"
+                android:background="#E6E8EB" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/withdrawalButton"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/custom_ripple_effect_transparent"
-                android:gravity="start|center_vertical"
-                android:paddingStart="10dp"
-                android:text="회원탈퇴"
-                android:textFontWeight="700"
-                android:textSize="14sp" />
+                android:layout_height="58dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="앱버전"
+                    android:textFontWeight="500"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.0.0(최신)"
+                    android:textColor="#646F7C"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E6E8EB" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
