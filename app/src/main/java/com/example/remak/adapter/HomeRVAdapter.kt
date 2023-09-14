@@ -92,6 +92,7 @@ class HomeRVAdapter(
 
     inner class MemoViewHolder(view: View) : RecyclerView.ViewHolder(view) { // 메모 아이템 뷰홀더
         val title: TextView = view.findViewById<TextView>(R.id.title)
+        val date: TextView = view.findViewById(R.id.dateText)
         val checkbox: CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
 
         init {
@@ -246,33 +247,20 @@ class HomeRVAdapter(
         when (holder) {
             is MemoViewHolder -> { // 메모
                 holder.title.text = dataSet[position].content
+                holder.date.text = "메모 | ${dateSetting(position)}"
                 holder.checkbox.visibility =
                     if (isInSelectionMode) View.VISIBLE else View.GONE //선택모드일때만 보이게
                 holder.checkbox.isChecked = dataSet[position].isSelected //선택된 아이템이면 체크박스 체크
             }
 
             is FileViewHolder -> {
-                //날짜 포맷 변경
-                val inputFormatter =
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
-                val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
-
-                val dateTime = ZonedDateTime.parse(dataSet[position].updatedAt, inputFormatter)
-                val outputDateStr = dateTime.format(outputFormatter)
-
-                val text =
-                    holder.itemView.context.getString(R.string.filetype_date, "PDF", outputDateStr)
-
                 // .앞에 있는 파일 이름만 가져오기
                 val title = dataSet[position].title!!.substringBeforeLast(".")
                 val summary = dataSet[position].summary
-
                 holder.title.text = title//제목
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
-
                 when (dataSet[position].status!!) {
-
                     "EMBED_PENDING" -> {
                         holder.subject.text = "AI가 곧 자료를 요약할거에요."
                     }
@@ -296,7 +284,6 @@ class HomeRVAdapter(
                         } else {
                             holder.subject.text = ""
                         }
-
                     }
                 }
             }
@@ -385,6 +372,14 @@ class HomeRVAdapter(
                 holder.date.text = dataSet[position].header
             }
         }
+    }
+
+    private fun dateSetting(position: Int): String {
+        val inputFormatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
+        val dateTime = ZonedDateTime.parse(dataSet[position].updatedAt, inputFormatter)
+        return dateTime.format(outputFormatter)
     }
 
     fun getItem(position: Int): MainListData.Data {

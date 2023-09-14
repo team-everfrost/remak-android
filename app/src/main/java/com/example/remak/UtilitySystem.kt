@@ -22,5 +22,4 @@ object UtilitySystem {
             inputManager.showSoftInput(currentFocusView, InputMethodManager.SHOW_IMPLICIT)
         }
     }
-
 }

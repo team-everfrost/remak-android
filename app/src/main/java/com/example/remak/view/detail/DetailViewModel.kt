@@ -247,7 +247,7 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
 
     fun deleteCollection(name: String) = viewModelScope.launch {
 
-    val response = networkRepository.deleteCollection(name)
+        val response = networkRepository.deleteCollection(name)
         try {
             if (response.isSuccessful) {
                 Log.d("deleteCollection", response.body().toString())

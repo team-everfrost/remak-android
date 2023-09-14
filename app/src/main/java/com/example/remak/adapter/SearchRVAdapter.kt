@@ -13,6 +13,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.remak.R
 import com.example.remak.network.model.SearchEmbeddingData
 import java.text.SimpleDateFormat
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import java.util.TimeZone
 
@@ -39,6 +41,7 @@ class SearchRVAdapter(
 
     inner class MemoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.title)
+        val date: TextView = view.findViewById(R.id.dateText)
 
         init {
             view.setOnClickListener {
@@ -65,10 +68,6 @@ class SearchRVAdapter(
                     itemClickListener.onItemClick(it, position)
                 }
             }
-//            val position = adapterPosition
-//            view.setOnClickListener {
-//                itemClickListener.onItemClick(it, position)
-//            }
         }
     }
 
@@ -98,10 +97,6 @@ class SearchRVAdapter(
                     itemClickListener.onItemClick(it, position)
                 }
             }
-//            val position = adapterPosition
-//            view.setOnClickListener {
-//                itemClickListener.onItemClick(it, position)
-//            }
         }
     }
 
@@ -156,7 +151,7 @@ class SearchRVAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is MemoViewHolder -> { // 메모
-                Log.d("data", dataSet[position].toString())
+                holder.date.text = "메모 | ${dateSetting(position)}"
                 holder.title.text = dataSet[position].content
             }
 
@@ -212,6 +207,14 @@ class SearchRVAdapter(
                 }
             }
         }
+    }
+
+    private fun dateSetting(position: Int): String {
+        val inputFormatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
+        val dateTime = ZonedDateTime.parse(dataSet[position].updatedAt, inputFormatter)
+        return dateTime.format(outputFormatter)
     }
 
     fun getItem(position: Int): SearchEmbeddingData.Data {

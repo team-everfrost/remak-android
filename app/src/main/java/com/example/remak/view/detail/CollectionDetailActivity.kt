@@ -123,6 +123,13 @@ class CollectionDetailActivity : AppCompatActivity(), TagDetailRVAdapter.OnItemC
             popupMenu.show()
         }
 
+        binding.backButton.setOnClickListener {
+            val resultIntent = Intent()
+            resultIntent.putExtra("isChange", true)
+            setResult(RESULT_OK, resultIntent)
+            finish()
+        }
+
         onBackPressedDispatcher.addCallback(this) {
             val resultIntent = Intent()
             resultIntent.putExtra("isChange", true)

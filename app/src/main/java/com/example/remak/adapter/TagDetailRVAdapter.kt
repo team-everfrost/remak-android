@@ -26,16 +26,15 @@ class TagDetailRVAdapter(
         private const val FILE = "FILE"
         private const val WEBPAGE = "WEBPAGE"
         private const val IMAGE = "IMAGE"
-        private const val DATE = "DATE"
         private const val MEMO_VIEW_TYPE = 1
         private const val FILE_VIEW_TYPE = 0
         private const val WEBPAGE_VIEW_TYPE = 2
         private const val IMAGE_VIEW_TYPE = 3
-        private const val DATE_VIEW_TYPE = 4
     }
 
     inner class MemoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<TextView>(R.id.title)
+        val date: TextView = view.findViewById(R.id.dateText)
 
         init {
             view.setOnClickListener {
@@ -76,7 +75,6 @@ class TagDetailRVAdapter(
     }
 
     inner class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -136,7 +134,7 @@ class TagDetailRVAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is MemoViewHolder -> { // 메모
-
+                holder.date.text = "메모 | ${dateSetting(position)}"
                 holder.title.text = dataSet[position].content
             }
 
@@ -204,6 +202,14 @@ class TagDetailRVAdapter(
 
             }
         }
+    }
+
+    private fun dateSetting(position: Int): String {
+        val inputFormatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
+        val dateTime = ZonedDateTime.parse(dataSet[position].updatedAt, inputFormatter)
+        return dateTime.format(outputFormatter)
     }
 
 }

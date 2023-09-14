@@ -46,6 +46,7 @@ class EditListRVAdapter(
 
     inner class MemoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.title)
+        val date: TextView = view.findViewById(R.id.dateText)
         val checkbox: CheckBox = view.findViewById(R.id.checkbox)
 
         init {
@@ -155,6 +156,7 @@ class EditListRVAdapter(
         when (holder) {
             is MemoViewHolder -> { // 메모
                 holder.title.text = dataSet[position].content
+                holder.date.text = "메모 | ${dateSetting(position)}"
                 holder.checkbox.visibility = View.VISIBLE //선택모드일때만 보이게
                 holder.checkbox.isChecked = dataSet[position].isSelected //선택된 아이템이면 체크박스 체크
             }
@@ -174,9 +176,6 @@ class EditListRVAdapter(
                 // .앞에 있는 파일 이름만 가져오기
                 val title = dataSet[position].title!!.substringBeforeLast(".")
                 val summary = dataSet[position].summary
-
-
-
                 holder.title.text = title//제목
                 holder.checkbox.visibility = View.VISIBLE
                 holder.checkbox.isChecked = dataSet[position].isSelected
@@ -296,6 +295,14 @@ class EditListRVAdapter(
                 holder.date.text = dataSet[position].header
             }
         }
+    }
+
+    fun dateSetting(position: Int): String {
+        val inputFormatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
+        val dateTime = ZonedDateTime.parse(dataSet[position].updatedAt, inputFormatter)
+        return dateTime.format(outputFormatter)
     }
 
     fun getSelectedItemsCount(): Int {

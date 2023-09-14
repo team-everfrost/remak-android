@@ -41,6 +41,7 @@ class EditCollectionRVAdapter(
 
     inner class MemoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<TextView>(R.id.title)
+        val date: TextView = view.findViewById(R.id.dateText)
         val checkbox: CheckBox = view.findViewById(R.id.checkbox)
 
         init {
@@ -146,6 +147,7 @@ class EditCollectionRVAdapter(
         when (holder) {
             is MemoViewHolder -> { // 메모
                 holder.title.text = dataSet[position].content
+                holder.date.text = "메모 | ${dateSetting(position)}"
                 holder.checkbox.visibility = View.VISIBLE //선택모드일때만 보이게
                 holder.checkbox.isChecked = dataSet[position].isSelected
             }
@@ -219,6 +221,14 @@ class EditCollectionRVAdapter(
                     .into(holder.itemView.findViewById(R.id.imageView))
             }
         }
+    }
+
+    fun dateSetting(position: Int): String {
+        val inputFormatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
+        val dateTime = ZonedDateTime.parse(dataSet[position].updatedAt, inputFormatter)
+        return dateTime.format(outputFormatter)
     }
 
     fun getSelectedItems(): ArrayList<String> {
