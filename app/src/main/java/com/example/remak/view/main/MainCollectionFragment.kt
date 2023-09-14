@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.remak.App
+import com.example.remak.R
 import com.example.remak.adapter.CollectionRVAdapter
 import com.example.remak.adapter.SpacingItemDecorator
 import com.example.remak.dataStore.TokenRepository
@@ -37,6 +39,11 @@ class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListen
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
         binding = MainCollectionFragmentBinding.inflate(inflater, container, false)
         viewModel.getCollectionList()
+        //뒤로가기 시 홈 프래그먼트로 이동
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
+            isEnabled = false
+        }
         return binding.root
     }
 

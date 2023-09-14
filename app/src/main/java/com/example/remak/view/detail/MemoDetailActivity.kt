@@ -36,7 +36,7 @@ class MemoDetailActivity : AppCompatActivity() {
                 UtilityDialog.showWarnDialog(
                     this@MemoDetailActivity,
                     "수정을 취소하시겠습니까?",
-                    "",
+                    "작성한 내용이 지워져요",
                     "네",
                     "아니오",
                     confirmClick = {
@@ -104,7 +104,7 @@ class MemoDetailActivity : AppCompatActivity() {
 
         binding.moreIcon.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
-            popupMenu.menuInflater.inflate(R.menu.detail_more_menu, popupMenu.menu)
+            popupMenu.menuInflater.inflate(R.menu.detail_link_menu, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.deleteBtn -> {

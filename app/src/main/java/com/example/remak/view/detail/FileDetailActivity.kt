@@ -1,15 +1,20 @@
 package com.example.remak.view.detail
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import com.example.remak.App
+import com.example.remak.R
 import com.example.remak.UtilityDialog
 import com.example.remak.adapter.LinkTagRVAdapter
+import com.example.remak.adapter.SpacingItemDecoration
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageFileActivityBinding
+import com.example.remak.view.main.EditCollectionBottomSheetDialog
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -43,10 +48,20 @@ class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         }
 
         val adapter = LinkTagRVAdapter(listOf(), this)
+        val itemDecoration = SpacingItemDecoration(10, 10)
+        binding.tagRV.addItemDecoration(itemDecoration)
         binding.tagRV.layoutManager = flexboxLayoutManager
         binding.tagRV.adapter = adapter
 
 
+        viewModel.isActionComplete.observe(this) {
+            if (it) {
+                val resultIntent = Intent()
+                resultIntent.putExtra("isDelete", true)
+                setResult(Activity.RESULT_OK, resultIntent)
+                finish()
+            }
+        }
         viewModel.detailData.observe(this) {
             url = it.url
             var summary = it.summary
@@ -71,13 +86,6 @@ class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
             viewModel.downloadFile(this, fileId, fileName)
         }
 
-        binding.editIcon.setOnClickListener {
-            binding.titleEditText.isEnabled = true
-            binding.editIcon.visibility = View.GONE
-            binding.completeBtn.visibility = View.VISIBLE
-            binding.moreIcon.visibility = View.GONE
-            binding.shareIcon.visibility = View.GONE
-        }
 
         binding.completeBtn.setOnClickListener {
             UtilityDialog.showWarnDialog(
@@ -89,21 +97,58 @@ class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                 confirmClick = {
                     binding.titleEditText.isEnabled = false
                     binding.completeBtn.visibility = View.GONE
-                    binding.editIcon.visibility = View.VISIBLE
                     binding.moreIcon.visibility = View.VISIBLE
                     binding.shareIcon.visibility = View.VISIBLE
                 }, cancelClick = {
                     //do nothing
                 })
         }
+        binding.moreIcon.setOnClickListener {
+            val popupMenu = PopupMenu(this, it)
+            popupMenu.menuInflater.inflate(R.menu.detail_menu, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.addBtn -> {
+                        val bundle = Bundle()
+                        val selectedItems = ArrayList<String>()
+                        selectedItems.add(fileId)
+                        if (selectedItems.isNotEmpty()) {
+                            bundle.putStringArrayList("selected", selectedItems)
+                            val bottomSheet = EditCollectionBottomSheetDialog()
+                            bottomSheet.arguments = bundle
+                            bottomSheet.show(
+                                supportFragmentManager,
+                                "EditCollectionBottomSheetDialog"
+                            )
+                        }
+                        true
+                    }
 
+                    R.id.removeBtn -> {
+                        UtilityDialog.showWarnDialog(
+                            this,
+                            "파일을 삭제하시겠습니까?",
+                            "삭제시 복구가 불가능해요",
+                            "삭제하기",
+                            "취소하기",
+                            confirmClick = {
+                                viewModel.deleteDocument(fileId)
+                            },
+                            cancelClick = {}
+                        )
+                        true
+                    }
 
-
+                    else -> false
+                }
+            }
+            popupMenu.show()
+        }
         binding.backBtn.setOnClickListener {
             finish()
         }
 
-        binding.shareBtn.setOnClickListener {
+        binding.shareIcon.setOnClickListener {
             viewModel.shareFile(this, fileId)
         }
     }

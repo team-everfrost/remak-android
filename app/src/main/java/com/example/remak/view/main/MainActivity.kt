@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
                     if (currentFragment is MainHomeFragment) {
                         if (currentFragment.isRecyclerViewInitialized()) {
                             currentFragment.scrollToTop()
-
                         }
                     } else {
                         supportFragmentManager.beginTransaction()

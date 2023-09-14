@@ -1,12 +1,14 @@
 package com.example.remak.adapter
 
 import android.graphics.Rect
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.constraintlayout.utils.widget.ImageFilterView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -21,7 +23,6 @@ class HomeRVAdapter(
     var dataSet: List<MainListData.Data>,
     private val itemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
     private var isInSelectionMode = false // 선택모드 유무
     var selectedItemsCount = 0 // 선택된 아이템 개수
 
@@ -84,12 +85,6 @@ class HomeRVAdapter(
             if (checkbox.isChecked) selectedItemsCount + 1 else selectedItemsCount - 1
     }
 
-    fun toggleCheckbox(position: Int) {
-        val checkBox = dataSet[position].isSelected
-        dataSet[position].isSelected = !dataSet[position].isSelected
-        notifyDataSetChanged()
-    }
-
     inner class MemoViewHolder(view: View) : RecyclerView.ViewHolder(view) { // 메모 아이템 뷰홀더
         val title: TextView = view.findViewById<TextView>(R.id.title)
         val date: TextView = view.findViewById(R.id.dateText)
@@ -114,7 +109,7 @@ class HomeRVAdapter(
     }
 
     inner class FileViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
+        val fileLayout: ConstraintLayout = view.findViewById(R.id.fileLayout)
         val title: TextView = view.findViewById<TextView>(R.id.title)
         val subject: TextView = view.findViewById(R.id.subject)
         val date: TextView = view.findViewById(R.id.dateText)
@@ -261,7 +256,10 @@ class HomeRVAdapter(
                 val summary = dataSet[position].summary
                 holder.title.text = title//제목
                 holder.date.text = "파일 | ${dateSetting(position)}"//날짜
+                TransitionManager.beginDelayedTransition(holder.fileLayout)
+
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
+
                 holder.checkbox.isChecked = dataSet[position].isSelected
                 when (dataSet[position].status!!) {
                     "EMBED_PENDING" -> {
@@ -302,6 +300,7 @@ class HomeRVAdapter(
                     holder.itemView.findViewById<ImageFilterView>(R.id.thumbnail).background = null
 
                 }
+
             }
 
             is WebpageViewHolder -> {

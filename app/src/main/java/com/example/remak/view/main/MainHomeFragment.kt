@@ -57,6 +57,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         //생성된 activity에서 delete를 받을 시 목록 새로고침
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -73,6 +74,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         //어댑터 초기화
         adapter = HomeRVAdapter(mutableListOf(), this)
         recyclerView = binding.homeRV
+        recyclerView.itemAnimator = null
         val itemDecoration = HomeItemOffsetDecoration(30, adapter)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter

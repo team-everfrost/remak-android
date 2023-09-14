@@ -48,6 +48,7 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         try {
             val response = networkRepository.deleteDocument(docId)
             if (response.isSuccessful) {
+                _isActionComplete.value = true
             } else {
             }
         } catch (e: Exception) {
@@ -215,7 +216,6 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         }
 
     fun deleteCollection(name: String) = viewModelScope.launch {
-
         val response = networkRepository.deleteCollection(name)
         try {
             if (response.isSuccessful) {

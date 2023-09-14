@@ -67,10 +67,6 @@ class EditListActivity : AppCompatActivity() {
             }
         }
 
-        binding.deleteBtn.setOnClickListener {
-            val selectedItems = adapter.getSelectedItems()
-        }
-
         binding.addBtn.setOnClickListener {
             val bundle = Bundle()
             val selectedItems = adapter.getSelectedItems()

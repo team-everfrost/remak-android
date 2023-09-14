@@ -18,12 +18,12 @@ import com.example.remak.adapter.SmallIconItemOffsetDecoration
 import com.example.remak.adapter.TestItemOffsetDecoration
 import com.example.remak.adapter.TestRVAdapter
 import com.example.remak.dataStore.TokenRepository
-import com.example.remak.databinding.TempMainFragmentBinding
+import com.example.remak.databinding.AccountMainFragmentBinding
 import java.util.Timer
 import java.util.TimerTask
 
 class AccountMainFragment : Fragment() {
-    private lateinit var binding: TempMainFragmentBinding
+    private lateinit var binding: AccountMainFragmentBinding
     private var bigIconTimer = Timer()
     private var smallIconTimer = Timer()
     private lateinit var layoutManager: LinearLayoutManager
@@ -92,7 +92,7 @@ class AccountMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         signInRepository = TokenRepository((requireActivity().application as App).dataStore)
-        binding = TempMainFragmentBinding.inflate(inflater, container, false)
+        binding = AccountMainFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())
         }
