@@ -23,6 +23,7 @@ import com.example.remak.adapter.SpacingItemDecoration
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageLinkActivityBinding
 import com.example.remak.network.model.DetailData
+import com.example.remak.view.main.EditCollectionBottomSheetDialog
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -34,7 +35,6 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
     private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
     lateinit var tokenRepository: TokenRepository
     lateinit var url: String
-    private lateinit var linkData: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +87,23 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
             popupMenu.menuInflater.inflate(R.menu.detail_link_menu, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
+                    R.id.addCollection -> {
+                        val bundle = Bundle()
+                        val selectedItems = ArrayList<String>()
+                        selectedItems.add(linkId)
+                        if (selectedItems.isNotEmpty()) {
+                            bundle.putStringArrayList("selected", selectedItems)
+                            bundle.putString("type", "detail")
+                            val bottomSheet = EditCollectionBottomSheetDialog()
+                            bottomSheet.arguments = bundle
+                            bottomSheet.show(
+                                supportFragmentManager,
+                                "EditCollectionBottomSheetDialog"
+                            )
+                        }
+                        true
+                    }
+
                     R.id.BrowserBtn -> {
                         val i = Intent(Intent.ACTION_VIEW)
                         i.data = Uri.parse(url)

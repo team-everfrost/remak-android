@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/addBtn"
+        android:id="@+id/addCollection"
         android:title="편집하기" />
 
 </menu>

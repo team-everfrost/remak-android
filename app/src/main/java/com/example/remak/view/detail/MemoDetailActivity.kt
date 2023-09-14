@@ -21,6 +21,7 @@ import com.example.remak.UtilityDialog
 import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageMemoActivityBinding
+import com.example.remak.view.main.EditCollectionBottomSheetDialog
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -104,9 +105,26 @@ class MemoDetailActivity : AppCompatActivity() {
 
         binding.moreIcon.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
-            popupMenu.menuInflater.inflate(R.menu.detail_link_menu, popupMenu.menu)
+            popupMenu.menuInflater.inflate(R.menu.detail_menu, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
+                    R.id.addCollection -> {
+                        val bundle = Bundle()
+                        val selectedItems = ArrayList<String>()
+                        selectedItems.add(memoId)
+                        if (selectedItems.isNotEmpty()) {
+                            bundle.putStringArrayList("selected", selectedItems)
+                            bundle.putString("type", "detail")
+                            val bottomSheet = EditCollectionBottomSheetDialog()
+                            bottomSheet.arguments = bundle
+                            bottomSheet.show(
+                                supportFragmentManager,
+                                "EditCollectionBottomSheetDialog"
+                            )
+                        }
+                        true
+                    }
+
                     R.id.deleteBtn -> {
                         UtilityDialog.showWarnDialog(
                             this,

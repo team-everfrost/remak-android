@@ -113,6 +113,16 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             }
         }
 
+        viewModel.isDataEmpty.observe(viewLifecycleOwner) { isEmpty ->
+            if (isEmpty) {
+                binding.emptyLayout.visibility = View.VISIBLE
+                binding.swipeRefresh.visibility = View.GONE
+            } else {
+                binding.emptyLayout.visibility = View.GONE
+                binding.swipeRefresh.visibility = View.VISIBLE
+            }
+        }
+
         //위로 스와이프 했을 때 새로고침 기능
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.resetScrollData()
@@ -143,7 +153,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             popupMenu.menuInflater.inflate(R.menu.main_home_menu, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.addBtn -> {
+                    R.id.addCollection -> {
                         val intent = Intent(requireContext(), EditListActivity::class.java)
                         resultLauncher.launch(intent)
                         true
@@ -156,6 +166,11 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         }
 
         binding.addBtn.setOnClickListener {
+            val intent = Intent(requireContext(), AddActivity::class.java)
+            resultLauncher.launch(intent)
+        }
+
+        binding.addDataButton.setOnClickListener {
             val intent = Intent(requireContext(), AddActivity::class.java)
             resultLauncher.launch(intent)
         }

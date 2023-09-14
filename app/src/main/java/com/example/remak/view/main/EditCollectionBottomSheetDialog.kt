@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.remak.App
 import com.example.remak.R
@@ -40,6 +41,8 @@ class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val checkedDocuments = arguments?.getStringArrayList("selected")
+        val checkType =
+            arguments?.getString("type", "edit") //edit / detail 타입 있음 detail일 경우 상위 액티비티 닫지말것
 
         viewModel.isCollectionEmpty.observe(viewLifecycleOwner) {
             if (it) {
@@ -71,10 +74,18 @@ class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
 
         viewModel.isUpdateComplete.observe(this) {
             if (it) {
-                val resultIntent = Intent()
-                resultIntent.putExtra("isDelete", true)
-                requireActivity().setResult(Activity.RESULT_OK, resultIntent)
-                requireActivity().finish()
+                if (checkType == "detail") {
+                    Toast.makeText(requireContext(), "컬렉션에 추가되었습니다.", Toast.LENGTH_SHORT).show()
+                    this.dismiss()
+                } else {
+                    val resultIntent = Intent()
+                    resultIntent.putExtra("isDelete", true)
+                    requireActivity().setResult(Activity.RESULT_OK, resultIntent)
+                    requireActivity().finish()
+                }
+
+            } else {
+                Toast.makeText(requireContext(), "컬렉션 추가에 실패했습니다.", Toast.LENGTH_SHORT).show()
             }
         }
 

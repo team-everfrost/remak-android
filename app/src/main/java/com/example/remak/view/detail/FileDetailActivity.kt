@@ -108,12 +108,13 @@ class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
             popupMenu.menuInflater.inflate(R.menu.detail_menu, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.addBtn -> {
+                    R.id.addCollection -> {
                         val bundle = Bundle()
                         val selectedItems = ArrayList<String>()
                         selectedItems.add(fileId)
                         if (selectedItems.isNotEmpty()) {
                             bundle.putStringArrayList("selected", selectedItems)
+                            bundle.putString("type", "detail")
                             val bottomSheet = EditCollectionBottomSheetDialog()
                             bottomSheet.arguments = bundle
                             bottomSheet.show(

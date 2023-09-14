@@ -42,14 +42,17 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
     private val _selectedItemsCount = MutableLiveData<Int>()
     val selectedItemsCount: LiveData<Int> = _selectedItemsCount
 
+    private val _isDataEmpty = MutableLiveData<Boolean>()
+    val isDataEmpty: LiveData<Boolean> = _isDataEmpty
+
     private var isLoadEnd: Boolean = false
 
-    var cursor: String? = null
-    var docID: String? = null
+    private var cursor: String? = null
+    private var docID: String? = null
 
-    var searchCursor: String? = null
-    var searchDocID: String? = null
-    var embeddingOffset: Int? = null
+    private var searchCursor: String? = null
+    private var searchDocID: String? = null
+    private var embeddingOffset: Int? = null
     val isEmbeddingLoading = MutableLiveData<Boolean>().apply { value = false }
     private var lastQuery: String? = null
 
@@ -96,12 +99,10 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         try {
             val response = networkRepository.getMainList(null, null)
             if (response.isSuccessful) {
+                _isDataEmpty.value = response.body()?.data?.isEmpty()
                 currentDateType = null
-
                 val newData = mutableListOf<MainListData.Data>()
-
                 _mainListData.value = response.body()?.data
-
                 for (data in response.body()!!.data) {
                     data.updatedAt =
                         convertToUserTimezone(data.updatedAt!!, TimeZone.getDefault().id)

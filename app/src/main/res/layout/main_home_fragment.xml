@@ -70,6 +70,7 @@
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topLinear">
@@ -78,9 +79,44 @@
             android:id="@+id/homeRV"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/emptyLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_box" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40.5dp"
+            android:text="등록된 정보가 없어요"
+            android:textColor="#646F7C"
+            android:textFontWeight="300"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/addDataButton"
+            android:layout_width="148dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/search_edit_text_radius"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
+            android:text="추가하러 가기"
+            android:textColor="#646F7C"
+            android:textSize="16sp" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
