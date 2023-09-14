@@ -11,6 +11,6 @@
         tools:layout="@layout/main_activity" />
     <activity
         android:id="@+id/createMemoActivity"
-        android:name="com.example.remak.view.main.CreateMemoActivity"
+        android:name="com.example.remak.view.add.CreateMemoFragment"
         android:label="CreateMemoActivity" />
 </navigation>

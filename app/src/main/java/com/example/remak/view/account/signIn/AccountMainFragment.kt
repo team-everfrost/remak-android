@@ -2,7 +2,6 @@ package com.example.remak.view.account.signIn
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -177,12 +176,10 @@ class AccountMainFragment : Fragment() {
         super.onPause()
         bigIconTimer.cancel()
         smallIconTimer.cancel()
-        Log.d("timer", "cancel")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("onResume", "onResume: ")
         bigIconTimer.cancel()
         bigIconTimer = Timer()
         bigIconTimer.scheduleAtFixedRate(object : TimerTask() {

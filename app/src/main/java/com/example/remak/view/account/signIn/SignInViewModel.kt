@@ -11,7 +11,6 @@ import com.example.remak.dataStore.TokenRepository
 import com.example.remak.model.TokenData
 import com.example.remak.network.model.SignInData
 import com.example.remak.repository.NetworkRepository
-import com.google.gson.Gson
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -34,21 +33,8 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
     fun checkEmail(email: String) = viewModelScope.launch {
         try {
             val response = networkRepository.checkEmail(email)
-            if (response.isSuccessful) {
-                Log.d("success", response.body().toString())
-                _isEmailValid.value = true
-            } else {
-                Log.d(
-                    "fail",
-                    Gson().fromJson(
-                        response.errorBody()?.charStream(),
-                        SignInData.CheckEmailResponse::class.java
-                    ).message
-                )
-                _isEmailValid.value = false
-            }
+            _isEmailValid.value = response.isSuccessful
         } catch (e: Exception) {
-            Log.d("networkError", e.toString())
         }
     }
 
@@ -60,20 +46,11 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
                 val token = TokenData(response.body()?.data!!.accessToken)
                 signInRepository.saveUser(token)
                 _loginResult.value = true
-                Log.d("success", response.body().toString())
             } else {
                 _loginResult.value = false
-                Log.d(
-                    "fail",
-                    Gson().fromJson(
-                        response.errorBody()?.charStream(),
-                        SignInData.ResponseBody::class.java
-                    ).message
-                )
                 _showDialog.value = true
             }
         } catch (e: Exception) {
-            Log.d("networkError", e.toString())
         }
     }
 

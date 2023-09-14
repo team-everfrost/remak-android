@@ -3,7 +3,6 @@ package com.example.remak.view.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -87,9 +86,6 @@ class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
             } else {
                 this.dismiss()
             }
-            Log.d("collection", adapter.getSelectedItem().toString())
-            Log.d("collection", checkedDocuments.toString())
-
         }
 
         binding.closeBtn.setOnClickListener {

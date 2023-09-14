@@ -14,16 +14,14 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="22.5dp"
         android:layout_marginEnd="20dp"
-        android:ellipsize="end"
         android:fontFamily="sans-serif-condensed-medium"
-        android:maxLines="2"
+        android:maxLines="1"
         android:textColor="@color/black"
         android:textFontWeight="500"
         android:textSize="15.75sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/checkbox"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="PrivateResource"
         tools:text="sdfsdf" />
 
 

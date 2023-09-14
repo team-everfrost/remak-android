@@ -3,7 +3,6 @@ package com.example.remak.view.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +47,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("oncreateview", "oncreateview")
         tokenRepository = TokenRepository((requireActivity().application as App).dataStore)
         _binding = MainHomeFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
@@ -66,7 +64,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
                     val data: Intent? = result.data
                     val isDelete = data?.getBooleanExtra("isDelete", false)
                     if (isDelete == true) {
-                        Log.d("isDelete", isDelete.toString())
                         viewModel.resetScrollData()
                         viewModel.getAllMainList()
                     }
@@ -127,6 +124,8 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
                 requireContext(),
                 "삭제하시겠습니까?",
                 "삭제시 복구가 불가능해요",
+                "삭제하기",
+                "취소하기",
                 confirmClick = {
                     for (i in selectedItems) {
                         viewModel.deleteDocument(i)
@@ -205,7 +204,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("ondestroyview", "ondestroyview")
         viewModel.resetMainData()
     }
 

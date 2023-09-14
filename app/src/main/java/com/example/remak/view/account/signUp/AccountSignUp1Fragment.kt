@@ -1,7 +1,6 @@
 package com.example.remak.view.account.signUp
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,11 +76,6 @@ class AccountSignUp1Fragment : Fragment() {
             binding.emailErrorMessage
         )
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("destroy", "onDestroy:")
     }
 
 }

@@ -28,6 +28,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="메모"
+            android:textFontWeight="500"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/backBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/backBtn" />
+
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/moreIcon"
@@ -39,89 +50,49 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/shareIcon"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:background="@color/white"
-            android:src="@drawable/outline_share_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/moreIcon"
-            app:layout_constraintTop_toTopOf="parent" />
-
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/completeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:text="@string/complete"
-            android:textFontWeight="600"
-            android:textSize="20dp"
+            android:textFontWeight="500"
+            android:textSize="18sp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="50dp"
+        android:text="YYYY.MM.DD"
+        android:textColor="#646F7C"
+        android:textFontWeight="500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBar" />
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
+    <EditText
+        android:id="@+id/memoContent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="40dp"
-        android:background="@color/memoColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topBar">
-
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/memoColor"
-
-            >
-
-            <EditText
-                android:id="@+id/memoContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/memoColor"
-                android:gravity="top"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                tools:text="오늘 할 일 : blablabla" />
-
-
-        </ScrollView>
-
-
-    </FrameLayout>
-
-
-    <!--    <ScrollView-->
-    <!--        android:id="@+id/scrollView"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginHorizontal="20dp"-->
-    <!--        android:layout_marginTop="40dp"-->
-    <!--        android:background="@color/memoColor"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/topBar"-->
-    <!--        >-->
-
-    <!--        <EditText-->
-    <!--            android:id="@+id/memoContent"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:background="@color/memoColor"-->
-    <!--            android:gravity="top"-->
-    <!--            android:padding="10dp"-->
-    <!--            android:textColor="@color/black"-->
-    <!--            tools:text="오늘 할 일 : blablabla" />-->
-
-
-    <!--    </ScrollView>-->
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/gray_rec_radius"
+        android:gravity="top"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="22dp"
+        android:textColor="@color/black"
+        android:textFontWeight="500"
+        android:textSize="14sp"
+        app:layout_constraintHeight_percent="0.48"
+        app:layout_constraintTop_toBottomOf="@id/dateText"
+        tools:text="오늘 할 일 : blablabla" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

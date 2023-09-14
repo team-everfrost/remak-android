@@ -21,6 +21,8 @@ import com.example.remak.UtilityDialog
 import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageMemoActivityBinding
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MemoDetailActivity : AppCompatActivity() {
     private lateinit var binding: DetailPageMemoActivityBinding
@@ -35,13 +37,19 @@ class MemoDetailActivity : AppCompatActivity() {
                     this@MemoDetailActivity,
                     "수정을 취소하시겠습니까?",
                     "",
+                    "네",
+                    "아니오",
                     confirmClick = {
                         endEditMode()
                         binding.memoContent.clearFocus()
+                        binding.memoContent.setText(viewModel.detailData.value?.content.toString())
                     },
                     cancelClick = {}
                 )
             } else {
+                val resultIntent = Intent()
+                resultIntent.putExtra("isDelete", true)
+                setResult(RESULT_OK, resultIntent)
                 finish()
             }
         }
@@ -56,11 +64,12 @@ class MemoDetailActivity : AppCompatActivity() {
         }
         setContentView(binding.root)
         val memoId = intent.getStringExtra("docId")
-
         this.onBackPressedDispatcher.addCallback(this, callback)
         viewModel.getDetailData(memoId!!)
         viewModel.detailData.observe(this) {
             binding.memoContent.setText(it.content)
+            binding.dateText.text = setDate(it.createdAt)
+
         }
 
         binding.memoContent.setOnFocusChangeListener { _, hasFocus ->
@@ -86,6 +95,9 @@ class MemoDetailActivity : AppCompatActivity() {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
             } else {
+                val resultIntent = Intent()
+                resultIntent.putExtra("isDelete", true)
+                setResult(RESULT_OK, resultIntent)
                 finish()
             }
         }
@@ -100,6 +112,8 @@ class MemoDetailActivity : AppCompatActivity() {
                             this,
                             "삭제하시겠습니까?",
                             "삭제시 복구가 불가능해요",
+                            "삭제하기",
+                            "취소하기",
                             confirmClick = {
                                 viewModel.deleteDocument(memoId)
                                 val resultIntent = Intent()
@@ -118,45 +132,38 @@ class MemoDetailActivity : AppCompatActivity() {
             popupMenu.show()
         }
 
-        binding.frameLayout.setOnClickListener {
-            binding.memoContent.requestFocus()
+        binding.memoContent.setOnClickListener {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(binding.memoContent, InputMethodManager.SHOW_IMPLICIT)
-            binding.memoContent.setSelection(binding.memoContent.text.length)
-        }
-
-        binding.shareIcon.setOnClickListener {
-            val sendIntent: Intent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, binding.memoContent.text.toString())
-                type = "text/plain"
+            if (!isEditMode) {
+                binding.memoContent.setSelection(binding.memoContent.text.length)
             }
-            val shareIntent = Intent.createChooser(sendIntent, null)
-            startActivity(shareIntent)
         }
+    }
 
-        binding.memoContent.addTextChangedListener(textWatcher)
-
+    private fun setDate(date: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        val date = inputFormat.parse(date)
+        val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+        val outputDateStr = outputFormat.format(date)
+        return outputDateStr
     }
 
     private fun startEditMode() {
         isEditMode = true
         binding.completeBtn.visibility = View.VISIBLE
         binding.moreIcon.visibility = View.GONE
-        binding.shareIcon.visibility = View.GONE
     }
 
     private fun endEditMode() {
         isEditMode = false
         binding.completeBtn.visibility = View.GONE
         binding.moreIcon.visibility = View.VISIBLE
-        binding.shareIcon.visibility = View.VISIBLE
     }
 
     private fun setFirstLineBold(editText: EditText) {
         val content = editText.text.toString()
         val spannable = SpannableStringBuilder(content)
-
         val spans: Array<Any> = editText.text.getSpans(0, content.length, Any::class.java)
         var isComposing = false
         for (span in spans) {
@@ -168,7 +175,6 @@ class MemoDetailActivity : AppCompatActivity() {
 
         if (!isComposing) {
             editText.removeTextChangedListener(textWatcher)
-
             val firstNewLineIndex = content.indexOf('\n')
             if (firstNewLineIndex > 0) {
                 spannable.setSpan(
@@ -193,7 +199,6 @@ class MemoDetailActivity : AppCompatActivity() {
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 

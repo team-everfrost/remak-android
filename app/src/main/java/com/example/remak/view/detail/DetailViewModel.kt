@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Environment
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -49,12 +48,9 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         try {
             val response = networkRepository.deleteDocument(docId)
             if (response.isSuccessful) {
-                Log.d("success", response.body().toString())
             } else {
-                Log.d("fail", response.errorBody().toString())
             }
         } catch (e: Exception) {
-            Log.d("networkError", e.toString())
         }
     }
 
@@ -64,12 +60,9 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             if (response.isSuccessful) {
 
                 _detailData.value = response.body()!!.data
-                Log.d("success", response.body().toString())
             } else {
-                Log.d("fail", response.errorBody().toString())
             }
         } catch (e: Exception) {
-            Log.d("networkError", e.toString())
         }
     }
 
@@ -77,12 +70,9 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         try {
             val response = networkRepository.updateMemo(docId, content)
             if (response.isSuccessful) {
-                Log.d("success", response.body().toString())
             } else {
-                Log.d("fail", response.errorBody().toString())
             }
         } catch (e: Exception) {
-            Log.d("networkError", e.toString())
         }
     }
 
@@ -90,7 +80,6 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         try {
             val response = networkRepository.downloadFile(docId)
             if (response.isSuccessful) {
-                Log.d("success", response.body().toString())
                 val url = response.body()!!.data
                 val request = DownloadManager.Request(Uri.parse(url)) // 다운로드 요청 세팅
                     .setTitle(fileName)
@@ -110,10 +99,8 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                 }
 
             } else {
-                Log.d("fail", response.errorBody().toString())
             }
         } catch (e: Exception) {
-            Log.d("networkError", e.toString())
         }
     }
 
@@ -121,9 +108,7 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         try {
             val response = networkRepository.downloadFile(docId)
             if (response.isSuccessful) {
-                Log.d("success", response.body().toString())
                 val url = response.body()!!.data
-
                 val shareIntent = Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
                     putExtra(Intent.EXTRA_TEXT, url)
@@ -131,29 +116,23 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                 context.startActivity(Intent.createChooser(shareIntent, "Share link"))
 
             } else {
-                Log.d("fail", response.errorBody().toString())
             }
         } catch (e: Exception) {
-            Log.d("networkError", e.toString())
         }
     }
 
     fun getTagDetailData(tagName: String) = viewModelScope.launch {
         try {
-            Log.d("tagDetailApi", tagName)
             val response = networkRepository.getTagDetailData(tagName, null, null)
             if (response.isSuccessful) {
-                Log.d("tagDetailApi", response.body().toString())
                 _tagDetailData.value = response.body()!!.data
                 response.body()!!.data.let {
                     cursor = it.last().updatedAt
                     docId = it.last().docId
                 }
             } else {
-                Log.d("fail", response.errorBody().toString())
             }
         } catch (e: Exception) {
-            Log.d("networkError", e.toString())
         }
     }
 
@@ -163,7 +142,6 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             try {
                 val response = networkRepository.getTagDetailData(tagName, cursor, docId)
                 if (response.isSuccessful) {
-                    Log.d("tagDetailApi", response.body().toString())
                     response.body()!!.data.let {
                         if (it.isNotEmpty()) {
                             tempData.addAll(it)
@@ -176,10 +154,8 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                     }
                     _tagDetailData.value = tempData
                 } else {
-                    Log.d("fail", response.errorBody().toString())
                 }
             } catch (e: Exception) {
-                Log.d("networkError", e.toString())
             }
         }
     }
@@ -195,10 +171,8 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                     docId = it.last().docId
                 }
             } else {
-                Log.d("fail", response.errorBody().toString())
             }
         } catch (e: Exception) {
-            Log.d("networkError", e.toString())
 
         }
     }
@@ -222,10 +196,8 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                     }
                     _collectionDetailData.value = tempData
                 } else {
-                    Log.d("fail", response.errorBody().toString())
                 }
             } catch (e: Exception) {
-                Log.d("networkError", e.toString())
             }
         }
     }
@@ -235,13 +207,10 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             val response = networkRepository.removeDataInCollection(collectionName, docIds)
             try {
                 if (response.isSuccessful) {
-                    Log.d("removeDataInCollection", response.body().toString())
                     getCollectionDetailData(collectionName)
                 } else {
-                    Log.d("fail", "fail")
                 }
             } catch (e: Exception) {
-                Log.d("removeDataInCollection", e.toString())
             }
         }
 
@@ -250,13 +219,10 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         val response = networkRepository.deleteCollection(name)
         try {
             if (response.isSuccessful) {
-                Log.d("deleteCollection", response.body().toString())
             } else {
-                Log.d("fail", "fail")
             }
             _isActionComplete.value = true
         } catch (e: Exception) {
-            Log.d("deleteCollection", e.toString())
         }
     }
 

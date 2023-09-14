@@ -75,6 +75,8 @@ class EditCollectionActivity : AppCompatActivity() {
                 this,
                 "${selectedItemCount}개의 정보를 삭제하시겠어요?",
                 "삭제시 복구가 불가능해요?",
+                "삭제하기",
+                "취소하기",
                 confirmClick = {
                     viewModel.removeDataInCollection(collectionName, selectedItems)
                     adapter.notifyDataSetChanged()

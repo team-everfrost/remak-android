@@ -8,9 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.model.TokenData
-import com.example.remak.network.model.SignUpData
 import com.example.remak.repository.NetworkRepository
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
@@ -42,12 +40,9 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     fun getVerifyCode(email: String) = viewModelScope.launch {
         try {
             val response = networkRepository.getVerifyCode(email)
-            Log.d("test", response.toString())
-            Log.d("email", email)
             if (response.isSuccessful) {
                 _userEmail.value = email
                 _isSignInSuccess.value = true
-                Log.d("success", response.body().toString())
             } else {
                 _isSignInSuccess.value = false
                 if (response.code() == 400) { //이메일 형식이 잘못되었을 때
@@ -56,13 +51,6 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                     _isEmailExist.value = true
                 }
 
-                Log.d(
-                    "fail",
-                    Gson().fromJson(
-                        response.errorBody()?.charStream(),
-                        SignUpData.GetVerifyResponseBody::class.java
-                    ).message
-                )
             }
         } catch (e: Exception) {
             _isSignInSuccess.value = false
@@ -85,25 +73,9 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             val response =
                 networkRepository.checkVerifyCode(signupCode, _userEmail.value.toString())
 
-            if (response.isSuccessful) {
-                //response내용을 각각 log로 출력
-                _isVerifyCodeValid.value = true
-
-            } else {
-                _isVerifyCodeValid.value = false
-
-                Log.d(
-                    "fail",
-                    Gson().fromJson(
-                        response.errorBody()?.charStream(),
-                        SignUpData.CheckVerifyResponseBody::class.java
-                    ).message
-                )
-
-            }
+            _isVerifyCodeValid.value = response.isSuccessful
         } catch (e: Exception) {
             _isVerifyCodeValid.value = false
-            Log.d("networkError", "Exception: ", e)
             e.printStackTrace()
         }
     }
@@ -114,8 +86,6 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             val response = networkRepository.signUp(email, password)
 
             if (response.isSuccessful) {
-                Log.d("success", response.body().toString())
-
 
                 Log.d("token", response.body()?.data!!.accessToken)
                 //토큰 저장
@@ -126,18 +96,9 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
 
             } else {
                 _isSignInSuccess.value = false
-                Log.d(
-                    "fail",
-                    Gson().fromJson(
-                        response.errorBody()?.charStream(),
-                        SignUpData.SignUpResponseBody::class.java
-                    ).message
-                )
-
             }
         } catch (e: Exception) {
             _isSignInSuccess.value = false
-            Log.d("networkError", "Exception: ", e)
             e.printStackTrace()
         }
     }

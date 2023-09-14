@@ -1,6 +1,5 @@
 package com.example.remak.view.add
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,15 +26,11 @@ class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
         try {
             val response = networkRepository.createWebPage(url)
             if (response.isSuccessful) {
-                Log.d("success", response.body().toString())
-
             } else {
-                Log.d("fail", response.errorBody()?.string()!!)
             }
             _isActionComplete.value = true
 
         } catch (e: Exception) {
-            Log.d("networkError", e.toString())
         }
     }
 
@@ -44,15 +39,19 @@ class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
         _uploadState.value = UploadState.LOADING
         try {
             val response = networkRepository.uploadFile(files)
-            Log.d("file", files.toString())
             if (response.isSuccessful) {
-                Log.d("success", response.body().toString())
                 _uploadState.value = UploadState.SUCCESS
             } else {
-                Log.d("fail", response.errorBody()?.string()!!)
             }
         } catch (e: Exception) {
-            Log.d("networkError", e.toString())
+        }
+    }
+
+    fun addMemo(content: String) = viewModelScope.launch {
+        val response = networkRepository.createMemo(content)
+        try {
+            _isUploadComplete.value = response.isSuccessful
+        } catch (e: Exception) {
         }
     }
 

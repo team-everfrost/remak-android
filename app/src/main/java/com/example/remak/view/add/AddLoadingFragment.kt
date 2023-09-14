@@ -3,7 +3,6 @@ package com.example.remak.view.add
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +37,6 @@ class AddLoadingFragment : Fragment() {
             .into(binding.loadingImage)
 
         binding.completeBtn.setOnClickListener {
-            Log.d("click", "complete")
             val resultIntent = Intent()
             resultIntent.putExtra("isDelete", true)
             requireActivity().setResult(Activity.RESULT_OK, resultIntent)

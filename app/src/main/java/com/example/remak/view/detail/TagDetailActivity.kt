@@ -2,7 +2,6 @@ package com.example.remak.view.detail
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,7 +39,6 @@ class TagDetailActivity : AppCompatActivity(), TagDetailRVAdapter.OnItemClickLis
 
         viewModel.tagDetailData.observe(this) {
             binding.tagName.text = "${tagName} (${it.size})"
-            Log.d("tagDetailData", it.toString())
             adapter.dataSet = it
             adapter.notifyDataSetChanged()
         }

@@ -1,6 +1,5 @@
 package com.example.remak.view.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,10 +26,8 @@ class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
                 _tagList.value = response.body()!!.data
                 offset = 20
             } else {
-                Log.d("tag_list", response.errorBody()!!.string())
             }
         } catch (e: Exception) {
-            Log.d("tag_list", e.toString())
         }
     }
 
@@ -44,18 +41,15 @@ class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
                     if (response.body()!!.data.isEmpty()) {
                         isListEnd = true
                     } else {
-                        Log.d("tag_list", offset.toString())
                         for (data in response.body()!!.data) {
                             tempData.add(data)
                         }
                         offset = offset!! + 20
                     }
                 } else {
-                    Log.d("tag_list", response.errorBody()!!.string())
                     isListEnd = true
                 }
             } catch (e: Exception) {
-                Log.d("tag_list", e.toString())
                 isListEnd = true
             }
             _tagList.value = tempData
@@ -69,13 +63,10 @@ class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
         try {
             if (response.isSuccessful) {
                 _tagList.value = response.body()!!.data
-                Log.d("tag_result", _tagList.value.toString())
                 offset = 20
             } else {
-                Log.d("tag_result", response.errorBody()!!.string())
             }
         } catch (e: Exception) {
-            Log.d("tag_result", e.toString())
         }
     }
 
@@ -96,11 +87,9 @@ class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
                     offset = offset!! + 20
                 }
             } else {
-                Log.d("tag_result", response.errorBody()!!.string())
                 isListEnd = true
             }
         } catch (e: Exception) {
-            Log.d("tag_result", e.toString())
             isListEnd = true
         }
         _tagList.value = tempDat

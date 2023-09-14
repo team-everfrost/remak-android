@@ -23,28 +23,21 @@ import com.example.remak.adapter.SpacingItemDecoration
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageLinkActivityBinding
 import com.example.remak.network.model.DetailData
-import com.example.remak.view.main.MainViewModel
-import com.example.remak.view.main.MainViewModelFactory
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import java.text.SimpleDateFormat
 import java.util.Locale
-import java.util.TimeZone
 
 class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickListener {
     private lateinit var binding: DetailPageLinkActivityBinding
     private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
-    private val mainViewModel: MainViewModel by viewModels { MainViewModelFactory(tokenRepository) }
     lateinit var tokenRepository: TokenRepository
     lateinit var url: String
     private lateinit var linkData: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-        inputFormat.timeZone = TimeZone.getTimeZone("UTC")
         tokenRepository = TokenRepository((this.application as App).dataStore)
         binding = DetailPageLinkActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -64,15 +57,10 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         binding.tagRV.adapter = adapter
 
         viewModel.detailData.observe(this) {
-            Log.d("dataCheck", it.toString())
             updateUI(it)
             adapter.tags = it.tags
             adapter.notifyDataSetChanged()
-            Log.d("tag", it.tags.toString())
         }
-
-
-
 
         binding.shareBtn.setOnClickListener {
             val colorSchemeParams = CustomTabColorSchemeParams.Builder()
@@ -85,7 +73,6 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         }
 
         binding.title.setOnClickListener {
-            Log.d("dataCheck", "title click")
             val colorSchemeParams = CustomTabColorSchemeParams.Builder()
                 .setToolbarColor(ContextCompat.getColor(this, R.color.black))
                 .build()
@@ -94,8 +81,6 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                 .build()
             customTabsIntent.launchUrl(this, Uri.parse(url))
         }
-
-
 
         binding.moreIcon.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
@@ -114,6 +99,8 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                             this,
                             "링크를 삭제하시겠습니까?",
                             "삭제시 복구가 불가능해요",
+                            "삭제하기",
+                            "취소하기",
                             confirmClick = {
                                 viewModel.deleteDocument(linkId)
                                 val resultIntent = Intent()
@@ -158,14 +145,12 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         binding.url.text = detailData.url
         url = detailData.url!!
         val linkData = prepareLinkData(detailData.content)
-        logLongMessage("dataCheck", linkData)
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         val date = inputFormat.parse(detailData.updatedAt)
         val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         val outputDateStr = outputFormat.format(date)
         binding.date.text = outputDateStr
         binding.title.text = detailData.title
-
         if (detailData.status != "SCRAPE_PENDING" && detailData.status != "SCRAPE_PROCESSING") {
             showContent(linkData)
         }

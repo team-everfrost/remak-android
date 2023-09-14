@@ -1,6 +1,5 @@
 package com.example.remak.view.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,7 +31,6 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
                 _collectionList.value = response.body()!!.data
                 //빈 배열인지 감지
                 _isCollectionEmpty.value = response.body()!!.data.isEmpty()
-                Log.d("collection_list", response.body()!!.data.toString())
                 offset = 20
             } else {
 
@@ -46,7 +44,6 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
         try {
             val response = networkRepository.createCollection(name, description)
             if (response.isSuccessful) {
-                Log.d("createCollection", response.body().toString())
                 _isDuplicateName.value = false
             } else {
                 val errorBodyString = response.errorBody()!!.string()
@@ -58,7 +55,6 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
                 }
             }
         } catch (e: Exception) {
-            Log.d("createCollection", e.toString())
         }
     }
 
@@ -66,15 +62,11 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
         viewModelScope.launch {
             for (item in collectionName) {
                 val response = networkRepository.addDataInCollection(item, docIds)
-                Log.d("addDataInCollection", response.toString())
                 try {
                     if (response.isSuccessful) {
-                        Log.d("addDataInCollection", response.body().toString())
                     } else {
-                        Log.d("addDataInCollection", response.errorBody()!!.string())
                     }
                 } catch (e: Exception) {
-                    Log.d("addDataInCollection", e.toString())
                 }
             }
             _isUpdateComplete.value = true

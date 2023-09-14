@@ -1,6 +1,5 @@
 package com.example.remak.view.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,6 @@ import com.example.remak.dataStore.TokenRepository
 import com.example.remak.network.model.MainListData
 import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.launch
-import okhttp3.MultipartBody
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -62,7 +60,6 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         return when {
             //오늘
             dateTime.isEqual(today) -> {
-                Log.d("오늘", "오늘")
                 "오늘"
             }
             //오늘 제외 7일 전
@@ -96,7 +93,6 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
 
     fun getAllMainList() = viewModelScope.launch {
         _isLoading.value = true
-        Log.d("token", tokenRepository.fetchTokenData().toString())
         try {
             val response = networkRepository.getMainList(null, null)
             if (response.isSuccessful) {
@@ -133,16 +129,13 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
                     newData.add(data)
                 }
                 _mainListData.value = newData
-                Log.d("mainlistdatas", _mainListData.value.toString())
                 response.body()?.data?.let {
                     cursor = it.last().createdAt
                     docID = it.last().docId
                 }
             } else {
-                Log.d("fail", response.errorBody()!!.string())
             }
         } catch (e: Exception) {
-            Log.d("networkError", e.toString())
         }
         _isLoading.value = false
     }
@@ -154,8 +147,6 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
             try {
                 val response = networkRepository.getMainList(cursor, docID)
                 if (response.isSuccessful) {
-                    Log.d("getnewmainlistSuccess", response.body().toString())
-
                     for (data in response.body()!!.data) {
                         data.updatedAt =
                             convertToUserTimezone(data.updatedAt!!, TimeZone.getDefault().id)
@@ -187,17 +178,10 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
                         docID = it.last().docId
                     }
                 } else {
-                    Log.d("getnewmainlistFail", response.errorBody().toString())
                 }
             } catch (e: Exception) {
-                Log.d("getnewmainlistNetwork", e.toString())
                 isLoadEnd = true
             }
-
-            Log.d("cursor", cursor.toString())
-            Log.d("docID", docID.toString())
-            Log.d("mainListData", mainListData.value.toString())
-
             _mainListData.value = tempData
             _isLoading.value = false
         }
@@ -212,45 +196,19 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
                 _isMemoCreateSuccess.value = "메모 생성에 실패했습니다"
             }
         } catch (e: Exception) {
-            Log.d("networkError", e.toString())
         }
-    }
-
-    /** 파일 업로드 */
-    fun uploadFile(files: List<MultipartBody.Part>) = viewModelScope.launch {
-        try {
-            val response = networkRepository.uploadFile(files)
-            Log.d("file", files.toString())
-            if (response.isSuccessful) {
-                Log.d("success", response.body().toString())
-                getAllMainList()
-                _uploadFileSuccess.value = true
-
-            } else {
-                Log.d("fail", response.errorBody()?.string()!!)
-            }
-        } catch (e: Exception) {
-            Log.d("networkError", e.toString())
-        }
-    }
-
-    fun resetUploadFileSuccess() {
-        _uploadFileSuccess.value = false
     }
 
     fun createWebPage(url: String) = viewModelScope.launch {
         try {
             val response = networkRepository.createWebPage(url)
             if (response.isSuccessful) {
-                Log.d("success", response.body().toString())
                 getAllMainList()
                 _isWebPageCreateSuccess.value = true
 
             } else {
-                Log.d("fail", response.errorBody()?.string()!!)
             }
         } catch (e: Exception) {
-            Log.d("networkError", e.toString())
         }
     }
 
@@ -262,13 +220,10 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         val response = networkRepository.deleteDocument(docId)
         try {
             if (response.isSuccessful) {
-                Log.d("delete", "success")
                 getAllMainList()
             } else {
-                Log.d("delete", response.errorBody()!!.string())
             }
         } catch (e: Exception) {
-            Log.d("delete", e.toString())
         }
     }
 

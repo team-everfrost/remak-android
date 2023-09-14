@@ -2,7 +2,6 @@ package com.example.remak.view.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -70,7 +69,6 @@ class EditListActivity : AppCompatActivity() {
 
         binding.deleteBtn.setOnClickListener {
             val selectedItems = adapter.getSelectedItems()
-            Log.d("selectedItems", selectedItems.toString())
         }
 
         binding.addBtn.setOnClickListener {
@@ -87,10 +85,11 @@ class EditListActivity : AppCompatActivity() {
         binding.deleteBtn.setOnClickListener {
             val selectedItemCount = viewModel.selectedItemsCount.value
             val selectedItems = adapter.getSelectedItems()
-            Log.d("selectedItemCount", selectedItemCount.toString())
             if (selectedItemCount != 0) {
                 UtilityDialog.showWarnDialog(this, "${selectedItemCount}개의 정보를 삭제하시겠어요?",
                     "삭제시 복구가 불가능해요",
+                    "삭제하기",
+                    "취소하기",
                     confirmClick = {
                         for (item in selectedItems) {
                             viewModel.deleteDocument(item)

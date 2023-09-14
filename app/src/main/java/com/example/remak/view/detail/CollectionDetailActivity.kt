@@ -109,6 +109,8 @@ class CollectionDetailActivity : AppCompatActivity(), TagDetailRVAdapter.OnItemC
                             this,
                             "정말 삭제하시겠어요?",
                             "삭제시 복구가 불가능해요",
+                            "삭제하기",
+                            "취소하기",
                             confirmClick = {
                                 viewModel.deleteCollection(collectionName)
                             },

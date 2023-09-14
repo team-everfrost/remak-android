@@ -3,7 +3,6 @@ package com.example.remak.view.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +45,6 @@ class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListen
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    Log.d("result", result.toString())
                     val data: Intent? = result.data
                     val isDelete = data?.getBooleanExtra("isChange", true)
                     if (isDelete == true) {
@@ -89,7 +87,6 @@ class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListen
     }
 
     override fun onItemClick(position: Int) {
-        Log.d("position", position.toString())
         val intent = Intent(requireContext(), CollectionDetailActivity::class.java)
         intent.putExtra("collectionName", viewModel.collectionList.value!![position].name)
         intent.putExtra("collectionCount", viewModel.collectionList.value!![position].count)

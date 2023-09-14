@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,6 @@ import com.example.remak.R
 import com.example.remak.UtilityDialog
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AddFragmentBinding
-import com.example.remak.view.main.CreateMemoActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -101,7 +99,6 @@ class AddFragment : Fragment() {
         viewModel.uploadState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 UploadState.LOADING -> {
-                    Log.d("loading", "loading")
                     findNavController().navigate(R.id.action_addFragment_to_addLoadingFragment)
                 }
 
@@ -133,8 +130,7 @@ class AddFragment : Fragment() {
         }
 
         binding.memoAddBtn.setOnClickListener {
-            val intent = Intent(activity, CreateMemoActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_addFragment_to_createMemoFragment)
         }
 
         binding.backButton.setOnClickListener {

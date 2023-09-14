@@ -49,6 +49,8 @@ class MainProfileFragment : Fragment() {
         binding.logoutButton.setOnClickListener {
             UtilityDialog.showWarnDialog(requireContext(), "로그아웃 하시겠습니까?",
                 "",
+                "네",
+                "아니오",
                 confirmClick = {
                     viewModel.deleteToken()
                     val intent = Intent(requireContext(), AccountActivity::class.java)

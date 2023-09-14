@@ -2,7 +2,6 @@ package com.example.remak.view.account
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowInsetsController
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -38,7 +37,6 @@ class AccountActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
 
         var keyHash = Utility.getKeyHash(this)
-        Log.d("keyHash", "onCreate: $keyHash")
 
     }
 

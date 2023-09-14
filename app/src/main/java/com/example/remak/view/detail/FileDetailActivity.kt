@@ -80,15 +80,21 @@ class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         }
 
         binding.completeBtn.setOnClickListener {
-            UtilityDialog.showWarnDialog(this, "제목을 수정하시겠습니까?", "", confirmClick = {
-                binding.titleEditText.isEnabled = false
-                binding.completeBtn.visibility = View.GONE
-                binding.editIcon.visibility = View.VISIBLE
-                binding.moreIcon.visibility = View.VISIBLE
-                binding.shareIcon.visibility = View.VISIBLE
-            }, cancelClick = {
-                //do nothing
-            })
+            UtilityDialog.showWarnDialog(
+                this,
+                "제목을 수정하시겠습니까?",
+                "",
+                "네",
+                "아니오",
+                confirmClick = {
+                    binding.titleEditText.isEnabled = false
+                    binding.completeBtn.visibility = View.GONE
+                    binding.editIcon.visibility = View.VISIBLE
+                    binding.moreIcon.visibility = View.VISIBLE
+                    binding.shareIcon.visibility = View.VISIBLE
+                }, cancelClick = {
+                    //do nothing
+                })
         }
 
 

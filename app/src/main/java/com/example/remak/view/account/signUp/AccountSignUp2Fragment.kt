@@ -3,7 +3,6 @@ package com.example.remak.view.account.signUp
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -65,7 +64,6 @@ class AccountSignUp2Fragment : Fragment() {
 
         verifyEditTexts.forEach { editText ->
             editText.setOnClickListener {
-                Log.d("test", "click")
                 for (i in verifyEditTexts.indices) {
                     if (verifyEditTexts[i].text.toString().isEmpty()) {
                         verifyEditTexts[i].isFocusableInTouchMode = true
@@ -74,7 +72,6 @@ class AccountSignUp2Fragment : Fragment() {
                         UtilitySystem.showKeyboard(requireActivity())
                         for (j in verifyEditTexts.indices) {
                             if (j != i) {
-                                Log.d("test", "j : $j")
                                 verifyEditTexts[j].isFocusableInTouchMode = false
                                 verifyEditTexts[j].isFocusable = false
                             }
@@ -103,7 +100,6 @@ class AccountSignUp2Fragment : Fragment() {
 
                         for (j in verifyEditTexts.indices) {
                             if (j != i + 1) {
-                                Log.d("test", "j : $j")
                                 verifyEditTexts[j].isFocusableInTouchMode = false
                                 verifyEditTexts[j].isFocusable = false
                             }
@@ -116,7 +112,6 @@ class AccountSignUp2Fragment : Fragment() {
                     if (verifyEditTexts.all { it.text.length == 1 }) {
                         val verifyCode = verifyEditTexts.joinToString("") { it.text.toString() }
                         viewModel.checkVerifyCode(verifyCode)
-                        Log.d("verifyCode", verifyCode)
                     }
                 }
             })
@@ -131,7 +126,6 @@ class AccountSignUp2Fragment : Fragment() {
 
                         for (j in verifyEditTexts.indices) {
                             if (j != i - 1) {
-                                Log.d("test", "j : $j")
                                 verifyEditTexts[j].isFocusableInTouchMode = false
                                 verifyEditTexts[j].isFocusable = false
                             }

@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -75,7 +74,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
                         isTextSearch = true
                         isEmbeddingSearch = false
                         viewModel.resetScrollData()
-                        Log.d(isEmbeddingSearch.toString(), isTextSearch.toString())
                         binding.historyLayout.visibility = View.GONE
                     } else { //검색어가 모두 지워졌을 경우
                         viewModel.resetSearchData()
@@ -143,7 +141,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
         historyRecyclerView.addItemDecoration(SearchHistoryItemOffsetDecoration(50))
 
         binding.root.setOnClickListener {
-            Log.d("MainSearchFragment", "root click")
             UtilitySystem.hideKeyboard(requireActivity())
         }
 
@@ -207,10 +204,8 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
                 if (totalItemCount!! <= (lastVisibleItemCount + 5)) {
                     if (isTextSearch) {
                         viewModel.getNewTextSearchResult()
-                        Log.d("새로운 데이터 받아옴", "getNewTextSearchResult")
                     } else if (isEmbeddingSearch && !viewModel.isEmbeddingLoading.value!!) {
                         viewModel.getNewEmbeddingSearch()
-                        Log.d("새로운 데이터 받아옴", "getNewEmbeddingSearch")
                     }
                 }
             }
@@ -274,7 +269,6 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
 
     override fun onResume() {
         super.onResume()
-        Log.d("MainSearchFragment", "onResume")
         if (viewModel.searchResult.value == null || viewModel.searchResult.value!!.isEmpty()) {
             binding.searchRecyclerView.visibility = View.GONE
         }
@@ -282,13 +276,11 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("MainSearchFragment", "onDestroy")
         viewModel.resetScrollData()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("MainSearchFragment", "onDestroyView")
         viewModel.resetScrollData()
     }
 

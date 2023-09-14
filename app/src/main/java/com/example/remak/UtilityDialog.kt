@@ -9,12 +9,15 @@ import android.os.Build
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 
 object UtilityDialog {
     fun showWarnDialog(
         context: Context,
         getContent: String,
         getSubContent: String,
+        confirmBtnText: String,
+        cancelBtnText: String,
         confirmClick: () -> Unit,
         cancelClick: () -> Unit
     ) {
@@ -48,12 +51,14 @@ object UtilityDialog {
             val x = (rect.width() * 0.85).toInt()
             window.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
         }
-        val confirmBtn = dialog.findViewById<View>(R.id.confirmBtn)
-        val cancelBtn = dialog.findViewById<View>(R.id.cancelBtn)
+        val confirmBtn = dialog.findViewById<AppCompatButton>(R.id.confirmBtn)
+        val cancelBtn = dialog.findViewById<AppCompatButton>(R.id.cancelBtn)
         val content = dialog.findViewById<TextView>(R.id.msgTextView)
         val subContent = dialog.findViewById<TextView>(R.id.subMsgTextView)
         content.text = getContent
         subContent.text = getSubContent
+        confirmBtn.text = confirmBtnText
+        cancelBtn.text = cancelBtnText
 
         confirmBtn.setOnClickListener {
             dialog.dismiss()

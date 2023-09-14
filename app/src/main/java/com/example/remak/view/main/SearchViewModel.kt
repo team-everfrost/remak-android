@@ -1,6 +1,5 @@
 package com.example.remak.view.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,13 +33,10 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
         try {
             if (response.isSuccessful) {
                 _searchResult.value = response.body()!!.data
-                Log.d("search_result", _searchResult.value.toString())
                 embeddingOffset = 20
             } else {
-                Log.d("search_result", response.errorBody()!!.string())
             }
         } catch (e: Exception) {
-            Log.d("search_result", e.toString())
         }
     }
 
@@ -50,16 +46,13 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
         try {
             if (response.isSuccessful) {
                 _searchResult.value = response.body()!!.data
-                Log.d("search_result", _searchResult.value.toString())
                 response.body()!!.data.let {
                     searchCursor = it.last().updatedAt
                     searchDocID = it.last().docId
                 }
             } else {
-                Log.d("search_result", response.errorBody()!!.string())
             }
         } catch (e: Exception) {
-            Log.d("search_result", e.toString())
         }
 
     }
@@ -69,7 +62,6 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
             val tempData = searchResult.value?.toMutableList() ?: mutableListOf()
             val response = networkRepository.getTextSearchData(lastQuery, searchCursor, searchDocID)
             try {
-                Log.d("search_result", response.body()!!.data.toString())
                 if (response.isSuccessful) {
                     for (data in response.body()!!.data) {
                         tempData.add(data)
@@ -81,10 +73,8 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
                     _searchResult.value = tempData
 
                 } else {
-                    Log.d("search_result", response.errorBody()!!.string())
                 }
             } catch (e: Exception) {
-                Log.d("search_result", e.toString())
                 isLoadEnd = true
             }
         }
@@ -93,8 +83,6 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
     fun getNewEmbeddingSearch() = viewModelScope.launch {
         isEmbeddingLoading.value = true
         var tempData = searchResult.value?.toMutableList() ?: mutableListOf()
-
-        Log.d("embeddingOffset", embeddingOffset.toString())
         val response = networkRepository.getEmbeddingData(lastQuery, embeddingOffset)
         try {
             if (response.isSuccessful) {
@@ -104,10 +92,8 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
                 embeddingOffset = embeddingOffset?.plus(20)
 
             } else {
-                Log.d("search_result", response.errorBody()!!.string())
             }
         } catch (e: Exception) {
-            Log.d("search_result", e.toString())
             isLoadEnd = true
         }
 
