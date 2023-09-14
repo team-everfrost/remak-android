@@ -6,7 +6,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -109,22 +108,10 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
         })
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("TagFragment", "onDestroy")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.resetScrollData()
-
-    }
-
     override fun onItemClick(position: Int) {
         val intent = Intent(requireContext(), TagDetailActivity::class.java)
         intent.putExtra("tagName", adapter.getTagName(position))
         intent.putExtra("tagCount", adapter.getTagCount(position))
         startActivity(intent)
-
     }
 }

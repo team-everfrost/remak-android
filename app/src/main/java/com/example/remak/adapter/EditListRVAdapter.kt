@@ -63,6 +63,8 @@ class EditListRVAdapter(
 
         val title: TextView = view.findViewById<TextView>(R.id.title)
         val subject: TextView = view.findViewById(R.id.subject)
+        val date: TextView = view.findViewById(R.id.dateText)
+        val thumbnail: View = view.findViewById(R.id.thumbnail)
         val checkbox: CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
 
         init {
@@ -162,26 +164,14 @@ class EditListRVAdapter(
             }
 
             is FileViewHolder -> {
-                //날짜 포맷 변경
-                val inputFormatter =
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
-                val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
-
-                val dateTime = ZonedDateTime.parse(dataSet[position].updatedAt, inputFormatter)
-                val outputDateStr = dateTime.format(outputFormatter)
-
-                val text =
-                    holder.itemView.context.getString(R.string.filetype_date, "PDF", outputDateStr)
-
-                // .앞에 있는 파일 이름만 가져오기
                 val title = dataSet[position].title!!.substringBeforeLast(".")
                 val summary = dataSet[position].summary
                 holder.title.text = title//제목
+                holder.date.text = "파일 | ${dateSetting(position)}"//날짜
                 holder.checkbox.visibility = View.VISIBLE
                 holder.checkbox.isChecked = dataSet[position].isSelected
 
                 when (dataSet[position].status!!) {
-
                     "EMBED_PENDING" -> {
                         holder.subject.text = "AI가 곧 자료를 요약할거에요."
                     }
@@ -205,8 +195,18 @@ class EditListRVAdapter(
                         } else {
                             holder.subject.text = ""
                         }
-
                     }
+                }
+                if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
+                    Glide.with(holder.itemView.context)
+                        .load(dataSet[position].thumbnailUrl)
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
+                } else {
+                    Glide.with(holder.itemView.context)
+                        .load(R.drawable.sample_image)
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
                 }
             }
 
@@ -278,8 +278,6 @@ class EditListRVAdapter(
                         .transform(CenterCrop(), RoundedCorners(47))
                         .into(holder.itemView.findViewById(R.id.thumbnail))
                 }
-
-//                setWebpageData(position, holder)
 
             }
 

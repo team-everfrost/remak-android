@@ -14,8 +14,8 @@ import okhttp3.MultipartBody
 class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private val networkRepository = NetworkRepository()
 
-    private val _uploadFileSuccess = MutableLiveData<Boolean>()
-    val uploadFileSuccess: LiveData<Boolean> = _uploadFileSuccess
+    private val _isUploadComplete = MutableLiveData<Boolean>()
+    val isUploadComplete: LiveData<Boolean> = _isUploadComplete
 
     private val _uploadState = MutableLiveData<UploadState>()
     val uploadState: LiveData<UploadState> = _uploadState
@@ -47,19 +47,13 @@ class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
             Log.d("file", files.toString())
             if (response.isSuccessful) {
                 Log.d("success", response.body().toString())
-                _uploadFileSuccess.value = true
                 _uploadState.value = UploadState.SUCCESS
-
             } else {
                 Log.d("fail", response.errorBody()?.string()!!)
             }
         } catch (e: Exception) {
             Log.d("networkError", e.toString())
         }
-    }
-
-    fun resetUploadFileSuccess() {
-        _uploadFileSuccess.value = false
     }
 
 }

@@ -12,11 +12,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.remak.R
 import com.example.remak.network.model.SearchEmbeddingData
-import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import java.util.TimeZone
 
 class SearchRVAdapter(
     var dataSet: List<SearchEmbeddingData.Data>,
@@ -50,16 +48,14 @@ class SearchRVAdapter(
                     itemClickListener.onItemClick(it, position)
                 }
             }
-//            val position = adapterPosition
-//            view.setOnClickListener {
-//                itemClickListener.onItemClick(it, position)
-//            }
         }
     }
 
     inner class FileViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<TextView>(R.id.title)
         val subject: TextView = view.findViewById(R.id.subject)
+        val date: TextView = view.findViewById(R.id.dateText)
+        val thumbnail: View = view.findViewById(R.id.thumbnail)
 
         init {
             view.setOnClickListener {
@@ -82,10 +78,7 @@ class SearchRVAdapter(
                     itemClickListener.onItemClick(it, position)
                 }
             }
-//            val position = adapterPosition
-//            view.setOnClickListener {
-//                itemClickListener.onItemClick(it, position)
-//            }
+
         }
     }
 
@@ -156,21 +149,48 @@ class SearchRVAdapter(
             }
 
             is FileViewHolder -> {
-                //날짜 포맷 변경
-                val inputFormat =
-                    SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-                inputFormat.timeZone = TimeZone.getTimeZone("UTC")
-                val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val date = inputFormat.parse(dataSet[position].updatedAt)
-                val outputDateStr = outputFormat.format(date)
-                val text =
-                    holder.itemView.context.getString(R.string.filetype_date, "PDF", outputDateStr)
-
-                // .앞에 있는 파일 이름만 가져오기
-                val title = dataSet[position].title.substringBefore(".")
-
+                val title = dataSet[position].title.substringBeforeLast(".")
+                val summary = dataSet[position].summary
                 holder.title.text = title//제목
-                holder.subject.text = text //파일타입, 날짜
+                holder.date.text = "파일 | ${dateSetting(position)}"//날짜
+
+                when (dataSet[position].status) {
+                    "EMBED_PENDING" -> {
+                        holder.subject.text = "AI가 곧 자료를 요약할거에요."
+                    }
+
+                    "EMBED_PROCESSING" -> {
+                        holder.subject.text = "AI가 자료를 요약중이에요!"
+                    }
+
+                    "EMBED_REJECTED" -> {
+                        holder.subject.text = "AI가 자료를 요약하지 못했어요."
+                    }
+
+                    "COMPLETED" -> {
+                        if (summary != null) {
+                            if (summary.contains("\n")) {
+                                val index = summary.indexOf("\n")
+                                holder.subject.text = summary.substring(0, index)
+                            } else {
+                                holder.subject.text = dataSet[position].summary
+                            }
+                        } else {
+                            holder.subject.text = ""
+                        }
+                    }
+                }
+                if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
+                    Glide.with(holder.itemView.context)
+                        .load(dataSet[position].thumbnailUrl)
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
+                } else {
+                    Glide.with(holder.itemView.context)
+                        .load(R.drawable.sample_image)
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
+                }
             }
 
             is WebPageViewHolder -> {

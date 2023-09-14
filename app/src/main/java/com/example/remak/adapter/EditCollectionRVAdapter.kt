@@ -30,7 +30,6 @@ class EditCollectionRVAdapter(
         private const val FILE_VIEW_TYPE = 0
         private const val WEBPAGE_VIEW_TYPE = 2
         private const val IMAGE_VIEW_TYPE = 3
-        private const val DATE_VIEW_TYPE = 4
     }
 
     private fun toggleSelection(position: Int, checkbox: CheckBox) {
@@ -57,6 +56,8 @@ class EditCollectionRVAdapter(
     inner class FileViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<TextView>(R.id.title)
         val subject: TextView = view.findViewById(R.id.subject)
+        val thumbnail: View = view.findViewById(R.id.thumbnail)
+        val date: TextView = view.findViewById(R.id.dateText)
         val checkbox: CheckBox = view.findViewById(R.id.checkbox)
 
         init {
@@ -153,26 +154,50 @@ class EditCollectionRVAdapter(
             }
 
             is FileViewHolder -> {
-                holder.checkbox.visibility = View.VISIBLE //선택모드일때만 보이게
-                holder.checkbox.isChecked = dataSet[position].isSelected
-                //날짜 포맷 변경
-                val inputFormatter =
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
-                val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
-
-                Log.d("errordate", dataSet[position].updatedAt!!)
-
-                val dateTime = ZonedDateTime.parse(dataSet[position].updatedAt, inputFormatter)
-                val outputDateStr = dateTime.format(outputFormatter)
-
-                val text =
-                    holder.itemView.context.getString(R.string.filetype_date, "PDF", outputDateStr)
-
-                // .앞에 있는 파일 이름만 가져오기
-                val title = dataSet[position].title!!.substringBefore(".")
-
+                val title = dataSet[position].title!!.substringBeforeLast(".")
+                val summary = dataSet[position].summary
                 holder.title.text = title//제목
-                holder.subject.text = text //파일타입, 날짜
+                holder.date.text = "파일 | ${dateSetting(position)}"//날짜
+                holder.checkbox.visibility = View.VISIBLE
+                holder.checkbox.isChecked = dataSet[position].isSelected
+
+                when (dataSet[position].status!!) {
+                    "EMBED_PENDING" -> {
+                        holder.subject.text = "AI가 곧 자료를 요약할거에요."
+                    }
+
+                    "EMBED_PROCESSING" -> {
+                        holder.subject.text = "AI가 자료를 요약중이에요!"
+                    }
+
+                    "EMBED_REJECTED" -> {
+                        holder.subject.text = "AI가 자료를 요약하지 못했어요."
+                    }
+
+                    "COMPLETED" -> {
+                        if (summary != null) {
+                            if (summary.contains("\n")) {
+                                val index = summary.indexOf("\n")
+                                holder.subject.text = summary.substring(0, index)
+                            } else {
+                                holder.subject.text = dataSet[position].summary
+                            }
+                        } else {
+                            holder.subject.text = ""
+                        }
+                    }
+                }
+                if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
+                    Glide.with(holder.itemView.context)
+                        .load(dataSet[position].thumbnailUrl)
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
+                } else {
+                    Glide.with(holder.itemView.context)
+                        .load(R.drawable.sample_image)
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
+                }
             }
 
             is WebpageViewHolder -> {

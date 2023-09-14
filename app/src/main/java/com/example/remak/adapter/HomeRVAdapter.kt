@@ -117,6 +117,8 @@ class HomeRVAdapter(
 
         val title: TextView = view.findViewById<TextView>(R.id.title)
         val subject: TextView = view.findViewById(R.id.subject)
+        val date: TextView = view.findViewById(R.id.dateText)
+        val thumbnail = view.findViewById<ImageFilterView>(R.id.thumbnail)
         val checkbox: CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
 
         init {
@@ -258,6 +260,7 @@ class HomeRVAdapter(
                 val title = dataSet[position].title!!.substringBeforeLast(".")
                 val summary = dataSet[position].summary
                 holder.title.text = title//제목
+                holder.date.text = "파일 | ${dateSetting(position)}"//날짜
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
                 when (dataSet[position].status!!) {
@@ -285,6 +288,19 @@ class HomeRVAdapter(
                             holder.subject.text = ""
                         }
                     }
+                }
+                if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
+                    Glide.with(holder.itemView.context)
+                        .load(dataSet[position].thumbnailUrl)
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
+                } else {
+                    Glide.with(holder.itemView.context)
+                        .load(R.drawable.no_thumbnail_image)
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
+                    holder.itemView.findViewById<ImageFilterView>(R.id.thumbnail).background = null
+
                 }
             }
 
