@@ -13,6 +13,7 @@ import com.example.remak.adapter.EditListItemOffsetDecoration
 import com.example.remak.adapter.EditListRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.EditListPageActivityBinding
+import com.example.remak.view.collection.EditCollectionBottomSheetDialog
 
 class EditListActivity : AppCompatActivity() {
     private lateinit var binding: EditListPageActivityBinding

@@ -8,6 +8,10 @@ import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainActivityBinding
+import com.example.remak.view.collection.MainCollectionFragment
+import com.example.remak.view.profile.MainProfileFragment
+import com.example.remak.view.search.MainSearchFragment
+import com.example.remak.view.tag.MainTagFragment
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels { MainViewModelFactory(tokenRepository) }

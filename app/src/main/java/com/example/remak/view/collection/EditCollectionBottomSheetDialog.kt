@@ -1,4 +1,4 @@
-package com.example.remak.view.main
+package com.example.remak.view.collection
 
 import android.app.Activity
 import android.content.Intent

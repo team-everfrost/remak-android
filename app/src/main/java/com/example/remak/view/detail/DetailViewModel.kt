@@ -22,26 +22,9 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     private val networkRepository = NetworkRepository()
     private val _detailData = MutableLiveData<MainListData.Data>()
     val detailData: LiveData<MainListData.Data> = _detailData
-
-    private val _tagDetailData = MutableLiveData<List<MainListData.Data>>()
-    val tagDetailData: LiveData<List<MainListData.Data>> = _tagDetailData
-
-    private val _collectionDetailData = MutableLiveData<List<MainListData.Data>>()
-    val collectionDetailData: LiveData<List<MainListData.Data>> = _collectionDetailData
-
-    private val _isCollectionEmpty = MutableLiveData<Boolean>()
-    val isCollectionEmpty: LiveData<Boolean> = _isCollectionEmpty
-
-    private val _selectedItemsCount = MutableLiveData<Int>()
-    val selectedItemsCount: LiveData<Int> = _selectedItemsCount
-
     private val _isActionComplete = MutableLiveData<Boolean>()
     val isActionComplete: LiveData<Boolean> = _isActionComplete
 
-    private var cursor: String? = null
-    private var docId: String? = null
-
-    var isLoadEnd = false
 
     fun deleteDocument(docId: String) = viewModelScope.launch {
         try {
@@ -121,125 +104,7 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         }
     }
 
-    fun getTagDetailData(tagName: String) = viewModelScope.launch {
-        try {
-            val response = networkRepository.getTagDetailData(tagName, null, null)
-            if (response.isSuccessful) {
-                _tagDetailData.value = response.body()!!.data
-                response.body()!!.data.let {
-                    cursor = it.last().updatedAt
-                    docId = it.last().docId
-                }
-            } else {
-            }
-        } catch (e: Exception) {
-        }
-    }
 
-    fun getNewTagDetailData(tagName: String) = viewModelScope.launch {
-        if (!isLoadEnd) {
-            val tempData = tagDetailData.value?.toMutableList() ?: mutableListOf()
-            try {
-                val response = networkRepository.getTagDetailData(tagName, cursor, docId)
-                if (response.isSuccessful) {
-                    response.body()!!.data.let {
-                        if (it.isNotEmpty()) {
-                            tempData.addAll(it)
-                            _tagDetailData.value = tempData
-                            cursor = it.last().updatedAt
-                            docId = it.last().docId
-                        } else {
-                            isLoadEnd = true
-                        }
-                    }
-                    _tagDetailData.value = tempData
-                } else {
-                }
-            } catch (e: Exception) {
-            }
-        }
-    }
-
-    fun getCollectionDetailData(collectionName: String) = viewModelScope.launch {
-        val response = networkRepository.getCollectionDetailData(collectionName, null, null)
-        try {
-            if (response.isSuccessful) {
-                _collectionDetailData.value = response.body()!!.data
-                _isCollectionEmpty.value = response.body()!!.data.isEmpty()
-                response.body()!!.data.let {
-                    cursor = it.last().updatedAt
-                    docId = it.last().docId
-                }
-            } else {
-            }
-        } catch (e: Exception) {
-
-        }
-    }
-
-    fun getNewCollectionDetailData(collectionName: String) = viewModelScope.launch {
-        if (!isLoadEnd) {
-            val tempData = collectionDetailData.value?.toMutableList() ?: mutableListOf()
-            try {
-                val response =
-                    networkRepository.getCollectionDetailData(collectionName, cursor, docId)
-                if (response.isSuccessful) {
-                    response.body()!!.data.let {
-                        if (it.isNotEmpty()) {
-                            tempData.addAll(it)
-                            _collectionDetailData.value = tempData
-                            cursor = it.last().updatedAt
-                            docId = it.last().docId
-                        } else {
-                            isLoadEnd = true
-                        }
-                    }
-                    _collectionDetailData.value = tempData
-                } else {
-                }
-            } catch (e: Exception) {
-            }
-        }
-    }
-
-    fun removeDataInCollection(collectionName: String, docIds: List<String>) =
-        viewModelScope.launch {
-            val response = networkRepository.removeDataInCollection(collectionName, docIds)
-            try {
-                if (response.isSuccessful) {
-                    getCollectionDetailData(collectionName)
-                } else {
-                }
-            } catch (e: Exception) {
-            }
-        }
-
-    fun deleteCollection(name: String) = viewModelScope.launch {
-        val response = networkRepository.deleteCollection(name)
-        try {
-            if (response.isSuccessful) {
-            } else {
-            }
-            _isActionComplete.value = true
-        } catch (e: Exception) {
-        }
-    }
-
-    fun resetTagDetailData() {
-        _tagDetailData.value = listOf()
-    }
-
-    fun increaseSelectionCount() {
-        _selectedItemsCount.value = (_selectedItemsCount.value ?: 0) + 1
-    }
-
-    fun decreaseSelectionCount() {
-        _selectedItemsCount.value = (_selectedItemsCount.value ?: 0) - 1
-    }
-
-    fun resetSelectionCount() {
-        _selectedItemsCount.value = 0
-    }
 }
 
 class DetailViewModelFactory(private val tokenRepository: TokenRepository) :

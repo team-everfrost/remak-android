@@ -1,4 +1,4 @@
-package com.example.remak.view.main
+package com.example.remak.view.profile
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +12,8 @@ import com.example.remak.UtilityDialog
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.EditProfileFragmentBinding
 import com.example.remak.view.account.AccountActivity
+import com.example.remak.view.main.MainViewModel
+import com.example.remak.view.main.MainViewModelFactory
 
 class ProfileEditFragment : Fragment() {
     private lateinit var binding: EditProfileFragmentBinding

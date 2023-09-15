@@ -1,4 +1,4 @@
-package com.example.remak.view.main
+package com.example.remak.view.collection
 
 import android.app.Activity
 import android.content.Intent
@@ -18,8 +18,7 @@ import com.example.remak.adapter.CollectionRVAdapter
 import com.example.remak.adapter.SpacingItemDecorator
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainCollectionFragmentBinding
-import com.example.remak.view.add.AddCollectionActivity
-import com.example.remak.view.detail.CollectionDetailActivity
+import com.example.remak.view.main.MainActivity
 
 class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListener {
     private lateinit var binding: MainCollectionFragmentBinding

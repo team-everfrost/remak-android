@@ -1,4 +1,4 @@
-package com.example.remak.view.main
+package com.example.remak.view.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,8 @@ import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.PrivacyPolicyFragmentBinding
+import com.example.remak.view.main.MainViewModel
+import com.example.remak.view.main.MainViewModelFactory
 
 class PrivacyPoliceFragment : Fragment() {
     private lateinit var binding: PrivacyPolicyFragmentBinding

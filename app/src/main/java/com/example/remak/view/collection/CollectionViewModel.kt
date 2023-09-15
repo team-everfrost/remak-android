@@ -1,4 +1,4 @@
-package com.example.remak.view.main
+package com.example.remak.view.collection
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.model.ErrorResponse
 import com.example.remak.network.model.CollectionListData
+import com.example.remak.network.model.MainListData
 import com.example.remak.repository.NetworkRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
@@ -23,7 +24,14 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
     val isDuplicateName: LiveData<Boolean?> = _isDuplicateName
     private val _isUpdateComplete = MutableLiveData<Boolean>()
     val isUpdateComplete: LiveData<Boolean> = _isUpdateComplete
-
+    private val _collectionDetailData = MutableLiveData<List<MainListData.Data>>()
+    val collectionDetailData: LiveData<List<MainListData.Data>> = _collectionDetailData
+    private val _isActionComplete = MutableLiveData<Boolean>()
+    val isActionComplete: LiveData<Boolean> = _isActionComplete
+    private var cursor: String? = null
+    private var docId: String? = null
+    private val _selectedItemsCount = MutableLiveData<Int>()
+    val selectedItemsCount: LiveData<Int> = _selectedItemsCount
     fun getCollectionList() = viewModelScope.launch {
         try {
             val response = networkRepository.getCollectionListData(0)
@@ -37,6 +45,34 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
             }
         } catch (e: Exception) {
             _isCollectionEmpty.value = true
+        }
+    }
+
+    fun getCollectionDetailData(collectionName: String) = viewModelScope.launch {
+        val response = networkRepository.getCollectionDetailData(collectionName, null, null)
+        try {
+            if (response.isSuccessful) {
+                _collectionDetailData.value = response.body()!!.data
+                _isCollectionEmpty.value = response.body()!!.data.isEmpty()
+                response.body()!!.data.let {
+                    cursor = it.last().updatedAt
+                    docId = it.last().docId
+                }
+            } else {
+            }
+        } catch (e: Exception) {
+
+        }
+    }
+
+    fun deleteCollection(name: String) = viewModelScope.launch {
+        val response = networkRepository.deleteCollection(name)
+        try {
+            if (response.isSuccessful) {
+            } else {
+            }
+            _isActionComplete.value = true
+        } catch (e: Exception) {
         }
     }
 
@@ -72,8 +108,32 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
             _isUpdateComplete.value = true
         }
 
+    fun removeDataInCollection(collectionName: String, docIds: List<String>) =
+        viewModelScope.launch {
+            val response = networkRepository.removeDataInCollection(collectionName, docIds)
+            try {
+                if (response.isSuccessful) {
+                    getCollectionDetailData(collectionName)
+                } else {
+                }
+            } catch (e: Exception) {
+            }
+        }
+
+    fun resetSelectionCount() {
+        _selectedItemsCount.value = 0
+    }
+
     fun resetDuplicateName() {
         _isDuplicateName.value = null
+    }
+
+    fun increaseSelectionCount() {
+        _selectedItemsCount.value = (_selectedItemsCount.value ?: 0) + 1
+    }
+
+    fun decreaseSelectionCount() {
+        _selectedItemsCount.value = (_selectedItemsCount.value ?: 0) - 1
     }
 
 }

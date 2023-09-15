@@ -14,7 +14,8 @@ import com.example.remak.adapter.LinkTagRVAdapter
 import com.example.remak.adapter.SpacingItemDecoration
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageFileActivityBinding
-import com.example.remak.view.main.EditCollectionBottomSheetDialog
+import com.example.remak.view.collection.EditCollectionBottomSheetDialog
+import com.example.remak.view.tag.TagDetailActivity
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager

@@ -1,4 +1,4 @@
-package com.example.remak.view.main
+package com.example.remak.view.tag
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.remak.dataStore.TokenRepository
+import com.example.remak.network.model.MainListData
 import com.example.remak.network.model.TagListData
 import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.launch
@@ -18,7 +19,11 @@ class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private var isListEnd: Boolean = false
     private var isLoadEnd: Boolean = false
     private lateinit var lastQuery: String
+    private val _tagDetailData = MutableLiveData<List<MainListData.Data>>()
+    val tagDetailData: LiveData<List<MainListData.Data>> = _tagDetailData
 
+    private var cursor: String? = null
+    private var docId: String? = null
     fun getTagList() = viewModelScope.launch {
         try {
             var response = networkRepository.getTagListData(0)
@@ -54,6 +59,45 @@ class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
             }
             _tagList.value = tempData
             isLoadEnd = false
+        }
+    }
+
+    fun getTagDetailData(tagName: String) = viewModelScope.launch {
+        try {
+            val response = networkRepository.getTagDetailData(tagName, null, null)
+            if (response.isSuccessful) {
+                _tagDetailData.value = response.body()!!.data
+                response.body()!!.data.let {
+                    cursor = it.last().updatedAt
+                    docId = it.last().docId
+                }
+            } else {
+            }
+        } catch (e: Exception) {
+        }
+    }
+
+    fun getNewTagDetailData(tagName: String) = viewModelScope.launch {
+        if (!isLoadEnd) {
+            val tempData = tagDetailData.value?.toMutableList() ?: mutableListOf()
+            try {
+                val response = networkRepository.getTagDetailData(tagName, cursor, docId)
+                if (response.isSuccessful) {
+                    response.body()!!.data.let {
+                        if (it.isNotEmpty()) {
+                            tempData.addAll(it)
+                            _tagDetailData.value = tempData
+                            cursor = it.last().updatedAt
+                            docId = it.last().docId
+                        } else {
+                            isLoadEnd = true
+                        }
+                    }
+                    _tagDetailData.value = tempData
+                } else {
+                }
+            } catch (e: Exception) {
+            }
         }
     }
 
@@ -100,6 +144,10 @@ class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
         offset = null
         isListEnd = false
         isLoadEnd = false
+    }
+
+    fun resetTagDetailData() {
+        _tagDetailData.value = listOf()
     }
 }
 

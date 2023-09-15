@@ -1,4 +1,4 @@
-package com.example.remak.view.detail
+package com.example.remak.view.tag
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,10 +11,14 @@ import com.example.remak.UtilityRV
 import com.example.remak.adapter.SearchRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.TagDetailActivityBinding
+import com.example.remak.view.detail.FileDetailActivity
+import com.example.remak.view.detail.ImageDetailActivity
+import com.example.remak.view.detail.LinkDetailActivity
+import com.example.remak.view.detail.MemoDetailActivity
 
 class TagDetailActivity : AppCompatActivity(), SearchRVAdapter.OnItemClickListener {
     private lateinit var binding: TagDetailActivityBinding
-    private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
+    private val viewModel: TagViewModel by viewModels { TagViewModelFactory(tokenRepository) }
     lateinit var tokenRepository: TokenRepository
     private lateinit var adapter: SearchRVAdapter
     private lateinit var recyclerView: RecyclerView
@@ -35,8 +39,6 @@ class TagDetailActivity : AppCompatActivity(), SearchRVAdapter.OnItemClickListen
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         viewModel.getTagDetailData(tagName!!)
-
-
         viewModel.tagDetailData.observe(this) {
             binding.tagName.text = "${tagName} (${it.size})"
             adapter.dataSet = it

@@ -1,4 +1,4 @@
-package com.example.remak.view.main
+package com.example.remak.view.tag
 
 import android.content.Intent
 import android.os.Bundle
@@ -21,7 +21,7 @@ import com.example.remak.adapter.TagItemOffsetDecoration
 import com.example.remak.adapter.TagRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainTagFragmentBinding
-import com.example.remak.view.detail.TagDetailActivity
+import com.example.remak.view.main.MainActivity
 
 class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
     private lateinit var binding: MainTagFragmentBinding

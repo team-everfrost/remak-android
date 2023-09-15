@@ -1,4 +1,4 @@
-package com.example.remak.view.detail
+package com.example.remak.view.collection
 
 import android.app.Activity
 import android.content.Context
@@ -21,11 +21,18 @@ import com.example.remak.UtilityRV
 import com.example.remak.adapter.SearchRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageCollectionActivityBinding
-import com.example.remak.view.main.EditCollectionActivity
+import com.example.remak.view.detail.FileDetailActivity
+import com.example.remak.view.detail.ImageDetailActivity
+import com.example.remak.view.detail.LinkDetailActivity
+import com.example.remak.view.detail.MemoDetailActivity
 
 class CollectionDetailActivity : AppCompatActivity(), SearchRVAdapter.OnItemClickListener {
     private lateinit var binding: DetailPageCollectionActivityBinding
-    private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
+    private val viewModel: CollectionViewModel by viewModels {
+        CollectionViewModelFactory(
+            tokenRepository
+        )
+    }
     lateinit var tokenRepository: TokenRepository
     private lateinit var adapter: SearchRVAdapter
     private lateinit var recyclerView: RecyclerView

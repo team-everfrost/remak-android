@@ -1,4 +1,4 @@
-package com.example.remak.view.add
+package com.example.remak.view.collection
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,8 +11,6 @@ import com.example.remak.UtilityDialog
 import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AddCollectionActivityBinding
-import com.example.remak.view.main.CollectionViewModel
-import com.example.remak.view.main.CollectionViewModelFactory
 
 class AddCollectionActivity : AppCompatActivity() {
     private lateinit var binding: AddCollectionActivityBinding

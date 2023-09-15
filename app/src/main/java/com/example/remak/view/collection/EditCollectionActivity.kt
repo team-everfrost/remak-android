@@ -1,4 +1,4 @@
-package com.example.remak.view.main
+package com.example.remak.view.collection
 
 import android.content.Context
 import android.content.Intent
@@ -16,13 +16,11 @@ import com.example.remak.UtilityRV
 import com.example.remak.adapter.EditCollectionRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.EditCollectionActivityBinding
-import com.example.remak.view.detail.DetailViewModel
-import com.example.remak.view.detail.DetailViewModelFactory
 
 class EditCollectionActivity : AppCompatActivity() {
     private lateinit var binding: EditCollectionActivityBinding
-    private val viewModel: DetailViewModel by viewModels {
-        DetailViewModelFactory(
+    private val viewModel: CollectionViewModel by viewModels {
+        CollectionViewModelFactory(
             tokenRepository
         )
     }

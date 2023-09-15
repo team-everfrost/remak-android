@@ -53,7 +53,7 @@
     </fragment>
     <fragment
         android:id="@+id/createMemoFragment"
-        android:name="com.example.remak.view.add.CreateMemoFragment"
+        android:name="com.example.remak.view.add.AddMemoFragment"
         android:label="CreateMemoFragment"
         tools:layout="@layout/edit_page_memo">
         <action

@@ -17,7 +17,7 @@ import com.example.remak.UtilityDialog
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.EditPageMemoBinding
 
-class CreateMemoFragment : Fragment() {
+class AddMemoFragment : Fragment() {
     private lateinit var binding: EditPageMemoBinding
     private val viewModel: AddViewModel by viewModels { AddViewModelFactory(tokenRepository) }
     private lateinit var tokenRepository: TokenRepository

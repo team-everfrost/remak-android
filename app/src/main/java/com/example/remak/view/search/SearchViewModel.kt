@@ -1,4 +1,4 @@
-package com.example.remak.view.main
+package com.example.remak.view.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.example.remak.view.main
+package com.example.remak.view.search
 
 import android.content.Context
 import android.content.Intent
@@ -31,6 +31,7 @@ import com.example.remak.view.detail.FileDetailActivity
 import com.example.remak.view.detail.ImageDetailActivity
 import com.example.remak.view.detail.LinkDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
+import com.example.remak.view.main.MainActivity
 
 class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
     SearchHistoryRVAdapter.OnItemClickListener {

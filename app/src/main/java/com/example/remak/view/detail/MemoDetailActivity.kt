@@ -21,7 +21,7 @@ import com.example.remak.UtilityDialog
 import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageMemoActivityBinding
-import com.example.remak.view.main.EditCollectionBottomSheetDialog
+import com.example.remak.view.collection.EditCollectionBottomSheetDialog
 import java.text.SimpleDateFormat
 import java.util.Locale
 
