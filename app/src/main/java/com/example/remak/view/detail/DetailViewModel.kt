@@ -12,8 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.remak.dataStore.TokenRepository
-import com.example.remak.network.model.DetailData
-import com.example.remak.network.model.TagDetailData
+import com.example.remak.network.model.MainListData
 import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,14 +20,14 @@ import kotlinx.coroutines.withContext
 
 class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private val networkRepository = NetworkRepository()
-    private val _detailData = MutableLiveData<DetailData.Data>()
-    val detailData: LiveData<DetailData.Data> = _detailData
+    private val _detailData = MutableLiveData<MainListData.Data>()
+    val detailData: LiveData<MainListData.Data> = _detailData
 
-    private val _tagDetailData = MutableLiveData<List<TagDetailData.Data>>()
-    val tagDetailData: LiveData<List<TagDetailData.Data>> = _tagDetailData
+    private val _tagDetailData = MutableLiveData<List<MainListData.Data>>()
+    val tagDetailData: LiveData<List<MainListData.Data>> = _tagDetailData
 
-    private val _collectionDetailData = MutableLiveData<List<TagDetailData.Data>>()
-    val collectionDetailData: LiveData<List<TagDetailData.Data>> = _collectionDetailData
+    private val _collectionDetailData = MutableLiveData<List<MainListData.Data>>()
+    val collectionDetailData: LiveData<List<MainListData.Data>> = _collectionDetailData
 
     private val _isCollectionEmpty = MutableLiveData<Boolean>()
     val isCollectionEmpty: LiveData<Boolean> = _isCollectionEmpty

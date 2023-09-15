@@ -7,6 +7,11 @@ class MainListData {
         val data: List<Data>
     )
 
+    data class DetailResponse(
+        val message: String,
+        val data: Data
+    )
+
     data class Data(
         val docId: String?,
         val title: String?,
@@ -21,8 +26,6 @@ class MainListData {
         val tags: List<String?>,
         var isSelected: Boolean = false,
         var header: String? = null,
-        var isDragSelected: Boolean = false
-
     )
 
 }

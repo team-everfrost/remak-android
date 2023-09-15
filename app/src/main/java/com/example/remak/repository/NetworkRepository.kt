@@ -7,13 +7,10 @@ import com.example.remak.network.model.CollectionListData
 import com.example.remak.network.model.CreateCollectionData
 import com.example.remak.network.model.CreateData
 import com.example.remak.network.model.DeleteData
-import com.example.remak.network.model.DetailData
 import com.example.remak.network.model.DownloadData
 import com.example.remak.network.model.MainListData
-import com.example.remak.network.model.SearchEmbeddingData
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
-import com.example.remak.network.model.TagDetailData
 import com.example.remak.network.model.TagListData
 import com.example.remak.network.model.UpdateData
 import com.example.remak.network.model.UploadFileData
@@ -57,7 +54,7 @@ class NetworkRepository {
         return client.getMainList(cursor, docID)
     }
 
-    suspend fun getDetailData(docId: String): Response<DetailData.ResponseBody> {
+    suspend fun getDetailData(docId: String): Response<MainListData.DetailResponse> {
         return client.getDetailData(docId)
     }
 
@@ -86,7 +83,7 @@ class NetworkRepository {
     suspend fun getEmbeddingData(
         query: String?,
         offset: Int?
-    ): Response<SearchEmbeddingData.ResponseBody> {
+    ): Response<MainListData.Response> {
         return client.getEmbeddingData(query, 20, offset)
     }
 
@@ -94,7 +91,7 @@ class NetworkRepository {
         query: String?,
         cursor: String?,
         docId: String?
-    ): Response<SearchEmbeddingData.ResponseBody> {
+    ): Response<MainListData.Response> {
         return client.getTextSearchData(query, cursor, docId)
     }
 
@@ -102,7 +99,7 @@ class NetworkRepository {
         tagName: String,
         cursor: String?,
         docId: String?
-    ): Response<TagDetailData.Response> {
+    ): Response<MainListData.Response> {
         return client.getTagDetailData(tagName, cursor, docId)
     }
 
@@ -135,7 +132,7 @@ class NetworkRepository {
         collectionName: String?,
         cursor: String?,
         docId: String?
-    ): Response<TagDetailData.Response> {
+    ): Response<MainListData.Response> {
         return client.getCollectionDetailData(collectionName, cursor, docId)
     }
 

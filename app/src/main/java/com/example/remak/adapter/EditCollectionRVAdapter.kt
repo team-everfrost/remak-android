@@ -12,13 +12,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.remak.R
-import com.example.remak.network.model.TagDetailData
+import com.example.remak.network.model.MainListData
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class EditCollectionRVAdapter(
-    var dataSet: List<TagDetailData.Data>,
+    var dataSet: List<MainListData.Data>,
     private val checkCallback: (Boolean) -> Unit,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {

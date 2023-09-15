@@ -71,9 +71,9 @@ class MemoDetailActivity : AppCompatActivity() {
         this.onBackPressedDispatcher.addCallback(this, callback)
         viewModel.getDetailData(memoId!!)
         viewModel.detailData.observe(this) {
-            initMemo = it.content
+            initMemo = it.content!!
             binding.memoContent.setText(it.content)
-            binding.dateText.text = setDate(it.createdAt)
+            binding.dateText.text = setDate(it.createdAt!!)
         }
 
         binding.memoContent.setOnFocusChangeListener { _, hasFocus ->

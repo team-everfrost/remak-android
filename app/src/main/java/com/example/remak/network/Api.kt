@@ -5,13 +5,10 @@ import com.example.remak.network.model.CollectionListData
 import com.example.remak.network.model.CreateCollectionData
 import com.example.remak.network.model.CreateData
 import com.example.remak.network.model.DeleteData
-import com.example.remak.network.model.DetailData
 import com.example.remak.network.model.DownloadData
 import com.example.remak.network.model.MainListData
-import com.example.remak.network.model.SearchEmbeddingData
 import com.example.remak.network.model.SignInData
 import com.example.remak.network.model.SignUpData
-import com.example.remak.network.model.TagDetailData
 import com.example.remak.network.model.TagListData
 import com.example.remak.network.model.UpdateData
 import com.example.remak.network.model.UploadFileData
@@ -58,7 +55,7 @@ interface Api {
 
     //자료 상세
     @GET("document/{docId}")
-    suspend fun getDetailData(@Path("docId") docId: String): retrofit2.Response<DetailData.ResponseBody>
+    suspend fun getDetailData(@Path("docId") docId: String): retrofit2.Response<MainListData.DetailResponse>
 
     @PATCH("document/memo/update/{docId}")
     suspend fun updateMemo(
@@ -84,7 +81,7 @@ interface Api {
         @Query("query") query: String?,
         @Query("limit") limit: Int? = 15,
         @Query("offset") offset: Int?
-    ): retrofit2.Response<SearchEmbeddingData.ResponseBody>
+    ): retrofit2.Response<MainListData.Response>
 
     @GET("document/search/text")
     suspend fun getTextSearchData(
@@ -92,7 +89,7 @@ interface Api {
         @Query("cursor") cursor: String?,
         @Query("doc-id") docID: String?,
         @Query("limit") limit: Int? = 20
-    ): retrofit2.Response<SearchEmbeddingData.ResponseBody>
+    ): retrofit2.Response<MainListData.Response>
 
     @GET("document/search/tag")
     suspend fun getTagDetailData(
@@ -100,7 +97,7 @@ interface Api {
         @Query("cursor") cursor: String?,
         @Query("doc-id") docID: String?,
         @Query("limit") limit: Int? = 20
-    ): retrofit2.Response<TagDetailData.Response>
+    ): retrofit2.Response<MainListData.Response>
 
     @GET("tag")
     suspend fun getTagListData(
@@ -133,7 +130,7 @@ interface Api {
         @Query("cursor") cursor: String?,
         @Query("doc-id") docID: String?,
         @Query("limit") limit: Int? = 20
-    ): retrofit2.Response<TagDetailData.Response>
+    ): retrofit2.Response<MainListData.Response>
 
     @POST("collection/add/{name}")
     suspend fun addDataInCollection(

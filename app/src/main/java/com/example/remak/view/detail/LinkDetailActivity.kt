@@ -23,7 +23,7 @@ import com.example.remak.adapter.LinkTagRVAdapter
 import com.example.remak.adapter.SpacingItemDecoration
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageLinkActivityBinding
-import com.example.remak.network.model.DetailData
+import com.example.remak.network.model.MainListData
 import com.example.remak.view.main.EditCollectionBottomSheetDialog
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -165,10 +165,10 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         }
     }
 
-    private fun updateUI(detailData: DetailData.Data) {
+    private fun updateUI(detailData: MainListData.Data) {
         binding.url.text = detailData.url
         url = detailData.url!!
-        val linkData = prepareLinkData(detailData.content)
+        val linkData = prepareLinkData(detailData.content!!)
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         val date = inputFormat.parse(detailData.updatedAt)
         val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())

@@ -22,7 +22,6 @@ class UpdateData {
         val thumbnailUrl: String?,
         val createdAt: String,
         val updatedAt: String,
-        val tags: List<String>
     )
 
 }

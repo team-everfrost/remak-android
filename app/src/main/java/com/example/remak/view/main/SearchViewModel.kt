@@ -6,14 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.remak.dataStore.SearchHistoryRepository
-import com.example.remak.network.model.SearchEmbeddingData
+import com.example.remak.network.model.MainListData
 import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.launch
 
 class SearchViewModel(private val searchHistoryRepository: SearchHistoryRepository) : ViewModel() {
 
-    private val _searchResult = MutableLiveData<List<SearchEmbeddingData.Data>>()
-    val searchResult: LiveData<List<SearchEmbeddingData.Data>> = _searchResult
+    private val _searchResult = MutableLiveData<List<MainListData.Data>>()
+    val searchResult: LiveData<List<MainListData.Data>> = _searchResult
 
     private val _searchHistory = MutableLiveData<List<String>>()
     val searchHistory: LiveData<List<String>> = _searchHistory

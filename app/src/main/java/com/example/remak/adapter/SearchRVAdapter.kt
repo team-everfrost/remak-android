@@ -12,13 +12,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.remak.R
-import com.example.remak.network.model.SearchEmbeddingData
+import com.example.remak.network.model.MainListData
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class SearchRVAdapter(
-    var dataSet: List<SearchEmbeddingData.Data>,
+    var dataSet: List<MainListData.Data>,
     private val itemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -209,7 +209,7 @@ class SearchRVAdapter(
             }
 
             is WebPageViewHolder -> {
-                val title = dataSet[position].title.replace(" ", "")
+                val title = dataSet[position].title!!.replace(" ", "")
                 if (title.isNullOrEmpty()) {
                     holder.title.text = dataSet[position].url
                 } else {
@@ -277,7 +277,7 @@ class SearchRVAdapter(
         return dateTime.format(outputFormatter)
     }
 
-    fun getItem(position: Int): SearchEmbeddingData.Data {
+    fun getItem(position: Int): MainListData.Data {
         return dataSet[position]
     }
 }
