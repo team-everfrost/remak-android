@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
 import com.example.remak.UtilityDialog
+import com.example.remak.UtilityRV
 import com.example.remak.adapter.EditCollectionRVAdapter
-import com.example.remak.adapter.TagDetailItemOffsetDecoration
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.EditCollectionActivityBinding
 import com.example.remak.view.detail.DetailViewModel
@@ -46,7 +46,7 @@ class EditCollectionActivity : AppCompatActivity() {
             }
         }
         recyclerView = binding.collectionDetailRecyclerView
-        recyclerView.addItemDecoration(TagDetailItemOffsetDecoration(20))
+        recyclerView.addItemDecoration(UtilityRV.CardItemOffsetDecoration(20))
         recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         recyclerView.adapter = adapter
         viewModel.getCollectionDetailData(collectionName!!)

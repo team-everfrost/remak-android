@@ -19,8 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
 import com.example.remak.R
+import com.example.remak.UtilityRV
 import com.example.remak.UtilitySystem
-import com.example.remak.adapter.ItemOffsetDecoration
 import com.example.remak.adapter.SearchHistoryItemOffsetDecoration
 import com.example.remak.adapter.SearchHistoryRVAdapter
 import com.example.remak.adapter.SearchRVAdapter
@@ -131,7 +131,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
-        val itemDecoration = ItemOffsetDecoration(10, adapter)
+        val itemDecoration = UtilityRV.CardItemOffsetDecoration(10)
         recyclerView.addItemDecoration(itemDecoration)
         recyclerView.visibility = View.GONE
 
@@ -239,7 +239,7 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
         historyAdapter.notifyDataSetChanged()
     }
 
-    override fun onItemClick(view: View, position: Int) {
+    override fun onItemClick(position: Int) {
         when (viewModel.searchResult.value!![position].type) {
             "MEMO" -> {
                 val intent = Intent(requireContext(), MemoDetailActivity::class.java)

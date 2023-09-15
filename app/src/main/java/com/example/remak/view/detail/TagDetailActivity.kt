@@ -7,16 +7,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
-import com.example.remak.adapter.TagDetailItemOffsetDecoration
-import com.example.remak.adapter.TagDetailRVAdapter
+import com.example.remak.UtilityRV
+import com.example.remak.adapter.SearchRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.TagDetailActivityBinding
 
-class TagDetailActivity : AppCompatActivity(), TagDetailRVAdapter.OnItemClickListener {
+class TagDetailActivity : AppCompatActivity(), SearchRVAdapter.OnItemClickListener {
     private lateinit var binding: TagDetailActivityBinding
     private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
     lateinit var tokenRepository: TokenRepository
-    private lateinit var adapter: TagDetailRVAdapter
+    private lateinit var adapter: SearchRVAdapter
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,10 +27,10 @@ class TagDetailActivity : AppCompatActivity(), TagDetailRVAdapter.OnItemClickLis
         setContentView(binding.root)
         val tagName = intent.getStringExtra("tagName")
 //        val tagCount = intent.getIntExtra("tagCount", 0)
-        adapter = TagDetailRVAdapter(listOf(), this)
+        adapter = SearchRVAdapter(listOf(), this)
         recyclerView = binding.tagDetailRV
         recyclerView.adapter = adapter
-        val itemDecoration = TagDetailItemOffsetDecoration(10)
+        val itemDecoration = UtilityRV.CardItemOffsetDecoration(10)
         recyclerView.addItemDecoration(itemDecoration)
         recyclerView.layoutManager = LinearLayoutManager(this)
 

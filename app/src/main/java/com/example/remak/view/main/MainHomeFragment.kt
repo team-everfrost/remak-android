@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.UtilityDialog
+import com.example.remak.UtilityRV
 import com.example.remak.UtilitySystem
-import com.example.remak.adapter.HomeItemOffsetDecoration
 import com.example.remak.adapter.HomeRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainHomeFragmentBinding
@@ -83,7 +83,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         adapter = HomeRVAdapter(mutableListOf(), this)
         recyclerView = binding.homeRV
         recyclerView.itemAnimator = null
-        val itemDecoration = HomeItemOffsetDecoration(30, adapter)
+        val itemDecoration = UtilityRV.HomeItemOffsetDecoration(30, adapter)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         //리사이클러 뷰 아이템 간격 조정
