@@ -84,9 +84,7 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     fun signup(email: String, password: String) = viewModelScope.launch {
         try {
             val response = networkRepository.signUp(email, password)
-
             if (response.isSuccessful) {
-
                 Log.d("token", response.body()?.data!!.accessToken)
                 //토큰 저장
                 val token = TokenData(response.body()?.data!!.accessToken)
@@ -95,9 +93,11 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
                 _isSignInSuccess.value = true
 
             } else {
+                Log.d("fail", response.errorBody()!!.string())
                 _isSignInSuccess.value = false
             }
         } catch (e: Exception) {
+            Log.d("fail", e.toString())
             _isSignInSuccess.value = false
             e.printStackTrace()
         }

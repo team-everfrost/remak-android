@@ -88,7 +88,12 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         recyclerView.adapter = adapter
         //리사이클러 뷰 아이템 간격 조정
         recyclerView.addItemDecoration(itemDecoration)
-        viewModel.getAllMainList()
+
+        if (savedInstanceState == null) {
+            viewModel.getAllMainList()
+        } else {
+            adapter.dataSet = viewModel.mainListData.value!!
+        }
 
         //뒤로가기 누를 시 선택모드면 선택모드 종료 아니면 앱 종료
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
@@ -213,23 +218,26 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
     }
 
     override fun onSelectionStarted() {
+        recyclerView.isNestedScrollingEnabled = false
+        binding.addBtn.visibility = View.GONE
+        binding.moreIcon.visibility = View.GONE
         binding.deleteBtn.visibility = View.VISIBLE
         binding.deleteBtn.alpha = 0f
         binding.deleteBtn.animate().alpha(1f).duration = 200
         binding.swipeRefresh.isEnabled = false
+        (activity as MainActivity).hideBottomNavi()
     }
 
     override fun onSelectionEnded() {
+        recyclerView.isNestedScrollingEnabled = true
+        binding.addBtn.visibility = View.VISIBLE
+        binding.moreIcon.visibility = View.VISIBLE
         binding.deleteBtn.visibility = View.GONE
         binding.deleteBtn.alpha = 1f
         binding.deleteBtn.animate().alpha(0f).duration = 300
         binding.swipeRefresh.isEnabled = true
         adapter.isSelectionModeEnd()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.resetMainData()
+        (activity as MainActivity).showBottomNavi()
     }
 
     fun scrollToTop() {

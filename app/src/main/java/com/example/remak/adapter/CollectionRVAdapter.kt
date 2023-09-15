@@ -16,6 +16,7 @@ class CollectionRVAdapter(
 ) : RecyclerView.Adapter<CollectionRVAdapter.CollectionRVViewHolder>() {
     inner class CollectionRVViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<TextView>(R.id.collectionNameText)
+        val description: TextView = view.findViewById(R.id.collectionDescriptionText)
         val count: TextView = view.findViewById<TextView>(R.id.collectionCount)
 
         init {
@@ -32,6 +33,7 @@ class CollectionRVAdapter(
     override fun onBindViewHolder(holder: CollectionRVViewHolder, position: Int) {
         val count = collectionData[position].count
         holder.title.text = collectionData[position].name
+        holder.description.text = collectionData[position].description
         if (count == 0) {
             holder.count.text = "${collectionData[position].count}개"
         } else {

@@ -75,7 +75,6 @@ class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
         viewModel.isUpdateComplete.observe(this) {
             if (it) {
                 if (checkType == "detail") {
-                    Toast.makeText(requireContext(), "컬렉션에 추가되었습니다.", Toast.LENGTH_SHORT).show()
                     this.dismiss()
                 } else {
                     val resultIntent = Intent()
@@ -83,6 +82,7 @@ class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
                     requireActivity().setResult(Activity.RESULT_OK, resultIntent)
                     requireActivity().finish()
                 }
+                Toast.makeText(requireContext(), "컬렉션에 추가되었습니다.", Toast.LENGTH_SHORT).show()
 
             } else {
                 Toast.makeText(requireContext(), "컬렉션 추가에 실패했습니다.", Toast.LENGTH_SHORT).show()

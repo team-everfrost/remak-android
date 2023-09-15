@@ -313,6 +313,10 @@ class EditListRVAdapter(
                     holder.itemView.findViewById<ImageFilterView>(R.id.thumbnail).background = null
                 }
             }
+
+            is DateViewHolder -> {
+                holder.date.text = dataSet[position].header
+            }
         }
     }
 

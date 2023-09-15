@@ -31,13 +31,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+
+            <TextView
                 android:id="@+id/deleteBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/custom_ripple_effect_white_rectangle"
-                android:src="@drawable/baseline_delete_24"
+                android:layout_marginEnd="16dp"
+                android:text="삭제하기"
+                android:textColor="#F83A41"
+                android:textFontWeight="500"
+                android:textSize="18sp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -93,7 +93,7 @@ class AddCollectionActivity : AppCompatActivity() {
             if (binding.collectionNameEditText.text.isNotBlank()) {
                 viewModel.createCollection(
                     binding.collectionNameEditText.text.toString(),
-                    binding.collectionDescriptionText.text.toString()
+                    binding.collectionDescriptionEditText.text.toString()
                 )
             } else {
                 UtilityDialog.showInformDialog(

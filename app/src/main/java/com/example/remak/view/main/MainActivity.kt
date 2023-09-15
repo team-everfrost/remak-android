@@ -1,6 +1,7 @@
 package com.example.remak.view.main
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.remak.App
@@ -71,11 +72,14 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationView.selectedItemId = R.id.homeFragment
         }
 
-//        binding.addBtn.setOnClickListener {
-//            val myBottomSheet = BottomSheetDialogFragment()
-//            myBottomSheet.show(supportFragmentManager, myBottomSheet.tag)
-//        }
+    }
 
+    fun hideBottomNavi() {
+        binding.bottomNavigation.visibility = View.GONE
+    }
+
+    fun showBottomNavi() {
+        binding.bottomNavigation.visibility = View.VISIBLE
     }
 
     override fun onDestroy() {

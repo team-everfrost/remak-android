@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="135dp"
     android:background="@drawable/edit_text_round"
@@ -13,12 +14,28 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="22dp"
         android:layout_marginEnd="5dp"
+        android:maxLines="2"
         android:text="컬렉션이름"
         android:textFontWeight="500"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/collectionDescriptionText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
+        android:maxLines="2"
+        android:textColor="#646F7C"
+        android:textFontWeight="400"
+        android:textSize="13.5sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/collectionNameText"
+        tools:text="설명" />
 
     <TextView
         android:id="@+id/collectionCount"
@@ -31,7 +48,8 @@
         android:textFontWeight="700"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="설명" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

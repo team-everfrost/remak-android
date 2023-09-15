@@ -1,5 +1,6 @@
 package com.example.remak.view.main
 
+import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,6 +19,7 @@ import java.util.TimeZone
 
 class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private var currentDateType: String? = null
+    val recyclerState: MutableLiveData<Parcelable> = MutableLiveData()
 
     private val networkRepository = NetworkRepository()
 

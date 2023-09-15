@@ -30,6 +30,7 @@ class MemoDetailActivity : AppCompatActivity() {
     private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
     lateinit var tokenRepository: TokenRepository
     var isEditMode = false
+    private var initMemo: String = ""
 
     private val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -48,9 +49,11 @@ class MemoDetailActivity : AppCompatActivity() {
                     cancelClick = {}
                 )
             } else {
-                val resultIntent = Intent()
-                resultIntent.putExtra("isDelete", true)
-                setResult(RESULT_OK, resultIntent)
+                if (initMemo != binding.memoContent.text.toString()) {
+                    val resultIntent = Intent()
+                    resultIntent.putExtra("isDelete", true)
+                    setResult(RESULT_OK, resultIntent)
+                }
                 finish()
             }
         }
@@ -68,9 +71,9 @@ class MemoDetailActivity : AppCompatActivity() {
         this.onBackPressedDispatcher.addCallback(this, callback)
         viewModel.getDetailData(memoId!!)
         viewModel.detailData.observe(this) {
+            initMemo = it.content
             binding.memoContent.setText(it.content)
             binding.dateText.text = setDate(it.createdAt)
-
         }
 
         binding.memoContent.setOnFocusChangeListener { _, hasFocus ->
@@ -96,9 +99,11 @@ class MemoDetailActivity : AppCompatActivity() {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
             } else {
-                val resultIntent = Intent()
-                resultIntent.putExtra("isDelete", true)
-                setResult(RESULT_OK, resultIntent)
+                if (initMemo != binding.memoContent.text.toString()) {
+                    val resultIntent = Intent()
+                    resultIntent.putExtra("isDelete", true)
+                    setResult(RESULT_OK, resultIntent)
+                }
                 finish()
             }
         }
@@ -125,7 +130,7 @@ class MemoDetailActivity : AppCompatActivity() {
                         true
                     }
 
-                    R.id.deleteBtn -> {
+                    R.id.removeBtn -> {
                         UtilityDialog.showWarnDialog(
                             this,
                             "삭제하시겠습니까?",
