@@ -147,7 +147,6 @@
 
 
             <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/animation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

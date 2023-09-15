@@ -30,11 +30,19 @@ class AccountSignUp1Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         signInRepository = TokenRepository((requireActivity().application as App).dataStore)
-
-
-
         binding = AccountSignup1FragmentBinding.inflate(inflater, container, false)
 
+        //상태바 높이만큼 margin적용
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        val statusBarHeight: Int = if (resourceId > 0) {
+            resources.getDimensionPixelSize(resourceId)
+        } else {
+            // 기본값 또는 예상되는 높이
+            24 * resources.displayMetrics.density.toInt()
+        }
+        val layoutParams = binding.rootLayout.layoutParams as ViewGroup.MarginLayoutParams
+        layoutParams.setMargins(0, statusBarHeight, 0, 0)
+        binding.rootLayout.layoutParams = layoutParams
 
         viewModel.isSignInSuccess.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {

@@ -5,7 +5,6 @@
     <string name="passwordHint"><font size="14">비밀번호를 입력해 주세요</font></string>
     <string name="passwordRepeatHint"><font size="14">비밀번호를 한번 더 입력해 주세요</font></string>
     <string name="authNumberHint"><font size="14">인증번호를 입력해주세요</font></string>
-    <string name="searchHint"><font size="16">검색어를 입력해주세요</font></string>
     <string name="useFirst"><u>처음 이용하시나요?</u></string>
     <string name="email_login"><u>이메일로 로그인하기</u></string>
 
@@ -14,40 +13,19 @@
     <string name="tag_count_text"><font color="#1F8CE6">%1$s개</font></string>
 
 
-    <string name="navSample">navSample</string>
-
-
     <string name="email">이메일</string>
     <string name="password">비밀번호</string>
-    <string name="login">로그인</string>
-    <string name="forget_password">계정 정보를 잊으셨나요?</string>
-    <string name="sign_in">회원가입하기</string>
-    <string name="edit_email">이메일을 입력해 주세요</string>
-    <string name="edit_email_login">로그인 시 사용할 이메일을 입력해주세요</string>
     <string name="example_email">abcd@naver.com</string>
     <string name="next">다음으로</string>
     <string name="edit_verify_code">이메일로 발송 된 인증번호를 입력해주세요</string>
-    <string name="edit_6_verify_code">6자리 인증코드를 입력해주세오.</string>
     <string name="verify_code">인증번호</string>
-    <string name="edit_password">비밀번호를 입력해 주세요</string>
     <string name="edit_password_valid">영문, 숫자를 조합하여 8자리 이상 작성해주세요</string>
     <string name="password_repeat">비밀번호 확인</string>
     <string name="complete">완료</string>
-    <string name="add">추가하기</string>
-    <string name="link">링크</string>
-    <string name="photo">사진</string>
-    <string name="note">노트</string>
-    <string name="cancel">취소</string>
     <string name="confirm">확인</string>
-    <string name="check_id_or_password">아이디와 비밀번호를 확인해 주세요</string>
     <string name="find_password">비밀번호 찾기</string>
     <string name="edit_sign_in_email" tools:ignore="MissingTranslation">가입한 계정 정보를 입력해주세요.</string>
     <string name="edit_valid_email" tools:ignore="MissingTranslation">올바른 이메일을 입력해 주세요.</string>
     <string name="edit_new_password" tools:ignore="MissingTranslation">새로운 비밀번호를 입력해 주세요</string>
-    <string name="remak">Remak</string>
-    <string name="storage" tools:ignore="MissingTranslation">보관함</string>
-    <string name="subscribe">구독</string>
-    <string name="logout" tools:ignore="MissingTranslation">로그아웃</string>
-    <string name="filetype_date" tools:ignore="MissingTranslation">%1$s - %2$s</string>
 
 </resources>

@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.constraintlayout.utils.widget.ImageFilterView
 import androidx.core.content.ContextCompat
 
 object UtilityLogin {
@@ -53,84 +54,56 @@ object UtilityLogin {
         })
     }
 
-    //두개의 비밀번호 같은지 확인
-    fun passwordCheck(
+    fun passwordLengthCheck(
         context: Context,
-        password: AppCompatEditText,
-        passwordRepeat: AppCompatEditText,
-        btn: AppCompatButton
+        password: String,
+        icon: ImageFilterView
     ) {
-        password.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                btn.isEnabled =
-                    isPasswordValid(password.text.toString()) && password.text.toString() == passwordRepeat.text.toString()
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-        passwordRepeat.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                if (isPasswordValid(passwordRepeat.text.toString()) && password.text.toString() == passwordRepeat.text.toString()) {
-                    val drawable =
-                        ContextCompat.getDrawable(context, R.drawable.custom_ripple_effect)
-                    passwordRepeat.background =
-                        ContextCompat.getDrawable(context, R.drawable.edit_text_round)
-                    btn.background = drawable
-                    btn.isEnabled = true
-                } else {
-                    passwordRepeat.background =
-                        ContextCompat.getDrawable(context, R.drawable.edit_text_round_red)
-                    btn.isEnabled = false
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
+        if (password.length >= 9) {
+            icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.checkbox_checked))
+        } else {
+            icon.setImageDrawable(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.add_collection_uncheck
+                )
+            )
+        }
     }
 
-    fun signInCheck(
+    fun passwordNumberCheck(
         context: Context,
-        email: AppCompatEditText,
-        password: AppCompatEditText,
-        btn: AppCompatButton
+        password: String,
+        icon: ImageFilterView
     ) {
-        //이메일과 패스워드중 하나라도 비어있으면 버튼 비활성화 또한 이메일 형식에 맞지않으면 버튼 비활성화
-        email.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                if (email.text.toString().isNotEmpty() && password.text.toString()
-                        .isNotEmpty() && isEmailValid(email.text.toString())
-                ) {
-                    btn.isEnabled = true
-                    val drawable =
-                        ContextCompat.getDrawable(context, R.drawable.custom_ripple_effect)
-                    btn.background = drawable
-                } else {
-                    btn.isEnabled = false
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-        //패스워드 입력도 추적
-        password.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                if (email.text.toString().isNotEmpty() && password.text.toString()
-                        .isNotEmpty() && isEmailValid(email.text.toString())
-                ) {
-                    btn.isEnabled = true
-                    val drawable =
-                        ContextCompat.getDrawable(context, R.drawable.custom_ripple_effect)
-                    btn.background = drawable
-                } else {
-                    btn.isEnabled = false
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
+        //숫자가 포함되어 있는지 확인
+        if (('0'..'9').any { password.contains(it) }) {
+            icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.checkbox_checked))
+        } else {
+            icon.setImageDrawable(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.add_collection_uncheck
+                )
+            )
+        }
     }
+
+    fun passwordEnglishCheck(
+        context: Context,
+        password: String,
+        icon: ImageFilterView
+    ) {
+        if (password.matches(".*[a-zA-Z].*".toRegex())) {
+            icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.checkbox_checked))
+        } else {
+            icon.setImageDrawable(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.add_collection_uncheck
+                )
+            )
+        }
+    }
+
 }

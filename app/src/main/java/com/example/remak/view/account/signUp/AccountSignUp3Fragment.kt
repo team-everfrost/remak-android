@@ -32,22 +32,21 @@ class AccountSignUp3Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         signInRepository = TokenRepository((requireActivity().application as App).dataStore)
-
-
         binding = AccountSignup3FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())
         }
-
-//        viewModel.verifyCodeResult.observe(viewLifecycleOwner) { isSuccessful ->
-//            if (isSuccessful) {
-//                val intent = Intent(activity, MainActivity::class.java)
-//                startActivity(intent)
-//                viewModel.doneVerifyCodeResult()
-//                requireActivity().finish()
-//            }
-//        }
-
+        //상태바 높이만큼 margin적용
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        val statusBarHeight: Int = if (resourceId > 0) {
+            resources.getDimensionPixelSize(resourceId)
+        } else {
+            // 기본값 또는 예상되는 높이
+            24 * resources.displayMetrics.density.toInt()
+        }
+        val layoutParams = binding.rootLayout.layoutParams as ViewGroup.MarginLayoutParams
+        layoutParams.setMargins(0, statusBarHeight, 0, 0)
+        binding.rootLayout.layoutParams = layoutParams
         return binding.root
     }
 
@@ -57,9 +56,23 @@ class AccountSignUp3Fragment : Fragment() {
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())
         }
-
         binding.passwordEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
+                UtilityLogin.passwordEnglishCheck(
+                    requireContext(),
+                    binding.passwordEditText.text.toString(),
+                    binding.englishCheck
+                )
+                UtilityLogin.passwordNumberCheck(
+                    requireContext(),
+                    binding.passwordEditText.text.toString(),
+                    binding.numberCheck
+                )
+                UtilityLogin.passwordLengthCheck(
+                    requireContext(),
+                    binding.passwordEditText.text.toString(),
+                    binding.nineCheck
+                )
                 if (UtilityLogin.isPasswordValid(binding.passwordEditText.text.toString())) {
                     binding.completeBtn.isEnabled = true
                     binding.completeBtn.setTextColor(
