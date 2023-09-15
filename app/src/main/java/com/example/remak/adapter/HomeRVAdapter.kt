@@ -87,6 +87,7 @@ class HomeRVAdapter(
 
     inner class MemoViewHolder(view: View) : RecyclerView.ViewHolder(view) { // 메모 아이템 뷰홀더
         val title: TextView = view.findViewById<TextView>(R.id.title)
+        val subject: TextView = view.findViewById(R.id.subject)
         val date: TextView = view.findViewById(R.id.dateText)
         val checkbox: CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
 
@@ -137,6 +138,7 @@ class HomeRVAdapter(
 
     inner class WebpageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+        val date: TextView = view.findViewById(R.id.dateText)
         val checkbox: CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
         val title: TextView = view.findViewById(R.id.title)
         val description: TextView = view.findViewById(R.id.link)
@@ -160,7 +162,9 @@ class HomeRVAdapter(
     }
 
     inner class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
+        val title = view.findViewById<TextView>(R.id.title)
+        val date = view.findViewById<TextView>(R.id.dateText)
+        val thumbnail = view.findViewById<ImageFilterView>(R.id.thumbnail)
         val checkbox: CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
 
         init {
@@ -243,7 +247,15 @@ class HomeRVAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is MemoViewHolder -> { // 메모
-                holder.title.text = dataSet[position].content
+                val lines = dataSet[position].content!!.split("\n")
+                val firstPart = lines.firstOrNull() ?: ""
+                val secondPart = if (lines.size > 1) {
+                    lines.subList(1, lines.size).joinToString("\n")
+                } else {
+                    ""
+                }
+                holder.title.text = firstPart
+                holder.subject.text = secondPart
                 holder.date.text = "메모 | ${dateSetting(position)}"
                 holder.checkbox.visibility =
                     if (isInSelectionMode) View.VISIBLE else View.GONE //선택모드일때만 보이게
@@ -252,7 +264,7 @@ class HomeRVAdapter(
 
             is FileViewHolder -> {
                 // .앞에 있는 파일 이름만 가져오기
-                val title = dataSet[position].title!!.substringBeforeLast(".")
+                val title = dataSet[position].title!!
                 val summary = dataSet[position].summary
                 holder.title.text = title//제목
                 holder.date.text = "파일 | ${dateSetting(position)}"//날짜
@@ -306,6 +318,7 @@ class HomeRVAdapter(
             is WebpageViewHolder -> {
                 val title = dataSet[position].title!!.replace(" ", "")
                 val summary = dataSet[position].summary
+                holder.date.text = "링크 | ${extractDomain(position)}"
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
                 when (dataSet[position].status!!) {
@@ -343,8 +356,8 @@ class HomeRVAdapter(
                         holder.title.text = title
                         if (summary != null) {
                             if (summary.contains("\n")) {
-                                val index = summary.indexOf("\n")
-                                holder.description.text = summary.substring(0, index)
+                                val index = summary.indexOf("\n") // 첫줄만 보여주기
+                                holder.description.text = summary.substring(0, index) // 첫줄만 보여주기
                             } else {
                                 holder.description.text = dataSet[position].summary
                             }
@@ -370,23 +383,40 @@ class HomeRVAdapter(
                         .transform(CenterCrop(), RoundedCorners(47))
                         .into(holder.itemView.findViewById(R.id.thumbnail))
                     holder.itemView.findViewById<ImageFilterView>(R.id.thumbnail).background = null
-
                 }
 
             }
 
             is ImageViewHolder -> {
-                Glide.with(holder.itemView.context)
-                    .load(dataSet[position].url)
-                    .into(holder.itemView.findViewById(R.id.imageView))
+                holder.title.text = dataSet[position].title
+                holder.date.text = "이미지 | ${dateSetting(position)}"
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
+                if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
+                    Glide.with(holder.itemView.context)
+                        .load(dataSet[position].thumbnailUrl)
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
+                } else {
+                    Glide.with(holder.itemView.context)
+                        .load(R.drawable.no_thumbnail_image)
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
+                    holder.itemView.findViewById<ImageFilterView>(R.id.thumbnail).background = null
+                }
             }
 
             is DateViewHolder -> {
                 holder.date.text = dataSet[position].header
             }
         }
+    }
+
+    private fun extractDomain(position: Int): String? {
+        val url = dataSet[position].url
+        val regex = """https?://([\w\-\.]+)""".toRegex()
+        val result = regex.find(url!!)
+        return result?.groups?.get(1)?.value
     }
 
     private fun dateSetting(position: Int): String {

@@ -87,6 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:background="@color/white"
+                    android:maxLines="1"
                     android:textColor="@color/whiteGray"
                     android:textFontWeight="700"
                     android:textSize="13sp"
@@ -110,8 +111,31 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
                 android:nestedScrollingEnabled="false"
-                android:overScrollMode="never"
-                android:visibility="gone" />
+                android:overScrollMode="never" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="요약"
+                android:textFontWeight="700"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/summaryTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="50dp"
+                android:background="@drawable/white_rect_radius"
+                android:lineSpacingExtra="5dp"
+                android:minHeight="65dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="22dp"
+                android:text="test"
+                android:textFontWeight="400"
+                android:textSize="17sp" />
 
 
             <WebView

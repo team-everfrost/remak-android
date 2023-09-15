@@ -43,20 +43,33 @@ class MainProfileFragment : Fragment() {
             UtilitySystem.hideKeyboard(requireActivity())
         }
 
-//        binding.logoutButton.setOnClickListener {
-//            UtilityDialog.showWarnDialog(requireContext(), "로그아웃 하시겠습니까?",
-//                "",
-//                "네",
-//                "아니오",
-//                confirmClick = {
-//                    viewModel.deleteToken()
-//                    val intent = Intent(requireContext(), AccountActivity::class.java)
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-//                    startActivity(intent)
-//                }, cancelClick = {
-//                    //do nothing
-//                })
-//        }
+
+
+        binding.editBtn.setOnClickListener {
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(
+                R.anim.from_right,
+                R.anim.to_left,
+                R.anim.from_left,
+                R.anim.to_right
+            )
+            transaction.replace(R.id.mainFragmentContainerView, ProfileEditFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
+        binding.privacyLayout.setOnClickListener {
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(
+                R.anim.from_right,
+                R.anim.to_left,
+                R.anim.from_left,
+                R.anim.to_right
+            )
+            transaction.replace(R.id.mainFragmentContainerView, PrivacyPoliceFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
     }
 
     //ondestroy

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.PopupMenu
@@ -60,6 +61,15 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
             updateUI(it)
             adapter.tags = it.tags
             adapter.notifyDataSetChanged()
+        }
+
+        viewModel.isActionComplete.observe(this) {
+            if (it) {
+                val resultIntent = Intent()
+                resultIntent.putExtra("isDelete", true)
+                setResult(Activity.RESULT_OK, resultIntent)
+                finish()
+            }
         }
 
         binding.shareBtn.setOnClickListener {
@@ -120,10 +130,7 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                             "취소하기",
                             confirmClick = {
                                 viewModel.deleteDocument(linkId)
-                                val resultIntent = Intent()
-                                resultIntent.putExtra("isDelete", true)
-                                setResult(Activity.RESULT_OK, resultIntent)
-                                finish()
+
                             },
                             cancelClick = {}
                         )
@@ -171,6 +178,16 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         if (detailData.status != "SCRAPE_PENDING" && detailData.status != "SCRAPE_PROCESSING") {
             showContent(linkData)
         }
+        if (detailData.summary != null) {
+            val lines = detailData.summary.split("\n")
+            if (lines.size > 1) {
+                binding.summaryTextView.text = lines.subList(1, lines.size).joinToString("\n")
+            } else {
+                binding.summaryTextView.text = detailData.summary
+            }
+        } else {
+            binding.summaryTextView.text = ""
+        }
 
     }
 
@@ -190,6 +207,24 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                 super.onPageFinished(view, url)
                 binding.tagRV.visibility = View.VISIBLE
                 binding.shareBtn.visibility = View.VISIBLE
+            }
+
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
+                val url = request?.url.toString()
+
+                // Custom Tabs으로 URL 로드
+                val colorSchemeParams = CustomTabColorSchemeParams.Builder()
+                    .setToolbarColor(ContextCompat.getColor(this@LinkDetailActivity, R.color.black))
+                    .build()
+                val customTabsIntent = CustomTabsIntent.Builder()
+                    .setDefaultColorSchemeParams(colorSchemeParams)
+                    .build()
+                customTabsIntent.launchUrl(this@LinkDetailActivity, Uri.parse(url))
+
+                return true  // true를 반환하여 웹뷰 내에서 URL을 로드하지 않도록 합니다.
             }
         }
         binding.webView.focusable = View.NOT_FOCUSABLE // 웹뷰 터치 시 자동 스크롤 방지

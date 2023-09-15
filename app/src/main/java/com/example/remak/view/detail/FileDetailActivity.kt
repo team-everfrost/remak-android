@@ -75,9 +75,7 @@ class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
             val date = inputFormat.parse(it.updatedAt)
             val outputDateStr = outputFormat.format(date)
             binding.dateTextView.text = outputDateStr
-
             fileName = it.title
-
             adapter.tags = it.tags
             adapter.notifyDataSetChanged()
         }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.constraintlayout.utils.widget.ImageFilterView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -46,6 +47,7 @@ class EditListRVAdapter(
 
     inner class MemoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.title)
+        val subject: TextView = view.findViewById(R.id.subject)
         val date: TextView = view.findViewById(R.id.dateText)
         val checkbox: CheckBox = view.findViewById(R.id.checkbox)
 
@@ -80,6 +82,7 @@ class EditListRVAdapter(
     inner class WebpageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<TextView>(R.id.title)
         val description: TextView = view.findViewById(R.id.link)
+        val date: TextView = view.findViewById(R.id.dateText)
         val checkbox: CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
 
         init {
@@ -94,6 +97,9 @@ class EditListRVAdapter(
 
     inner class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val checkbox: CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
+        val thumbnail: ImageFilterView = view.findViewById(R.id.thumbnail)
+        val title: TextView = view.findViewById(R.id.title)
+        val date: TextView = view.findViewById(R.id.dateText)
 
         init {
             view.setOnClickListener {
@@ -157,14 +163,22 @@ class EditListRVAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is MemoViewHolder -> { // 메모
-                holder.title.text = dataSet[position].content
+                val lines = dataSet[position].content!!.split("\n")
+                val firstPart = lines.firstOrNull() ?: ""
+                val secondPart = if (lines.size > 1) {
+                    lines.subList(1, lines.size).joinToString("\n")
+                } else {
+                    ""
+                }
+                holder.title.text = firstPart
+                holder.subject.text = secondPart
                 holder.date.text = "메모 | ${dateSetting(position)}"
                 holder.checkbox.visibility = View.VISIBLE //선택모드일때만 보이게
-                holder.checkbox.isChecked = dataSet[position].isSelected //선택된 아이템이면 체크박스 체크
+                holder.checkbox.isChecked = dataSet[position].isSelected
             }
 
             is FileViewHolder -> {
-                val title = dataSet[position].title!!.substringBeforeLast(".")
+                val title = dataSet[position].title!!
                 val summary = dataSet[position].summary
                 holder.title.text = title//제목
                 holder.date.text = "파일 | ${dateSetting(position)}"//날짜
@@ -214,6 +228,7 @@ class EditListRVAdapter(
                 val title = dataSet[position].title!!.replace(" ", "")
                 val summary = dataSet[position].summary
                 holder.checkbox.visibility = View.VISIBLE
+                holder.date.text = "링크 | ${extractDomain(position)}"
                 holder.checkbox.isChecked = dataSet[position].isSelected
 
                 when (dataSet[position].status!!) {
@@ -282,17 +297,30 @@ class EditListRVAdapter(
             }
 
             is ImageViewHolder -> {
-                Glide.with(holder.itemView.context)
-                    .load(dataSet[position].url)
-                    .into(holder.itemView.findViewById(R.id.imageView))
                 holder.checkbox.visibility = View.VISIBLE
-                holder.checkbox.isChecked = dataSet[position].isSelected
-            }
-
-            is DateViewHolder -> {
-                holder.date.text = dataSet[position].header
+                holder.title.text = dataSet[position].title
+                holder.date.text = "이미지 | ${dateSetting(position)}"
+                if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
+                    Glide.with(holder.itemView.context)
+                        .load(dataSet[position].thumbnailUrl)
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
+                } else {
+                    Glide.with(holder.itemView.context)
+                        .load(R.drawable.no_thumbnail_image)
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
+                    holder.itemView.findViewById<ImageFilterView>(R.id.thumbnail).background = null
+                }
             }
         }
+    }
+
+    private fun extractDomain(position: Int): String? {
+        val url = dataSet[position].url
+        val regex = """https?://([\w\-\.]+)""".toRegex()
+        val result = regex.find(url!!)
+        return result?.groups?.get(1)?.value
     }
 
     fun dateSetting(position: Int): String {

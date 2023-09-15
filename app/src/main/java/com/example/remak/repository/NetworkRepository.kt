@@ -158,4 +158,8 @@ class NetworkRepository {
     suspend fun deleteCollection(name: String): Response<DeleteData.ResponseBody> {
         return client.deleteCollection(name)
     }
+
+    suspend fun getUserData(): Response<com.example.remak.network.model.UserData.Response> {
+        return client.getUserData()
+    }
 }

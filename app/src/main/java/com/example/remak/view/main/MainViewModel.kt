@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.network.model.MainListData
+import com.example.remak.network.model.UserData
 import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -44,6 +45,9 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
 
     private val _isDataEmpty = MutableLiveData<Boolean>()
     val isDataEmpty: LiveData<Boolean> = _isDataEmpty
+
+    private val _userData = MutableLiveData<UserData.Data>()
+    val userData: LiveData<UserData.Data> = _userData
 
     private var isLoadEnd: Boolean = false
 
@@ -188,18 +192,6 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
         }
     }
 
-    fun createMemo(content: String) = viewModelScope.launch {
-        try {
-            val response = networkRepository.createMemo(content)
-            if (response.isSuccessful) {
-                _isMemoCreateSuccess.value = "메모가 생성되었습니다."
-            } else {
-                _isMemoCreateSuccess.value = "메모 생성에 실패했습니다"
-            }
-        } catch (e: Exception) {
-        }
-    }
-
     fun createWebPage(url: String) = viewModelScope.launch {
         try {
             val response = networkRepository.createWebPage(url)
@@ -210,6 +202,13 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
             } else {
             }
         } catch (e: Exception) {
+        }
+    }
+
+    fun getUserData() = viewModelScope.launch {
+        val response = networkRepository.getUserData()
+        if (response.isSuccessful) {
+            _userData.value = response.body()?.data
         }
     }
 

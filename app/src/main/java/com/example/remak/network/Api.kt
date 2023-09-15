@@ -15,6 +15,7 @@ import com.example.remak.network.model.TagDetailData
 import com.example.remak.network.model.TagListData
 import com.example.remak.network.model.UpdateData
 import com.example.remak.network.model.UploadFileData
+import com.example.remak.network.model.UserData
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -148,4 +149,7 @@ interface Api {
 
     @DELETE("collection/delete/{name}")
     suspend fun deleteCollection(@Path("name") name: String): retrofit2.Response<DeleteData.ResponseBody>
+
+    @GET("user")
+    suspend fun getUserData(): retrofit2.Response<UserData.Response>
 }

@@ -3,6 +3,7 @@ package com.example.remak.view.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,8 @@ import com.example.remak.view.detail.FileDetailActivity
 import com.example.remak.view.detail.ImageDetailActivity
 import com.example.remak.view.detail.LinkDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
     private var _binding: MainHomeFragmentBinding? = null
@@ -51,6 +54,11 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         _binding = MainHomeFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())
+        }
+        //코루틴 으로 로그출력
+        GlobalScope.launch {
+            Log.d("token", tokenRepository.fetchTokenData().toString())
+
         }
         return binding.root
     }

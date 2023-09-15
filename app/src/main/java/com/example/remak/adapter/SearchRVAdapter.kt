@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.utils.widget.ImageFilterView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -39,6 +40,7 @@ class SearchRVAdapter(
 
     inner class MemoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.title)
+        val subject: TextView = view.findViewById(R.id.subject)
         val date: TextView = view.findViewById(R.id.dateText)
 
         init {
@@ -70,6 +72,7 @@ class SearchRVAdapter(
     inner class WebPageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.title)
         val link: TextView = view.findViewById(R.id.link)
+        val date: TextView = view.findViewById(R.id.dateText)
 
         init {
             view.setOnClickListener {
@@ -83,6 +86,10 @@ class SearchRVAdapter(
     }
 
     inner class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val thumbnail: View = view.findViewById(R.id.thumbnail)
+        val date: TextView = view.findViewById(R.id.dateText)
+        val title: TextView = view.findViewById(R.id.title)
+
         init {
             view.setOnClickListener {
                 val position = adapterPosition
@@ -144,12 +151,20 @@ class SearchRVAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is MemoViewHolder -> { // 메모
+                val lines = dataSet[position].content!!.split("\n")
+                val firstPart = lines.firstOrNull() ?: ""
+                val secondPart = if (lines.size > 1) {
+                    lines.subList(1, lines.size).joinToString("\n")
+                } else {
+                    ""
+                }
                 holder.date.text = "메모 | ${dateSetting(position)}"
-                holder.title.text = dataSet[position].content
+                holder.title.text = firstPart
+                holder.subject.text = secondPart
             }
 
             is FileViewHolder -> {
-                val title = dataSet[position].title.substringBeforeLast(".")
+                val title = dataSet[position].title
                 val summary = dataSet[position].summary
                 holder.title.text = title//제목
                 holder.date.text = "파일 | ${dateSetting(position)}"//날짜
@@ -202,6 +217,7 @@ class SearchRVAdapter(
                     holder.title.text = dataSet[position].title
 
                 }
+                holder.date.text = "링크 | ${extractDomain(position)}"
                 if (dataSet[position].summary.isNullOrEmpty()) {
                     holder.link.text = "Ai가 문서를 요약중이에요!"
                 } else {
@@ -226,7 +242,31 @@ class SearchRVAdapter(
                         .into(holder.itemView.findViewById(R.id.thumbnail))
                 }
             }
+
+            is ImageViewHolder -> {
+                holder.title.text = dataSet[position].title
+                holder.date.text = "이미지 | ${dateSetting(position)}"
+                if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
+                    Glide.with(holder.itemView.context)
+                        .load(dataSet[position].thumbnailUrl)
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
+                } else {
+                    Glide.with(holder.itemView.context)
+                        .load(R.drawable.no_thumbnail_image)
+                        .transform(CenterCrop(), RoundedCorners(47))
+                        .into(holder.itemView.findViewById(R.id.thumbnail))
+                    holder.itemView.findViewById<ImageFilterView>(R.id.thumbnail).background = null
+                }
+            }
         }
+    }
+
+    private fun extractDomain(position: Int): String? {
+        val url = dataSet[position].url
+        val regex = """https?://([\w\-\.]+)""".toRegex()
+        val result = regex.find(url!!)
+        return result?.groups?.get(1)?.value
     }
 
     private fun dateSetting(position: Int): String {
