@@ -24,6 +24,7 @@ import com.example.remak.adapter.HomeRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainHomeFragmentBinding
 import com.example.remak.view.add.AddActivity
+import com.example.remak.view.collection.EditCollectionBottomSheetDialog
 import com.example.remak.view.detail.FileDetailActivity
 import com.example.remak.view.detail.ImageDetailActivity
 import com.example.remak.view.detail.LinkDetailActivity
@@ -187,9 +188,27 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             val intent = Intent(requireContext(), AddActivity::class.java)
             resultLauncher.launch(intent)
         }
+
+        binding.registerBtn.setOnClickListener {
+            val bundle = Bundle()
+            val selectedItems = adapter.getSelectedItems()
+            if (selectedItems.isNotEmpty()) {
+                bundle.putStringArrayList("selected", selectedItems)
+                val bottomSheet = EditCollectionBottomSheetDialog()
+                bottomSheet.onDismissCallback = {
+                    onSelectionEnded()
+                }
+                bundle.putString("type", "detail")
+                bottomSheet.arguments = bundle
+                bottomSheet.show(
+                    requireActivity().supportFragmentManager,
+                    "EditCollectionBottomSheetDialog"
+                )
+            }
+        }
     }
 
-    override fun onItemClick(view: View, position: Int) {
+    override fun onItemClick(position: Int) {
         when (viewModel.mainListData.value!![position].type) {
             "MEMO" -> {
                 val intent = Intent(requireContext(), MemoDetailActivity::class.java)
@@ -224,8 +243,12 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         binding.deleteBtn.visibility = View.VISIBLE
         binding.deleteBtn.alpha = 0f
         binding.deleteBtn.animate().alpha(1f).duration = 200
+        binding.registerBtn.visibility = View.VISIBLE
+        binding.registerBtn.alpha = 0f
+        binding.registerBtn.animate().alpha(1f).duration = 200
         binding.swipeRefresh.isEnabled = false
         (activity as MainActivity).hideBottomNavi()
+        recyclerView.isNestedScrollingEnabled = true //꾹누르고 스크롤 시 앱바 보이게 하기 위함
     }
 
     override fun onSelectionEnded() {
@@ -235,6 +258,9 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         binding.deleteBtn.visibility = View.GONE
         binding.deleteBtn.alpha = 1f
         binding.deleteBtn.animate().alpha(0f).duration = 300
+        binding.registerBtn.visibility = View.GONE
+        binding.registerBtn.alpha = 1f
+        binding.registerBtn.animate().alpha(0f).duration = 300
         binding.swipeRefresh.isEnabled = true
         adapter.isSelectionModeEnd()
         (activity as MainActivity).showBottomNavi()

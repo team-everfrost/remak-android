@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
@@ -206,8 +205,8 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         binding.webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                binding.tagRV.visibility = View.VISIBLE
-                binding.shareBtn.visibility = View.VISIBLE
+                viewModel.webViewLoaded()
+                binding.scrollView.visibility = View.VISIBLE
             }
 
             override fun shouldOverrideUrlLoading(
@@ -215,7 +214,6 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                 request: WebResourceRequest?
             ): Boolean {
                 val url = request?.url.toString()
-
                 // Custom Tabs으로 URL 로드
                 val colorSchemeParams = CustomTabColorSchemeParams.Builder()
                     .setToolbarColor(ContextCompat.getColor(this@LinkDetailActivity, R.color.black))
@@ -224,7 +222,6 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                     .setDefaultColorSchemeParams(colorSchemeParams)
                     .build()
                 customTabsIntent.launchUrl(this@LinkDetailActivity, Uri.parse(url))
-
                 return true  // true를 반환하여 웹뷰 내에서 URL을 로드하지 않도록 합니다.
             }
         }
@@ -248,13 +245,10 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
     private fun WebView.loadHtmlData(linkData: String) {
         // 받아온 html코드에 header를 추가하여 웹뷰에 로드
         val css = """ 
-            
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/go.min.js"></script>
-<script>hljs.highlightAll();</script>
-         
-            
+<script>hljs.highlightAll();</script>    
     <style type='text/css'>
     body {
         font-weight: 400;
@@ -289,7 +283,6 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         val htmlData = """
         <html>
         <head>
-            
             $css
         </head>
         <body>
@@ -299,16 +292,6 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
     """.trimIndent()
         loadData(htmlData, "text/html", "utf-8")
 
-    }
-
-    private fun logLongMessage(tag: String, message: String) {
-        val maxLogSize = 1000
-        for (i in 0..message.length / maxLogSize) {
-            val start = i * maxLogSize
-            var end = (i + 1) * maxLogSize
-            end = if (end > message.length) message.length else end
-            Log.v(tag, message.substring(start, end))
-        }
     }
 
     override fun onItemClick(position: Int) {

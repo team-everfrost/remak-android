@@ -24,7 +24,12 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     val detailData: LiveData<MainListData.Data> = _detailData
     private val _isActionComplete = MutableLiveData<Boolean>()
     val isActionComplete: LiveData<Boolean> = _isActionComplete
+    private val _isWebViewLoaded = MutableLiveData<Boolean>()
+    val isWebViewLoaded: LiveData<Boolean> = _isWebViewLoaded
 
+    fun webViewLoaded() {
+        _isWebViewLoaded.value = true
+    }
 
     fun deleteDocument(docId: String) = viewModelScope.launch {
         try {
@@ -103,7 +108,6 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         } catch (e: Exception) {
         }
     }
-
 
 }
 

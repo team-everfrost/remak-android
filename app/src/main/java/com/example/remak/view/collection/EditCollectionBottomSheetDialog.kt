@@ -1,6 +1,7 @@
 package com.example.remak.view.collection
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,6 +27,7 @@ class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
     private lateinit var adapter: AddCollectionRVAdapter
     lateinit var tokenRepository: TokenRepository
     private var isEmpty: Boolean? = null
+    var onDismissCallback: (() -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -106,6 +108,11 @@ class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
 
     override fun getTheme(): Int {
         return R.style.BottomSheetDialogTheme
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        onDismissCallback?.invoke()
     }
 
 }

@@ -44,9 +44,57 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="53dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/collectionName">
+
+        <TextView
+            android:id="@+id/selectedCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="0개 선택됨"
+            android:textColor="@color/black"
+            android:textFontWeight="700"
+            android:textSize="24dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/previousBtn"
+            android:layout_width="75dp"
+            android:layout_height="34dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/back_btn_collection_radius"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
+            android:text="이전으로"
+            android:textFontWeight="500"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/selectedCount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/selectedCount" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/deleteBtn"
+            android:layout_width="75dp"
+            android:layout_height="34dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/back_btn_collection_radius"
+            android:backgroundTint="#FFB6B8"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
+            android:text="삭제하기"
+            android:textColor="#F83A41"
+            android:textFontWeight="500"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/selectedCount"
+            app:layout_constraintEnd_toStartOf="@id/previousBtn"
+            app:layout_constraintTop_toTopOf="@id/selectedCount" />
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/editBtn"
@@ -66,9 +114,9 @@
             android:id="@+id/collectionDetailRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="27dp"
+            android:layout_marginTop="61dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editBtn" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

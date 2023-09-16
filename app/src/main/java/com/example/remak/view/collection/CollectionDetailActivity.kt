@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.activity.addCallback
@@ -18,7 +19,7 @@ import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.UtilityDialog
 import com.example.remak.UtilityRV
-import com.example.remak.adapter.SearchRVAdapter
+import com.example.remak.adapter.CollectionListRVAdapter
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageCollectionActivityBinding
 import com.example.remak.view.detail.FileDetailActivity
@@ -26,7 +27,7 @@ import com.example.remak.view.detail.ImageDetailActivity
 import com.example.remak.view.detail.LinkDetailActivity
 import com.example.remak.view.detail.MemoDetailActivity
 
-class CollectionDetailActivity : AppCompatActivity(), SearchRVAdapter.OnItemClickListener {
+class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.OnItemClickListener {
     private lateinit var binding: DetailPageCollectionActivityBinding
     private val viewModel: CollectionViewModel by viewModels {
         CollectionViewModelFactory(
@@ -34,7 +35,7 @@ class CollectionDetailActivity : AppCompatActivity(), SearchRVAdapter.OnItemClic
         )
     }
     lateinit var tokenRepository: TokenRepository
-    private lateinit var adapter: SearchRVAdapter
+    private lateinit var adapter: CollectionListRVAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
@@ -46,7 +47,13 @@ class CollectionDetailActivity : AppCompatActivity(), SearchRVAdapter.OnItemClic
         val collectionName = intent.getStringExtra("collectionName")
         val collectionCount = intent.getIntExtra("collectionCount", 0)
 
-        adapter = SearchRVAdapter(listOf(), this)
+        adapter = CollectionListRVAdapter(listOf(), this) { isChecked ->
+            if (isChecked) {
+                viewModel.increaseSelectionCount()
+            } else {
+                viewModel.decreaseSelectionCount()
+            }
+        }
         recyclerView = binding.collectionDetailRecyclerView
         recyclerView.adapter = adapter
         val itemDecorator = UtilityRV.CardItemOffsetDecoration(10)
@@ -68,12 +75,17 @@ class CollectionDetailActivity : AppCompatActivity(), SearchRVAdapter.OnItemClic
 
         viewModel.isCollectionEmpty.observe(this) {
             if (it) {
-                binding.emptyCollectionLayout.visibility = android.view.View.VISIBLE
-                binding.collectionDetailLayout.visibility = android.view.View.GONE
+                binding.emptyCollectionLayout.visibility = View.VISIBLE
+                binding.collectionDetailLayout.visibility = View.GONE
             } else {
-                binding.emptyCollectionLayout.visibility = android.view.View.GONE
-                binding.collectionDetailLayout.visibility = android.view.View.VISIBLE
+                binding.emptyCollectionLayout.visibility = View.GONE
+                binding.collectionDetailLayout.visibility = View.VISIBLE
             }
+        }
+
+        viewModel.selectedItemsCount.observe(this) {
+            binding.selectedCount.text = "${it}개 선택됨"
+            binding.deleteBtn.isEnabled = it != 0
         }
 
         viewModel.collectionDetailData.observe(this) {
@@ -95,10 +107,12 @@ class CollectionDetailActivity : AppCompatActivity(), SearchRVAdapter.OnItemClic
         }
 
         binding.editBtn.setOnClickListener {
-            val intent = Intent(this, EditCollectionActivity::class.java)
-            intent.putExtra("collectionName", collectionName)
-            intent.putExtra("collectionCount", collectionCount)
-            resultLauncher.launch(intent)
+//            val intent = Intent(this, EditCollectionActivity::class.java)
+//            intent.putExtra("collectionName", collectionName)
+//            intent.putExtra("collectionCount", collectionCount)
+//            resultLauncher.launch(intent)
+            adapter.toggleSelectionMode()
+            showEditModeView()
         }
 
         binding.moreIcon.setOnClickListener {
@@ -107,7 +121,6 @@ class CollectionDetailActivity : AppCompatActivity(), SearchRVAdapter.OnItemClic
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.editBtn -> {
-
                         true
                     }
 
@@ -139,13 +152,65 @@ class CollectionDetailActivity : AppCompatActivity(), SearchRVAdapter.OnItemClic
             finish()
         }
 
-        onBackPressedDispatcher.addCallback(this) {
-            val resultIntent = Intent()
-            resultIntent.putExtra("isChange", true)
-            setResult(RESULT_OK, resultIntent)
-            finish()
+        binding.previousBtn.setOnClickListener {
+            viewModel.resetSelectionCount()
+            adapter.toggleSelectionMode()
+            showNormalModeView()
         }
 
+        binding.deleteBtn.setOnClickListener {
+            val selectedItemCount = viewModel.selectedItemsCount.value
+            val selectedItems = adapter.getSelectedItems()
+            UtilityDialog.showWarnDialog(
+                this,
+                "${selectedItemCount}개의 정보를 삭제하시겠어요?",
+                "삭제시 복구가 불가능해요?",
+                "삭제하기",
+                "취소하기",
+                confirmClick = {
+                    viewModel.removeDataInCollection(collectionName, selectedItems)
+                    adapter.toggleSelectionMode()
+                    showNormalModeView()
+                    adapter.notifyDataSetChanged()
+                    viewModel.resetSelectionCount()
+                },
+                cancelClick = {},
+            )
+        }
+
+
+        onBackPressedDispatcher.addCallback(this) {
+            if (adapter.isSelectionMode()) {
+                viewModel.resetSelectionCount()
+                adapter.toggleSelectionMode()
+                showNormalModeView()
+            } else {
+                val resultIntent = Intent()
+                resultIntent.putExtra("isChange", true)
+                setResult(RESULT_OK, resultIntent)
+                finish()
+            }
+        }
+    }
+
+    private fun showEditModeView() {
+        binding.selectedCount.alpha = 0f
+        binding.selectedCount.animate().alpha(1f).duration = 200
+        binding.previousBtn.alpha = 0f
+        binding.previousBtn.animate().alpha(1f).duration = 200
+        binding.deleteBtn.alpha = 0f
+        binding.deleteBtn.animate().alpha(1f).duration = 200
+        binding.editBtn.visibility = View.GONE
+        binding.selectedCount.visibility = View.VISIBLE
+        binding.previousBtn.visibility = View.VISIBLE
+        binding.deleteBtn.visibility = View.VISIBLE
+    }
+
+    private fun showNormalModeView() {
+        binding.editBtn.visibility = View.VISIBLE
+        binding.selectedCount.visibility = View.GONE
+        binding.previousBtn.visibility = View.GONE
+        binding.deleteBtn.visibility = View.GONE
     }
 
     private fun setTruncatedText(name: String, count: Int, textView: TextView, maxWidth: Float) {
