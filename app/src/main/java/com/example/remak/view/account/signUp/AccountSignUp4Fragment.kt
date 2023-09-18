@@ -54,7 +54,7 @@ class AccountSignUp4Fragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.isSignInSuccess.observe(viewLifecycleOwner) { isSuccessful ->
-            if (isSuccessful) {
+            if (isSuccessful == true) {
                 val intent = Intent(activity, MainActivity::class.java)
                 startActivity(intent)
                 viewModel.doneVerifyCodeResult()

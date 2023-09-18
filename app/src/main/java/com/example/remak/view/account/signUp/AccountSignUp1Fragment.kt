@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.remak.App
 import com.example.remak.R
+import com.example.remak.UtilityDialog
 import com.example.remak.UtilityLogin
 import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
@@ -54,7 +55,14 @@ class AccountSignUp1Fragment : Fragment() {
 
         viewModel.isEmailExist.observe(viewLifecycleOwner) { isEmailExist ->
             if (isEmailExist) {
-                viewModel.doneEmailCheck()
+                //키보드 내리기
+                UtilitySystem.hideKeyboard(requireActivity())
+                UtilityDialog.showInformDialog(
+                    "이미 존재하는 이메일입니다.",
+                    "중복 된 이메일은 사용할수 없어요",
+                    requireContext(),
+                    confirmClick = { viewModel.resetIsEmailExit() }
+                )
             }
         }
 
@@ -69,6 +77,8 @@ class AccountSignUp1Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
 
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountMainFragment)

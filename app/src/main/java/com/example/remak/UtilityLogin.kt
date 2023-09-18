@@ -16,7 +16,9 @@ object UtilityLogin {
     }
 
     fun isPasswordValid(password: String): Boolean { //비밀번호 형식에 맞는지 확인
-        val passwordRegex = Regex("^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]{9,}\$")
+        val passwordRegex =
+            Regex("^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9!@#$%^&*()-_=+\\[\\]{}|;:'\",.<>?/]{9,}\$")//
+
         return passwordRegex.matches(password)
     }
 

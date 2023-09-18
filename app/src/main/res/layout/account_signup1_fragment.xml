@@ -38,7 +38,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/edit_text_round"
         android:hint="@string/emailHint"
-        android:inputType="textPassword"
+        android:inputType="textEmailAddress"
         android:padding="10dp"
         android:textColorHint="#C5C8CE"
         android:textFontWeight="500"

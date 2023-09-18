@@ -247,11 +247,10 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         val css = """ 
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/go.min.js"></script>
 <script>hljs.highlightAll();</script>    
     <style type='text/css'>
     body {
-        font-weight: 400;
+        font-weight: 400; 
         line-height: 1.6; 
         max-width: 100%;
         overflow-x: hidden;

@@ -10,9 +10,6 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.remak.adapter.HomeRVAdapter
 import com.example.remak.network.model.MainListData
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 object UtilityRV {
     class HomeItemOffsetDecoration( //날짜가 있는 홈의 아이템 간격 조정
@@ -230,11 +227,18 @@ object UtilityRV {
     }
 
     private fun dateSetting(position: Int, dataSet: List<MainListData.Data>): String {
-        val inputFormatter =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
-        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
-        val dateTime = ZonedDateTime.parse(dataSet[position].updatedAt, inputFormatter)
-        return dateTime.format(outputFormatter)
+//        val inputFormatter =
+//            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+//        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
+//
+//        return try {
+//            val dateTime = ZonedDateTime.parse(dataSet[position].updatedAt, inputFormatter)
+//            dateTime.format(outputFormatter)
+//        } catch (e: Exception) {
+//            dataSet[position].updatedAt!!
+//        }
+        val rawDate = dataSet[position].updatedAt
+        return rawDate?.split("T")?.get(0) ?: ""
     }
 
 }
