@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
@@ -68,7 +69,15 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
                     val data: Intent? = result.data
                     val isDelete = data?.getBooleanExtra("isChange", false)
                     if (isDelete == true) {
+                        val newName = data.getStringExtra("newName")
+                        Log.d("isDelete", isDelete.toString())
                         viewModel.getCollectionDetailData(collectionName)
+                        setTruncatedText(
+                            newName!!,
+                            viewModel.collectionDetailData.value!!.size,
+                            binding.collectionName,
+                            get70PercentScreenWidth(this)
+                        )
                     }
                 }
             }
@@ -89,7 +98,7 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
         }
 
         viewModel.collectionDetailData.observe(this) {
-//            binding.collectionName.text = "${collectionName} (${it.size})"
+//            binding.collectionName.text = "${collectionName} (${it.size})"'
             setTruncatedText(
                 collectionName,
                 it.size,
@@ -121,6 +130,9 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.editBtn -> {
+                        val intent = Intent(this, UpdateCollectionActivity::class.java)
+                        intent.putExtra("collectionName", collectionName)
+                        resultLauncher.launch(intent)
                         true
                     }
 

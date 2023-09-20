@@ -104,7 +104,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".view.collection.EditCollectionActivity"
+            android:name=".view.collection.UpdateCollectionActivity"
             android:exported="true" />
 
 

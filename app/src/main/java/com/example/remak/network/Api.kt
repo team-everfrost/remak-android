@@ -147,6 +147,13 @@ interface Api {
     @DELETE("collection/delete/{name}")
     suspend fun deleteCollection(@Path("name") name: String): retrofit2.Response<DeleteData.ResponseBody>
 
+    @PATCH("collection/update/{name}")
+    suspend fun updateCollection(
+        @Path("name") name: String,
+        @Body body: AddDataInCollectionData.UpdateCollectionRequestBody
+    ): retrofit2.Response<AddDataInCollectionData.RemoveResponse>
+
     @GET("user")
     suspend fun getUserData(): retrofit2.Response<UserData.Response>
+
 }

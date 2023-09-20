@@ -159,4 +159,16 @@ class NetworkRepository {
     suspend fun getUserData(): Response<com.example.remak.network.model.UserData.Response> {
         return client.getUserData()
     }
+
+    suspend fun updateCollection(
+        name: String,
+        newName: String,
+        description: String?
+    ): Response<AddDataInCollectionData.RemoveResponse> {
+        val requestBody = AddDataInCollectionData.UpdateCollectionRequestBody(
+            newName = newName,
+            description = description
+        )
+        return client.updateCollection(name, requestBody)
+    }
 }

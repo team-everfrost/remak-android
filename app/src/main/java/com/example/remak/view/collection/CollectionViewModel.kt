@@ -120,6 +120,26 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
             }
         }
 
+    fun updateCollection(collectionName: String, newName: String, description: String?) =
+        viewModelScope.launch {
+            val response = networkRepository.updateCollection(collectionName, newName, description)
+            try {
+                if (response.isSuccessful) {
+                    _isDuplicateName.value = false
+
+                } else {
+                    val errorBodyString = response.errorBody()!!.string()
+                    val gson = Gson()
+                    val errorResponse = gson.fromJson(errorBodyString, ErrorResponse::class.java)
+                    val message = errorResponse.message
+                    if (message == "error collection already exists") {
+                        _isDuplicateName.value = true
+                    }
+                }
+            } catch (e: Exception) {
+            }
+        }
+
     fun resetSelectionCount() {
         _selectedItemsCount.value = 0
     }

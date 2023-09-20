@@ -19,6 +19,11 @@ class AddDataInCollectionData {
         val data: Data
     )
 
+    data class UpdateCollectionRequestBody(
+        val newName: String,
+        val description: String?
+    )
+
     data class Data(
         val name: String,
         val description: String?,
