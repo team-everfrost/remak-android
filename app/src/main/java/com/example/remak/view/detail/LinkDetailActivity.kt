@@ -1,21 +1,33 @@
 package com.example.remak.view.detail
 
 import android.app.Activity
+import android.app.DownloadManager
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
+import android.webkit.URLUtil
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.remak.App
+import com.example.remak.BuildConfig
 import com.example.remak.R
 import com.example.remak.UtilityDialog
 import com.example.remak.adapter.LinkTagRVAdapter
@@ -28,6 +40,8 @@ import com.example.remak.view.tag.TagDetailActivity
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -231,6 +245,24 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
             visibility = View.VISIBLE
             setupWebView()
             loadHtmlData(linkData)
+            setOnLongClickListener {
+                val hitTestResult = hitTestResult
+                if (hitTestResult.type == WebView.HitTestResult.IMAGE_TYPE ||
+                    hitTestResult.type == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE
+                ) {
+                    val imageUrl = hitTestResult.extra!!
+                    UtilityDialog.showImageDialog(
+                        context,
+                        downloadBtnClick = {
+                            downloadImage(imageUrl)
+                        },
+                        shareBtnClick = {
+                            shareImageFromUrl(context, imageUrl)
+                        }
+                    )
+                }
+                false
+            }
         }
     }
 
@@ -299,6 +331,55 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         intent.putExtra("tagCount", viewModel.detailData.value!!.tags.size)
 
         startActivity(intent)
+    }
+
+    private fun downloadImage(url: String) {
+
+        val fileName = URLUtil.guessFileName(url, null, null)
+        val request = DownloadManager.Request(Uri.parse(url))
+            .setTitle(fileName)
+            .setDescription("Downloading")
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setAllowedOverMetered(true)
+            .setAllowedOverRoaming(true)
+        request.setDestinationInExternalPublicDir(
+            Environment.DIRECTORY_DOWNLOADS,
+            "Remak/$fileName"
+        )
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        val manager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+        manager.enqueue(request)
+        Toast.makeText(this, "다운로드가 시작되었습니다.", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun shareImageFromUrl(context: Context, imageUrl: String) {
+        val glide = Glide.with(context)
+        glide.asBitmap().load(imageUrl).into(object : CustomTarget<Bitmap>() {
+            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                val uri = saveImageToInternalStorage(context, resource)
+                shareImageUri(context, uri)
+            }
+
+            override fun onLoadCleared(placeholder: Drawable?) {}
+        })
+    }
+
+    fun saveImageToInternalStorage(context: Context, bitmap: Bitmap): Uri {
+        val file = File(context.cacheDir, "shared_image.png")
+        val fos = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+        fos.close()
+        return FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", file)
+    }
+
+    fun shareImageUri(context: Context, uri: Uri) {
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_STREAM, uri)
+            type = "image/png"
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
+        context.startActivity(Intent.createChooser(shareIntent, "Share Image"))
     }
 
 }

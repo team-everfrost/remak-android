@@ -90,7 +90,7 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         //리사이클러 뷰 아이템 간격 조정
         recyclerView.addItemDecoration(itemDecoration)
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null || viewModel.mainListData.value.isNullOrEmpty()) {
             viewModel.getAllMainList()
         } else {
             adapter.dataSet = viewModel.mainListData.value!!
@@ -189,6 +189,10 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
             resultLauncher.launch(intent)
         }
 
+        binding.previousBtn.setOnClickListener {
+            onSelectionEnded()
+        }
+
         binding.registerBtn.setOnClickListener {
             val bundle = Bundle()
             val selectedItems = adapter.getSelectedItems()
@@ -240,27 +244,32 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         recyclerView.isNestedScrollingEnabled = false
         binding.addBtn.visibility = View.GONE
         binding.moreIcon.visibility = View.GONE
-        binding.deleteBtn.visibility = View.VISIBLE
-        binding.deleteBtn.alpha = 0f
-        binding.deleteBtn.animate().alpha(1f).duration = 200
-        binding.registerBtn.visibility = View.VISIBLE
-        binding.registerBtn.alpha = 0f
-        binding.registerBtn.animate().alpha(1f).duration = 200
+//        binding.deleteBtn.visibility = View.VISIBLE
+//        binding.deleteBtn.alpha = 0f
+//        binding.deleteBtn.animate().alpha(1f).duration = 200
+//        binding.registerBtn.visibility = View.VISIBLE
+//        binding.registerBtn.alpha = 0f
+//        binding.registerBtn.animate().alpha(1f).duration = 200
         binding.swipeRefresh.isEnabled = false
+        binding.previousBtn.visibility = View.VISIBLE
         (activity as MainActivity).hideBottomNavi()
         recyclerView.isNestedScrollingEnabled = true //꾹누르고 스크롤 시 앱바 보이게 하기 위함
+        binding.bottomLayout.visibility = View.VISIBLE
+
     }
 
     override fun onSelectionEnded() {
         recyclerView.isNestedScrollingEnabled = true
         binding.addBtn.visibility = View.VISIBLE
         binding.moreIcon.visibility = View.VISIBLE
-        binding.deleteBtn.visibility = View.GONE
-        binding.deleteBtn.alpha = 1f
-        binding.deleteBtn.animate().alpha(0f).duration = 300
-        binding.registerBtn.visibility = View.GONE
-        binding.registerBtn.alpha = 1f
-        binding.registerBtn.animate().alpha(0f).duration = 300
+//        binding.deleteBtn.visibility = View.GONE
+//        binding.deleteBtn.alpha = 1f
+//        binding.deleteBtn.animate().alpha(0f).duration = 300
+//        binding.registerBtn.visibility = View.GONE
+//        binding.registerBtn.alpha = 1f
+//        binding.registerBtn.animate().alpha(0f).duration = 300
+        binding.bottomLayout.visibility = View.GONE
+        binding.previousBtn.visibility = View.GONE
         binding.swipeRefresh.isEnabled = true
         adapter.isSelectionModeEnd()
         (activity as MainActivity).showBottomNavi()

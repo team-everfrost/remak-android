@@ -42,7 +42,7 @@ interface Api {
     suspend fun signUp(@Body body: SignUpData.SignUpRequestBody): retrofit2.Response<SignUpData.SignUpResponseBody>
 
     //메모 생성
-    @POST("document/memo/create")
+    @POST("document/memo")
     suspend fun createMemo(@Body body: CreateData.MemoRequestBody): retrofit2.Response<CreateData.MemoResponseBody>
 
     //메인 리스트
@@ -57,7 +57,7 @@ interface Api {
     @GET("document/{docId}")
     suspend fun getDetailData(@Path("docId") docId: String): retrofit2.Response<MainListData.DetailResponse>
 
-    @PATCH("document/memo/update/{docId}")
+    @PATCH("document/memo/{docId}")
     suspend fun updateMemo(
         @Path("docId") docId: String,
         @Body body: UpdateData.MemoRequestBody
@@ -67,13 +67,13 @@ interface Api {
     suspend fun deleteMemo(@Path("docId") docId: String): retrofit2.Response<DeleteData.ResponseBody>
 
     @Multipart
-    @POST("document/file/upload")
+    @POST("document/file")
     suspend fun uploadFile(@Part files: List<MultipartBody.Part>): retrofit2.Response<UploadFileData.ResponseBody>
 
-    @GET("document/file/download/{docId}")
+    @GET("document/file/{docId}")
     suspend fun downloadFile(@Path("docId") docId: String): retrofit2.Response<DownloadData.ResponseBody>
 
-    @POST("document/webpage/create")
+    @POST("document/webpage")
     suspend fun createWebPage(@Body body: CreateData.WebPageRequestBody): retrofit2.Response<CreateData.WebPageResponseBody>
 
     @GET("document/search/embedding")
@@ -117,7 +117,7 @@ interface Api {
     @POST("collection")
     suspend fun createCollection(@Body body: CreateCollectionData.RequestBody): retrofit2.Response<CreateCollectionData.ResponseBody>
 
-    @GET("tag/search")
+    @GET("tag")
     suspend fun getTagSearchData(
         @Query("query") query: String?,
         @Query("limit") limit: Int? = 20,
@@ -132,22 +132,22 @@ interface Api {
         @Query("limit") limit: Int? = 20
     ): retrofit2.Response<MainListData.Response>
 
-    @POST("collection/add/{name}")
+    @PATCH("collection/{name}")
     suspend fun addDataInCollection(
         @Path("name") name: String,
         @Body body: AddDataInCollectionData.AddRequestBody
     ): retrofit2.Response<AddDataInCollectionData.AddResponse>
 
-    @PATCH("collection/update/{name}")
+    @PATCH("collection/{name}")
     suspend fun removeDataInCollection(
         @Path("name") name: String,
         @Body body: AddDataInCollectionData.RemoveRequestBody
     ): retrofit2.Response<AddDataInCollectionData.RemoveResponse>
 
-    @DELETE("collection/delete/{name}")
+    @DELETE("collection/{name}")
     suspend fun deleteCollection(@Path("name") name: String): retrofit2.Response<DeleteData.ResponseBody>
 
-    @PATCH("collection/update/{name}")
+    @PATCH("collection/{name}")
     suspend fun updateCollection(
         @Path("name") name: String,
         @Body body: AddDataInCollectionData.UpdateCollectionRequestBody

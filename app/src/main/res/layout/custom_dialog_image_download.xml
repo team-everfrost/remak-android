@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_rect_radius">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="이미지"
+        android:textFontWeight="700"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView">
+
+        <TextView
+            android:id="@+id/downloadBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/custom_ripple_effect_transparent"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="이미지 다운로드"
+            android:textFontWeight="500"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/shareBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/custom_ripple_effect_transparent"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="이미지 공유"
+            android:textFontWeight="500"
+            android:textSize="12sp" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

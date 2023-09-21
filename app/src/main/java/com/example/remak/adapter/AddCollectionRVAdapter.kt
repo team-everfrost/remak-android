@@ -1,5 +1,6 @@
 package com.example.remak.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +30,12 @@ class AddCollectionRVAdapter(
                     toggleSelection(position, checkBox)
                 }
             }
+            checkBox.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    toggleSelection(position, checkBox)
+                }
+            }
         }
     }
 
@@ -49,6 +56,8 @@ class AddCollectionRVAdapter(
     }
 
     fun getSelectedItem(): List<String> {
-        return collectionData.filter { it.isSelected }.map { it.name }
+        val selectedItems = collectionData.filter { it.isSelected }.mapNotNull { it.name }
+        Log.d("selectedItemsprevious", selectedItems.toString())
+        return selectedItems
     }
 }

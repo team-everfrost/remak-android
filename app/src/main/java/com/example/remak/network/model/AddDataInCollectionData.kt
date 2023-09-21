@@ -2,12 +2,12 @@ package com.example.remak.network.model
 
 class AddDataInCollectionData {
     data class AddRequestBody(
-        val docIds: List<String>
+        val addedDocIds: List<String>
     )
 
     data class AddResponse(
         val message: String,
-        val data: String?
+        val data: Data?
     )
 
     data class RemoveRequestBody(

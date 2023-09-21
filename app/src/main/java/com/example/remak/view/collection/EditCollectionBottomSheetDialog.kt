@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
     lateinit var tokenRepository: TokenRepository
     private var isEmpty: Boolean? = null
     var onDismissCallback: (() -> Unit)? = null
+    private var isChange: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,7 +94,9 @@ class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
         }
 
         binding.completeBtn.setOnClickListener {
+            isChange = true
             val selectedItems = adapter.getSelectedItem()
+            Log.d("selectedItems", selectedItems.toString())
             if (selectedItems.isNotEmpty()) {
                 viewModel.addDataInCollection(selectedItems, checkedDocuments!!.toList())
 
@@ -112,7 +116,10 @@ class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        onDismissCallback?.invoke()
+        if (isChange) {
+            onDismissCallback?.invoke()
+
+        }
     }
 
 }

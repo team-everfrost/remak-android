@@ -1,5 +1,6 @@
 package com.example.remak.view.collection
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -96,13 +97,20 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
 
     fun addDataInCollection(collectionName: List<String>, docIds: List<String>) =
         viewModelScope.launch {
+            Log.d("collection1", collectionName.toString())
+            Log.d("collection1", docIds.toString())
+
             for (item in collectionName) {
                 val response = networkRepository.addDataInCollection(item, docIds)
+
                 try {
                     if (response.isSuccessful) {
                     } else {
+                        Log.d("collection1", response.errorBody()!!.string())
                     }
                 } catch (e: Exception) {
+                    Log.d("collection1", e.toString())
+
                 }
             }
             _isUpdateComplete.value = true
