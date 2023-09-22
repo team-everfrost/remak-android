@@ -26,6 +26,15 @@
             android:name="io.sentry.traces.user-interaction.enable"
             android:value="true" />
 
+        <!-- enable screenshot for crashes -->
+        <meta-data
+            android:name="io.sentry.attach-screenshot"
+            android:value="true" />
+        <!-- enable view hierarchy for crashes -->
+        <meta-data
+            android:name="io.sentry.attach-view-hierarchy"
+            android:value="true" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -79,12 +88,6 @@
         </activity>
 
         <activity
-            android:name=".view.add.AddMemoFragment"
-            android:exported="true">
-
-        </activity>
-
-        <activity
             android:name=".view.detail.MemoDetailActivity"
             android:exported="true">
 
@@ -92,7 +95,7 @@
 
         <activity
             android:name=".view.tag.TagDetailActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
 
         <activity
             android:name=".view.detail.FileDetailActivity"

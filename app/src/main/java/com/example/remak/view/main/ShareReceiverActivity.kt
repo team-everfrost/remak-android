@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Build.VERSION
 import android.os.Bundle
 import android.provider.OpenableColumns
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -31,27 +32,33 @@ class ShareReceiverActivity : AppCompatActivity() {
         viewModel.isActionComplete.observe(this) {
             if (it) {
                 Toast.makeText(this, "Remak에 저장했습니다.", Toast.LENGTH_SHORT).show()
-                finish()
             } else {
                 Toast.makeText(this, "Remak에 저장하는데 실패했습니다.", Toast.LENGTH_SHORT).show()
-                finish()
             }
+            finish()
         }
 
         viewModel.uploadState.observe(this) {
-            if (it == UploadState.SUCCESS) {
-                Toast.makeText(this, "파일 업로드에 성공했습니다.", Toast.LENGTH_SHORT).show()
+            if (it != UploadState.LOADING) {
+                if (it == UploadState.SUCCESS) {
+                    Toast.makeText(this, "파일 업로드에 성공했습니다.", Toast.LENGTH_SHORT).show()
+                } else if (it == UploadState.FAIL) {
+                    Toast.makeText(this, "파일 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                }
                 finish()
+
             }
         }
 
         if (Intent.ACTION_SEND == intent.action && intent.type != null) { // 공유하기로 들어온 경우
+            Log.d("intentType", intent.type.toString())
             if ("text/plain" == intent.type) {
                 val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
                 if (sharedText != null) {
                     viewModel.createWebPage(sharedText)
                 }
-            } else if (intent.type == "image/*") {
+            } else if (intent.type?.startsWith("image/") == true) {
+                Log.d("image", "image")
                 val imageUri: Uri?
                 if (VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     imageUri = intent.getParcelableExtra(
@@ -61,7 +68,6 @@ class ShareReceiverActivity : AppCompatActivity() {
                 } else {
                     imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM) as Uri?
                 }
-
                 if (imageUri != null) {
                     val fileList = mutableListOf<MultipartBody.Part>()
                     val mimeType = contentResolver.getType(imageUri)
@@ -83,7 +89,7 @@ class ShareReceiverActivity : AppCompatActivity() {
 
     private fun inputStreamToFile(inputStream: InputStream, uri: Uri): File {
         val fileName = getFileNameFromUri(uri)
-        val file = File(cacheDir, fileName)
+        val file = File(cacheDir, fileName!!)
         file.outputStream().use { fileOutputStream ->
             inputStream.copyTo(fileOutputStream)
         }

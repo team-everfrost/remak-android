@@ -164,7 +164,6 @@
                 android:minHeight="65dp"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="22dp"
-                android:text="test"
                 android:textFontWeight="400"
                 android:textSize="17sp" />
 
