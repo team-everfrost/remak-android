@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+
+    id 'io.sentry.android.gradle' version '3.12.0'
 }
 
 android {
@@ -117,4 +119,16 @@ dependencies {
     //sentry
     implementation 'io.sentry:sentry-android:6.29.0'
 
+    //errorprone
+    implementation 'com.google.errorprone:error_prone_annotations:2.15.0'
+
+}
+
+sentry {
+    org = "everfrost-4376b2b0e"
+    projectName = "remak"
+
+    // this will upload your source code to Sentry to show it as part of the stack traces
+    // disable if you don't want to expose your sources
+    includeSourceContext = true
 }

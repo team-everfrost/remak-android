@@ -31,7 +31,13 @@
 -dontwarn org.openjsse.javax.net.ssl.SSLParameters
 -dontwarn org.openjsse.javax.net.ssl.SSLSocket
 -dontwarn org.openjsse.net.ssl.OpenJSSE
-
+-dontwarn com.google.errorprone.annotations.MustBeClosed
+-keep class androidx.test.** { *; }
+-keep interface androidx.test.** { *; }
+# Please add these rules to your existing keep rules in order to suppress warnings.
+# This is generated automatically by the Android Gradle plugin.
+-keep class com.google.errorprone.annotations.MustBeClosed { *; }
+-dontwarn com.google.errorprone.annotations.MustBeClosed
 -keepclassmembers class com.example.remak.** { *; }
 
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
