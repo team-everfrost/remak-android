@@ -46,11 +46,14 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
                 val token = TokenData(response.body()?.data!!.accessToken)
                 signInRepository.saveUser(token)
                 _loginResult.value = true
+                Log.d("로그인", "성공")
             } else {
                 _loginResult.value = false
                 _showDialog.value = true
+                Log.d(response.code().toString(), response.message())
             }
         } catch (e: Exception) {
+            Log.d("로그인", e.toString())
         }
     }
 

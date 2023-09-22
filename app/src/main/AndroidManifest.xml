@@ -19,6 +19,13 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.Remak"
         tools:targetApi="31">
+        <meta-data
+            android:name="io.sentry.dsn"
+            android:value="https://903663e729b6e6ce17a6931e43585873@o4505921863155712.ingest.sentry.io/4505922228060160" />
+        <meta-data
+            android:name="io.sentry.traces.user-interaction.enable"
+            android:value="true" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

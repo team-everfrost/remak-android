@@ -2,6 +2,7 @@ package com.example.remak.view.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.remak.App
@@ -46,6 +47,7 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
 
         viewModel.detailData.observe(this) {
             url = it.url
+            Log.d("url", it.toString())
             var summary = it.summary
             //summary의 첫 한줄은 제거
             if (summary != null) {

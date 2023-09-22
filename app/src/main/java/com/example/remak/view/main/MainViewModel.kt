@@ -1,6 +1,7 @@
 package com.example.remak.view.main
 
 import android.os.Parcelable
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -143,6 +144,7 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
             } else {
             }
         } catch (e: Exception) {
+            Log.d("메인", e.toString())
         }
         _isLoading.value = false
     }

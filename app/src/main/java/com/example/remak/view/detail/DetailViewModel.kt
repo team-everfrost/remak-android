@@ -3,20 +3,29 @@ package com.example.remak.view.detail
 import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Environment
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.example.remak.BuildConfig
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.network.model.MainListData
 import com.example.remak.repository.NetworkRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
 
 class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private val networkRepository = NetworkRepository()
@@ -97,16 +106,42 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             val response = networkRepository.downloadFile(docId)
             if (response.isSuccessful) {
                 val url = response.body()!!.data
-                val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                    type = "text/plain"
-                    putExtra(Intent.EXTRA_TEXT, url)
-                }
-                context.startActivity(Intent.createChooser(shareIntent, "Share link"))
-
+                shareImageFromUrl(context, url!!)
             } else {
             }
         } catch (e: Exception) {
         }
+    }
+
+    private fun shareImageFromUrl(context: Context, imageUrl: String) {
+        val glide = Glide.with(context)
+        glide.asBitmap().load(imageUrl).into(object : CustomTarget<Bitmap>() {
+            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                val uri = saveImageToInternalStorage(context, resource)
+                shareImageUri(context, uri)
+            }
+
+            override fun onLoadCleared(placeholder: Drawable?) {
+            }
+        })
+    }
+
+    private fun saveImageToInternalStorage(context: Context, bitmap: Bitmap): Uri {
+        val file = File(context.cacheDir, "shared_image.png")
+        val fos = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+        fos.close()
+        return FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", file)
+    }
+
+    private fun shareImageUri(context: Context, uri: Uri) {
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_STREAM, uri)
+            type = "image/png"
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
+        context.startActivity(Intent.createChooser(shareIntent, "Share Image"))
     }
 
 }
