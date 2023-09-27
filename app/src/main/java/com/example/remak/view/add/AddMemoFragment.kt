@@ -56,7 +56,7 @@ class AddMemoFragment : Fragment() {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
-        viewModel.isUploadComplete.observe(viewLifecycleOwner) {
+        viewModel.isMemoComplete.observe(viewLifecycleOwner) {
             if (it) {
                 UtilityDialog.showInformDialog(
                     "메모가 생성되었습니다.",

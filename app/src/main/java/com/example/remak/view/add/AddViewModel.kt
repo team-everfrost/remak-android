@@ -13,8 +13,8 @@ import okhttp3.MultipartBody
 class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private val networkRepository = NetworkRepository()
 
-    private val _isUploadComplete = MutableLiveData<Boolean>()
-    val isUploadComplete: LiveData<Boolean> = _isUploadComplete
+    private val _isMemoComplete = MutableLiveData<Boolean>()
+    val isMemoComplete: LiveData<Boolean> = _isMemoComplete
 
     private val _uploadState = MutableLiveData<UploadState>()
     val uploadState: LiveData<UploadState> = _uploadState
@@ -25,10 +25,7 @@ class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     fun createWebPage(url: String) = viewModelScope.launch {
         try {
             val response = networkRepository.createWebPage(url)
-            if (response.isSuccessful) {
-            } else {
-            }
-            _isActionComplete.value = true
+            _isActionComplete.value = response.isSuccessful
 
         } catch (e: Exception) {
         }
@@ -50,7 +47,7 @@ class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     fun addMemo(content: String) = viewModelScope.launch {
         val response = networkRepository.createMemo(content)
         try {
-            _isUploadComplete.value = response.isSuccessful
+            _isMemoComplete.value = response.isSuccessful
         } catch (e: Exception) {
         }
     }

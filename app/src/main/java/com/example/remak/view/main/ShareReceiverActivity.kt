@@ -38,6 +38,15 @@ class ShareReceiverActivity : AppCompatActivity() {
             finish()
         }
 
+        viewModel.isMemoComplete.observe(this) {
+            if (it) {
+                Toast.makeText(this, "메모를 저장했습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "메모를 저장하는데 실패했습니다.", Toast.LENGTH_SHORT).show()
+            }
+            finish()
+        }
+
         viewModel.uploadState.observe(this) {
             if (it != UploadState.LOADING) {
                 if (it == UploadState.SUCCESS) {
@@ -53,10 +62,22 @@ class ShareReceiverActivity : AppCompatActivity() {
         if (Intent.ACTION_SEND == intent.action && intent.type != null) { // 공유하기로 들어온 경우
             Log.d("intentType", intent.type.toString())
             if ("text/plain" == intent.type) {
+                val urlRegex = """^(http[s]?://)?[^\s[("<,>]]*\.[^\s[",><]]+$""".toRegex()
                 val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
                 if (sharedText != null) {
-                    viewModel.createWebPage(sharedText)
+                    if (sharedText.matches(urlRegex)) {
+                        val fullUrl =
+                            if (sharedText.startsWith("http://") || sharedText.startsWith("https://")) {
+                                sharedText
+                            } else {
+                                "http://$sharedText"
+                            }
+                        viewModel.createWebPage(fullUrl)
+                    } else {
+                        viewModel.addMemo(sharedText)
+                    }
                 }
+
             } else if (intent.type?.startsWith("image/") == true) {
                 Log.d("image", "image")
                 val imageUri: Uri?
