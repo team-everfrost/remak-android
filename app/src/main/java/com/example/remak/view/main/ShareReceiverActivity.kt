@@ -24,7 +24,6 @@ import java.io.InputStream
 class ShareReceiverActivity : AppCompatActivity() {
     lateinit var tokenRepository: TokenRepository
     private val viewModel: AddViewModel by viewModels { AddViewModelFactory(tokenRepository) }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         tokenRepository = TokenRepository((application as App).dataStore)

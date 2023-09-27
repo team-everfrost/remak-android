@@ -84,18 +84,6 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        viewModel.uploadFileSuccess.observe(viewLifecycleOwner) { isSuccessful ->
-//            if (isSuccessful) {
-//                UtilityDialog.showInformDialog(
-//                    "파일 업로드에 성공했습니다.",
-//                    "",
-//                    requireContext(),
-//                    confirmClick = {})
-//                viewModel.resetUploadFileSuccess()
-//            }
-//        }
-
         viewModel.uploadState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 UploadState.LOADING -> {
@@ -145,7 +133,7 @@ class AddFragment : Fragment() {
     //uri에서 파일 가져오기
     private fun inputStreamToFile(inputStream: InputStream, uri: Uri): File {
         val fileName = getFileNameFromUri(uri)
-        val file = File(requireContext().cacheDir, fileName)
+        val file = File(requireContext().cacheDir, fileName!!)
         file.outputStream().use { fileOutputStream ->
             inputStream.copyTo(fileOutputStream)
         }

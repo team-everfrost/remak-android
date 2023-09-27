@@ -14,7 +14,7 @@ class SearchHistoryRepository(private val dataStore: DataStore<Preferences>) {
         val SEARCH_HISTORY = stringPreferencesKey("search_history")
     }
 
-    fun addSearchHistory(history: String, currentList: List<String>): List<String> {
+    private fun addSearchHistory(history: String, currentList: List<String>): List<String> {
         val newList = mutableListOf<String>()
         newList.addAll(currentList)
 
@@ -43,15 +43,15 @@ class SearchHistoryRepository(private val dataStore: DataStore<Preferences>) {
     }
 
     // Gson 인스턴스 초기화
-    val gson = Gson()
+    private val gson = Gson()
 
     // List -> JSON 문자열
-    fun listToJson(list: List<String>): String {
+    private fun listToJson(list: List<String>): String {
         return gson.toJson(list)
     }
 
     // JSON 문자열 -> List
-    fun jsonToList(json: String): List<String> {
+    private fun jsonToList(json: String): List<String> {
         return gson.fromJson(json, object : TypeToken<List<String>>() {}.type)
     }
 
