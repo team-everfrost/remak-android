@@ -75,6 +75,12 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
             updateUI(it)
             adapter.tags = it.tags
             adapter.notifyDataSetChanged()
+            if (it.status == "SCRAPE_PENDING" || it.status == "SCRAPE_PROCESSING"
+                || it.status == "SCRAPE_FAILED"
+            ) {
+                binding.scrollView.visibility = View.VISIBLE
+                binding.webView.visibility = View.GONE
+            }
         }
 
         viewModel.isActionComplete.observe(this) {
