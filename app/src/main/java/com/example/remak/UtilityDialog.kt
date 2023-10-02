@@ -147,4 +147,44 @@ object UtilityDialog {
         dialog.show()
     }
 
+    fun showCollectionLongClickDialog(
+        context: Context,
+        editBtnClick: () -> Unit,
+        deleteBtnClick: () -> Unit,
+    ) {
+        val dialog = Dialog(context)
+        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.custom_dialog_collection_long_click)
+
+        if (Build.VERSION.SDK_INT < 30) {
+            val display = windowManager.defaultDisplay
+            val size = Point()
+            display.getSize(size)
+            val window = dialog.window
+            window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val x = (size.x * 0.85).toInt()
+            window.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
+
+        } else {
+            val rect = windowManager.currentWindowMetrics.bounds
+            val window = dialog.window
+            window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val x = (rect.width() * 0.85).toInt()
+            window.setLayout(x, WindowManager.LayoutParams.WRAP_CONTENT)
+        }
+        val editBtn = dialog.findViewById<View>(R.id.editBtn)
+        val deleteBtn = dialog.findViewById<View>(R.id.deleteBtn)
+        editBtn.setOnClickListener {
+            editBtnClick()
+            dialog.dismiss()
+        }
+        deleteBtn.setOnClickListener {
+            deleteBtnClick()
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
 }
