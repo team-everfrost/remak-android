@@ -229,22 +229,6 @@ class CollectionListRVAdapter(
             is WebPageViewHolder -> {
                 holder.checkbox.visibility = if (isInSelectionMode) View.VISIBLE else View.GONE
                 holder.checkbox.isChecked = dataSet[position].isSelected
-
-//                if (isInSelectionMode) { //애니메이션 실험 코드
-//                    holder.title.animation = AnimationUtils.loadAnimation(
-//                        holder.itemView.context,
-//                        R.anim.recycler_to_right
-//                    )
-//                    holder.link.animation = AnimationUtils.loadAnimation(
-//                        holder.itemView.context,
-//                        R.anim.recycler_to_right
-//                    )
-//                    holder.date.animation = AnimationUtils.loadAnimation(
-//                        holder.itemView.context,
-//                        R.anim.recycler_to_right
-//                    )
-//                }
-
                 UtilityRV.setWebpage(
                     holder.title,
                     holder.date,

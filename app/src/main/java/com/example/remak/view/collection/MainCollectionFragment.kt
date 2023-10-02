@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.remak.App
 import com.example.remak.R
+import com.example.remak.UtilityDialog
 import com.example.remak.adapter.CollectionRVAdapter
 import com.example.remak.adapter.SpacingItemDecorator
 import com.example.remak.dataStore.TokenRepository
@@ -81,6 +82,10 @@ class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListen
             adapter.notifyDataSetChanged()
         }
 
+        viewModel.isActionComplete.observe(viewLifecycleOwner) {
+            viewModel.getCollectionList()
+        }
+
         binding.addBtn.setOnClickListener {
             val intent = Intent(requireContext(), AddCollectionActivity::class.java)
             resultLauncher.launch(intent)
@@ -97,6 +102,30 @@ class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListen
         intent.putExtra("collectionName", viewModel.collectionList.value!![position].name)
         intent.putExtra("collectionCount", viewModel.collectionList.value!![position].count)
         resultLauncher.launch(intent)
+    }
+
+    override fun onItemLongClick(position: Int) {
+        UtilityDialog.showCollectionLongClickDialog(
+            requireContext(),
+            editBtnClick = {
+                val intent = Intent(requireContext(), UpdateCollectionActivity::class.java)
+                intent.putExtra("collectionName", viewModel.collectionList.value!![position].name)
+                resultLauncher.launch(intent)
+            },
+            deleteBtnClick = {
+                UtilityDialog.showWarnDialog(
+                    requireContext(),
+                    "정말 삭제하시겠어요?",
+                    "삭제시 복구가 불가능해요",
+                    "삭제하기",
+                    "취소하기",
+                    confirmClick = {
+                        viewModel.deleteCollection(viewModel.collectionList.value!![position].name)
+                    },
+                    cancelClick = {}
+                )
+            }
+        )
     }
 
 }

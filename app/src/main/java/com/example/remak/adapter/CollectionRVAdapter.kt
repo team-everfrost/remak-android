@@ -23,6 +23,11 @@ class CollectionRVAdapter(
             view.setOnClickListener {
                 itemClickListener.onItemClick(adapterPosition)
             }
+
+            view.setOnLongClickListener {
+                itemClickListener.onItemLongClick(adapterPosition)
+                true
+            }
         }
     }
 
@@ -52,6 +57,7 @@ class CollectionRVAdapter(
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)
+        fun onItemLongClick(position: Int)
     }
 
 }
