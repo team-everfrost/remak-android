@@ -265,6 +265,13 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
         finish()
     }
 
+    override fun onItemLongClick(position: Int) {
+        if (!adapter.isSelectionMode()) {
+            adapter.toggleSelectionMode()
+            showEditModeView()
+        }
+    }
+
     override fun onItemClick(position: Int) {
         when (viewModel.collectionDetailData.value!![position].type) {
             "MEMO" -> {
