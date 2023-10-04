@@ -3,6 +3,7 @@ package com.example.remak
 import android.graphics.Rect
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.utils.widget.ImageFilterView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -116,6 +117,13 @@ object UtilityRV {
                 .load(dataSet[position].thumbnailUrl)
                 .transform(CenterCrop(), RoundedCorners(47))
                 .into(itemView.findViewById(R.id.thumbnail))
+            itemView.findViewById<ImageFilterView>(R.id.thumbnail).background =
+                AppCompatResources.getDrawable(
+                    itemView.context,
+                    R.drawable.item_link_radius_whitegray
+                )
+//                itemView.context.getDrawable(R.drawable.item_link_radius_whitegray)
+
         } else {
             Glide.with(itemView.context)
                 .load(R.drawable.no_thumbnail_image)

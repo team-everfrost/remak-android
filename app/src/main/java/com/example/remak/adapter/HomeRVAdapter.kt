@@ -250,6 +250,7 @@ class HomeRVAdapter(
                     if (isInSelectionMode) View.VISIBLE else View.GONE //선택모드일때만 보이게
                 holder.checkbox.isChecked = dataSet[position].isSelected //선택된 아이템이면 체크박스 체크
                 UtilityRV.setMemo(holder.title, holder.date, holder.subject, position, dataSet)
+
             }
 
             is FileViewHolder -> {
