@@ -57,24 +57,25 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         binding = DetailPageLinkActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val linkId = intent.getStringExtra("docId")
-        viewModel.getDetailData(linkId!!)
-
+        viewModel.getDetailData(linkId!!) //상세 데이터 가져오기
         val adapter = LinkTagRVAdapter(listOf(), this)
 
+        //태그 레이아웃 설정
         val flexboxLayoutManager = FlexboxLayoutManager(this).apply {
             flexWrap = FlexWrap.WRAP
             flexDirection = FlexDirection.ROW
         }
-
         val itemDecoration = SpacingItemDecoration(10, 10)
         binding.tagRV.layoutManager = flexboxLayoutManager
         binding.tagRV.addItemDecoration(itemDecoration)
         binding.tagRV.adapter = adapter
 
+        //상세 데이터에 변경사항이 있을시
         viewModel.detailData.observe(this) {
             updateUI(it)
             adapter.tags = it.tags
-            adapter.notifyDataSetChanged()
+            adapter.notifyDataSetChanged() //태그 변경사항 적용
+            //스크랩이 완료되지 않았을 경우 하단 버튼 표시
             if (it.status == "SCRAPE_PENDING" || it.status == "SCRAPE_PROCESSING"
                 || it.status == "SCRAPE_FAILED"
             ) {
@@ -195,7 +196,7 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         val outputDateStr = outputFormat.format(date)
         binding.date.text = outputDateStr
         binding.title.text = detailData.title
-        if (detailData.status != "SCRAPE_PENDING" && detailData.status != "SCRAPE_PROCESSING") {
+        if (detailData.status != "SCRAPE_PENDING" && detailData.status != "SCRAPE_PROCESSING" && detailData.status != "SCRAPE_FAILED") {
             showContent(linkData)
         }
         if (detailData.summary != null) {

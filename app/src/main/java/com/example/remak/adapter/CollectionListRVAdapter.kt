@@ -70,6 +70,15 @@ class CollectionListRVAdapter(
                     handleItemClick(position, checkbox)
                 }
             }
+
+            view.setOnLongClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener.onItemLongClick(position)
+                    toggleSelection(position, checkbox)
+                }
+                true
+            }
         }
     }
 
@@ -85,6 +94,14 @@ class CollectionListRVAdapter(
                 if (position != RecyclerView.NO_POSITION) {
                     handleItemClick(position, checkbox)
                 }
+            }
+            view.setOnLongClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener.onItemLongClick(position)
+                    toggleSelection(position, checkbox)
+                }
+                true
             }
         }
     }
@@ -102,6 +119,14 @@ class CollectionListRVAdapter(
                     handleItemClick(position, checkbox)
                 }
             }
+            view.setOnLongClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener.onItemLongClick(position)
+                    toggleSelection(position, checkbox)
+                }
+                true
+            }
 
         }
     }
@@ -118,11 +143,20 @@ class CollectionListRVAdapter(
                     handleItemClick(position, checkbox)
                 }
             }
+            view.setOnLongClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener.onItemLongClick(position)
+                    toggleSelection(position, checkbox)
+                }
+                true
+            }
         }
     }
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)
+        fun onItemLongClick(position: Int)
     }
 
     override fun getItemViewType(position: Int): Int = when (dataSet[position].type) {
