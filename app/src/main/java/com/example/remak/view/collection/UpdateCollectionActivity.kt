@@ -31,6 +31,7 @@ class UpdateCollectionActivity : AppCompatActivity() {
             UtilitySystem.hideKeyboard(this)
         }
         setContentView(binding.root)
+        binding.collectionNameEditText.setText(collectionName)
 
         binding.collectionNameEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
