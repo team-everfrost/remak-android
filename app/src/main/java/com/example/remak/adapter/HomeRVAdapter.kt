@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
-import androidx.constraintlayout.utils.widget.ImageFilterView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remak.R
 import com.example.remak.UtilityRV
@@ -161,9 +160,8 @@ class HomeRVAdapter(
     }
 
     inner class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title = view.findViewById<TextView>(R.id.title)
-        val date = view.findViewById<TextView>(R.id.dateText)
-        val thumbnail = view.findViewById<ImageFilterView>(R.id.thumbnail)
+        val title: TextView = view.findViewById<TextView>(R.id.title)
+        val date: TextView = view.findViewById<TextView>(R.id.dateText)
         val checkbox: CheckBox = view.findViewById<CheckBox>(R.id.checkbox)
 
         init {
@@ -200,7 +198,7 @@ class HomeRVAdapter(
         WEBPAGE -> WEBPAGE_VIEW_TYPE
         IMAGE -> IMAGE_VIEW_TYPE
         DATE -> DATE_VIEW_TYPE
-        else -> throw IllegalArgumentException("Invalid type of data " + position)
+        else -> throw IllegalArgumentException("Invalid type of data $position")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -235,7 +233,7 @@ class HomeRVAdapter(
                 DateViewHolder(view)
             }
 
-            else -> throw IllegalArgumentException("Invalid type of data " + viewType)
+            else -> throw IllegalArgumentException("Invalid type of data $viewType")
         }
     }
 
@@ -250,6 +248,7 @@ class HomeRVAdapter(
                     if (isInSelectionMode) View.VISIBLE else View.GONE //선택모드일때만 보이게
                 holder.checkbox.isChecked = dataSet[position].isSelected //선택된 아이템이면 체크박스 체크
                 UtilityRV.setMemo(holder.title, holder.date, holder.subject, position, dataSet)
+
             }
 
             is FileViewHolder -> {
