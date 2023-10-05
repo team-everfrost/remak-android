@@ -3,6 +3,7 @@ package com.example.remak.view.detail
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.remak.App
@@ -62,8 +63,25 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
             adapter.notifyDataSetChanged()
         }
 
+        binding.downloadBtn.setOnClickListener {
+            viewModel.downloadFile(this, imageId, fileName)
+        }
+
         binding.shareIcon.setOnClickListener {
             viewModel.shareFile(this, imageId)
+        }
+
+        viewModel.isImageShareReady.observe(this) {
+            if (it) {
+                binding.progressBar.visibility = android.view.View.GONE
+                window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            } else {
+                window.setFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                )
+                binding.progressBar.visibility = android.view.View.VISIBLE
+            }
         }
     }
 

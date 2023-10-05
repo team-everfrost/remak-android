@@ -35,6 +35,8 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     val isActionComplete: LiveData<Boolean> = _isActionComplete
     private val _isWebViewLoaded = MutableLiveData<Boolean>()
     val isWebViewLoaded: LiveData<Boolean> = _isWebViewLoaded
+    private val _isImageShareReady = MutableLiveData<Boolean>()
+    val isImageShareReady: LiveData<Boolean> = _isImageShareReady
 
     fun webViewLoaded() {
         _isWebViewLoaded.value = true
@@ -102,6 +104,7 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     }
 
     fun shareFile(context: Context, docId: String) = viewModelScope.launch {
+        _isImageShareReady.value = false
         try {
             val response = networkRepository.downloadFile(docId)
             if (response.isSuccessful) {
@@ -117,6 +120,7 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         val glide = Glide.with(context)
         glide.asBitmap().load(imageUrl).into(object : CustomTarget<Bitmap>() {
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                _isImageShareReady.value = true
                 val uri = saveImageToInternalStorage(context, resource)
                 shareImageUri(context, uri)
             }
