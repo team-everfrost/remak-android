@@ -122,6 +122,9 @@ dependencies {
     //errorprone
     implementation 'com.google.errorprone:error_prone_annotations:2.15.0'
 
+    //amplitude
+    implementation 'com.amplitude:analytics-android:1.11.1'
+
 }
 
 sentry {
