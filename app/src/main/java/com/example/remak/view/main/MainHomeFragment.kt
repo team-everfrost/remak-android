@@ -15,6 +15,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.amplitude.android.Amplitude
+import com.amplitude.android.Configuration
+import com.amplitude.android.DefaultTrackingOptions
 import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.UtilityDialog
@@ -66,6 +69,14 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Amplitude(
+            Configuration(
+                apiKey = "16577f94d092757eef4eb77d6be2c85e",
+                context = requireContext(),
+                defaultTracking = DefaultTrackingOptions.ALL
+            )
+        )
 
         //생성된 activity에서 delete를 받을 시 목록 새로고침
         resultLauncher =

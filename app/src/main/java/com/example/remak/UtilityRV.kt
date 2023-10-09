@@ -176,6 +176,11 @@ object UtilityRV {
                 .load(dataSet[position].thumbnailUrl)
                 .transform(CenterCrop(), RoundedCorners(47))
                 .into(itemView.findViewById(R.id.thumbnail))
+            itemView.findViewById<ImageFilterView>(R.id.thumbnail).background =
+                AppCompatResources.getDrawable(
+                    itemView.context,
+                    R.drawable.item_link_radius_whitegray
+                )
         } else {
             Glide.with(itemView.context)
                 .load(R.drawable.no_thumbnail_image)
@@ -235,16 +240,6 @@ object UtilityRV {
     }
 
     private fun dateSetting(position: Int, dataSet: List<MainListData.Data>): String {
-//        val inputFormatter =
-//            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
-//        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
-//
-//        return try {
-//            val dateTime = ZonedDateTime.parse(dataSet[position].updatedAt, inputFormatter)
-//            dateTime.format(outputFormatter)
-//        } catch (e: Exception) {
-//            dataSet[position].updatedAt!!
-//        }
         val rawDate = dataSet[position].updatedAt
         return rawDate?.split("T")?.get(0) ?: ""
     }
