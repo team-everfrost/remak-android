@@ -92,6 +92,7 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
     }
 
     private fun setThumbnail(thumbnailUrl: String) {
+        Log.d("thumbnailUrl", thumbnailUrl)
         Glide.with(this)
             .load(thumbnailUrl)
             .transform(CenterCrop(), RoundedCorners(47))

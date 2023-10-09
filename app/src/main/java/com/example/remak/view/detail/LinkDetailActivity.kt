@@ -2,15 +2,10 @@ package com.example.remak.view.detail
 
 import android.app.Activity
 import android.app.DownloadManager
-import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
 import android.webkit.URLUtil
@@ -25,12 +20,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
+import androidx.lifecycle.lifecycleScope
 import com.example.remak.App
-import com.example.remak.BuildConfig
 import com.example.remak.R
 import com.example.remak.UtilityDialog
 import com.example.remak.adapter.LinkTagRVAdapter
@@ -38,23 +29,21 @@ import com.example.remak.adapter.SpacingItemDecoration
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageLinkActivityBinding
 import com.example.remak.network.model.MainListData
+import com.example.remak.view.add.AddViewModel
+import com.example.remak.view.add.AddViewModelFactory
 import com.example.remak.view.collection.EditCollectionBottomSheetDialog
-import com.example.remak.view.main.ShareReceiverActivity
 import com.example.remak.view.tag.TagDetailActivity
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickListener {
     private lateinit var binding: DetailPageLinkActivityBinding
     private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
+    private val uploadViewModel: AddViewModel by viewModels { AddViewModelFactory(tokenRepository) }
     lateinit var tokenRepository: TokenRepository
     lateinit var url: String
 
@@ -279,11 +268,12 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                             downloadImage(imageUrl)
                         },
                         shareBtnClick = {
-//                            viewModel.shareFile(context, imageUrl, fileName)
-                            shareImageFromUrl(context, imageUrl)
+                            lifecycleScope.launch {
+                                viewModel.downloadAndShareImage(context, imageUrl, fileName)
+                            }
                         },
                         selfShareBtnClick = {
-                            GlobalScope.launch {
+                            lifecycleScope.launch {
                                 viewModel.shareSelf(context, imageUrl, fileName)
                             }
 
@@ -358,7 +348,6 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         val intent = Intent(this, TagDetailActivity::class.java)
         intent.putExtra("tagName", viewModel.detailData.value!!.tags[position])
         intent.putExtra("tagCount", viewModel.detailData.value!!.tags.size)
-
         startActivity(intent)
     }
 
@@ -378,77 +367,6 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         val manager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         manager.enqueue(request)
         Toast.makeText(this, "다운로드가 시작되었습니다.", Toast.LENGTH_SHORT).show()
-    }
-
-
-    private fun shareImageFromUrl(context: Context, imageUrl: String) {
-        val glide = Glide.with(context)
-        glide.asBitmap().load(imageUrl).into(object : CustomTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                val uri = saveImageToInternalStorage(context, resource)
-                shareImageUri(context, uri)
-            }
-
-            override fun onLoadCleared(placeholder: Drawable?) {}
-        })
-    }
-
-    fun saveImageToInternalStorage(context: Context, bitmap: Bitmap): Uri {
-        val file = File(context.cacheDir, "shared_image.png")
-        val fos = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-        fos.close()
-        return FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", file)
-    }
-
-    fun shareImageUri(context: Context, uri: Uri) {
-        val shareIntent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_STREAM, uri)
-            type = "image/png"
-            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        }
-        val components = arrayOf(ComponentName(context, ShareReceiverActivity::class.java))
-        context.startActivity(
-            Intent.createChooser(shareIntent, "fileName")
-                .putExtra(Intent.EXTRA_EXCLUDE_COMPONENTS, components)
-        )
-//        context.startActivity(Intent.createChooser(shareIntent, "Share Image"))
-    }
-
-
-    private fun saveImageToInternalStorageSelf(
-        context: Context,
-        fileName: String,
-        inputStream: InputStream
-    ): Uri {
-        val file = File(context.cacheDir, fileName)
-        file.outputStream().use { fileOutput ->
-            inputStream.use { input ->
-                input.copyTo(fileOutput)
-            }
-        }
-        Log.d("File Size", file.length().toString()) // 로그 추가
-        return FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", file)
-    }
-
-    private fun inputStreamToFile(inputStream: InputStream, uri: Uri): File {
-        val fileName = getFileNameFromUri(uri)
-        val file = File(this.cacheDir, fileName!!)
-        file.outputStream().use { fileOutputStream ->
-            inputStream.copyTo(fileOutputStream)
-        }
-        return file
-    }
-
-    private fun getFileNameFromUri(uri: Uri): String? {
-        var fileName: String? = null
-        this.contentResolver.query(uri, null, null, null, null)?.use {
-            val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            it.moveToFirst()
-            fileName = it.getString(nameIndex)
-        }
-        return fileName
     }
 
 }

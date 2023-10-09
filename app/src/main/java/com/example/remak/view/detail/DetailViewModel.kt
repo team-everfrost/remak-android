@@ -121,29 +121,7 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         }
     }
 
-    suspend fun shareSelf(
-        context: Context,
-        imageUrl: String,
-        fileName: String
-    ) {
-        withContext(Dispatchers.IO) {
-            try {
-                val url = URL(imageUrl)
-                val connection = url.openConnection()
-                connection.doInput = true
-                connection.connect()
-                val inputStream = connection.getInputStream()
-
-                val uri = saveImageToInternalStorage(context, fileName, inputStream)
-                withContext(Dispatchers.Main) {
-                    uriToFile(context, uri)
-                }
-            } catch (e: Exception) {
-            }
-        }
-    }
-
-    private suspend fun downloadAndShareImage(
+    suspend fun downloadAndShareImage(
         context: Context,
         imageUrl: String,
         fileName: String
@@ -165,6 +143,40 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             }
         }
     }
+
+    private fun shareImageUri(context: Context, uri: Uri, fileName: String) {
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_STREAM, uri)
+            type = "image/*"
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
+        context.startActivity(
+            Intent.createChooser(shareIntent, fileName)
+        )
+    }
+
+    suspend fun shareSelf(
+        context: Context,
+        imageUrl: String,
+        fileName: String
+    ) {
+        withContext(Dispatchers.IO) {
+            try {
+                val url = URL(imageUrl)
+                val connection = url.openConnection()
+                connection.doInput = true
+                connection.connect()
+                val inputStream = connection.getInputStream()
+                val uri = saveImageToInternalStorage(context, fileName, inputStream)
+                withContext(Dispatchers.Main) {
+                    uriToFile(context, uri)
+                }
+            } catch (e: Exception) {
+            }
+        }
+    }
+
 
     private fun uriToFile(context: Context, uri: Uri) {
         val fileList = mutableListOf<MultipartBody.Part>()
@@ -198,19 +210,6 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         return FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", file)
     }
 
-    private fun shareImageUri(context: Context, uri: Uri, fileName: String) {
-        val shareIntent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_STREAM, uri)
-            type = "image/*"
-            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-
-        }
-        context.startActivity(
-            Intent.createChooser(shareIntent, fileName)
-
-        )
-    }
 
     /** 파일 업로드 */
     private fun uploadFile(files: List<MultipartBody.Part>) = viewModelScope.launch {
