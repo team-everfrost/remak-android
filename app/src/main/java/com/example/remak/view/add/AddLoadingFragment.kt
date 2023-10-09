@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.example.remak.App
 import com.example.remak.R
+import com.example.remak.UtilityDialog
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.LoadingUploadFragmentBinding
 
@@ -59,7 +60,22 @@ class AddLoadingFragment : Fragment() {
                     binding.completeBtn.visibility = View.VISIBLE
                 }
 
+                UploadState.FAIL -> {
+
+                }
+
                 else -> {}
+            }
+        }
+
+        viewModel.isFileTooLarge.observe(viewLifecycleOwner) {
+            if (it) {
+                UtilityDialog.showInformDialog("파일이 너무 큽니다.",
+                    "최대 10mb까지 업로드 가능합니다.",
+                    requireContext(),
+                    confirmClick = {
+                        requireActivity().finish()
+                    })
             }
         }
 
