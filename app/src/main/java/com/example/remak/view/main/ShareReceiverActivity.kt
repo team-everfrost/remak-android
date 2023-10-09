@@ -20,6 +20,8 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.InputStream
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 
 class ShareReceiverActivity : AppCompatActivity() {
     lateinit var tokenRepository: TokenRepository
@@ -108,10 +110,19 @@ class ShareReceiverActivity : AppCompatActivity() {
     }
 
     private fun inputStreamToFile(inputStream: InputStream, uri: Uri): File {
+        Log.d("inputStream", inputStream.toString())
+        Log.d("AvailableBytes", inputStream.available().toString())
+        Log.d("uri", uri.toString())
         val fileName = getFileNameFromUri(uri)
+        Log.d("fileName", fileName.toString())
         val file = File(cacheDir, fileName!!)
-        file.outputStream().use { fileOutputStream ->
-            inputStream.copyTo(fileOutputStream)
+        Log.d("file", file.toString())
+//        file.outputStream().use { fileOutputStream ->
+//            val bytesCopied = inputStream.copyTo(fileOutputStream)
+//            Log.d("bytesCopied", bytesCopied.toString())
+//        }
+        inputStream.use { input ->
+            Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING)
         }
         return file
     }

@@ -111,6 +111,7 @@ object UtilityDialog {
         context: Context,
         downloadBtnClick: () -> Unit,
         shareBtnClick: () -> Unit,
+        selfShareBtnClick: () -> Unit,
     ) {
         val dialog = Dialog(context)
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -136,12 +137,17 @@ object UtilityDialog {
         }
         val downloadBtn = dialog.findViewById<View>(R.id.downloadBtn)
         val shareBtn = dialog.findViewById<View>(R.id.shareBtn)
+        val selfShareBtn = dialog.findViewById<View>(R.id.shareSelfBtn)
         downloadBtn.setOnClickListener {
             downloadBtnClick()
             dialog.dismiss()
         }
         shareBtn.setOnClickListener {
             shareBtnClick()
+            dialog.dismiss()
+        }
+        selfShareBtn.setOnClickListener {
+            selfShareBtnClick()
             dialog.dismiss()
         }
         dialog.show()

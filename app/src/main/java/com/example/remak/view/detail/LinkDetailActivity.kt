@@ -2,6 +2,7 @@ package com.example.remak.view.detail
 
 import android.app.Activity
 import android.app.DownloadManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -9,6 +10,8 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.provider.OpenableColumns
+import android.util.Log
 import android.view.View
 import android.webkit.URLUtil
 import android.webkit.WebChromeClient
@@ -36,12 +39,16 @@ import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.DetailPageLinkActivityBinding
 import com.example.remak.network.model.MainListData
 import com.example.remak.view.collection.EditCollectionBottomSheetDialog
+import com.example.remak.view.main.ShareReceiverActivity
 import com.example.remak.view.tag.TagDetailActivity
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -90,6 +97,12 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                 resultIntent.putExtra("isDelete", true)
                 setResult(Activity.RESULT_OK, resultIntent)
                 finish()
+            }
+        }
+
+        viewModel.isSelfShareSuccess.observe(this) {
+            if (it) {
+                Toast.makeText(this, "파일을 저장했습니다.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -258,13 +271,22 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                     hitTestResult.type == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE
                 ) {
                     val imageUrl = hitTestResult.extra!!
+                    val fileName = hitTestResult.extra!!.substringAfterLast("/")
+                    Log.d("fileName", fileName)
                     UtilityDialog.showImageDialog(
                         context,
                         downloadBtnClick = {
                             downloadImage(imageUrl)
                         },
                         shareBtnClick = {
+//                            viewModel.shareFile(context, imageUrl, fileName)
                             shareImageFromUrl(context, imageUrl)
+                        },
+                        selfShareBtnClick = {
+                            GlobalScope.launch {
+                                viewModel.shareSelf(context, imageUrl, fileName)
+                            }
+
                         }
                     )
                 }
@@ -341,7 +363,6 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
     }
 
     private fun downloadImage(url: String) {
-
         val fileName = URLUtil.guessFileName(url, null, null)
         val request = DownloadManager.Request(Uri.parse(url))
             .setTitle(fileName)
@@ -358,6 +379,7 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         manager.enqueue(request)
         Toast.makeText(this, "다운로드가 시작되었습니다.", Toast.LENGTH_SHORT).show()
     }
+
 
     private fun shareImageFromUrl(context: Context, imageUrl: String) {
         val glide = Glide.with(context)
@@ -386,7 +408,47 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
             type = "image/png"
             flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         }
-        context.startActivity(Intent.createChooser(shareIntent, "Share Image"))
+        val components = arrayOf(ComponentName(context, ShareReceiverActivity::class.java))
+        context.startActivity(
+            Intent.createChooser(shareIntent, "fileName")
+                .putExtra(Intent.EXTRA_EXCLUDE_COMPONENTS, components)
+        )
+//        context.startActivity(Intent.createChooser(shareIntent, "Share Image"))
+    }
+
+
+    private fun saveImageToInternalStorageSelf(
+        context: Context,
+        fileName: String,
+        inputStream: InputStream
+    ): Uri {
+        val file = File(context.cacheDir, fileName)
+        file.outputStream().use { fileOutput ->
+            inputStream.use { input ->
+                input.copyTo(fileOutput)
+            }
+        }
+        Log.d("File Size", file.length().toString()) // 로그 추가
+        return FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", file)
+    }
+
+    private fun inputStreamToFile(inputStream: InputStream, uri: Uri): File {
+        val fileName = getFileNameFromUri(uri)
+        val file = File(this.cacheDir, fileName!!)
+        file.outputStream().use { fileOutputStream ->
+            inputStream.copyTo(fileOutputStream)
+        }
+        return file
+    }
+
+    private fun getFileNameFromUri(uri: Uri): String? {
+        var fileName: String? = null
+        this.contentResolver.query(uri, null, null, null, null)?.use {
+            val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            it.moveToFirst()
+            fileName = it.getString(nameIndex)
+        }
+        return fileName
     }
 
 }

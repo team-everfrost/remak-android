@@ -6,6 +6,10 @@ import android.util.Log
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.remak.App
 import com.example.remak.adapter.LinkTagRVAdapter
 import com.example.remak.adapter.SpacingItemDecoration
@@ -61,6 +65,7 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
             fileName = it.title
             adapter.tags = it.tags
             adapter.notifyDataSetChanged()
+            setThumbnail(it.thumbnailUrl!!)
         }
 
         binding.downloadBtn.setOnClickListener {
@@ -68,7 +73,8 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
         }
 
         binding.shareIcon.setOnClickListener {
-            viewModel.shareFile(this, imageId)
+            viewModel.shareFile(this, imageId, fileName)
+            Log.d(fileName, "fileName")
         }
 
         viewModel.isImageShareReady.observe(this) {
@@ -84,6 +90,20 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
             }
         }
     }
+
+    private fun setThumbnail(thumbnailUrl: String) {
+        Glide.with(this)
+            .load(thumbnailUrl)
+            .transform(CenterCrop(), RoundedCorners(47))
+            .into(binding.thumbnail)
+        binding.thumbnail.background =
+            AppCompatResources.getDrawable(
+                this,
+                com.example.remak.R.drawable.item_link_radius_whitegray
+            )
+
+    }
+
 
     override fun onItemClick(position: Int) {
         val intent = Intent(this, TagDetailActivity::class.java)

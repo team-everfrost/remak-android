@@ -149,7 +149,7 @@ class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         }
 
         binding.shareIcon.setOnClickListener {
-            viewModel.shareFile(this, fileId)
+            viewModel.shareFile(this, fileId, fileName)
         }
     }
 

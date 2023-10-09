@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.remak.App
+import com.example.remak.R
 import com.example.remak.UtilityLogin
 import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
@@ -60,12 +61,12 @@ class AccountEmailSignInFragment : Fragment() {
                 binding.nextBtn.setTextColor(
                     ContextCompat.getColor(
                         requireContext(),
-                        com.example.remak.R.color.whiteGray
+                        R.color.whiteGray
                     )
                 )
                 binding.nextBtn.background = ContextCompat.getDrawable(
                     requireContext(),
-                    com.example.remak.R.drawable.custom_ripple_effect
+                    R.drawable.custom_ripple_effect
                 )
                 binding.nextBtn.isEnabled = false
                 isWritingEmail = false
@@ -86,7 +87,7 @@ class AccountEmailSignInFragment : Fragment() {
                 binding.pwErrorMessage.visibility = View.VISIBLE
                 binding.pwEditText.background = ContextCompat.getDrawable(
                     requireContext(),
-                    com.example.remak.R.drawable.edit_text_round_red
+                    R.drawable.edit_text_round_red
                 )
             }
         }
@@ -99,27 +100,27 @@ class AccountEmailSignInFragment : Fragment() {
                     binding.nextBtn.isEnabled = true
                     binding.nextBtn.background = ContextCompat.getDrawable(
                         requireContext(),
-                        com.example.remak.R.drawable.custom_ripple_effect_blue_rec
+                        R.drawable.custom_ripple_effect_blue_rec
                     )
                     binding.nextBtn.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
-                            com.example.remak.R.color.white
+                            R.color.white
                         )
                     )
                     binding.emailEditText.background = ContextCompat.getDrawable(
                         requireContext(),
-                        com.example.remak.R.drawable.edit_text_round
+                        R.drawable.edit_text_round
                     )
                 } else {
                     binding.nextBtn.isEnabled = false
                     binding.nextBtn.background = ContextCompat.getDrawable(
                         requireContext(),
-                        com.example.remak.R.drawable.custom_ripple_effect
+                        R.drawable.custom_ripple_effect
                     )
                     binding.emailEditText.background = ContextCompat.getDrawable(
                         requireContext(),
-                        com.example.remak.R.drawable.edit_text_round_red
+                        R.drawable.edit_text_round_red
                     )
                 }
             }
@@ -134,33 +135,33 @@ class AccountEmailSignInFragment : Fragment() {
                     binding.nextBtn.isEnabled = true
                     binding.nextBtn.background = ContextCompat.getDrawable(
                         requireContext(),
-                        com.example.remak.R.drawable.custom_ripple_effect_blue_rec
+                        R.drawable.custom_ripple_effect_blue_rec
                     )
                     binding.nextBtn.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
-                            com.example.remak.R.color.white
+                            R.color.white
                         )
                     )
                     binding.pwEditText.background = ContextCompat.getDrawable(
                         requireContext(),
-                        com.example.remak.R.drawable.edit_text_round
+                        R.drawable.edit_text_round
                     )
                 } else {
                     binding.nextBtn.isEnabled = false
                     binding.nextBtn.background = ContextCompat.getDrawable(
                         requireContext(),
-                        com.example.remak.R.drawable.custom_ripple_effect
+                        R.drawable.custom_ripple_effect
                     )
                     binding.nextBtn.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
-                            com.example.remak.R.color.whiteGray
+                            R.color.whiteGray
                         )
                     )
                     binding.pwEditText.background = ContextCompat.getDrawable(
                         requireContext(),
-                        com.example.remak.R.drawable.edit_text_round_red
+                        R.drawable.edit_text_round_red
                     )
                     //Todo : 모듈로 빼기
                 }
@@ -181,8 +182,12 @@ class AccountEmailSignInFragment : Fragment() {
             }
         }
 
+        binding.backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountMainFragment)
+        }
+
         binding.signUpBtn.setOnClickListener {
-            findNavController().navigate(com.example.remak.R.id.action_accountEmailSignInFragment_to_accountSignUp1Fragment2)
+            findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountSignUp1Fragment2)
         }
 
     }

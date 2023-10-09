@@ -101,9 +101,11 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.utils.widget.ImageFilterView
+                android:id="@+id/thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="270dp"
                 android:background="@drawable/gray_rec_radius"
+                android:padding="1dp"
                 android:scaleType="center"
                 android:src="@drawable/document_gray_icon" />
 
@@ -165,7 +167,9 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="40dp"
         android:background="@drawable/custom_ripple_effect_blue_rec"
+        android:elevation="0dp"
         android:gravity="center"
+        android:stateListAnimator="@null"
         android:text="다운로드"
         android:textColor="@color/white"
         android:textFontWeight="700"

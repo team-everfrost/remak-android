@@ -44,7 +44,7 @@ class MemoDetailActivity : AppCompatActivity() {
                     confirmClick = {
                         endEditMode()
                         binding.memoContent.clearFocus()
-                        binding.memoContent.setText(viewModel.detailData.value?.content.toString())
+                        binding.memoContent.setText(initMemo)
                     },
                     cancelClick = {}
                 )
@@ -84,6 +84,7 @@ class MemoDetailActivity : AppCompatActivity() {
 
         binding.completeBtn.setOnClickListener {
             viewModel.updateMemo(memoId, binding.memoContent.text.toString())
+            initMemo = binding.memoContent.text.toString()
             endEditMode()
             binding.memoContent.clearFocus()
             //키보드 내려오기
