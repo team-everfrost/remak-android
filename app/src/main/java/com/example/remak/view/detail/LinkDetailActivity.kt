@@ -8,12 +8,14 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.URLUtil
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.PopupMenu
+import android.widget.PopupWindow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -116,63 +118,65 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         }
 
         binding.moreIcon.setOnClickListener {
-            val popupMenu = PopupMenu(this, it)
-            popupMenu.menuInflater.inflate(R.menu.detail_link_menu, popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.addCollection -> {
-                        val bundle = Bundle()
-                        val selectedItems = ArrayList<String>()
-                        selectedItems.add(linkId)
-                        if (selectedItems.isNotEmpty()) {
-                            bundle.putStringArrayList("selected", selectedItems)
-                            bundle.putString("type", "detail")
-                            val bottomSheet = EditCollectionBottomSheetDialog()
-                            bottomSheet.arguments = bundle
-                            bottomSheet.show(
-                                supportFragmentManager,
-                                "EditCollectionBottomSheetDialog"
-                            )
-                        }
-                        true
-                    }
-
-                    R.id.BrowserBtn -> {
-                        val i = Intent(Intent.ACTION_VIEW)
-                        i.data = Uri.parse(url)
-                        startActivity(i)
-                        true
-                    }
-
-                    R.id.deleteBtn -> {
-                        UtilityDialog.showWarnDialog(
-                            this,
-                            "링크를 삭제하시겠습니까?",
-                            "삭제시 복구가 불가능해요",
-                            "삭제하기",
-                            "취소하기",
-                            confirmClick = {
-                                viewModel.deleteDocument(linkId)
-
-                            },
-                            cancelClick = {}
-                        )
-                        true
-                    }
-
-                    R.id.shareBtn -> {
-                        val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                            type = "text/plain"
-                            putExtra(Intent.EXTRA_TEXT, url)
-                        }
-                        startActivity(Intent.createChooser(shareIntent, "Share link"))
-                        true
-                    }
-
-                    else -> false
+            val popupView = layoutInflater.inflate(R.layout.custom_popup_menu_link, null)
+            val popupWindow = PopupWindow(
+                popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            popupWindow.isFocusable = true
+            popupWindow.isOutsideTouchable = true
+            val addBtn: TextView = popupView.findViewById(R.id.addBtn)
+            val shareBtn: TextView = popupView.findViewById(R.id.shareBtn)
+            val browserBtn: TextView = popupView.findViewById(R.id.browserBtn)
+            val deleteBtn: TextView = popupView.findViewById(R.id.deleteBtn)
+            addBtn.setOnClickListener {
+                val bundle = Bundle()
+                val selectedItems = ArrayList<String>()
+                selectedItems.add(linkId)
+                if (selectedItems.isNotEmpty()) {
+                    bundle.putStringArrayList("selected", selectedItems)
+                    bundle.putString("type", "detail")
+                    val bottomSheet = EditCollectionBottomSheetDialog()
+                    bottomSheet.arguments = bundle
+                    bottomSheet.show(
+                        supportFragmentManager,
+                        "EditCollectionBottomSheetDialog"
+                    )
                 }
+                popupWindow.dismiss()
             }
-            popupMenu.show()
+            shareBtn.setOnClickListener {
+                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, url)
+                }
+                startActivity(Intent.createChooser(shareIntent, "Share link"))
+                popupWindow.dismiss()
+            }
+            browserBtn.setOnClickListener {
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                startActivity(i)
+                popupWindow.dismiss()
+            }
+            deleteBtn.setOnClickListener {
+                UtilityDialog.showWarnDialog(
+                    this,
+                    "링크를 삭제하시겠습니까?",
+                    "삭제시 복구가 불가능해요",
+                    "삭제하기",
+                    "취소하기",
+                    confirmClick = {
+                        viewModel.deleteDocument(linkId)
+
+                    },
+                    cancelClick = {}
+                )
+                popupWindow.dismiss()
+            }
+            popupWindow.showAsDropDown(it)
+
         }
 
         binding.backButton.setOnClickListener {

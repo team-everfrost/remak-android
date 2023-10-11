@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.PopupMenu
 import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.UtilityDialog
@@ -103,46 +105,48 @@ class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                 })
         }
         binding.moreIcon.setOnClickListener {
-            val popupMenu = PopupMenu(this, it)
-            popupMenu.menuInflater.inflate(R.menu.detail_menu, popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.addCollection -> {
-                        val bundle = Bundle()
-                        val selectedItems = ArrayList<String>()
-                        selectedItems.add(fileId)
-                        if (selectedItems.isNotEmpty()) {
-                            bundle.putStringArrayList("selected", selectedItems)
-                            bundle.putString("type", "detail")
-                            val bottomSheet = EditCollectionBottomSheetDialog()
-                            bottomSheet.arguments = bundle
-                            bottomSheet.show(
-                                supportFragmentManager,
-                                "EditCollectionBottomSheetDialog"
-                            )
-                        }
-                        true
-                    }
-
-                    R.id.removeBtn -> {
-                        UtilityDialog.showWarnDialog(
-                            this,
-                            "파일을 삭제하시겠습니까?",
-                            "삭제시 복구가 불가능해요",
-                            "삭제하기",
-                            "취소하기",
-                            confirmClick = {
-                                viewModel.deleteDocument(fileId)
-                            },
-                            cancelClick = {}
-                        )
-                        true
-                    }
-
-                    else -> false
+            val popupView = layoutInflater.inflate(R.layout.custom_popup_menu_image_and_file, null)
+            val popupWindow = PopupWindow(
+                popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            popupWindow.isFocusable = true
+            popupWindow.isOutsideTouchable = true
+            val addBtn: TextView = popupView.findViewById(R.id.addBtn)
+            val deleteBtn: TextView = popupView.findViewById(R.id.deleteBtn)
+            addBtn.setOnClickListener {
+                val bundle = Bundle()
+                val selectedItems = ArrayList<String>()
+                selectedItems.add(fileId)
+                if (selectedItems.isNotEmpty()) {
+                    bundle.putStringArrayList("selected", selectedItems)
+                    bundle.putString("type", "detail")
+                    val bottomSheet = EditCollectionBottomSheetDialog()
+                    bottomSheet.arguments = bundle
+                    bottomSheet.show(
+                        supportFragmentManager,
+                        "EditCollectionBottomSheetDialog"
+                    )
                 }
+                popupWindow.dismiss()
             }
-            popupMenu.show()
+            deleteBtn.setOnClickListener {
+                UtilityDialog.showWarnDialog(
+                    this,
+                    "파일을 삭제하시겠습니까?",
+                    "삭제시 복구가 불가능해요",
+                    "삭제하기",
+                    "취소하기",
+                    confirmClick = {
+                        viewModel.deleteDocument(fileId)
+                    },
+                    cancelClick = {}
+                )
+                popupWindow.dismiss()
+            }
+            popupWindow.showAsDropDown(it)
+
         }
         binding.backBtn.setOnClickListener {
             finish()
