@@ -63,6 +63,18 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
 
         viewModel.getCollectionDetailData(collectionName!!)
 
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val totalItemCount = recyclerView.layoutManager?.itemCount
+                val lastVisibleItemCount =
+                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                if (totalItemCount!! <= (lastVisibleItemCount + 5)) {
+                    viewModel.getNewCollectionDetailData(collectionName)
+                }
+            }
+        })
+
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
@@ -74,7 +86,6 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
                         viewModel.getCollectionDetailData(collectionName)
                         setTruncatedText(
                             newName!!,
-                            viewModel.collectionDetailData.value!!.size,
                             binding.collectionName,
                             get70PercentScreenWidth(this)
                         )
@@ -98,10 +109,8 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
         }
 
         viewModel.collectionDetailData.observe(this) {
-//            binding.collectionName.text = "${collectionName} (${it.size})"'
             setTruncatedText(
                 collectionName,
-                it.size,
                 binding.collectionName,
                 get70PercentScreenWidth(this)
             )
@@ -116,10 +125,6 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
         }
 
         binding.editBtn.setOnClickListener {
-//            val intent = Intent(this, EditCollectionActivity::class.java)
-//            intent.putExtra("collectionName", collectionName)
-//            intent.putExtra("collectionCount", collectionCount)
-//            resultLauncher.launch(intent)
             adapter.toggleSelectionMode()
             showEditModeView()
         }
@@ -225,18 +230,17 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
         binding.deleteBtn.visibility = View.GONE
     }
 
-    private fun setTruncatedText(name: String, count: Int, textView: TextView, maxWidth: Float) {
-        val suffix = "($count)"
-        var finalText = "$name $suffix"
+    private fun setTruncatedText(name: String, textView: TextView, maxWidth: Float) {
+        var finalText = name
 
         // 문자열이 TextView의 최대 너비보다 큰지 확인
         if (textView.paint.measureText(finalText) > maxWidth) {
             // "..."와 개수(suffix)의 길이를 포함하여 이름을 줄입니다.
             var truncatedName = name
-            while (textView.paint.measureText("$truncatedName... $suffix") > maxWidth && truncatedName.isNotEmpty()) {
+            while (textView.paint.measureText("$truncatedName...") > maxWidth && truncatedName.isNotEmpty()) {
                 truncatedName = truncatedName.dropLast(1)
             }
-            finalText = "$truncatedName... $suffix"
+            finalText = "$truncatedName..."
         }
 
         textView.text = finalText
