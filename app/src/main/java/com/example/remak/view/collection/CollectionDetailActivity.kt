@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -46,6 +48,7 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
         binding = DetailPageCollectionActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val collectionName = intent.getStringExtra("collectionName")
+        val collectionDescription = intent.getStringExtra("collectionDescription")
         val collectionCount = intent.getIntExtra("collectionCount", 0)
 
         adapter = CollectionListRVAdapter(listOf(), this) { isChecked ->
@@ -130,36 +133,41 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
         }
 
         binding.moreIcon.setOnClickListener {
-            val popupMenu = android.widget.PopupMenu(this, it)
-            popupMenu.menuInflater.inflate(R.menu.collection_menu, popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.editBtn -> {
-                        val intent = Intent(this, UpdateCollectionActivity::class.java)
-                        intent.putExtra("collectionName", collectionName)
-                        resultLauncher.launch(intent)
-                        true
-                    }
+            val popupView = layoutInflater.inflate(R.layout.custom_popup_menu_image_and_file, null)
+            val popupWindow = PopupWindow(
+                popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            popupWindow.isFocusable = true
+            popupWindow.isOutsideTouchable = true
+            val editBtn: TextView = popupView.findViewById(R.id.addBtn)
+            val deleteBtn: TextView = popupView.findViewById(R.id.deleteBtn)
+            editBtn.text = "컬렉션 수정"
+            deleteBtn.text = "컬렉션 삭제"
 
-                    R.id.removeBtn -> {
-                        UtilityDialog.showWarnDialog(
-                            this,
-                            "정말 삭제하시겠어요?",
-                            "삭제시 복구가 불가능해요",
-                            "삭제하기",
-                            "취소하기",
-                            confirmClick = {
-                                viewModel.deleteCollection(collectionName)
-                            },
-                            cancelClick = {}
-                        )
-                        true
-                    }
-
-                    else -> false
-                }
+            editBtn.setOnClickListener {
+                val intent = Intent(this, UpdateCollectionActivity::class.java)
+                intent.putExtra("collectionName", collectionName)
+                intent.putExtra("collectionDescription", collectionDescription)
+                resultLauncher.launch(intent)
+                popupWindow.dismiss()
             }
-            popupMenu.show()
+            deleteBtn.setOnClickListener {
+                UtilityDialog.showWarnDialog(
+                    this,
+                    "정말 삭제하시겠어요?",
+                    "삭제시 복구가 불가능해요",
+                    "삭제하기",
+                    "취소하기",
+                    confirmClick = {
+                        viewModel.deleteCollection(collectionName)
+                    },
+                    cancelClick = {}
+                )
+                popupWindow.dismiss()
+            }
+            popupWindow.showAsDropDown(it)
         }
 
         binding.backButton.setOnClickListener {

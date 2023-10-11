@@ -101,6 +101,10 @@ class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListen
         val intent = Intent(requireContext(), CollectionDetailActivity::class.java)
         intent.putExtra("collectionName", viewModel.collectionList.value!![position].name)
         intent.putExtra("collectionCount", viewModel.collectionList.value!![position].count)
+        intent.putExtra(
+            "collectionDescription",
+            viewModel.collectionList.value!![position].description
+        )
         resultLauncher.launch(intent)
     }
 
@@ -110,6 +114,10 @@ class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListen
             editBtnClick = {
                 val intent = Intent(requireContext(), UpdateCollectionActivity::class.java)
                 intent.putExtra("collectionName", viewModel.collectionList.value!![position].name)
+                intent.putExtra(
+                    "collectionDescription",
+                    viewModel.collectionList.value!![position].description
+                )
                 resultLauncher.launch(intent)
             },
             deleteBtnClick = {
