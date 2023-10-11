@@ -130,6 +130,10 @@
             android:name=".view.collection.UpdateCollectionActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".view.detail.ImageViewerActivity"
+            android:exported="true" />
+
 
     </application>
 

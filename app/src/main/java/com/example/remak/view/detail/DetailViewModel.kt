@@ -42,6 +42,13 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
     val isImageShareReady: LiveData<Boolean> = _isImageShareReady
     private val _isSelfShareSuccess = MutableLiveData<Boolean>()
     val isSelfShareSuccess: LiveData<Boolean> = _isSelfShareSuccess
+    private val _imageUrl = MutableLiveData<String>()
+    val imageUrl: LiveData<String> = _imageUrl
+    private val _imageUri = MutableLiveData<Uri>()
+    val imageUri: LiveData<Uri> = _imageUri
+
+    private val _isGetImageUrlSuccess = MutableLiveData<Boolean>()
+    val isGetImageUrlSuccess: LiveData<Boolean> = _isGetImageUrlSuccess
 
     fun webViewLoaded() {
         _isWebViewLoaded.value = true
@@ -79,6 +86,19 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         } catch (e: Exception) {
         }
     }
+
+    fun getImageUrl(docId: String) = viewModelScope.launch {
+        try {
+            val response = networkRepository.downloadFile(docId)
+            if (response.isSuccessful) {
+                _imageUrl.value = response.body()!!.data!!
+                _isGetImageUrlSuccess.value = true
+            } else {
+            }
+        } catch (e: Exception) {
+        }
+    }
+
 
     fun downloadFile(context: Context, docId: String, fileName: String) = viewModelScope.launch {
         try {
@@ -118,6 +138,25 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
             } else {
             }
         } catch (e: Exception) {
+        }
+    }
+
+    suspend fun getImageUri(context: Context, imageUrl: String, fileName: String) {
+        withContext(Dispatchers.IO) {
+            try {
+                val url = URL(imageUrl)
+                val connection = url.openConnection()
+                connection.doInput = true
+                connection.connect()
+                val inputStream = connection.getInputStream()
+                val uri = saveImageToInternalStorage(context, fileName, inputStream)
+                Log.d("uri", uri.toString())
+                withContext(Dispatchers.Main) {
+                    _imageUri.value = uri
+                }
+
+            } catch (e: Exception) {
+            }
         }
     }
 
@@ -200,6 +239,7 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         fileName: String,
         inputStream: InputStream
     ): Uri {
+        Log.d("File Name", fileName)
         val file = File(context.cacheDir, fileName)
         file.outputStream().use { fileOutput ->
             inputStream.use { input ->

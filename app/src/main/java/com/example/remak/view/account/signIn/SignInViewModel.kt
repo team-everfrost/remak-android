@@ -30,11 +30,24 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
     private val _isEmailValid = MutableLiveData<Boolean>()
     val isEmailValid: LiveData<Boolean> = _isEmailValid
 
+    private val _isNetworkError = MutableLiveData<Boolean>()
+    val isNetworkError: LiveData<Boolean> = _isNetworkError
+
+    fun networkErrorHandled() {
+        _isNetworkError.value = false
+    }
+
     fun checkEmail(email: String) = viewModelScope.launch {
         try {
             val response = networkRepository.checkEmail(email)
+            if (response.isSuccessful) {
+                Log.d("이메일", "사용 가능")
+            } else {
+                Log.d("이메일", "사용 불가능")
+            }
             _isEmailValid.value = response.isSuccessful
         } catch (e: Exception) {
+            _isNetworkError.value = true
         }
     }
 
@@ -53,16 +66,9 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
                 Log.d(response.code().toString(), response.message())
             }
         } catch (e: Exception) {
+            _isNetworkError.value = true
             Log.d("로그인", e.toString())
         }
-    }
-
-    fun doneLogin() {
-        _loginResult.value = false
-    }
-
-    fun doneDialog() {
-        _showDialog.value = false
     }
 
     fun kakaoLogin(context: Activity) {

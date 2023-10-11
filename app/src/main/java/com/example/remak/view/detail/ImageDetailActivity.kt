@@ -77,6 +77,16 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
             Log.d(fileName, "fileName")
         }
 
+        viewModel.isGetImageUrlSuccess.observe(this) {
+            if (it) {
+                val imageUrl = viewModel.imageUrl.value
+                val intent = Intent(this, ImageViewerActivity::class.java)
+                intent.putExtra("imageUrl", imageUrl)
+                intent.putExtra("fileName", fileName)
+                startActivity(intent)
+            }
+        }
+
         viewModel.isImageShareReady.observe(this) {
             if (it) {
                 binding.progressBar.visibility = android.view.View.GONE
@@ -88,6 +98,14 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
                 )
                 binding.progressBar.visibility = android.view.View.VISIBLE
             }
+        }
+
+        binding.thumbnail.setOnClickListener {
+            viewModel.getImageUrl(imageId)
+        }
+
+        binding.backBtn.setOnClickListener {
+            finish()
         }
     }
 
