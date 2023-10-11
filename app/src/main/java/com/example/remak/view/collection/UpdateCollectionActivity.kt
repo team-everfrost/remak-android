@@ -27,11 +27,13 @@ class UpdateCollectionActivity : AppCompatActivity() {
         tokenRepository = TokenRepository((this.application as App).dataStore)
         binding = CollectionUpdateActivityBinding.inflate(layoutInflater)
         val collectionName = intent.getStringExtra("collectionName")
+        val collectionDescription = intent.getStringExtra("collectionDescription")
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(this)
         }
         setContentView(binding.root)
         binding.collectionNameEditText.setText(collectionName)
+        binding.collectionDescriptionEditText.setText(collectionDescription)
 
         binding.collectionNameEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {

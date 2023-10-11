@@ -1,63 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/white_rect_radius">
 
-    <TextView
-        android:id="@+id/titleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="이미지"
-        android:textFontWeight="700"
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/titleTextView">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/downloadBtn"
+            android:id="@+id/addBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/custom_ripple_effect_transparent"
             android:gravity="center_vertical"
             android:paddingStart="20dp"
-            android:text="이미지 다운로드"
+            android:paddingEnd="50dp"
+            android:text="컬렉션에 추가"
             android:textFontWeight="500"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/shareSelfBtn"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/custom_ripple_effect_transparent"
-            android:gravity="center_vertical"
-            android:paddingStart="20dp"
-            android:text="Remak에 이미지 추가"
-            android:textFontWeight="500"
-            android:textSize="12sp" />
-
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/shareBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="10dp"
             android:background="@drawable/custom_ripple_effect_transparent"
             android:gravity="center_vertical"
             android:paddingStart="20dp"
-            android:text="이미지 외부 공유"
+            android:paddingEnd="50dp"
+            android:text="공유"
             android:textFontWeight="500"
-            android:textSize="12sp" />
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/browserBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/custom_ripple_effect_transparent"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="50dp"
+            android:text="브라우저 보기"
+            android:textFontWeight="500"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/deleteBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/custom_ripple_effect_transparent"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="100dp"
+            android:text="삭제"
+            android:textColor="@color/red"
+            android:textFontWeight="500"
+            android:textSize="15sp" />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

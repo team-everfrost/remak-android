@@ -33,6 +33,8 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
     private var docId: String? = null
     private val _selectedItemsCount = MutableLiveData<Int>()
     val selectedItemsCount: LiveData<Int> = _selectedItemsCount
+    private var isListEnd: Boolean = false
+    private var isLoadEnd: Boolean = false
     fun getCollectionList() = viewModelScope.launch {
         try {
             val response = networkRepository.getCollectionListData(0)
@@ -59,10 +61,36 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
                     cursor = it.last().updatedAt
                     docId = it.last().docId
                 }
+                offset = 20
             } else {
             }
         } catch (e: Exception) {
 
+        }
+    }
+
+    fun getNewCollectionDetailData(collectionName: String) = viewModelScope.launch {
+        if (!isLoadEnd) {
+            val tempData = collectionDetailData.value?.toMutableList() ?: mutableListOf()
+            try {
+                val response =
+                    networkRepository.getCollectionDetailData(collectionName, cursor, docId)
+                if (response.isSuccessful) {
+                    response.body()!!.data.let {
+                        if (it.isNotEmpty()) {
+                            tempData.addAll(it)
+                            _collectionDetailData.value = tempData
+                            cursor = it.last().updatedAt
+                            docId = it.last().docId
+                        } else {
+                            isListEnd = true
+                        }
+                    }
+                    _collectionDetailData.value = tempData
+                } else {
+                }
+            } catch (e: Exception) {
+            }
         }
     }
 

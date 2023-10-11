@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.remak.App
 import com.example.remak.R
+import com.example.remak.UtilityDialog
 import com.example.remak.UtilityLogin
 import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
@@ -53,6 +54,18 @@ class AccountEmailSignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.isNetworkError.observe(viewLifecycleOwner) {
+            if (it) {
+                UtilityDialog.showInformDialog(
+                    "네트워크 오류",
+                    "네트워크 상태를 확인해주세요.",
+                    requireContext(),
+                    confirmClick = {
+                        viewModel.networkErrorHandled()
+                    })
+            }
+        }
+
         viewModel.isEmailValid.observe(viewLifecycleOwner) {
             if (it) {
                 binding.emailErrorMessage.visibility = View.INVISIBLE
@@ -91,8 +104,6 @@ class AccountEmailSignInFragment : Fragment() {
                 )
             }
         }
-
-
 
         binding.emailEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {

@@ -20,7 +20,7 @@
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -155,6 +155,28 @@
                 android:layout_marginTop="22dp"
                 android:nestedScrollingEnabled="false"
                 android:overScrollMode="never" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="요약"
+                android:textFontWeight="700"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/summaryTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="50dp"
+                android:background="@drawable/white_rect_radius"
+                android:lineSpacingExtra="5dp"
+                android:minHeight="65dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="22dp"
+                android:textFontWeight="400"
+                android:textSize="17sp" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

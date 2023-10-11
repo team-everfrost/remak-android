@@ -199,6 +199,8 @@ object UtilityRV {
     ) {
         title.text = dataSet[position].title
         date.text = "이미지 | ${dateSetting(position, dataSet)}"
+        val summary = dataSet[position].summary
+        val subject = itemView.findViewById<TextView>(R.id.link)
         if (!dataSet[position].thumbnailUrl.isNullOrEmpty()) {
             Glide.with(itemView.context)
                 .load(dataSet[position].thumbnailUrl)
@@ -210,6 +212,33 @@ object UtilityRV {
                 .transform(CenterCrop(), RoundedCorners(47))
                 .into(itemView.findViewById(R.id.thumbnail))
             itemView.findViewById<ImageFilterView>(R.id.thumbnail).background = null
+        }
+
+        when (dataSet[position].status!!) {
+            "EMBED_PENDING" -> {
+                subject.text = "AI가 곧 이미지를 분석할거에요."
+            }
+
+            "EMBED_PROCESSING" -> {
+                subject.text = "AI가 이미지를 분석중이에요!"
+            }
+
+            "EMBED_REJECTED" -> {
+                subject.text = "AI가 이미지 분석에 실패했어요."
+            }
+
+            "COMPLETED" -> {
+                if (summary != null) {
+                    if (summary.contains("\n")) {
+                        val index = summary.indexOf("\n")
+                        subject.text = summary.substring(0, index)
+                    } else {
+                        subject.text = dataSet[position].summary
+                    }
+                } else {
+                    subject.text = ""
+                }
+            }
         }
     }
 
