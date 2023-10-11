@@ -1,25 +1,24 @@
 package com.example.remak.view.detail
 
+import android.content.ContentResolver
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.example.remak.App
-import com.example.remak.BuildConfig
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.ImageViewerActivityBinding
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
-import java.net.URL
+import java.io.IOException
+
 
 class ImageViewerActivity : AppCompatActivity() {
     private lateinit var binding: ImageViewerActivityBinding
@@ -35,48 +34,62 @@ class ImageViewerActivity : AppCompatActivity() {
         val imageName = intent.getStringExtra("fileName")
 
         viewModel.imageUri.observe(this) {
-            binding.progressBar.visibility = android.view.View.GONE
-            binding.imageFilterView.setImage(ImageSource.uri(it))
+            binding.progressBar.visibility = View.GONE
+
+            val rotation = getImageRotation(it)
+            if (rotation != 0) {
+                val bitmap = getBitmapFromUri(this.contentResolver, it)
+                val rotatedBitmap = rotateBitmap(bitmap)
+                Log.d("rotation", "rotation: $rotation")
+                binding.imageFilterView.setImage(ImageSource.bitmap(rotatedBitmap))
+            } else {
+                binding.imageFilterView.setImage(ImageSource.uri(it))
+            }
+
+            Log.d("test", "rotation: $rotation")
+
         }
         lifecycleScope.launch {
             viewModel.getImageUri(this@ImageViewerActivity, imageUrl!!, imageName!!)
-
         }
     }
 
-    private suspend fun urlToUri(imageUrl: String, fileName: String): Uri {
-        withContext(Dispatchers.IO) {
-            try {
-                val url = URL(imageUrl)
-                val connection = url.openConnection()
-                connection.doInput = true
-                connection.connect()
-                val inputStream = connection.getInputStream()
-                return@withContext saveImageToInternalStorage(inputStream, fileName)
-            } catch (e: Exception) {
-                Log.d("ImageDetailActivity", e.toString())
-            }
-        }
-        return null!!
+    private fun getBitmapFromUri(contentResolver: ContentResolver, uri: Uri): Bitmap {
+        val source = ImageDecoder.createSource(contentResolver, uri)
+        return ImageDecoder.decodeBitmap(source)
     }
 
-    private fun saveImageToInternalStorage(inputStream: InputStream, fileName: String): Uri {
-        val file = File(this.cacheDir, fileName)
-        file.outputStream().use { fileOutput ->
-            inputStream.use { input ->
-                input.copyTo(fileOutput)
-            }
-        }
-        binding.progressBar.visibility = android.view.View.GONE
-        return FileProvider.getUriForFile(this, "${BuildConfig.APPLICATION_ID}.provider", file)
+    private fun rotateBitmap(bitmap: Bitmap): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(0f)
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
 
-    private fun saveImageToLocal(bitmap: Bitmap): Uri {
-        val file = File(this.cacheDir, "image.png")
-        val fos = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-        fos.close()
-        return Uri.fromFile(file)
+    private fun getImageRotation(imageUri: Uri): Int {
+        return try {
+            val inputStream = this.contentResolver.openInputStream(imageUri)
+            val exif = ExifInterface(inputStream!!)
+            val rotation = exif.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_UNDEFINED
+            )
+            exifToDegrees(rotation)
+        } catch (e: IOException) {
+            Log.e("ImageDetailActivity", "Error checking exif", e)
+            0
+        }
+    }
+
+    private fun exifToDegrees(exifOrientation: Int): Int {
+        return if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+            90
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+            180
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+            270
+        } else {
+            0
+        }
     }
 }

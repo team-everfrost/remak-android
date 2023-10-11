@@ -57,6 +57,7 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
             //summary의 첫 한줄은 제거
             if (summary != null) {
                 summary = summary.substringAfter('\n').trim()
+                binding.summaryTextView.text = summary
             }
             binding.titleEditText.setText(it.title!!)
             val date = inputFormat.parse(it.updatedAt)
