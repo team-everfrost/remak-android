@@ -31,7 +31,7 @@
             android:background="@drawable/custom_ripple_effect_transparent"
             android:gravity="center_vertical"
             android:paddingStart="20dp"
-            android:paddingEnd="100dp"
+            android:paddingEnd="50dp"
             android:text="삭제"
             android:textColor="@color/red"
             android:textFontWeight="500"
