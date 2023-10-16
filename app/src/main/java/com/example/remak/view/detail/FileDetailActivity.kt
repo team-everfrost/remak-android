@@ -140,6 +140,7 @@ class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
                     "취소하기",
                     confirmClick = {
                         viewModel.deleteDocument(fileId)
+                        finish()
                     },
                     cancelClick = {}
                 )

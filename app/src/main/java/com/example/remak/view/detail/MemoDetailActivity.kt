@@ -147,6 +147,7 @@ class MemoDetailActivity : AppCompatActivity() {
                     "취소하기",
                     confirmClick = {
                         viewModel.deleteDocument(memoId)
+                        finish()
                     },
                     cancelClick = {}
                 )

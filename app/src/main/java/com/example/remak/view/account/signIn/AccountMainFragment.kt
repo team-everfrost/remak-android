@@ -164,6 +164,9 @@ class AccountMainFragment : Fragment() {
         binding.emailLoginBtn.setOnClickListener {
             findNavController().navigate(R.id.action_accountMainFragment_to_accountEmailSignInFragment)
         }
+        binding.emailLoginLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_accountMainFragment_to_accountEmailSignInFragment)
+        }
 
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {

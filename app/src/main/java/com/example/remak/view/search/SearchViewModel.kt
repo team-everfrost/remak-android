@@ -14,26 +14,23 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
 
     private val _searchResult = MutableLiveData<List<MainListData.Data>>()
     val searchResult: LiveData<List<MainListData.Data>> = _searchResult
-
     private val _searchHistory = MutableLiveData<List<String>>()
     val searchHistory: LiveData<List<String>> = _searchHistory
-
     private var isLoadEnd: Boolean = false
-
     private val networkRepository = NetworkRepository()
     var searchCursor: String? = null
     var searchDocID: String? = null
     var embeddingOffset: Int? = null
     val isEmbeddingLoading = MutableLiveData<Boolean>().apply { value = false }
     private var lastQuery: String? = null
+    private var offset = 0
 
     fun getEmbeddingSearchResult(query: String) = viewModelScope.launch {
         lastQuery = query
-        val response = networkRepository.getEmbeddingData(query, null)
+        val response = networkRepository.getEmbeddingData(query)
         try {
             if (response.isSuccessful) {
                 _searchResult.value = response.body()!!.data
-                embeddingOffset = 20
             } else {
             }
         } catch (e: Exception) {
@@ -42,7 +39,7 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
 
     fun getTextSearchResult(query: String) = viewModelScope.launch {
         lastQuery = query
-        val response = networkRepository.getTextSearchData(query, null, null)
+        val response = networkRepository.getTextSearchData(query, null)
         try {
             if (response.isSuccessful) {
                 _searchResult.value = response.body()!!.data
@@ -50,6 +47,8 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
                     searchCursor = it.last().updatedAt
                     searchDocID = it.last().docId
                 }
+                offset = 20
+
             } else {
             }
         } catch (e: Exception) {
@@ -60,7 +59,7 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
     fun getNewTextSearchResult() = viewModelScope.launch {
         if (!isLoadEnd) {
             val tempData = searchResult.value?.toMutableList() ?: mutableListOf()
-            val response = networkRepository.getTextSearchData(lastQuery, searchCursor, searchDocID)
+            val response = networkRepository.getTextSearchData(lastQuery, offset)
             try {
                 if (response.isSuccessful) {
                     for (data in response.body()!!.data) {
@@ -71,6 +70,7 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
                         searchDocID = it.last().docId
                     }
                     _searchResult.value = tempData
+                    offset += 20
 
                 } else {
                 }
@@ -83,7 +83,7 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
     fun getNewEmbeddingSearch() = viewModelScope.launch {
         isEmbeddingLoading.value = true
         var tempData = searchResult.value?.toMutableList() ?: mutableListOf()
-        val response = networkRepository.getEmbeddingData(lastQuery, embeddingOffset)
+        val response = networkRepository.getEmbeddingData(lastQuery)
         try {
             if (response.isSuccessful) {
                 for (data in response.body()!!.data) {
@@ -113,6 +113,7 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
         isLoadEnd = false
         searchCursor = null
         searchDocID = null
+        offset = 0
         embeddingOffset = null
     }
 

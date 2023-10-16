@@ -199,14 +199,11 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
 
                 if (dy != 0) {
                     UtilitySystem.hideKeyboard(requireActivity())
-
                 }
 
                 if (totalItemCount!! <= (lastVisibleItemCount + 5)) {
                     if (isTextSearch) {
                         viewModel.getNewTextSearchResult()
-                    } else if (isEmbeddingSearch && !viewModel.isEmbeddingLoading.value!!) {
-                        viewModel.getNewEmbeddingSearch()
                     }
                 }
             }

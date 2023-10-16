@@ -1,5 +1,6 @@
 package com.example.remak.view.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,13 +14,11 @@ import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainProfileFragmentBinding
 import com.example.remak.view.main.MainActivity
-import com.example.remak.view.main.MainViewModel
-import com.example.remak.view.main.MainViewModelFactory
 
 class MainProfileFragment : Fragment() {
     private lateinit var binding: MainProfileFragmentBinding
-    private val viewModel: MainViewModel by activityViewModels {
-        MainViewModelFactory(
+    private val viewModel: ProfileViewModel by activityViewModels {
+        ProfileViewModelFactory(
             tokenRepository
         )
     }
@@ -37,13 +36,21 @@ class MainProfileFragment : Fragment() {
             (activity as MainActivity).binding.bottomNavigation.selectedItemId = R.id.homeFragment
             isEnabled = false
         }
+        viewModel.getStorageSize()
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())
+        }
+
+        viewModel.usagePercent.observe(viewLifecycleOwner) {
+            binding.usageText.text =
+                "${viewModel.usageSize.value}/${viewModel.storageSize.value}GB (${it}%) 사용중"
+
         }
 
 

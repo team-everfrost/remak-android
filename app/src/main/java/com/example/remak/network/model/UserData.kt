@@ -12,4 +12,9 @@ class UserData {
         val imageUrl: String?,
         val role: String
     )
+
+    data class StorageData(
+        val message: String,
+        val data: Int
+    )
 }

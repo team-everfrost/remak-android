@@ -81,18 +81,16 @@ class NetworkRepository {
     }
 
     suspend fun getEmbeddingData(
-        query: String?,
-        offset: Int?
+        query: String?
     ): Response<MainListData.Response> {
-        return client.getEmbeddingData(query, 20, offset)
+        return client.getEmbeddingData(query)
     }
 
     suspend fun getTextSearchData(
         query: String?,
-        cursor: String?,
-        docId: String?
+        offset: Int?,
     ): Response<MainListData.Response> {
-        return client.getTextSearchData(query, cursor, docId)
+        return client.getTextSearchData(query, 20, offset)
     }
 
     suspend fun getTagDetailData(
@@ -170,5 +168,13 @@ class NetworkRepository {
             description = description
         )
         return client.updateCollection(name, requestBody)
+    }
+
+    suspend fun getStorageSize(): Response<com.example.remak.network.model.UserData.StorageData> {
+        return client.getStorageSize()
+    }
+
+    suspend fun getStorageUsage(): Response<com.example.remak.network.model.UserData.StorageData> {
+        return client.getStorageUsage()
     }
 }
