@@ -13,6 +13,9 @@ import com.example.remak.App
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.view.account.AccountActivity
 import com.example.remak.view.main.MainActivity
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -33,6 +36,23 @@ class SplashActivity : AppCompatActivity() {
 //        Sentry.captureException(e)
 //      }
 //    }
+        val appUpdateManager = AppUpdateManagerFactory.create(this)
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                // This example applies an immediate update. To apply a flexible update
+                // instead, pass in AppUpdateType.FLEXIBLE
+                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+            ) {
+                appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    AppUpdateType.IMMEDIATE,
+                    this,
+                    1
+                )
+                // Request the update.
+            }
+        }
 
         installSplashScreen()
         signInRepository = TokenRepository((this.application as App).dataStore)

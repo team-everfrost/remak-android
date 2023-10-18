@@ -76,19 +76,16 @@ interface Api {
     @POST("document/webpage")
     suspend fun createWebPage(@Body body: CreateData.WebPageRequestBody): retrofit2.Response<CreateData.WebPageResponseBody>
 
-    @GET("document/search/embedding")
+    @GET("search/hybrid")
     suspend fun getEmbeddingData(
         @Query("query") query: String?,
-        @Query("limit") limit: Int? = 15,
-        @Query("offset") offset: Int?
     ): retrofit2.Response<MainListData.Response>
 
-    @GET("document/search/text")
+    @GET("search/text")
     suspend fun getTextSearchData(
         @Query("query") query: String?,
-        @Query("cursor") cursor: String?,
-        @Query("doc-id") docID: String?,
-        @Query("limit") limit: Int? = 20
+        @Query("limit") limit: Int? = 20,
+        @Query("offset") offset: Int?
     ): retrofit2.Response<MainListData.Response>
 
     @GET("document/search/tag")
@@ -155,5 +152,11 @@ interface Api {
 
     @GET("user")
     suspend fun getUserData(): retrofit2.Response<UserData.Response>
+
+    @GET("user/storage/size")
+    suspend fun getStorageSize(): retrofit2.Response<UserData.StorageData>
+
+    @GET("user/storage/usage")
+    suspend fun getStorageUsage(): retrofit2.Response<UserData.StorageData>
 
 }

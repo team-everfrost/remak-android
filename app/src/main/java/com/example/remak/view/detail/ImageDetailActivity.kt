@@ -79,6 +79,15 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
             setThumbnail(it.thumbnailUrl!!)
         }
 
+        viewModel.isActionComplete.observe(this) {
+            if (it) {
+                val resultIntent = Intent()
+                resultIntent.putExtra("isDelete", true)
+                setResult(RESULT_OK, resultIntent)
+                finish()
+            }
+        }
+
         binding.downloadBtn.setOnClickListener {
             viewModel.downloadFile(this, imageId, fileName)
         }
@@ -155,6 +164,7 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
                     "취소하기",
                     confirmClick = {
                         viewModel.deleteDocument(fileId)
+                        finish()
                     },
                     cancelClick = {}
                 )

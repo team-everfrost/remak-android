@@ -14,7 +14,6 @@ class App : Application() {
 
     init {
         instance = this
-
     }
 
     fun provideDataStore(): DataStore<Preferences> {
@@ -25,12 +24,10 @@ class App : Application() {
         super.onCreate()
 
         KakaoSdk.init(this, "native App Code")
-
         SentryAndroid.init(this) { options ->
             options.dsn =
                 "https://903663e729b6e6ce17a6931e43585873@o4505921863155712.ingest.sentry.io/4505922228060160"
         }
-
         val amplitude = Amplitude(
             com.amplitude.android.Configuration(
                 apiKey = "16577f94d092757eef4eb77d6be2c85e",
@@ -43,7 +40,6 @@ class App : Application() {
 
     companion object {
         private var instance: App? = null
-
         fun context(): App {
             return instance!!
         }

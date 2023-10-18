@@ -162,6 +162,7 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
                     "취소하기",
                     confirmClick = {
                         viewModel.deleteCollection(collectionName)
+
                     },
                     cancelClick = {}
                 )
