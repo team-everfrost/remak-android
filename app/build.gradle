@@ -20,6 +20,7 @@ android {
             enabled = true
         }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
@@ -132,6 +133,9 @@ dependencies {
 
     // For Kotlin users also add the Kotlin extensions library for Play In-App Update:
     implementation 'com.google.android.play:app-update-ktx:2.0.1'
+
+    //eventBus
+    implementation "org.greenrobot:eventbus:3.3.1"
 
 
 }

@@ -3,8 +3,8 @@ package com.example.remak.view.main
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import com.example.remak.App
+import com.example.remak.BaseActivity
 import com.example.remak.R
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.MainActivityBinding
@@ -13,7 +13,7 @@ import com.example.remak.view.profile.MainProfileFragment
 import com.example.remak.view.search.MainSearchFragment
 import com.example.remak.view.tag.MainTagFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private val viewModel: MainViewModel by viewModels { MainViewModelFactory(tokenRepository) }
     lateinit var tokenRepository: TokenRepository
     private var _binding: MainActivityBinding? = null

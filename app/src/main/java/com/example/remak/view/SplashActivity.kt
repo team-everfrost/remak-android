@@ -72,7 +72,7 @@ class SplashActivity : AppCompatActivity() {
         )
 
         lifecycleScope.launch {
-            //로딩화면을 보여주기 위해 0.5초 딜레이
+            //로딩화면을 보여주기 위해 0.5초 딜레이K
             delay(500)
             //토큰이 있는지 없는지 확인
             withContext(Dispatchers.Main) {

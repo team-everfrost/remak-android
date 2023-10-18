@@ -43,8 +43,9 @@ class ProfileEditFragment : Fragment() {
         }
 
         binding.logoutButton.setOnClickListener {
-            UtilityDialog.showWarnDialog(requireContext(), "로그아웃 하시겠습니까?",
-                "",
+            UtilityDialog.showWarnDialog(
+                requireContext(), "로그아웃",
+                "정말 로그아웃 하시겠습니까?",
                 "네",
                 "아니오",
                 confirmClick = {
