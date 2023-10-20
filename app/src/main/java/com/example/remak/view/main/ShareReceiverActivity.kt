@@ -110,13 +110,8 @@ class ShareReceiverActivity : AppCompatActivity() {
     }
 
     private fun inputStreamToFile(inputStream: InputStream, uri: Uri): File {
-        Log.d("inputStream", inputStream.toString())
-        Log.d("AvailableBytes", inputStream.available().toString())
-        Log.d("uri", uri.toString())
         val fileName = getFileNameFromUri(uri)
-        Log.d("fileName", fileName.toString())
         val file = File(cacheDir, fileName!!)
-        Log.d("file", file.toString())
 //        file.outputStream().use { fileOutputStream ->
 //            val bytesCopied = inputStream.copyTo(fileOutputStream)
 //            Log.d("bytesCopied", bytesCopied.toString())

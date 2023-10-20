@@ -1,6 +1,7 @@
 package com.example.remak.view.account.signIn
 
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,12 +20,14 @@ import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.AccountEmailSignin1FragmentBinding
 import com.example.remak.view.main.MainActivity
+import com.example.remak.view.profile.ProfileEditFragment
 
 class AccountEmailSignInFragment : Fragment() {
     private lateinit var binding: AccountEmailSignin1FragmentBinding
     private val viewModel: SignInViewModel by viewModels { SignInViewModelFactory(signInRepository) }
     lateinit var signInRepository: TokenRepository
     private var isWritingEmail = true
+    private var isWrongPassword = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,6 +73,7 @@ class AccountEmailSignInFragment : Fragment() {
             if (it) {
                 binding.emailErrorMessage.visibility = View.INVISIBLE
                 binding.pwEditText.visibility = View.VISIBLE
+
                 binding.nextBtn.text = "로그인"
                 binding.nextBtn.setTextColor(
                     ContextCompat.getColor(
@@ -98,6 +102,9 @@ class AccountEmailSignInFragment : Fragment() {
                 requireActivity().finish()
             } else {
                 binding.pwErrorMessage.visibility = View.VISIBLE
+                binding.signUpBtn.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+                binding.signUpBtn.setText(R.string.findPassword)
+                isWrongPassword = true
                 binding.pwEditText.background = ContextCompat.getDrawable(
                     requireContext(),
                     R.drawable.edit_text_round_red
@@ -198,7 +205,22 @@ class AccountEmailSignInFragment : Fragment() {
         }
 
         binding.signUpBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountSignUp1Fragment2)
+            if (isWrongPassword) {
+                val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                transaction.setCustomAnimations(
+                    R.anim.from_right,
+                    R.anim.to_left,
+                    R.anim.from_left,
+                    R.anim.to_right
+                )
+                transaction.replace(R.id.mainFragmentContainerView, ProfileEditFragment())
+                transaction.addToBackStack(null)
+                transaction.commit()
+                findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountResetPassword1Fragment)
+
+            } else {
+                findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountSignUp1Fragment2)
+            }
         }
 
     }

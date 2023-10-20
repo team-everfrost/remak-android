@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.remak.App
+import com.example.remak.R
 import com.example.remak.UtilityDialog
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.databinding.EditProfileFragmentBinding
@@ -60,6 +61,19 @@ class ProfileEditFragment : Fragment() {
 
         binding.backBtn.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        binding.passwordLayout.setOnClickListener {
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(
+                R.anim.from_right,
+                R.anim.to_left,
+                R.anim.from_left,
+                R.anim.to_right
+            )
+            transaction.replace(R.id.mainFragmentContainerView, ProfileResetPassword1Fragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
     }
 

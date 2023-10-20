@@ -7,7 +7,7 @@
         android:id="@+id/accountMainFragment"
         android:name="com.example.remak.view.account.signIn.AccountMainFragment"
         android:label="account_main_fragment"
-        tools:layout="@layout/temp_main_fragment">
+        tools:layout="@layout/account_main_fragment">
         <action
             android:id="@+id/action_accountMainFragment_to_accountSignUp1Fragment2"
             app:destination="@id/accountSignUp1Fragment2"
@@ -16,13 +16,6 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"
             app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_accountMainFragment_to_accountFindPassword1Fragment"
-            app:destination="@id/accountFindPassword1Fragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_accountMainFragment_to_accountEmailSignInFragment"
             app:destination="@id/accountEmailSignInFragment"
@@ -93,55 +86,6 @@
             app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
-        android:id="@+id/accountFindPassword1Fragment"
-        android:name="com.example.remak.view.account.findPassword.AccountFindPassword1Fragment"
-        android:label="find_password1_fragment"
-        tools:ignore="ExtraText"
-        tools:layout="@layout/find_password1_fragment">
-
-        <action
-            android:id="@+id/action_accountFindPassword1Fragment_to_accountFindPassword2Fragment"
-            app:destination="@id/accountFindPassword2Fragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@+id/action_accountFindPassword1Fragment_to_accountMainFragment2"
-            app:destination="@id/accountMainFragment"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/accountFindPassword2Fragment"
-        android:name="com.example.remak.view.account.findPassword.AccountFindPassword2Fragment"
-        android:label="find_password2_fragment"
-        tools:layout="@layout/find_password2_fragment">
-        <action
-            android:id="@+id/action_accountFindPassword2Fragment_to_accountFindPassword3Fragment"
-            app:destination="@id/accountFindPassword3Fragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@+id/action_accountFindPassword2Fragment_to_accountFindPassword1Fragment"
-            app:destination="@id/accountFindPassword1Fragment"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/accountFindPassword3Fragment"
-        android:name="com.example.remak.view.account.findPassword.AccountFindPassword3Fragment"
-        android:label="find_password3_fragment"
-        tools:layout="@layout/find_password3_fragment">
-        <action
-            android:id="@+id/action_accountFindPassword3Fragment_to_accountFindPassword2Fragment"
-            app:destination="@id/accountFindPassword2Fragment"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right" />
-    </fragment>
-    <fragment
         android:id="@+id/accountSignUp4Fragment"
         android:name="com.example.remak.view.account.signUp.AccountSignUp4Fragment"
         android:label="AccountSignUp4Fragment"
@@ -169,5 +113,82 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_accountEmailSignInFragment_to_accountResetPassword1Fragment"
+            app:destination="@id/accountResetPassword1Fragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountResetPassword1Fragment"
+        android:name="com.example.remak.view.account.signIn.AccountResetPassword1Fragment"
+        android:label="AccountResetPassword1Fragment"
+        tools:layout="@layout/account_reset_password1_fragment">
+        <action
+            android:id="@+id/action_accountResetPassword1Fragment_to_accountEmailSignInFragment"
+            app:destination="@id/accountEmailSignInFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_accountResetPassword1Fragment_to_accountResetPassword2Fragment"
+            app:destination="@id/accountResetPassword2Fragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountResetPassword2Fragment"
+        android:name="com.example.remak.view.account.signIn.AccountResetPassword2Fragment"
+        android:label="AccountResetPassword2Fragment"
+        tools:layout="@layout/account_reset_password2_fragment">
+        <action
+            android:id="@+id/action_accountResetPassword2Fragment_to_accountResetPassword1Fragment"
+            app:destination="@id/accountResetPassword1Fragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_accountResetPassword2Fragment_to_accountResetPassword3Fragment"
+            app:destination="@id/accountResetPassword3Fragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/accountResetPassword3Fragment"
+        android:name="com.example.remak.view.account.signIn.AccountResetPassword3Fragment"
+        android:label="AccountResetPassword3Fragment"
+        tools:layout="@layout/account_reset_password3_fragment">
+        <action
+            android:id="@+id/action_accountResetPassword3Fragment_to_accountResetPassword2Fragment"
+            app:destination="@id/accountResetPassword2Fragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_accountResetPassword3Fragment_to_accountResetPassword4Fragment"
+            app:destination="@id/accountResetPassword4Fragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountResetPassword4Fragment"
+        android:name="com.example.remak.view.account.signIn.AccountResetPassword4Fragment"
+        android:label="AccountResetPassword4Fragment"
+        tools:layout="@layout/account_reset_password4_fragment">
+        <action
+            android:id="@+id/action_accountResetPassword4Fragment_to_accountResetPassword3Fragment"
+            app:destination="@id/accountResetPassword3Fragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_accountResetPassword4Fragment_to_accountMainFragment"
+            app:destination="@id/accountMainFragment" />
     </fragment>
 </navigation>

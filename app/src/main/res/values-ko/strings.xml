@@ -27,6 +27,7 @@
     <string name="find_password">비밀번호 찾기</string>
     <string name="edit_valid_email">올바른 이메일을 입력해 주세요.</string>
     <string name="edit_new_password">새로운 비밀번호를 입력해 주세요</string>
+    <string name="findPassword">비밀번호가 기억나지 않으세요?</string>
 
 
 </resources>

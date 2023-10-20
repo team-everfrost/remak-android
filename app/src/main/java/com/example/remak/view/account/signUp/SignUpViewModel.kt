@@ -52,9 +52,7 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
 
                 if (response.code() == 400) { //이메일 형식이 잘못되었을 때
                     _isEmailInvalid.value = true
-                    Log.d("fail", "400")
                 } else if (response.code() == 409) { //이미 존재하는 이메일일 때
-                    Log.d("fail", "409")
                     _isEmailExist.value = true
                 }
 

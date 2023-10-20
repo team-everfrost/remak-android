@@ -36,7 +36,7 @@ class NetworkRepository {
         signupCode: String,
         email: String
     ): Response<SignUpData.CheckVerifyResponseBody> {
-        val requestBody = SignUpData.CheckVerifyRequestBody(signupCode = signupCode, email = email)
+        val requestBody = SignUpData.CheckVerifyRequestBody(code = signupCode, email = email)
         return client.checkVerifyCode(requestBody)
     }
 
@@ -177,4 +177,28 @@ class NetworkRepository {
     suspend fun getStorageUsage(): Response<com.example.remak.network.model.UserData.StorageData> {
         return client.getStorageUsage()
     }
+
+    suspend fun resetPasswordCode(
+        email: String
+    ): Response<SignUpData.GetVerifyResponseBody> {
+        val requestBody = SignUpData.GetVerifyRequestBody(email)
+        return client.resetPasswordCode(requestBody)
+    }
+
+    suspend fun checkVerifyResetCode(
+        code: String,
+        email: String
+    ): Response<SignUpData.CheckVerifyResponseBody> {
+        val requestBody = SignUpData.CheckVerifyRequestBody(code, email)
+        return client.checkVerifyResetCode(requestBody)
+    }
+
+    suspend fun resetPassword(
+        email: String,
+        password: String
+    ): Response<SignUpData.CheckVerifyResponseBody> {
+        val requestBody = SignUpData.SignUpRequestBody(email, password)
+        return client.resetPassword(requestBody)
+    }
+
 }

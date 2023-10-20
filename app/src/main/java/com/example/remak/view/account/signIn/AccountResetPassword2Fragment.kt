@@ -1,4 +1,4 @@
-package com.example.remak.view.account.signUp
+package com.example.remak.view.account.signIn
 
 import android.os.Bundle
 import android.text.Editable
@@ -11,32 +11,32 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.remak.App
 import com.example.remak.R
 import com.example.remak.UtilitySystem
 import com.example.remak.dataStore.TokenRepository
-import com.example.remak.databinding.AccountSignup2FragmentBinding
+import com.example.remak.databinding.AccountResetPassword2FragmentBinding
 
-class AccountSignUp2Fragment : Fragment() {
-    private lateinit var binding: AccountSignup2FragmentBinding
-    private val viewModel: SignUpViewModel by activityViewModels {
-        SignUpViewModelFactory(
-            signInRepository
+class AccountResetPassword2Fragment : Fragment() {
+    private lateinit var binding: AccountResetPassword2FragmentBinding
+    private val viewModel: SignInViewModel by activityViewModels {
+        SignInViewModelFactory(
+            tokenRepository
         )
     }
+    lateinit var tokenRepository: TokenRepository
 
-    private lateinit var signInRepository: TokenRepository
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        signInRepository = TokenRepository((requireActivity().application as App).dataStore)
-
-        binding = AccountSignup2FragmentBinding.inflate(inflater, container, false)
+        tokenRepository =
+            TokenRepository((requireActivity().application as com.example.remak.App).dataStore)
+        binding = AccountResetPassword2FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())
         }
+
         //상태바 높이만큼 margin적용
         val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
         val statusBarHeight: Int = if (resourceId > 0) {
@@ -49,13 +49,11 @@ class AccountSignUp2Fragment : Fragment() {
         layoutParams.setMargins(0, statusBarHeight, 0, 0)
         binding.rootLayout.layoutParams = layoutParams
 
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val verifyEditTexts = arrayOf(
             binding.verifyCodeEditText1,
             binding.verifyCodeEditText2,
@@ -67,7 +65,6 @@ class AccountSignUp2Fragment : Fragment() {
         binding.emailVerifyCodeText.text =
             getString(R.string.verification_text, viewModel.userEmail.value)
 
-        //키보드 자동으로 올라오게 하는 코드
         binding.verifyCodeEditText1.requestFocus()
         UtilitySystem.showKeyboard(requireActivity())
 
@@ -120,11 +117,10 @@ class AccountSignUp2Fragment : Fragment() {
                 override fun afterTextChanged(s: Editable?) {
                     if (verifyEditTexts.all { it.text.length == 1 }) {
                         val verifyCode = verifyEditTexts.joinToString("") { it.text.toString() }
-                        viewModel.checkVerifyCode(verifyCode)
+                        viewModel.checkVerifyResetCode(verifyCode)
                     }
                 }
             })
-
             verifyEditTexts[i].setOnKeyListener { v, keyCode, event ->
                 if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
                     if (i > 0 && verifyEditTexts[i].text.toString().isEmpty()) {
@@ -145,11 +141,10 @@ class AccountSignUp2Fragment : Fragment() {
                 return@setOnKeyListener false
             }
         }
-
         //이메일 인증 성공 시 다음 화면으로 이동
         viewModel.isVerifyCodeValid.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful == true) {
-                findNavController().navigate(R.id.action_accountSignUp2Fragment2_to_accountSignUp3Fragment)
+                findNavController().navigate(R.id.action_accountResetPassword2Fragment_to_accountResetPassword3Fragment)
                 viewModel.resetVerifyCodeResult()
                 verifyEditTexts.forEach { it.text.clear() }
             } else if (isSuccessful == false) {
@@ -170,15 +165,6 @@ class AccountSignUp2Fragment : Fragment() {
 
             }
         }
-
-        binding.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_accountSignUp2Fragment2_to_accountSignUp1Fragment2)
-        }
-
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.resetVerifyCodeResult()
-    }
 }
