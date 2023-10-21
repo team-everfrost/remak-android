@@ -159,4 +159,12 @@ interface Api {
     @GET("user/storage/usage")
     suspend fun getStorageUsage(): retrofit2.Response<UserData.StorageData>
 
+    @POST("auth/reset-code")
+    suspend fun resetPasswordCode(@Body body: SignUpData.GetVerifyRequestBody): retrofit2.Response<SignUpData.GetVerifyResponseBody>
+
+    @POST("auth/verify-reset-code")
+    suspend fun checkVerifyResetCode(@Body body: SignUpData.CheckVerifyRequestBody): retrofit2.Response<SignUpData.CheckVerifyResponseBody>
+
+    @POST("auth/reset-password")
+    suspend fun resetPassword(@Body body: SignUpData.SignUpRequestBody): retrofit2.Response<SignUpData.CheckVerifyResponseBody>
 }

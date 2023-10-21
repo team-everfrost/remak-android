@@ -13,7 +13,7 @@ class SignUpData {
     )
 
     data class CheckVerifyRequestBody(
-        val signupCode: String,
+        val code: String,
         val email: String
     )
 

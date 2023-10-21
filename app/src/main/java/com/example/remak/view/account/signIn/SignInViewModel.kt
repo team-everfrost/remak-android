@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.remak.dataStore.TokenRepository
 import com.example.remak.model.TokenData
-import com.example.remak.network.model.SignInData
 import com.example.remak.repository.NetworkRepository
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -20,18 +19,27 @@ import kotlinx.coroutines.launch
 class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel() {
 
     private val networkRepository = NetworkRepository()
-    private val _loginResponse = MutableLiveData<SignInData.ResponseBody>()
-    val loginResponse: LiveData<SignInData.ResponseBody> = _loginResponse
     private val _loginResult = MutableLiveData<Boolean>()
     val loginResult: LiveData<Boolean> = _loginResult
-    private val _showDialog = MutableLiveData<Boolean>()
-    val showDialog: LiveData<Boolean> = _showDialog
-
     private val _isEmailValid = MutableLiveData<Boolean>()
     val isEmailValid: LiveData<Boolean> = _isEmailValid
-
     private val _isNetworkError = MutableLiveData<Boolean>()
     val isNetworkError: LiveData<Boolean> = _isNetworkError
+
+    private val _isResetEmailValid = MutableLiveData<Boolean>()
+    val isResetEmailValid: LiveData<Boolean> = _isResetEmailValid
+
+    private val _userEmail = MutableLiveData<String>()
+    val userEmail: LiveData<String> = _userEmail
+
+    private val _isVerifyCodeValid = MutableLiveData<Boolean?>(null)
+    val isVerifyCodeValid: LiveData<Boolean?> = _isVerifyCodeValid
+
+    private val _userNewPassword = MutableLiveData<String>()
+    val userNewPassword: LiveData<String> = _userNewPassword
+
+    private val _isResetPasswordSuccess = MutableLiveData<Boolean>()
+    val isResetPasswordSuccess: LiveData<Boolean> = _isResetPasswordSuccess
 
     fun networkErrorHandled() {
         _isNetworkError.value = false
@@ -41,9 +49,7 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
         try {
             val response = networkRepository.checkEmail(email)
             if (response.isSuccessful) {
-                Log.d("이메일", "사용 가능")
             } else {
-                Log.d("이메일", "사용 불가능")
             }
             _isEmailValid.value = response.isSuccessful
         } catch (e: Exception) {
@@ -62,7 +68,6 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
                 Log.d("로그인", "성공")
             } else {
                 _loginResult.value = false
-                _showDialog.value = true
                 Log.d(response.code().toString(), response.message())
             }
         } catch (e: Exception) {
@@ -70,6 +75,23 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
             Log.d("로그인", e.toString())
         }
     }
+
+    fun getResetPasswordCode(email: String) = viewModelScope.launch {
+        try {
+            val response = networkRepository.resetPasswordCode(email)
+            if (response.isSuccessful) {
+                _isResetEmailValid.value = true
+                _userEmail.value = email
+            } else {
+                if (response.code() == 404) {
+                    _isResetEmailValid.value = false
+                }
+            }
+        } catch (e: Exception) {
+            _isNetworkError.value = true
+        }
+    }
+
 
     fun kakaoLogin(context: Activity) {
         // 카카오계정으로 로그인 공통 callback 구성
@@ -105,6 +127,53 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
             Log.d("kakao", "설치X")
         }
 
+    }
+
+    fun checkVerifyResetCode(code: String) = viewModelScope.launch {
+        try {
+            Log.d("코드", code)
+            Log.d("이메일", userEmail.value!!)
+            val response = networkRepository.checkVerifyResetCode(code, userEmail.value!!)
+            _isVerifyCodeValid.value = response.isSuccessful
+            if (response.isSuccessful) {
+                Log.d("코드", "성공")
+            } else {
+                Log.d("코드", "실패")
+            }
+        } catch (e: Exception) {
+            _isNetworkError.value = true
+        }
+    }
+
+    fun resetPassword() = viewModelScope.launch {
+        try {
+            val response =
+                networkRepository.resetPassword(userEmail.value!!, userNewPassword.value!!)
+            _isResetPasswordSuccess.value = response.isSuccessful
+        } catch (e: Exception) {
+            _isNetworkError.value = true
+        }
+    }
+
+    fun resetEmailValid() {
+        _isResetEmailValid.value = false
+    }
+
+    fun resetVerifyCodeResult() {
+        _isVerifyCodeValid.value = null
+    }
+
+    fun setUserNewPassword(password: String) {
+        _userNewPassword.value = password
+        Log.d("비밀번호", userNewPassword.value.toString())
+    }
+
+    fun resetAllValue() {
+        _isEmailValid.value = false
+        _isResetEmailValid.value = false
+        _isVerifyCodeValid.value = false
+        _isResetPasswordSuccess.value = false
+        _isNetworkError.value = false
     }
 }
 

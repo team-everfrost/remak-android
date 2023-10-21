@@ -2,10 +2,13 @@ package com.example.remak.network
 
 import com.example.remak.App
 import com.example.remak.dataStore.TokenRepository
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import org.greenrobot.eventbus.EventBus
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -15,14 +18,23 @@ class AuthInterceptor(private val tokenRepository: TokenRepository) : Intercepto
 
         runBlocking {
             val tokenData = tokenRepository.fetchTokenData()
-
             if (tokenData != null) {
                 request = request.newBuilder()
                     .addHeader("Authorization", "Bearer ${tokenData.accessToken}")
                     .build()
             }
         }
-        return chain.proceed(request)
+
+        val response = chain.proceed(request)
+        if (response.code == 401) {
+            EventBus.getDefault().post(TokenExpiredEvent())
+            GlobalScope.launch { tokenRepository.deleteUser() }
+            response.close()  // 응답을 닫아야 하는 경우에만 닫습니다.
+        }
+
+        return response  // 응답을 반환합니다.
+
+//        return chain.proceed(request)
     }
 
 }
@@ -49,3 +61,5 @@ object RetrofitInstance {
     }
 
 }
+
+class TokenExpiredEvent

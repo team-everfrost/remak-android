@@ -295,6 +295,7 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         isHorizontalScrollBarEnabled = false
         isVerticalScrollBarEnabled = false
         settings.javaScriptEnabled = true
+        settings.domStorageEnabled = true
     }
 
     private fun WebView.loadHtmlData(linkData: String) {

@@ -1,6 +1,5 @@
 package com.example.remak.view.profile
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -44,17 +43,14 @@ class ProfileViewModel(private val tokenRepository: TokenRepository) : ViewModel
         val response = networkRepository.getStorageUsage()
         if (response.isSuccessful) {
             val usageByte = response.body()?.data
-            Log.d("usageByte", usageByte.toString())
             //useageByte를 소수점 1자리수 GB단위로 변경
             _usageSize.value =
                 round((usageByte?.toDouble()!!.div(1024).div(1024).div(1024)) * 100) / 100
-            Log.d("usageSize", _usageSize.value.toString())
 
             //소수점 한자리까지 계산
             _usagePercent.value =
                 round(usageByte.toDouble() / storageBytesSize.toDouble() * 100).toInt()
 
-            Log.d("usagePercent", _usagePercent.value.toString())
 
         }
     }
