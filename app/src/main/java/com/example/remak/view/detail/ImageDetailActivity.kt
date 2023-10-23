@@ -164,7 +164,6 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
                     "취소하기",
                     confirmClick = {
                         viewModel.deleteDocument(fileId)
-                        finish()
                     },
                     cancelClick = {}
                 )

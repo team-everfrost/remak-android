@@ -9,10 +9,8 @@ import com.example.remak.dataStore.TokenRepository
 import kotlinx.coroutines.launch
 
 class SplashViewModel(private val signInRepository: TokenRepository) : ViewModel() {
-
     private val _isReady = MutableLiveData<Boolean>()
     val isReady: LiveData<Boolean> get() = _isReady
-
     private val _isToken = MutableLiveData<Boolean>()
     val isToken: LiveData<Boolean> = _isToken
 

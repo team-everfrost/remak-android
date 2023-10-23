@@ -23,25 +23,15 @@ import kotlinx.coroutines.withContext
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var signInRepository: TokenRepository
-
     private val viewModel: SplashViewModel by viewModels { SplashViewModelFactory(signInRepository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // waiting for view to draw to better represent a captured error with a screenshot
-//    findViewById<android.view.View>(android.R.id.content).viewTreeObserver.addOnGlobalLayoutListener {
-//      try {
-//        throw Exception("This app uses Sentry! :)")
-//      } catch (e: Exception) {
-//        Sentry.captureException(e)
-//      }
-//    }
+        //강제 업데이트 코드
         val appUpdateManager = AppUpdateManagerFactory.create(this)
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                // This example applies an immediate update. To apply a flexible update
-                // instead, pass in AppUpdateType.FLEXIBLE
                 && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
             ) {
                 appUpdateManager.startUpdateFlowForResult(
@@ -72,7 +62,7 @@ class SplashActivity : AppCompatActivity() {
         )
 
         lifecycleScope.launch {
-            //로딩화면을 보여주기 위해 0.5초 딜레이K
+            //로딩화면을 보여주기 위해 0.5초 딜레이
             delay(500)
             //토큰이 있는지 없는지 확인
             withContext(Dispatchers.Main) {
