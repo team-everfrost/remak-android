@@ -255,12 +255,12 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         recyclerView.isNestedScrollingEnabled = false
         binding.addBtn.visibility = View.GONE
         binding.moreIcon.visibility = View.GONE
-//        binding.deleteBtn.visibility = View.VISIBLE
-//        binding.deleteBtn.alpha = 0f
-//        binding.deleteBtn.animate().alpha(1f).duration = 200
-//        binding.registerBtn.visibility = View.VISIBLE
-//        binding.registerBtn.alpha = 0f
-//        binding.registerBtn.animate().alpha(1f).duration = 200
+        binding.deleteBtn.visibility = View.VISIBLE
+        binding.deleteBtn.alpha = 0f
+        binding.deleteBtn.animate().alpha(1f).duration = 200
+        binding.registerBtn.visibility = View.VISIBLE
+        binding.registerBtn.alpha = 0f
+        binding.registerBtn.animate().alpha(1f).duration = 200
         binding.swipeRefresh.isEnabled = false
         binding.previousBtn.visibility = View.VISIBLE
         (activity as MainActivity).hideBottomNavi()

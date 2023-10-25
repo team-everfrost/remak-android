@@ -80,6 +80,8 @@ class MainProfileFragment : Fragment() {
             transaction.addToBackStack(null)
             transaction.commit()
         }
+
+        binding.versionText.text = getString(R.string.version_name)
     }
 
     //ondestroy

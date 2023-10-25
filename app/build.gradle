@@ -10,11 +10,12 @@ android {
     compileSdk 33
 
     defaultConfig {
+        resValue("string", "version_name", project.VERSION_NAME)
         applicationId "com.example.remak"
         minSdk 28
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName project.VERSION_NAME
         //viewbinding
         viewBinding {
             enabled = true

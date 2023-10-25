@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,12 +84,13 @@ class AddLinkFragment : Fragment() {
 
         binding.addBtn.setOnClickListener {
             val url = binding.addLinkEditText.text.toString().trim()
-            val splitText = url.split("\\n|,".toRegex()) //줄바꿈, 콤마로 구분
+            val splitText = url.split("\\n|\\s".toRegex()) //줄바꿈, 공백으로 구분
             val urlList = ArrayList<String>()
             for (item in splitText) {
-                urlList.add(item.trim())
+                urlList.add(item)
             }
             for (i in urlList) {
+                Log.d("urlList", urlList.toString())
                 var url = i
                 if (!i.startsWith("http://") && !i.startsWith("https://")) {
                     url = "https://$i"

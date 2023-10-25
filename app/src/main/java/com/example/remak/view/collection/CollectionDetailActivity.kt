@@ -157,7 +157,7 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
                 UtilityDialog.showWarnDialog(
                     this,
                     "정말 삭제하시겠어요?",
-                    "삭제시 복구가 불가능해요",
+                    "삭제 시 복구가 불가능해요",
                     "삭제하기",
                     "취소하기",
                     confirmClick = {
@@ -190,7 +190,7 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
             UtilityDialog.showWarnDialog(
                 this,
                 "${selectedItemCount}개의 정보를 삭제하시겠어요?",
-                "삭제시 복구가 불가능해요?",
+                "나중에 다시 추가할 수 있어요",
                 "삭제하기",
                 "취소하기",
                 confirmClick = {

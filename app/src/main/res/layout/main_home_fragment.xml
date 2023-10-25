@@ -139,7 +139,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:gravity="center"
-            android:text="등록하기"
+            android:text="+컬렉션"
             android:textColor="#28323C"
             android:textFontWeight="500"
             android:textSize="18sp"
