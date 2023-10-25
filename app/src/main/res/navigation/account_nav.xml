@@ -5,7 +5,7 @@
     app:startDestination="@id/accountMainFragment">
     <fragment
         android:id="@+id/accountMainFragment"
-        android:name="com.example.remak.view.account.signIn.AccountMainFragment"
+        android:name="com.everfrost.remak.view.account.signIn.AccountMainFragment"
         android:label="account_main_fragment"
         tools:layout="@layout/account_main_fragment">
         <action
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountSignUp1Fragment2"
-        android:name="com.example.remak.view.account.signUp.AccountSignUp1Fragment"
+        android:name="com.everfrost.remak.view.account.signUp.AccountSignUp1Fragment"
         android:label="account_signup1_fragment"
         tools:layout="@layout/account_signup1_fragment">
         <action
@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountSignUp2Fragment2"
-        android:name="com.example.remak.view.account.signUp.AccountSignUp2Fragment"
+        android:name="com.everfrost.remak.view.account.signUp.AccountSignUp2Fragment"
         android:label="account_signup2_fragment"
         tools:layout="@layout/account_signup2_fragment">
         <action
@@ -69,7 +69,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountSignUp3Fragment"
-        android:name="com.example.remak.view.account.signUp.AccountSignUp3Fragment"
+        android:name="com.everfrost.remak.view.account.signUp.AccountSignUp3Fragment"
         android:label="account_signup3_fragment"
         tools:layout="@layout/account_signup3_fragment">
         <action
@@ -87,7 +87,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountSignUp4Fragment"
-        android:name="com.example.remak.view.account.signUp.AccountSignUp4Fragment"
+        android:name="com.everfrost.remak.view.account.signUp.AccountSignUp4Fragment"
         android:label="AccountSignUp4Fragment"
         tools:layout="@layout/account_signup4_fragment">
         <action
@@ -98,7 +98,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountEmailSignInFragment"
-        android:name="com.example.remak.view.account.signIn.AccountEmailSignInFragment"
+        android:name="com.everfrost.remak.view.account.signIn.AccountEmailSignInFragment"
         android:label="AccountEmailSignInFragment"
         tools:layout="@layout/account_email_signin1_fragment">
         <action
@@ -123,7 +123,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountResetPassword1Fragment"
-        android:name="com.example.remak.view.account.signIn.AccountResetPassword1Fragment"
+        android:name="com.everfrost.remak.view.account.signIn.AccountResetPassword1Fragment"
         android:label="AccountResetPassword1Fragment"
         tools:layout="@layout/account_reset_password1_fragment">
         <action
@@ -141,7 +141,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountResetPassword2Fragment"
-        android:name="com.example.remak.view.account.signIn.AccountResetPassword2Fragment"
+        android:name="com.everfrost.remak.view.account.signIn.AccountResetPassword2Fragment"
         android:label="AccountResetPassword2Fragment"
         tools:layout="@layout/account_reset_password2_fragment">
         <action
@@ -161,7 +161,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountResetPassword3Fragment"
-        android:name="com.example.remak.view.account.signIn.AccountResetPassword3Fragment"
+        android:name="com.everfrost.remak.view.account.signIn.AccountResetPassword3Fragment"
         android:label="AccountResetPassword3Fragment"
         tools:layout="@layout/account_reset_password3_fragment">
         <action
@@ -179,7 +179,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountResetPassword4Fragment"
-        android:name="com.example.remak.view.account.signIn.AccountResetPassword4Fragment"
+        android:name="com.everfrost.remak.view.account.signIn.AccountResetPassword4Fragment"
         android:label="AccountResetPassword4Fragment"
         tools:layout="@layout/account_reset_password4_fragment">
         <action
