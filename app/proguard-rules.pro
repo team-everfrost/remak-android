@@ -38,7 +38,7 @@
 # This is generated automatically by the Android Gradle plugin.
 -keep class com.google.errorprone.annotations.MustBeClosed { *; }
 -dontwarn com.google.errorprone.annotations.MustBeClosed
--keepclassmembers class com.example.remak.** { *; }
+-keepclassmembers class com.everfrost.remak.** { *; }
 
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
 # EnclosingMethod is required to use InnerClasses.

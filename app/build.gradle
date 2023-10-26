@@ -6,15 +6,16 @@ plugins {
 }
 
 android {
-    namespace 'com.example.remak'
+    namespace 'com.everfrost.remak'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.remak"
+        resValue("string", "version_name", project.VERSION_NAME)
+        applicationId "com.everfrost.remak"
         minSdk 28
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName project.VERSION_NAME
         //viewbinding
         viewBinding {
             enabled = true

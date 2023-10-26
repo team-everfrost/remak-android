@@ -35,7 +35,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="22.5dp"
-        android:maxLines="2"
+        android:maxLines="3"
         android:text="coinPriceUpDown"
         android:textColor="#646F7C"
         android:textFontWeight="400"
