@@ -167,4 +167,13 @@ interface Api {
 
     @POST("auth/reset-password")
     suspend fun resetPassword(@Body body: SignUpData.SignUpRequestBody): retrofit2.Response<SignUpData.CheckVerifyResponseBody>
+
+    @POST("auth/withdraw-code")
+    suspend fun withdrawCode(): retrofit2.Response<SignUpData.WithdrawVerifyResponseBody>
+
+    @POST("auth/verify-withdraw-code")
+    suspend fun verifyWithdrawCode(@Body body: SignUpData.WithdrawVerifyRequestBody): retrofit2.Response<SignUpData.WithdrawVerifyResponseBody>
+
+    @POST("auth/withdraw")
+    suspend fun withdraw(): retrofit2.Response<SignUpData.WithdrawVerifyResponseBody>
 }

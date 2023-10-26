@@ -82,6 +82,8 @@ class MainProfileFragment : Fragment() {
         }
 
         binding.versionText.text = getString(R.string.version_name)
+
+
     }
 
     //ondestroy

@@ -35,5 +35,14 @@ class SignUpData {
     data class TokenData(
         val accessToken: String
     )
+
+    data class WithdrawVerifyRequestBody(
+        val code: String
+    )
+
+    data class WithdrawVerifyResponseBody(
+        val message: String,
+        val data: Any?
+    )
 }
 

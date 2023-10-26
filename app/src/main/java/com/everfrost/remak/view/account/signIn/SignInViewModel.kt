@@ -41,6 +41,12 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
     private val _isResetPasswordSuccess = MutableLiveData<Boolean>()
     val isResetPasswordSuccess: LiveData<Boolean> = _isResetPasswordSuccess
 
+    private val _isWithdrawCodeValid = MutableLiveData<Boolean?>(null)
+    val isWithdrawCodeValid: LiveData<Boolean?> = _isWithdrawCodeValid
+
+    private val _isWithdrawSuccess = MutableLiveData<Boolean>()
+    val isWithdrawSuccess: LiveData<Boolean> = _isWithdrawSuccess
+
     fun networkErrorHandled() {
         _isNetworkError.value = false
     }
@@ -155,12 +161,42 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
         }
     }
 
+    fun getWithdrawVerifyCode() = viewModelScope.launch {
+        try {
+            val response = networkRepository.withdrawCode()
+        } catch (e: Exception) {
+            _isNetworkError.value = true
+        }
+    }
+
+    fun verifyWithdrawCode(code: String) = viewModelScope.launch {
+        try {
+            val response = networkRepository.verifyWithdrawCode(code)
+            _isWithdrawCodeValid.value = response.isSuccessful
+        } catch (e: Exception) {
+            _isNetworkError.value = true
+        }
+    }
+
+    fun withdraw() = viewModelScope.launch {
+        try {
+            val response = networkRepository.withdraw()
+            _isWithdrawSuccess.value = response.isSuccessful
+        } catch (e: Exception) {
+            _isNetworkError.value = true
+        }
+    }
+
     fun resetEmailValid() {
         _isResetEmailValid.value = false
     }
 
     fun resetVerifyCodeResult() {
         _isVerifyCodeValid.value = null
+    }
+
+    fun resetWithdrawCodeResult() {
+        _isWithdrawCodeValid.value = null
     }
 
     fun setUserNewPassword(password: String) {

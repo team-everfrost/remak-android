@@ -201,4 +201,19 @@ class NetworkRepository {
         return client.resetPassword(requestBody)
     }
 
+    suspend fun withdrawCode(): Response<SignUpData.WithdrawVerifyResponseBody> {
+        return client.withdrawCode()
+    }
+
+    suspend fun verifyWithdrawCode(
+        code: String
+    ): Response<SignUpData.WithdrawVerifyResponseBody> {
+        val requestBody = SignUpData.WithdrawVerifyRequestBody(code)
+        return client.verifyWithdrawCode(requestBody)
+    }
+
+    suspend fun withdraw(): Response<SignUpData.WithdrawVerifyResponseBody> {
+        return client.withdraw()
+    }
+
 }

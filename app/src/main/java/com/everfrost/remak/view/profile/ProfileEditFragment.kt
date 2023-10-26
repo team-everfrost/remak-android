@@ -75,6 +75,19 @@ class ProfileEditFragment : Fragment() {
             transaction.addToBackStack(null)
             transaction.commit()
         }
+
+        binding.withdrawalBtn.setOnClickListener {
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(
+                R.anim.from_right,
+                R.anim.to_left,
+                R.anim.from_left,
+                R.anim.to_right
+            )
+            transaction.replace(R.id.mainFragmentContainerView, ProfileWithdrawFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
     }
 
 }
