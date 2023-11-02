@@ -57,6 +57,10 @@ class TagDetailActivity : AppCompatActivity(), SearchRVAdapter.OnItemClickListen
             }
         })
 
+        binding.backButton.setOnClickListener {
+            finish()
+        }
+
     }
 
     override fun onItemClick(position: Int) {
