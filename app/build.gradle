@@ -15,7 +15,7 @@ android {
         applicationId "com.everfrost.remak"
         minSdk 28
         targetSdk 33
-        versionCode 3
+        versionCode 5
         versionName project.VERSION_NAME
         //viewbinding
         viewBinding {

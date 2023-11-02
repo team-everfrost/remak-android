@@ -19,7 +19,6 @@ import com.everfrost.remak.UtilitySystem
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.AccountEmailSignin1FragmentBinding
 import com.everfrost.remak.view.main.MainActivity
-import com.everfrost.remak.view.profile.ProfileEditFragment
 
 class AccountEmailSignInFragment : Fragment() {
     private lateinit var binding: AccountEmailSignin1FragmentBinding
@@ -206,16 +205,7 @@ class AccountEmailSignInFragment : Fragment() {
 
         binding.signUpBtn.setOnClickListener {
             if (isWrongPassword) {
-                val transaction = requireActivity().supportFragmentManager.beginTransaction()
-                transaction.setCustomAnimations(
-                    R.anim.from_right,
-                    R.anim.to_left,
-                    R.anim.from_left,
-                    R.anim.to_right
-                )
-                transaction.replace(R.id.mainFragmentContainerView, ProfileEditFragment())
-                transaction.addToBackStack(null)
-                transaction.commit()
+
                 findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountResetPassword1Fragment)
 
             } else {
