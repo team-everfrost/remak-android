@@ -54,7 +54,7 @@
         <activity
             android:name=".view.main.MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize">
 
         </activity>
 
@@ -139,6 +139,9 @@
             android:name=".view.detail.ImageViewerActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".view.search.ChatBotActivity"
+            android:exported="true" />
 
     </application>
 
