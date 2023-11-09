@@ -1,11 +1,15 @@
 package com.everfrost.remak.view.profile
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.everfrost.remak.R
@@ -69,16 +73,29 @@ class MainProfileFragment : Fragment() {
         }
 
         binding.privacyLayout.setOnClickListener {
-            val transaction = requireActivity().supportFragmentManager.beginTransaction()
-            transaction.setCustomAnimations(
-                R.anim.from_right,
-                R.anim.to_left,
-                R.anim.from_left,
-                R.anim.to_right
+            val colorSchemeParams = CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(ContextCompat.getColor(requireContext(), R.color.black))
+                .build()
+            val customTabsIntent = CustomTabsIntent.Builder()
+                .setDefaultColorSchemeParams(colorSchemeParams)
+                .build()
+            customTabsIntent.launchUrl(
+                requireContext(),
+                Uri.parse("https://remak.io/privacy-policy")
             )
-            transaction.replace(R.id.mainFragmentContainerView, PrivacyPoliceFragment())
-            transaction.addToBackStack(null)
-            transaction.commit()
+        }
+
+        binding.termsOfServiceLayout.setOnClickListener {
+            val colorSchemeParams = CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(ContextCompat.getColor(requireContext(), R.color.black))
+                .build()
+            val customTabsIntent = CustomTabsIntent.Builder()
+                .setDefaultColorSchemeParams(colorSchemeParams)
+                .build()
+            customTabsIntent.launchUrl(
+                requireContext(),
+                Uri.parse("https://remak.io/terms-of-service")
+            )
         }
 
         binding.versionText.text = getString(R.string.version_name)

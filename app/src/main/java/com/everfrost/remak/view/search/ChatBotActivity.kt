@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.everfrost.remak.R
+import com.everfrost.remak.UtilityDialog
 import com.everfrost.remak.UtilitySystem
 import com.everfrost.remak.adapter.ChatBotItemOffsetDecoration
 import com.everfrost.remak.adapter.TestChatBotRVAdapter
@@ -41,6 +42,20 @@ class ChatBotActivity : AppCompatActivity() {
 
         viewModel.isBotTyping.observe(this) {
             botTyping = it
+        }
+
+        viewModel.isChatTimeout.observe(this) {
+            if (it == true) {
+                UtilityDialog.showInformDialog(
+                    "연결상태가 원활하지 않습니다",
+                    "잠시 후 다시 시도해주세요",
+                    this,
+                    confirmClick = {
+                        finish()
+                    }
+                )
+            }
+
         }
 
         binding.userInput.addTextChangedListener(object : TextWatcher {

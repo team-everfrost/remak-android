@@ -1,6 +1,7 @@
 package com.everfrost.remak.view.search
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,7 @@ import com.everfrost.remak.repository.NetworkRepository
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
 import okhttp3.sse.EventSources
@@ -20,7 +22,6 @@ import okhttp3.sse.EventSources
 class ChatBotViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private val networkRepository = NetworkRepository()
     private lateinit var token: String
-    val testToken = tokenRepository.user
 
     private val _chatMessages = MutableLiveData<MutableList<ChatData.ChatMessage>>().apply {
         value = mutableListOf()
@@ -31,6 +32,11 @@ class ChatBotViewModel(private val tokenRepository: TokenRepository) : ViewModel
         value = false
     }
     val isBotTyping: LiveData<Boolean> = _isBotTyping
+
+    private val _isChatTimeout = MutableLiveData<Boolean>().apply {
+        value = false
+    }
+    val isChatTimeout: LiveData<Boolean> = _isChatTimeout
 
 
     private var eventSource: EventSource? = null
@@ -48,8 +54,10 @@ class ChatBotViewModel(private val tokenRepository: TokenRepository) : ViewModel
                         "무엇이든 물어보세요 제가 도와드릴게요", ChatData.Role.BOT
             )
         )
+    }
 
-
+    fun resetTimeout() {
+        _isChatTimeout.value = false
     }
 
     fun startChat(query: String) {
@@ -97,6 +105,12 @@ class ChatBotViewModel(private val tokenRepository: TokenRepository) : ViewModel
                 viewModelScope.launch {
                     _isBotTyping.value = false
                 }
+            }
+
+            override fun onFailure(eventSource: EventSource, t: Throwable?, response: Response?) {
+                super.onFailure(eventSource, t, response)
+                Log.d("ChatBotViewModel", "onFailure: $t")
+                _isChatTimeout.value = true
             }
 
         })
