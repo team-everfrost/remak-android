@@ -9,16 +9,15 @@
         android:label="account_main_fragment"
         tools:layout="@layout/account_main_fragment">
         <action
-            android:id="@+id/action_accountMainFragment_to_accountSignUp1Fragment2"
-            app:destination="@id/accountSignUp1Fragment2"
+            android:id="@+id/action_accountMainFragment_to_accountEmailSignInFragment"
+            app:destination="@id/accountEmailSignInFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"
-            app:popUpToInclusive="false" />
+            app:popExitAnim="@anim/to_right" />
         <action
-            android:id="@+id/action_accountMainFragment_to_accountEmailSignInFragment"
-            app:destination="@id/accountEmailSignInFragment"
+            android:id="@+id/action_accountMainFragment_to_accountSignUpAgreeFragment"
+            app:destination="@id/accountSignUpAgreeFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
@@ -37,17 +36,13 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
         <action
-            android:id="@+id/action_accountSignUp1Fragment2_to_accountMainFragment"
-            app:destination="@id/accountMainFragment"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"
-            app:popUpToInclusive="false"
-            app:restoreState="true" />
+            android:id="@+id/action_accountSignUp1Fragment2_to_accountSignUpAgreeFragment"
+            app:destination="@id/accountSignUpAgreeFragment" />
         <action
-            android:id="@+id/action_accountSignUp1Fragment2_to_accountEmailSignInFragment"
-            app:destination="@id/accountEmailSignInFragment" />
+            android:id="@+id/action_accountSignUp1Fragment2_to_accountSignUpAgreeFragment2"
+            app:destination="@id/accountSignUpAgreeFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/accountSignUp2Fragment2"
@@ -107,15 +102,15 @@
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right" />
         <action
-            android:id="@+id/action_accountEmailSignInFragment_to_accountSignUp1Fragment2"
-            app:destination="@id/accountSignUp1Fragment2"
+            android:id="@+id/action_accountEmailSignInFragment_to_accountResetPassword1Fragment"
+            app:destination="@id/accountResetPassword1Fragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
         <action
-            android:id="@+id/action_accountEmailSignInFragment_to_accountResetPassword1Fragment"
-            app:destination="@id/accountResetPassword1Fragment"
+            android:id="@+id/action_accountEmailSignInFragment_to_accountSignUpAgreeFragment"
+            app:destination="@id/accountSignUpAgreeFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
@@ -190,5 +185,28 @@
         <action
             android:id="@+id/action_accountResetPassword4Fragment_to_accountMainFragment"
             app:destination="@id/accountMainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountSignUpAgreeFragment"
+        android:name="com.everfrost.remak.view.account.signUp.AccountSignUpAgreeFragment"
+        android:label="AccountSignUpAgreeFragment"
+        tools:layout="@layout/account_signup_privacy_fragment">
+        <action
+            android:id="@+id/action_accountSignUpAgreeFragment_to_accountSignUp1Fragment2"
+            app:destination="@id/accountSignUp1Fragment2"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_accountSignUpAgreeFragment_to_accountEmailSignInFragment"
+            app:destination="@id/accountEmailSignInFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_accountSignUpAgreeFragment_to_accountMainFragment"
+            app:destination="@id/accountMainFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right" />
     </fragment>
 </navigation>

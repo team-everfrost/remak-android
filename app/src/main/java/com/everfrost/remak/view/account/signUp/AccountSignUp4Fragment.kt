@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.everfrost.remak.R
 import com.everfrost.remak.UtilitySystem
 import com.everfrost.remak.dataStore.TokenRepository
@@ -103,6 +104,10 @@ class AccountSignUp4Fragment : Fragment() {
         binding.completeBtn.setOnClickListener {
             viewModel.signup(viewModel.userEmail.value!!, viewModel.userPassword.value!!)
 
+        }
+
+        binding.backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_accountSignUp4Fragment_to_accountSignUp3Fragment)
         }
     }
 

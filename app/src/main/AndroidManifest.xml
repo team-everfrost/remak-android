@@ -94,7 +94,8 @@
 
         <activity
             android:name=".view.detail.MemoDetailActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
 
@@ -141,7 +142,8 @@
 
         <activity
             android:name=".view.search.ChatBotActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
 
     </application>
 

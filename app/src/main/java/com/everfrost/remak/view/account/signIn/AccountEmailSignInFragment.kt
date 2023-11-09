@@ -69,7 +69,7 @@ class AccountEmailSignInFragment : Fragment() {
         }
 
         viewModel.isEmailValid.observe(viewLifecycleOwner) {
-            if (it) {
+            if (it == true) {
                 binding.emailErrorMessage.visibility = View.INVISIBLE
                 binding.pwEditText.visibility = View.VISIBLE
 
@@ -89,8 +89,10 @@ class AccountEmailSignInFragment : Fragment() {
                 binding.emailEditText.isEnabled = false
                 binding.pwEditText.requestFocus()
                 UtilitySystem.showKeyboard(requireActivity())
-            } else {
-                binding.emailErrorMessage.visibility = View.VISIBLE
+            } else if (it == false) {
+//                findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountSignUpAgreeFragment)
+                findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountSignUpAgreeFragment)
+                viewModel.resetIsEmailValid()
             }
         }
 
@@ -205,11 +207,10 @@ class AccountEmailSignInFragment : Fragment() {
 
         binding.signUpBtn.setOnClickListener {
             if (isWrongPassword) {
-
                 findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountResetPassword1Fragment)
 
             } else {
-                findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountSignUp1Fragment2)
+                findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountSignUpAgreeFragment)
             }
         }
 

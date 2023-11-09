@@ -1,7 +1,6 @@
 package com.everfrost.remak.view.profile
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,7 +67,6 @@ class ProfileResetPassword1Fragment : Fragment() {
 
         binding.nextBtn.setOnClickListener {
             viewModel.getResetPasswordCode(binding.emailEditText.text.toString())
-            Log.d("test", "onViewCreated: ${binding.emailEditText.text.toString()}")
         }
     }
 

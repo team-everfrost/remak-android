@@ -1,27 +1,22 @@
 package com.everfrost.remak.adapter
 
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.everfrost.remak.R
+import com.everfrost.remak.network.model.ChatData
 
-
-class TestChatBot {
-    data class TestChatBotData(
-        val role: String,
-        val message: String
-    )
-}
 
 class TestChatBotRVAdapter(
-    var dataSet: List<TestChatBot.TestChatBotData>
+    var dataSet: List<ChatData.ChatMessage>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
-        private const val BOT = "BOT"
-        private const val USER = "USER"
+        private val BOT = ChatData.Role.BOT
+        private val USER = ChatData.Role.USER
         private const val BOT_VIEW_TYPE = 0
         private const val USER_VIEW_TYPE = 1
     }
@@ -73,5 +68,21 @@ class TestChatBotRVAdapter(
     override fun getItemCount(): Int {
         return dataSet.size
     }
+}
 
+class ChatBotItemOffsetDecoration(
+    //날짜가 있는 홈의 아이템 간격 조정
+    private val mItemOffset: Int,
+) :
+    RecyclerView.ItemDecoration() {
+    override fun getItemOffsets(
+        outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
+    ) {
+        super.getItemOffsets(outRect, view, parent, state)
+        outRect.top = mItemOffset
+        // Add top margin only for the first item to avoid double space between items
+        if (parent.getChildAdapterPosition(view) == 0) {
+            outRect.top = mItemOffset
+        }
+    }
 }

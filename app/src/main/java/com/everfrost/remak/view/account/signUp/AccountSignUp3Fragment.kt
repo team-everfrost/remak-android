@@ -112,6 +112,10 @@ class AccountSignUp3Fragment : Fragment() {
             findNavController().navigate(R.id.action_accountSignUp3Fragment_to_accountSignUp4Fragment)
 
         }
+
+        binding.backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_accountSignUp3Fragment_to_accountSignUp2Fragment2)
+        }
     }
 
 }
