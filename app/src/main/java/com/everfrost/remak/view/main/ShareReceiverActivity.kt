@@ -12,8 +12,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.view.add.AddViewModel
-import com.everfrost.remak.view.add.AddViewModelFactory
 import com.everfrost.remak.view.add.UploadState
+import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -22,12 +22,12 @@ import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
+@AndroidEntryPoint
 class ShareReceiverActivity : AppCompatActivity() {
     lateinit var tokenRepository: TokenRepository
-    private val viewModel: AddViewModel by viewModels { AddViewModelFactory(tokenRepository) }
+    private val viewModel: AddViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tokenRepository = TokenRepository((application as com.everfrost.remak.App).dataStore)
 
         viewModel.isActionComplete.observe(this) {
             if (it) {

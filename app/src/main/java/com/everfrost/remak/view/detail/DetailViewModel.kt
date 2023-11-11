@@ -12,12 +12,11 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.everfrost.remak.BuildConfig
-import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.network.model.MainListData
 import com.everfrost.remak.repository.NetworkRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,9 +28,12 @@ import java.io.InputStream
 import java.net.URL
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
+import javax.inject.Inject
 
-class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
-    private val networkRepository = NetworkRepository()
+
+@HiltViewModel
+class DetailViewModel @Inject constructor(private val networkRepository: NetworkRepository) :
+    ViewModel() {
     private val _detailData = MutableLiveData<MainListData.Data>()
     val detailData: LiveData<MainListData.Data> = _detailData
     private val _isActionComplete = MutableLiveData<Boolean>()
@@ -284,15 +286,4 @@ class DetailViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         return fileName
     }
 
-}
-
-class DetailViewModelFactory(private val tokenRepository: TokenRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return DetailViewModel(tokenRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
 }

@@ -13,17 +13,19 @@ import com.everfrost.remak.adapter.ChatBotItemOffsetDecoration
 import com.everfrost.remak.adapter.TestChatBotRVAdapter
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.SearchChatBotActivityBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class ChatBotActivity : AppCompatActivity() {
     private lateinit var binding: SearchChatBotActivityBinding
     private lateinit var adapter: TestChatBotRVAdapter
-    private val viewModel: ChatBotViewModel by viewModels { ChatBotViewModelFactory(tokenRepository) }
+    private val viewModel: ChatBotViewModel by viewModels()
     lateinit var tokenRepository: TokenRepository
     private var botTyping = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tokenRepository = TokenRepository((this.application as com.everfrost.remak.App).dataStore)
         binding = SearchChatBotActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

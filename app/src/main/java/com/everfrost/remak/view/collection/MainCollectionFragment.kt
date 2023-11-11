@@ -19,14 +19,13 @@ import com.everfrost.remak.adapter.SpacingItemDecorator
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.MainCollectionFragmentBinding
 import com.everfrost.remak.view.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListener {
     private lateinit var binding: MainCollectionFragmentBinding
-    private val viewModel: CollectionViewModel by viewModels {
-        CollectionViewModelFactory(
-            tokenRepository
-        )
-    }
+    private val viewModel: CollectionViewModel by viewModels()
     private lateinit var tokenRepository: TokenRepository
     private lateinit var adapter: CollectionRVAdapter
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
@@ -35,8 +34,7 @@ class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListen
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        tokenRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
         binding = MainCollectionFragmentBinding.inflate(inflater, container, false)
         viewModel.getCollectionList()
         //뒤로가기 시 홈 프래그먼트로 이동

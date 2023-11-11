@@ -1,24 +1,19 @@
 package com.everfrost.remak
 
 import android.app.Application
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import com.amplitude.android.Amplitude
 import com.kakao.sdk.common.KakaoSdk
+import dagger.hilt.android.HiltAndroidApp
 import io.sentry.android.core.SentryAndroid
 
+@HiltAndroidApp
 class App : Application() {
 
-    val dataStore: DataStore<Preferences> by preferencesDataStore("user_pref")
 
     init {
-        com.everfrost.remak.App.Companion.instance = this
+        instance = this
     }
 
-    fun provideDataStore(): DataStore<Preferences> {
-        return dataStore
-    }
 
     override fun onCreate() {
         super.onCreate()
@@ -34,14 +29,12 @@ class App : Application() {
                 context = this
             )
         )
-
-
     }
 
     companion object {
-        private var instance: com.everfrost.remak.App? = null
-        fun context(): com.everfrost.remak.App {
-            return com.everfrost.remak.App.Companion.instance!!
+        private var instance: App? = null
+        fun context(): App {
+            return instance!!
         }
     }
 

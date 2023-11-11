@@ -5,11 +5,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.network.model.ChatData
 import com.everfrost.remak.repository.NetworkRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -17,10 +17,14 @@ import okhttp3.Response
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
 import okhttp3.sse.EventSources
+import javax.inject.Inject
 
 
-class ChatBotViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
-    private val networkRepository = NetworkRepository()
+@HiltViewModel
+class ChatBotViewModel @Inject constructor(
+    private val tokenRepository: TokenRepository,
+    private val networkRepository: NetworkRepository
+) : ViewModel() {
     private lateinit var token: String
 
     private val _chatMessages = MutableLiveData<MutableList<ChatData.ChatMessage>>().apply {
@@ -110,20 +114,12 @@ class ChatBotViewModel(private val tokenRepository: TokenRepository) : ViewModel
             override fun onFailure(eventSource: EventSource, t: Throwable?, response: Response?) {
                 super.onFailure(eventSource, t, response)
                 Log.d("ChatBotViewModel", "onFailure: $t")
-                _isChatTimeout.value = true
+                viewModelScope.launch {
+                    _isChatTimeout.value = true
+                }
             }
 
         })
     }
 }
 
-class ChatBotViewModelFactory(private val tokenRepository: TokenRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ChatBotViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return ChatBotViewModel(tokenRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

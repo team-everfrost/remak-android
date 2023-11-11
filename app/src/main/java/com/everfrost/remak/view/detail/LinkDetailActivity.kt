@@ -30,27 +30,25 @@ import com.everfrost.remak.adapter.SpacingItemDecoration
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.DetailPageLinkActivityBinding
 import com.everfrost.remak.network.model.MainListData
-import com.everfrost.remak.view.add.AddViewModel
-import com.everfrost.remak.view.add.AddViewModelFactory
 import com.everfrost.remak.view.collection.EditCollectionBottomSheetDialog
 import com.everfrost.remak.view.tag.TagDetailActivity
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+@AndroidEntryPoint
 class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickListener {
     private lateinit var binding: DetailPageLinkActivityBinding
-    private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
-    private val uploadViewModel: AddViewModel by viewModels { AddViewModelFactory(tokenRepository) }
+    private val viewModel: DetailViewModel by viewModels()
     lateinit var tokenRepository: TokenRepository
     lateinit var url: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tokenRepository = TokenRepository((this.application as com.everfrost.remak.App).dataStore)
         binding = DetailPageLinkActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val linkId = intent.getStringExtra("docId")

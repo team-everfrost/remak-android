@@ -14,10 +14,12 @@ import com.everfrost.remak.view.detail.FileDetailActivity
 import com.everfrost.remak.view.detail.ImageDetailActivity
 import com.everfrost.remak.view.detail.LinkDetailActivity
 import com.everfrost.remak.view.detail.MemoDetailActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TagDetailActivity : AppCompatActivity(), SearchRVAdapter.OnItemClickListener {
     private lateinit var binding: TagDetailActivityBinding
-    private val viewModel: TagViewModel by viewModels { TagViewModelFactory(tokenRepository) }
+    private val viewModel: TagViewModel by viewModels()
     lateinit var tokenRepository: TokenRepository
     private lateinit var adapter: SearchRVAdapter
     private lateinit var recyclerView: RecyclerView
@@ -25,7 +27,6 @@ class TagDetailActivity : AppCompatActivity(), SearchRVAdapter.OnItemClickListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        tokenRepository = TokenRepository((this.application as com.everfrost.remak.App).dataStore)
         binding = TagDetailActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val tagName = intent.getStringExtra("tagName")

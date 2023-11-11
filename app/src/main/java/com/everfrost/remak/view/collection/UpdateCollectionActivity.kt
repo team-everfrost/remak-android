@@ -11,19 +11,17 @@ import com.everfrost.remak.UtilityDialog
 import com.everfrost.remak.UtilitySystem
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.CollectionUpdateActivityBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class UpdateCollectionActivity : AppCompatActivity() {
     private lateinit var binding: CollectionUpdateActivityBinding
-    private val viewModel: CollectionViewModel by viewModels {
-        CollectionViewModelFactory(
-            tokenRepository
-        )
-    }
+    private val viewModel: CollectionViewModel by viewModels()
     private lateinit var tokenRepository: TokenRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tokenRepository = TokenRepository((this.application as com.everfrost.remak.App).dataStore)
         binding = CollectionUpdateActivityBinding.inflate(layoutInflater)
         val collectionName = intent.getStringExtra("collectionName")
         val collectionDescription = intent.getStringExtra("collectionDescription")

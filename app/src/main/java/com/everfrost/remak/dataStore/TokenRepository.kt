@@ -10,8 +10,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class TokenRepository(private val dataStore: DataStore<Preferences>) {
+class TokenRepository @Inject constructor(private val dataStore: DataStore<Preferences>) {
     object PreferencesKeys {
         val ACCESS_TOKEN = stringPreferencesKey("access_token")
         val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
@@ -21,7 +22,6 @@ class TokenRepository(private val dataStore: DataStore<Preferences>) {
     suspend fun saveUser(user: TokenData) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.ACCESS_TOKEN] = user.accessToken
-//            preferences[PreferencesKeys.REFRESH_TOKEN] = user.refreshToken
         }
     }
 

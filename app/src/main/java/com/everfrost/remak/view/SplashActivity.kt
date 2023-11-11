@@ -15,14 +15,16 @@ import com.everfrost.remak.view.main.MainActivity
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
     private lateinit var signInRepository: TokenRepository
-    private val viewModel: SplashViewModel by viewModels { SplashViewModelFactory(signInRepository) }
+    private val viewModel: SplashViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +46,6 @@ class SplashActivity : AppCompatActivity() {
         }
 
         installSplashScreen()
-        signInRepository = TokenRepository((this.application as com.everfrost.remak.App).dataStore)
         val content: View = findViewById(android.R.id.content)
 
         // 로직이 끝날때까지 화면을 보여주지 않음

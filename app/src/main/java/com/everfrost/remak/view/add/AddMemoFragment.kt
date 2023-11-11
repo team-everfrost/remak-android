@@ -15,10 +15,12 @@ import com.everfrost.remak.R
 import com.everfrost.remak.UtilityDialog
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.EditPageMemoBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddMemoFragment : Fragment() {
     private lateinit var binding: EditPageMemoBinding
-    private val viewModel: AddViewModel by viewModels { AddViewModelFactory(tokenRepository) }
+    private val viewModel: AddViewModel by viewModels()
     private lateinit var tokenRepository: TokenRepository
 
     override fun onCreateView(
@@ -26,8 +28,7 @@ class AddMemoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        tokenRepository =
-            TokenRepository((this.activity?.application as com.everfrost.remak.App).dataStore)
+
         binding = EditPageMemoBinding.inflate(layoutInflater)
         return binding.root
     }

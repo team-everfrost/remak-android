@@ -17,10 +17,12 @@ import com.everfrost.remak.R
 import com.everfrost.remak.UtilitySystem
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.AddLinkFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddLinkFragment : Fragment() {
     private lateinit var binding: AddLinkFragmentBinding
-    private val viewModel: AddViewModel by viewModels { AddViewModelFactory(tokenRepository) }
+    private val viewModel: AddViewModel by viewModels()
     private lateinit var tokenRepository: TokenRepository
 
     override fun onCreateView(
@@ -28,8 +30,7 @@ class AddLinkFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        tokenRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
         binding = AddLinkFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())

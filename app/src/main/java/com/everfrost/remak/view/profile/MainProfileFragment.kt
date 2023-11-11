@@ -17,14 +17,13 @@ import com.everfrost.remak.UtilitySystem
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.MainProfileFragmentBinding
 import com.everfrost.remak.view.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainProfileFragment : Fragment() {
     private lateinit var binding: MainProfileFragmentBinding
-    private val viewModel: ProfileViewModel by activityViewModels {
-        ProfileViewModelFactory(
-            tokenRepository
-        )
-    }
+    private val viewModel: ProfileViewModel by activityViewModels()
     lateinit var tokenRepository: TokenRepository
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,8 +31,7 @@ class MainProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = MainProfileFragmentBinding.inflate(inflater, container, false)
-        tokenRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
 
         //뒤로가기 시 홈 프래그먼트로 이동
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {

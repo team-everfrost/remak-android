@@ -23,12 +23,15 @@ import com.everfrost.remak.UtilitySystem
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.DetailPageMemoActivityBinding
 import com.everfrost.remak.view.collection.EditCollectionBottomSheetDialog
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+
+@AndroidEntryPoint
 class MemoDetailActivity : AppCompatActivity() {
     private lateinit var binding: DetailPageMemoActivityBinding
-    private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
+    private val viewModel: DetailViewModel by viewModels()
     lateinit var tokenRepository: TokenRepository
     var isEditMode = false
     private var initMemo: String = ""
@@ -62,7 +65,6 @@ class MemoDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tokenRepository = TokenRepository((this.application as com.everfrost.remak.App).dataStore)
         binding = DetailPageMemoActivityBinding.inflate(layoutInflater)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(this)

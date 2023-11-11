@@ -16,23 +16,21 @@ import com.everfrost.remak.UtilitySystem
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.AccountSignup4FragmentBinding
 import com.everfrost.remak.view.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class AccountSignUp4Fragment : Fragment() {
     private lateinit var binding: AccountSignup4FragmentBinding
     lateinit var signInRepository: TokenRepository
-    private val viewModel: SignUpViewModel by activityViewModels {
-        SignUpViewModelFactory(
-            signInRepository
-        )
-    }
+    private val viewModel: SignUpViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        signInRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
         binding = AccountSignup4FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())

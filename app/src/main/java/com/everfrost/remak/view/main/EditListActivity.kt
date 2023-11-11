@@ -13,14 +13,13 @@ import com.everfrost.remak.adapter.EditListRVAdapter
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.EditListPageActivityBinding
 import com.everfrost.remak.view.collection.EditCollectionBottomSheetDialog
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class EditListActivity : AppCompatActivity() {
     private lateinit var binding: EditListPageActivityBinding
-    private val viewModel: MainViewModel by viewModels {
-        MainViewModelFactory(
-            tokenRepository
-        )
-    }
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var adapter: EditListRVAdapter
     private var initialLoad = true
     lateinit var tokenRepository: TokenRepository
@@ -28,7 +27,6 @@ class EditListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tokenRepository = TokenRepository((application as com.everfrost.remak.App).dataStore)
         binding = EditListPageActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

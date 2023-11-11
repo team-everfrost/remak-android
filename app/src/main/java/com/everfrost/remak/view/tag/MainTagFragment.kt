@@ -21,10 +21,13 @@ import com.everfrost.remak.adapter.TagRVAdapter
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.MainTagFragmentBinding
 import com.everfrost.remak.view.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
     private lateinit var binding: MainTagFragmentBinding
-    private val viewModel: TagViewModel by activityViewModels { TagViewModelFactory(tokenRepository) }
+    private val viewModel: TagViewModel by activityViewModels()
     private lateinit var tokenRepository: TokenRepository
     private lateinit var adapter: TagRVAdapter
     private var isLiveSearch = false //무한스크롤 구현을 위한 라이브서치 여부
@@ -36,8 +39,7 @@ class MainTagFragment : Fragment(), TagRVAdapter.OnItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        tokenRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
         binding = MainTagFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())

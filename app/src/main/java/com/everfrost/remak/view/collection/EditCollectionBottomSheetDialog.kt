@@ -16,14 +16,13 @@ import com.everfrost.remak.adapter.SearchHistoryItemOffsetDecoration
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.AddCollectionBottomSheetDialogBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
     private lateinit var binding: AddCollectionBottomSheetDialogBinding
-    private val viewModel: CollectionViewModel by viewModels {
-        CollectionViewModelFactory(
-            tokenRepository
-        )
-    }
+    private val viewModel: CollectionViewModel by viewModels()
     private lateinit var adapter: AddCollectionRVAdapter
     lateinit var tokenRepository: TokenRepository
     private var isEmpty: Boolean? = null
@@ -35,8 +34,7 @@ class EditCollectionBottomSheetDialog : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        tokenRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
         binding = AddCollectionBottomSheetDialogBinding.inflate(inflater, container, false)
         viewModel.getCollectionList()
         return binding.root

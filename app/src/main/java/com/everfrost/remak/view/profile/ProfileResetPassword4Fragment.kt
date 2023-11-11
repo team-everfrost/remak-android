@@ -18,16 +18,13 @@ import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.ProfileResetPassword4FragmentBinding
 import com.everfrost.remak.view.account.AccountActivity
 import com.everfrost.remak.view.account.signIn.SignInViewModel
-import com.everfrost.remak.view.account.signIn.SignInViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ProfileResetPassword4Fragment : Fragment() {
     private lateinit var binding: ProfileResetPassword4FragmentBinding
-    private val viewModel: SignInViewModel by activityViewModels {
-        SignInViewModelFactory(
-            tokenRepository
-        )
-    }
+    private val viewModel: SignInViewModel by activityViewModels()
     lateinit var tokenRepository: TokenRepository
 
     override fun onCreateView(
@@ -35,8 +32,7 @@ class ProfileResetPassword4Fragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        tokenRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
         binding = ProfileResetPassword4FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             com.everfrost.remak.UtilitySystem.hideKeyboard(requireActivity())

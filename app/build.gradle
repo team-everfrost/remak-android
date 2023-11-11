@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'io.sentry.android.gradle' version '3.12.0'
     id("com.google.gms.google-services")
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -30,11 +31,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules.pro'
+            resValue("string", "app_name", "Remak Debug")
+            applicationIdSuffix ".debug"
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules.pro'
+            resValue("string", "app_name", "Remak")
         }
     }
     compileOptions {
@@ -146,7 +150,14 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp-sse:4.11.0")
 
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt "com.google.dagger:hilt-android-compiler:2.44"
 
+
+}
+
+kapt {
+    correctErrorTypes true
 }
 
 sentry {

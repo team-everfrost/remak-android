@@ -15,23 +15,19 @@ import com.everfrost.remak.R
 import com.everfrost.remak.UtilitySystem
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.AccountSignup2FragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AccountSignUp2Fragment : Fragment() {
     private lateinit var binding: AccountSignup2FragmentBinding
-    private val viewModel: SignUpViewModel by activityViewModels {
-        SignUpViewModelFactory(
-            signInRepository
-        )
-    }
-
+    private val viewModel: SignUpViewModel by activityViewModels()
     private lateinit var signInRepository: TokenRepository
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        signInRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
 
         binding = AccountSignup2FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {

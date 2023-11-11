@@ -16,14 +16,15 @@ import com.everfrost.remak.R
 import com.everfrost.remak.UtilityDialog
 import com.everfrost.remak.UtilityLogin
 import com.everfrost.remak.UtilitySystem
-import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.AccountEmailSignin1FragmentBinding
 import com.everfrost.remak.view.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class AccountEmailSignInFragment : Fragment() {
     private lateinit var binding: AccountEmailSignin1FragmentBinding
-    private val viewModel: SignInViewModel by viewModels { SignInViewModelFactory(signInRepository) }
-    lateinit var signInRepository: TokenRepository
+    private val viewModel: SignInViewModel by viewModels()
     private var isWritingEmail = true
     private var isWrongPassword = false
 
@@ -32,8 +33,7 @@ class AccountEmailSignInFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        signInRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
         binding = AccountEmailSignin1FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())
@@ -90,7 +90,6 @@ class AccountEmailSignInFragment : Fragment() {
                 binding.pwEditText.requestFocus()
                 UtilitySystem.showKeyboard(requireActivity())
             } else if (it == false) {
-//                findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountSignUpAgreeFragment)
                 findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountSignUpAgreeFragment)
                 viewModel.resetIsEmailValid()
             }

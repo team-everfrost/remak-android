@@ -10,16 +10,18 @@ import com.everfrost.remak.view.collection.MainCollectionFragment
 import com.everfrost.remak.view.profile.MainProfileFragment
 import com.everfrost.remak.view.search.MainSearchFragment
 import com.everfrost.remak.view.tag.MainTagFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : com.everfrost.remak.BaseActivity() {
-    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(tokenRepository) }
+    private val viewModel: MainViewModel by viewModels()
     lateinit var tokenRepository: TokenRepository
     private var _binding: MainActivityBinding? = null
     val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tokenRepository = TokenRepository((application as com.everfrost.remak.App).dataStore)
         _binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel.loginCheck()

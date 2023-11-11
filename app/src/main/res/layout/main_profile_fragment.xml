@@ -181,10 +181,59 @@
                 android:layout_height="1dp"
                 android:background="#E6E8EB" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="88dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/profile_plan_radius_whitegray"
+                android:backgroundTint="#1F8CE6">
 
+                <androidx.constraintlayout.utils.widget.ImageFilterView
+                    android:id="@+id/remakLogo"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/icon_remak"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Remak을 웹, 확장프로그램에서도!"
+                    android:textColor="@color/white"
+                    android:textFontWeight="700"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@id/remakLogo"
+                    app:layout_constraintTop_toTopOf="@id/remakLogo" />
+
+                <TextView
+                    android:id="@+id/remak.ioText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="remak.io"
+                    android:textColor="@color/white"
+                    android:textFontWeight="700"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/remakLogo"
+                    app:layout_constraintStart_toEndOf="@id/remakLogo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text=" 에서 이용해보세요."
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/remakLogo"
+                    app:layout_constraintStart_toEndOf="@id/remak.ioText" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-
     </ScrollView>
 
 

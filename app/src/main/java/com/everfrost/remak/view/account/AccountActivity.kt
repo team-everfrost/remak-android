@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import com.everfrost.remak.R
 import com.everfrost.remak.databinding.AccountActivityBinding
 import com.kakao.sdk.common.util.Utility
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AccountActivity : AppCompatActivity() {
     private lateinit var binding: AccountActivityBinding
     private lateinit var navController: NavController

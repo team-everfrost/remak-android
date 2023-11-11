@@ -14,10 +14,12 @@ import com.everfrost.remak.R
 import com.everfrost.remak.UtilityDialog
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.LoadingUploadFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddLoadingFragment : Fragment() {
     private lateinit var binding: LoadingUploadFragmentBinding
-    private val viewModel: AddViewModel by activityViewModels { AddViewModelFactory(tokenRepository) }
+    private val viewModel: AddViewModel by activityViewModels()
     lateinit var tokenRepository: TokenRepository
 
     override fun onCreateView(
@@ -25,8 +27,7 @@ class AddLoadingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        tokenRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
         binding = LoadingUploadFragmentBinding.inflate(inflater, container, false)
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             requireActivity().finish()

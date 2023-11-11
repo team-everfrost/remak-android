@@ -3,17 +3,18 @@ package com.everfrost.remak.view.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.network.model.UserData
 import com.everfrost.remak.repository.NetworkRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.math.BigInteger
+import javax.inject.Inject
 import kotlin.math.round
 
-class ProfileViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
-    private val networkRepository = NetworkRepository()
+@HiltViewModel
+class ProfileViewModel @Inject constructor(private val networkRepository: NetworkRepository) :
+    ViewModel() {
     private val _userData = MutableLiveData<UserData.Data>()
     val userData: LiveData<UserData.Data> = _userData
     private val _storageSize = MutableLiveData<BigInteger>()
@@ -61,13 +62,3 @@ class ProfileViewModel(private val tokenRepository: TokenRepository) : ViewModel
 
 }
 
-class ProfileViewModelFactory(private val tokenRepository: TokenRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return ProfileViewModel(tokenRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

@@ -20,15 +20,17 @@ import com.everfrost.remak.view.tag.TagDetailActivity
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 
+@AndroidEntryPoint
 class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickListener {
 
     private lateinit var extension: String
     private lateinit var binding: DetailPageFileActivityBinding
-    private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
+    private val viewModel: DetailViewModel by viewModels()
     private lateinit var tokenRepository: TokenRepository
     private lateinit var fileName: String
     private var url: String? = null
@@ -38,7 +40,6 @@ class FileDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         inputFormat.timeZone = TimeZone.getTimeZone("UTC")
         val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-        tokenRepository = TokenRepository((this.application as com.everfrost.remak.App).dataStore)
         binding = DetailPageFileActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val fileId = intent.getStringExtra("docId")
