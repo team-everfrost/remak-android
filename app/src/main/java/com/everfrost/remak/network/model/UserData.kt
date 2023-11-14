@@ -1,5 +1,7 @@
 package com.everfrost.remak.network.model
 
+import java.math.BigInteger
+
 class UserData {
     data class Response(
         val message: String,
@@ -15,6 +17,6 @@ class UserData {
 
     data class StorageData(
         val message: String,
-        val data: Int
+        val data: BigInteger
     )
 }

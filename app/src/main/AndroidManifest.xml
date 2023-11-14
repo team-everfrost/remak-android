@@ -4,8 +4,6 @@
     package="com.everfrost.remak">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"
         tools:node="remove" />
@@ -56,7 +54,7 @@
         <activity
             android:name=".view.main.MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize">
 
         </activity>
 
@@ -96,7 +94,8 @@
 
         <activity
             android:name=".view.detail.MemoDetailActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
 
@@ -141,6 +140,10 @@
             android:name=".view.detail.ImageViewerActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".view.search.ChatBotActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
 
     </application>
 

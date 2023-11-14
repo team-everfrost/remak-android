@@ -33,12 +33,12 @@ class SplashActivity : AppCompatActivity() {
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                 && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
             ) {
-                appUpdateManager.startUpdateFlowForResult(
-                    appUpdateInfo,
-                    AppUpdateType.IMMEDIATE,
-                    this,
-                    1
-                )
+//                appUpdateManager.startUpdateFlowForResult(
+//                    appUpdateInfo,
+//                    AppUpdateType.IMMEDIATE,
+//                    this,
+//                    1
+//                )
                 // Request the update.
             }
         }

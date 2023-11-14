@@ -81,7 +81,7 @@ class AccountSignUp1Fragment : Fragment() {
 
 
         binding.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountMainFragment)
+            findNavController().navigate(R.id.action_accountSignUp1Fragment2_to_accountSignUpAgreeFragment)
         }
         binding.nextBtn.setOnClickListener {
             viewModel.getVerifyCode(binding.emailEditText.text.toString())

@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".view.main.MainHomeFragment">
+    android:background="#F4F6F8">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topLinear"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="54dp"
         android:background="@color/white"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,6 +25,7 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/custom_ripple_effect"
             android:backgroundTint="@color/white"
+            android:clickable="false"
             android:src="@drawable/baseline_arrow_back_ios_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="태그"
+            android:text="Genine"
             android:textFontWeight="500"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -57,13 +56,58 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/tagDetailRV"
-        android:layout_width="match_parent"
+        android:id="@+id/chatRv"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="27dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/bottomLinear"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topLinear" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomLinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:minHeight="67dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/userInput"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="12dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/edit_text_round"
+            android:hint="궁금하신 내용을 입력해주세요"
+            android:paddingStart="16dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/searchBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/searchBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/chat_bot_search_unavailable_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

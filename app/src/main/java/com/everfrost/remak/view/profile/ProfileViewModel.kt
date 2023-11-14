@@ -9,14 +9,15 @@ import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.network.model.UserData
 import com.everfrost.remak.repository.NetworkRepository
 import kotlinx.coroutines.launch
+import java.math.BigInteger
 import kotlin.math.round
 
 class ProfileViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     private val networkRepository = NetworkRepository()
     private val _userData = MutableLiveData<UserData.Data>()
     val userData: LiveData<UserData.Data> = _userData
-    private val _storageSize = MutableLiveData<Int>()
-    val storageSize: LiveData<Int> = _storageSize
+    private val _storageSize = MutableLiveData<BigInteger>()
+    val storageSize: LiveData<BigInteger> = _storageSize
     private val _usageSize = MutableLiveData<Double>()
     val usageSize: LiveData<Double> = _usageSize
     private val _usagePercent = MutableLiveData<Int>()
@@ -33,13 +34,15 @@ class ProfileViewModel(private val tokenRepository: TokenRepository) : ViewModel
         val response = networkRepository.getStorageSize()
         if (response.isSuccessful) {
             val storageBytesSize = response.body()?.data
-            val gbSize = storageBytesSize?.div(1024)?.div(1024)?.div(1024)
+            val gbSize = storageBytesSize?.divide(BigInteger.valueOf(1024))
+                ?.divide(BigInteger.valueOf(1024))
+                ?.divide(BigInteger.valueOf(1024))
             _storageSize.value = gbSize!!
             getUsageSize(storageBytesSize)
         }
     }
 
-    private fun getUsageSize(storageBytesSize: Int) = viewModelScope.launch {
+    private fun getUsageSize(storageBytesSize: BigInteger) = viewModelScope.launch {
         val response = networkRepository.getStorageUsage()
         if (response.isSuccessful) {
             val usageByte = response.body()?.data

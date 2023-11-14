@@ -79,9 +79,10 @@ class EditListActivity : AppCompatActivity() {
         }
 
         binding.deleteBtn.setOnClickListener {
+
             val selectedItemCount = viewModel.selectedItemsCount.value
             val selectedItems = adapter.getSelectedItems()
-            if (selectedItemCount != 0) {
+            if (selectedItems.isNotEmpty()) {
                 UtilityDialog.showWarnDialog(this, "${selectedItemCount}개의 정보를 삭제하시겠어요?",
                     "삭제시 복구가 불가능해요",
                     "삭제하기",

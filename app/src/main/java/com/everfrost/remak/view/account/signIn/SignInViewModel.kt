@@ -1,6 +1,5 @@
 package com.everfrost.remak.view.account.signIn
 
-import android.app.Activity
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,10 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.model.TokenData
 import com.everfrost.remak.repository.NetworkRepository
-import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.model.ClientError
-import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.launch
 
 class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel() {
@@ -21,8 +16,8 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
     private val networkRepository = NetworkRepository()
     private val _loginResult = MutableLiveData<Boolean>()
     val loginResult: LiveData<Boolean> = _loginResult
-    private val _isEmailValid = MutableLiveData<Boolean>()
-    val isEmailValid: LiveData<Boolean> = _isEmailValid
+    private val _isEmailValid = MutableLiveData<Boolean?>()
+    val isEmailValid: LiveData<Boolean?> = _isEmailValid
     private val _isNetworkError = MutableLiveData<Boolean>()
     val isNetworkError: LiveData<Boolean> = _isNetworkError
 
@@ -41,19 +36,28 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
     private val _isResetPasswordSuccess = MutableLiveData<Boolean>()
     val isResetPasswordSuccess: LiveData<Boolean> = _isResetPasswordSuccess
 
+    private val _isWithdrawCodeValid = MutableLiveData<Boolean?>(null)
+    val isWithdrawCodeValid: LiveData<Boolean?> = _isWithdrawCodeValid
+
+    private val _isWithdrawSuccess = MutableLiveData<Boolean>()
+    val isWithdrawSuccess: LiveData<Boolean> = _isWithdrawSuccess
+
     fun networkErrorHandled() {
         _isNetworkError.value = false
     }
 
     fun checkEmail(email: String) = viewModelScope.launch {
+        Log.d("이메일 중복 확인", email)
         try {
             val response = networkRepository.checkEmail(email)
             if (response.isSuccessful) {
+                Log.d("이메일 중복 확인", "성공")
             } else {
+                Log.d("이메일 중복 확인", "실패")
             }
             _isEmailValid.value = response.isSuccessful
         } catch (e: Exception) {
-            _isNetworkError.value = true
+            Log.d("이메일 중복 확인", e.toString())
         }
     }
 
@@ -93,42 +97,6 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
     }
 
 
-    fun kakaoLogin(context: Activity) {
-        // 카카오계정으로 로그인 공통 callback 구성
-        // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
-        val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-            if (error != null) {
-                Log.e("kakao", "카카오계정으로 로그인 실패", error)
-            } else if (token != null) {
-                Log.i("kakao", "카카오계정으로 로그인 성공 ${token.accessToken}")
-            }
-        }
-
-        // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-            UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
-                if (error != null) {
-                    Log.e("kakao", "카카오톡으로 로그인 실패", error)
-
-                    // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
-                    // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
-                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                        return@loginWithKakaoTalk
-                    }
-
-                    // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
-                    UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
-                } else if (token != null) {
-                    Log.i("kakao", "카카오톡으로 로그인 성공 ${token.accessToken}")
-                }
-            }
-        } else {
-            UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
-            Log.d("kakao", "설치X")
-        }
-
-    }
-
     fun checkVerifyResetCode(code: String) = viewModelScope.launch {
         try {
             Log.d("코드", code)
@@ -155,12 +123,46 @@ class SignInViewModel(private val signInRepository: TokenRepository) : ViewModel
         }
     }
 
+    fun getWithdrawVerifyCode() = viewModelScope.launch {
+        try {
+            val response = networkRepository.withdrawCode()
+        } catch (e: Exception) {
+            _isNetworkError.value = true
+        }
+    }
+
+    fun verifyWithdrawCode(code: String) = viewModelScope.launch {
+        try {
+            val response = networkRepository.verifyWithdrawCode(code)
+            _isWithdrawCodeValid.value = response.isSuccessful
+        } catch (e: Exception) {
+            _isNetworkError.value = true
+        }
+    }
+
+    fun withdraw() = viewModelScope.launch {
+        try {
+            val response = networkRepository.withdraw()
+            _isWithdrawSuccess.value = response.isSuccessful
+        } catch (e: Exception) {
+            _isNetworkError.value = true
+        }
+    }
+
     fun resetEmailValid() {
         _isResetEmailValid.value = false
     }
 
+    fun resetIsEmailValid() {
+        _isEmailValid.value = null
+    }
+
     fun resetVerifyCodeResult() {
         _isVerifyCodeValid.value = null
+    }
+
+    fun resetWithdrawCodeResult() {
+        _isWithdrawCodeValid.value = null
     }
 
     fun setUserNewPassword(password: String) {

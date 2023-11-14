@@ -209,6 +209,11 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
             }
         })
 
+        binding.chatBotBtn.setOnClickListener {
+            val intent = Intent(requireContext(), ChatBotActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     //히스토리 버튼 클릭 시

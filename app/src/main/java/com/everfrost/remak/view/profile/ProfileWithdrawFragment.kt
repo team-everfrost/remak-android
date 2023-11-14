@@ -1,5 +1,6 @@
 package com.everfrost.remak.view.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,21 +8,27 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.everfrost.remak.R
+import com.everfrost.remak.UtilityDialog
 import com.everfrost.remak.UtilitySystem
 import com.everfrost.remak.dataStore.TokenRepository
-import com.everfrost.remak.databinding.ProfileResetPassword2FragmentBinding
+import com.everfrost.remak.databinding.AccountWithdraw1FragmentBinding
 import com.everfrost.remak.view.account.signIn.SignInViewModel
 import com.everfrost.remak.view.account.signIn.SignInViewModelFactory
+import com.everfrost.remak.view.main.MainViewModel
+import com.everfrost.remak.view.main.MainViewModelFactory
 
-class ProfileResetPassword2Fragment : Fragment() {
-
-    private lateinit var binding: ProfileResetPassword2FragmentBinding
+class ProfileWithdrawFragment : Fragment() {
+    private lateinit var binding: AccountWithdraw1FragmentBinding
     private val viewModel: SignInViewModel by activityViewModels {
         SignInViewModelFactory(
+            tokenRepository
+        )
+    }
+    private val mainViewModel: MainViewModel by activityViewModels {
+        MainViewModelFactory(
             tokenRepository
         )
     }
@@ -34,15 +41,22 @@ class ProfileResetPassword2Fragment : Fragment() {
     ): View {
         tokenRepository =
             TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
-        binding = ProfileResetPassword2FragmentBinding.inflate(inflater, container, false)
+        binding = AccountWithdraw1FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())
         }
+        viewModel.getWithdrawVerifyCode()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        mainViewModel.userData.observe(viewLifecycleOwner) {
+            binding.emailVerifyCodeText.text = getString(R.string.verification_text, it.email)
+        }
+
         val verifyEditTexts = arrayOf(
             binding.verifyCodeEditText1,
             binding.verifyCodeEditText2,
@@ -51,8 +65,6 @@ class ProfileResetPassword2Fragment : Fragment() {
             binding.verifyCodeEditText5,
             binding.verifyCodeEditText6
         )
-        binding.emailVerifyCodeText.text =
-            getString(R.string.verification_text, viewModel.userEmail.value)
 
         binding.verifyCodeEditText1.requestFocus()
         UtilitySystem.showKeyboard(requireActivity())
@@ -76,7 +88,6 @@ class ProfileResetPassword2Fragment : Fragment() {
                 }
             }
         }
-
         for (i in verifyEditTexts.indices) {
             verifyEditTexts[i].addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
@@ -106,7 +117,7 @@ class ProfileResetPassword2Fragment : Fragment() {
                 override fun afterTextChanged(s: Editable?) {
                     if (verifyEditTexts.all { it.text.length == 1 }) {
                         val verifyCode = verifyEditTexts.joinToString("") { it.text.toString() }
-                        viewModel.checkVerifyResetCode(verifyCode)
+                        viewModel.verifyWithdrawCode(verifyCode)
                     }
                 }
             })
@@ -130,38 +141,44 @@ class ProfileResetPassword2Fragment : Fragment() {
                 return@setOnKeyListener false
             }
         }
-        //이메일 인증 성공 시 다음 화면으로 이동
-        viewModel.isVerifyCodeValid.observe(viewLifecycleOwner) { isSuccessful ->
-            if (isSuccessful == true) {
-                viewModel.resetVerifyCodeResult()
-                val transaction = requireActivity().supportFragmentManager.beginTransaction()
-                transaction.setCustomAnimations(
-                    R.anim.from_right,
-                    R.anim.to_left,
-                    R.anim.from_left,
-                    R.anim.to_right
-                )
-                transaction.replace(R.id.mainFragmentContainerView, ProfileResetPassword3Fragment())
-                transaction.addToBackStack(null)
-                transaction.commit()
-                verifyEditTexts.forEach { it.text.clear() }
-            } else if (isSuccessful == false) {
-                //Todo : 에러메시지 출력 및 edittext 색 변경
-                binding.emailVerifyCodeText.text = "인증번호가 일치하지 않습니다\n다시확인해주세요"
-                binding.emailVerifyCodeText.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.red
-                    )
-                )
-                verifyEditTexts.forEach {
-                    it.background = ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.edit_text_verify_code_error
-                    )
-                }
 
+        viewModel.isWithdrawCodeValid.observe(viewLifecycleOwner) {
+            if (it == true) {
+                UtilityDialog.showWarnDialog(
+                    requireContext(),
+                    "정말로 탈퇴하시겠어요?",
+                    "회원탈퇴를 하시면 데이터가 모두 삭제돼요\n" +
+                            "또한, 모든 데이터는 복구가 불가능해요",
+                    confirmBtnText = "네",
+                    cancelBtnText = "아니오",
+                    confirmClick = {
+                        viewModel.withdraw()
+                    },
+                    cancelClick = {}
+                )
             }
         }
+
+        viewModel.isWithdrawSuccess.observe(viewLifecycleOwner) {
+            if (it) {
+                UtilityDialog.showInformDialog(
+                    "탈퇴가 완료되었어요",
+                    "그동안 이용해 주셔서 감사했어요",
+                    requireContext(),
+                    confirmClick = {
+                        mainViewModel.deleteToken()
+                        val intent = Intent(
+                            requireContext(),
+                            com.everfrost.remak.view.account.AccountActivity::class.java
+                        )
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        requireActivity().finish()
+                        startActivity(intent)
+                    }
+                )
+            }
+        }
+
+
     }
 }

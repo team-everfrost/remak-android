@@ -13,13 +13,13 @@ import com.everfrost.remak.R
 import com.everfrost.remak.UtilityLogin
 import com.everfrost.remak.UtilitySystem
 import com.everfrost.remak.dataStore.TokenRepository
-import com.everfrost.remak.databinding.AccountResetPassword3FragmentBinding
+import com.everfrost.remak.databinding.ProfileResetPassword3FragmentBinding
 import com.everfrost.remak.view.account.signIn.SignInViewModel
 import com.everfrost.remak.view.account.signIn.SignInViewModelFactory
 
 class ProfileResetPassword3Fragment : Fragment() {
 
-    private lateinit var binding: AccountResetPassword3FragmentBinding
+    private lateinit var binding: ProfileResetPassword3FragmentBinding
     private val viewModel: SignInViewModel by activityViewModels {
         SignInViewModelFactory(
             tokenRepository
@@ -34,7 +34,7 @@ class ProfileResetPassword3Fragment : Fragment() {
     ): View {
         tokenRepository =
             TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
-        binding = AccountResetPassword3FragmentBinding.inflate(inflater, container, false)
+        binding = ProfileResetPassword3FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())
         }

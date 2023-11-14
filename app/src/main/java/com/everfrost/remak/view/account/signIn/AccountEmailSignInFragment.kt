@@ -19,7 +19,6 @@ import com.everfrost.remak.UtilitySystem
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.AccountEmailSignin1FragmentBinding
 import com.everfrost.remak.view.main.MainActivity
-import com.everfrost.remak.view.profile.ProfileEditFragment
 
 class AccountEmailSignInFragment : Fragment() {
     private lateinit var binding: AccountEmailSignin1FragmentBinding
@@ -70,7 +69,7 @@ class AccountEmailSignInFragment : Fragment() {
         }
 
         viewModel.isEmailValid.observe(viewLifecycleOwner) {
-            if (it) {
+            if (it == true) {
                 binding.emailErrorMessage.visibility = View.INVISIBLE
                 binding.pwEditText.visibility = View.VISIBLE
 
@@ -90,8 +89,10 @@ class AccountEmailSignInFragment : Fragment() {
                 binding.emailEditText.isEnabled = false
                 binding.pwEditText.requestFocus()
                 UtilitySystem.showKeyboard(requireActivity())
-            } else {
-                binding.emailErrorMessage.visibility = View.VISIBLE
+            } else if (it == false) {
+//                findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountSignUpAgreeFragment)
+                findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountSignUpAgreeFragment)
+                viewModel.resetIsEmailValid()
             }
         }
 
@@ -206,20 +207,10 @@ class AccountEmailSignInFragment : Fragment() {
 
         binding.signUpBtn.setOnClickListener {
             if (isWrongPassword) {
-                val transaction = requireActivity().supportFragmentManager.beginTransaction()
-                transaction.setCustomAnimations(
-                    R.anim.from_right,
-                    R.anim.to_left,
-                    R.anim.from_left,
-                    R.anim.to_right
-                )
-                transaction.replace(R.id.mainFragmentContainerView, ProfileEditFragment())
-                transaction.addToBackStack(null)
-                transaction.commit()
                 findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountResetPassword1Fragment)
 
             } else {
-                findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountSignUp1Fragment2)
+                findNavController().navigate(R.id.action_accountEmailSignInFragment_to_accountSignUpAgreeFragment)
             }
         }
 

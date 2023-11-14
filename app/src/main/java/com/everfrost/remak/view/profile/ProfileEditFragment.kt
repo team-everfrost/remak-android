@@ -12,6 +12,8 @@ import com.everfrost.remak.UtilityDialog
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.EditProfileFragmentBinding
 import com.everfrost.remak.view.account.AccountActivity
+import com.everfrost.remak.view.account.signIn.SignInViewModel
+import com.everfrost.remak.view.account.signIn.SignInViewModelFactory
 import com.everfrost.remak.view.main.MainViewModel
 import com.everfrost.remak.view.main.MainViewModelFactory
 
@@ -19,6 +21,11 @@ class ProfileEditFragment : Fragment() {
     private lateinit var binding: EditProfileFragmentBinding
     private val viewModel: MainViewModel by activityViewModels {
         MainViewModelFactory(
+            tokenRepository
+        )
+    }
+    private val signInViewModel: SignInViewModel by activityViewModels {
+        SignInViewModelFactory(
             tokenRepository
         )
     }
@@ -43,6 +50,24 @@ class ProfileEditFragment : Fragment() {
             binding.emailText.text = it.email
         }
 
+        signInViewModel.isResetEmailValid.observe(viewLifecycleOwner) {
+            if (it) {
+                signInViewModel.resetEmailValid()
+                val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                transaction.setCustomAnimations(
+                    R.anim.from_right,
+                    R.anim.to_left,
+                    R.anim.from_left,
+                    R.anim.to_right
+                )
+                transaction.replace(R.id.mainFragmentContainerView, ProfileResetPassword2Fragment())
+                transaction.addToBackStack(null)
+                transaction.commit()
+
+
+            }
+        }
+
         binding.logoutButton.setOnClickListener {
             UtilityDialog.showWarnDialog(
                 requireContext(), "로그아웃",
@@ -64,6 +89,11 @@ class ProfileEditFragment : Fragment() {
         }
 
         binding.passwordLayout.setOnClickListener {
+            signInViewModel.getResetPasswordCode(binding.emailText.text.toString())
+
+        }
+
+        binding.withdrawalBtn.setOnClickListener {
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(
                 R.anim.from_right,
@@ -71,7 +101,7 @@ class ProfileEditFragment : Fragment() {
                 R.anim.from_left,
                 R.anim.to_right
             )
-            transaction.replace(R.id.mainFragmentContainerView, ProfileResetPassword1Fragment())
+            transaction.replace(R.id.mainFragmentContainerView, ProfileWithdrawFragment())
             transaction.addToBackStack(null)
             transaction.commit()
         }
