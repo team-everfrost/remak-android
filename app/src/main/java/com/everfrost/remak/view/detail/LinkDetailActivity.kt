@@ -67,6 +67,7 @@ class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickList
 
         //상세 데이터에 변경사항이 있을시
         viewModel.detailData.observe(this) {
+            Log.d("test", "status: ${it.status}")
             updateUI(it)
             adapter.tags = it.tags
             adapter.notifyDataSetChanged() //태그 변경사항 적용

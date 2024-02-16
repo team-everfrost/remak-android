@@ -40,13 +40,10 @@ class ImageViewerActivity : AppCompatActivity() {
             if (rotation != 0) {
                 val bitmap = getBitmapFromUri(this.contentResolver, it)
                 val rotatedBitmap = rotateBitmap(bitmap)
-                Log.d("rotation", "rotation: $rotation")
                 binding.imageFilterView.setImage(ImageSource.bitmap(rotatedBitmap))
             } else {
                 binding.imageFilterView.setImage(ImageSource.uri(it))
             }
-
-            Log.d("test", "rotation: $rotation")
 
         }
         lifecycleScope.launch {

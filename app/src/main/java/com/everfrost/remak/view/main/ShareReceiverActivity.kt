@@ -6,7 +6,6 @@ import android.os.Build
 import android.os.Build.VERSION
 import android.os.Bundle
 import android.provider.OpenableColumns
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -60,7 +59,6 @@ class ShareReceiverActivity : AppCompatActivity() {
         }
 
         if (Intent.ACTION_SEND == intent.action && intent.type != null) { // 공유하기로 들어온 경우
-            Log.d("intentType", intent.type.toString())
             if ("text/plain" == intent.type) {
                 val urlRegex = """^(http[s]?://)?[^\s[("<,>]]*\.[^\s[",><]]+$""".toRegex()
                 val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
@@ -79,7 +77,6 @@ class ShareReceiverActivity : AppCompatActivity() {
                 }
 
             } else if (intent.type?.startsWith("image/") == true) {
-                Log.d("image", "image")
                 val imageUri: Uri?
                 if (VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     imageUri = intent.getParcelableExtra(
@@ -111,10 +108,6 @@ class ShareReceiverActivity : AppCompatActivity() {
     private fun inputStreamToFile(inputStream: InputStream, uri: Uri): File {
         val fileName = getFileNameFromUri(uri)
         val file = File(cacheDir, fileName!!)
-//        file.outputStream().use { fileOutputStream ->
-//            val bytesCopied = inputStream.copyTo(fileOutputStream)
-//            Log.d("bytesCopied", bytesCopied.toString())
-//        }
         inputStream.use { input ->
             Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING)
         }

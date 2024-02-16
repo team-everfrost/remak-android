@@ -52,7 +52,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())
         }
-        //코루틴 으로 로그출력
 
         return binding.root
     }
