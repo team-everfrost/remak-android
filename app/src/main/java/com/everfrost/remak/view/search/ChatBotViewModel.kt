@@ -68,7 +68,7 @@ class ChatBotViewModel @Inject constructor(
 
     fun startChat(query: String) {
         _isBotTyping.value = true
-        val url = "https://api-dev.remak.io/chat/rag"
+        val url = "https://api.remak.io/chat/rag"
 
         val json = "application/json; charset=utf-8".toMediaTypeOrNull()
         val requestBody = "{\"query\":\"$query\"}".toRequestBody(json)
@@ -95,8 +95,6 @@ class ChatBotViewModel @Inject constructor(
                 type: String?,
                 data: String
             ) {
-                Log.d("ChatBotViewModel", "onEventData: $data")
-                Log.d("ChatBotViewModel", "onEventType: $type")
 
                 if (type == "chat") {
                     val jsonObject = JSONObject(data)

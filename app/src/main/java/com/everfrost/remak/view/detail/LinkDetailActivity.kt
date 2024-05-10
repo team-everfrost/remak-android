@@ -41,6 +41,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 @AndroidEntryPoint
+
 class LinkDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickListener {
     private lateinit var binding: DetailPageLinkActivityBinding
     private val viewModel: DetailViewModel by viewModels()

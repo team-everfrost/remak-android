@@ -27,7 +27,7 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://api-dev.remak.io/")
+            .baseUrl("https://api.remak.io/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

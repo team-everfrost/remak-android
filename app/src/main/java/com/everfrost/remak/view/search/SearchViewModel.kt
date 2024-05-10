@@ -1,5 +1,6 @@
 package com.everfrost.remak.view.search
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,9 +32,11 @@ class SearchViewModel @Inject constructor(
     private var offset = 0
 
     fun getEmbeddingSearchResult(query: String) = viewModelScope.launch {
+        Log.d("SearchViewModel", "getEmbeddingSearchResult: $query")
         lastQuery = query
         val response = networkRepository.getEmbeddingData(query)
         try {
+            Log.d("SearchViewModel", "getEmbeddingSearchResult: $response")
             if (response.isSuccessful) {
                 _searchResult.value = response.body()!!.data
             } else {
