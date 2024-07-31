@@ -1,18 +1,20 @@
 package com.everfrost.remak.view
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.view.account.AccountActivity
 import com.everfrost.remak.view.main.MainActivity
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,16 +33,23 @@ class SplashActivity : AppCompatActivity() {
         //강제 업데이트 코드
         val appUpdateManager = AppUpdateManagerFactory.create(this)
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        // activityResultLauncher 초기화
+        val activityResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+                if (result.resultCode != Activity.RESULT_OK) {
+                    // 업데이트 실패 시 처리 코드 작성
+
+                }
+            }
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                 && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
             ) {
-//                appUpdateManager.startUpdateFlowForResult(
-//                    appUpdateInfo,
-//                    AppUpdateType.IMMEDIATE,
-//                    this,
-//                    1
-//                )
+                appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    activityResultLauncher,
+                    AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
+                )
                 // Request the update.
             }
         }
@@ -66,7 +75,7 @@ class SplashActivity : AppCompatActivity() {
             delay(500)
             //토큰이 있는지 없는지 확인
             withContext(Dispatchers.Main) {
-                viewModel.isToken.observe(this@SplashActivity, Observer { isToken ->
+                viewModel.isToken.observe(this@SplashActivity) { isToken ->
                     if (isToken) {
                         //토큰이 있을 때 메인화면으로
                         val intent = Intent(this@SplashActivity, MainActivity::class.java)
@@ -78,7 +87,7 @@ class SplashActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     }
-                })
+                }
             }
         }
     }

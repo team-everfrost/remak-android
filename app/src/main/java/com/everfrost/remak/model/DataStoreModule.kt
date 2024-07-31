@@ -22,5 +22,4 @@ object DataStoreModule {
             context.preferencesDataStoreFile("user_pref")
         }
     }
-
 }

@@ -19,7 +19,7 @@ open class BaseActivity : AppCompatActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onTokenExpiredEvent(event: TokenExpiredEvent) {
         Log.d("BaseActivity", "onTokenExpiredEvent: ")
-        com.everfrost.remak.UtilityDialog.showInformDialog(
+        UtilityDialog.showInformDialog(
             "로그인 정보가 만료되었습니다",
             "다시 로그인해주세요",
             this,
@@ -29,7 +29,6 @@ open class BaseActivity : AppCompatActivity() {
                 finish()
             }
         )
-
     }
 
     override fun onPause() {

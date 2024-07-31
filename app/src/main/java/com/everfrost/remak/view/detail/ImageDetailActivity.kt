@@ -1,7 +1,5 @@
 package com.everfrost.remak.view.detail
 
-import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -63,7 +61,6 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
         viewModel.detailData.observe(this) {
             url = it.url
             fileId = it.docId!!
-            Log.d("url", it.toString())
             var summary = it.summary
             //summary의 첫 한줄은 제거
             if (summary != null) {
@@ -193,13 +190,5 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
         val intent = Intent(this, TagDetailActivity::class.java)
         intent.putExtra("tagName", viewModel.detailData.value!!.tags[position])
         startActivity(intent)
-    }
-}
-
-class CustomDialog(context: Context) : Dialog(context) {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.custom_dialog_collection_long_click)
-
     }
 }

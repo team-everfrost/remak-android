@@ -16,7 +16,6 @@ import com.everfrost.remak.R
 import com.everfrost.remak.UtilityDialog
 import com.everfrost.remak.adapter.CollectionRVAdapter
 import com.everfrost.remak.adapter.SpacingItemDecorator
-import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.MainCollectionFragmentBinding
 import com.everfrost.remak.view.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainCollectionFragment : Fragment(), CollectionRVAdapter.OnItemClickListener {
     private lateinit var binding: MainCollectionFragmentBinding
     private val viewModel: CollectionViewModel by viewModels()
-    private lateinit var tokenRepository: TokenRepository
     private lateinit var adapter: CollectionRVAdapter
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     override fun onCreateView(

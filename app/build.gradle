@@ -9,14 +9,14 @@ plugins {
 
 android {
     namespace 'com.everfrost.remak'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         resValue("string", "version_name", project.VERSION_NAME)
         applicationId "com.everfrost.remak"
         minSdk 28
-        targetSdk 33
-        versionCode 9
+        targetSdk 34
+        versionCode 12
         versionName project.VERSION_NAME
         //viewbinding
         viewBinding {
@@ -127,7 +127,7 @@ dependencies {
     implementation 'io.sentry:sentry-android:6.29.0'
 
     //errorprone
-    implementation 'com.google.errorprone:error_prone_annotations:2.15.0'
+    implementation 'com.google.errorprone:error_prone_annotations:2.18.0'
 
     //amplitude
     implementation 'com.amplitude:analytics-android:1.11.1'
@@ -136,10 +136,10 @@ dependencies {
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
 
     // So, make sure you also include that repository in your project's build.gradle file.
-    implementation 'com.google.android.play:app-update:2.0.1'
+    implementation 'com.google.android.play:app-update:2.1.0'
 
     // For Kotlin users also add the Kotlin extensions library for Play In-App Update:
-    implementation 'com.google.android.play:app-update-ktx:2.0.1'
+    implementation 'com.google.android.play:app-update-ktx:2.1.0'
 
     //eventBus
     implementation "org.greenrobot:eventbus:3.3.1"

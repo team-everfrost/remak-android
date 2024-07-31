@@ -46,7 +46,6 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
         setContentView(binding.root)
         val collectionName = intent.getStringExtra("collectionName")
         val collectionDescription = intent.getStringExtra("collectionDescription")
-        val collectionCount = intent.getIntExtra("collectionCount", 0)
 
         adapter = CollectionListRVAdapter(listOf(), this) { isChecked ->
             if (isChecked) {

@@ -262,12 +262,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         recyclerView.isNestedScrollingEnabled = true
         binding.addBtn.visibility = View.VISIBLE
         binding.moreIcon.visibility = View.VISIBLE
-//        binding.deleteBtn.visibility = View.GONE
-//        binding.deleteBtn.alpha = 1f
-//        binding.deleteBtn.animate().alpha(0f).duration = 300
-//        binding.registerBtn.visibility = View.GONE
-//        binding.registerBtn.alpha = 1f
-//        binding.registerBtn.animate().alpha(0f).duration = 300
         binding.bottomLayout.visibility = View.GONE
         binding.previousBtn.visibility = View.GONE
         binding.swipeRefresh.isEnabled = true
