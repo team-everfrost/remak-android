@@ -76,12 +76,12 @@ interface Api {
     @POST("document/webpage")
     suspend fun createWebPage(@Body body: CreateData.WebPageRequestBody): retrofit2.Response<CreateData.WebPageResponseBody>
 
-    @GET("search/hybrid")
+    @GET("document/search/hybrid")
     suspend fun getEmbeddingData(
         @Query("query") query: String?,
     ): retrofit2.Response<MainListData.Response>
 
-    @GET("search/text")
+    @GET("document/search/text")
     suspend fun getTextSearchData(
         @Query("query") query: String?,
         @Query("limit") limit: Int? = 20,

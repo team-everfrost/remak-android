@@ -3,7 +3,6 @@ package com.everfrost.remak.view.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ import com.everfrost.remak.UtilityDialog
 import com.everfrost.remak.UtilityRV
 import com.everfrost.remak.UtilitySystem
 import com.everfrost.remak.adapter.HomeRVAdapter
-import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.MainHomeFragmentBinding
 import com.everfrost.remak.view.add.AddActivity
 import com.everfrost.remak.view.collection.EditCollectionBottomSheetDialog
@@ -31,20 +29,16 @@ import com.everfrost.remak.view.detail.FileDetailActivity
 import com.everfrost.remak.view.detail.ImageDetailActivity
 import com.everfrost.remak.view.detail.LinkDetailActivity
 import com.everfrost.remak.view.detail.MemoDetailActivity
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
     private var _binding: MainHomeFragmentBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: MainViewModel by activityViewModels {
-        MainViewModelFactory(
-            tokenRepository
-        )
-    }
+    private val viewModel: MainViewModel by activityViewModels()
     private lateinit var adapter: HomeRVAdapter
     private var initialLoad = true
-    lateinit var tokenRepository: TokenRepository
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var recyclerView: RecyclerView
 
@@ -53,17 +47,12 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        tokenRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
         _binding = MainHomeFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())
         }
-        //코루틴 으로 로그출력
-        GlobalScope.launch {
-            Log.d("token", tokenRepository.fetchTokenData().toString())
 
-        }
         return binding.root
     }
 
@@ -273,12 +262,6 @@ class MainHomeFragment : Fragment(), HomeRVAdapter.OnItemClickListener {
         recyclerView.isNestedScrollingEnabled = true
         binding.addBtn.visibility = View.VISIBLE
         binding.moreIcon.visibility = View.VISIBLE
-//        binding.deleteBtn.visibility = View.GONE
-//        binding.deleteBtn.alpha = 1f
-//        binding.deleteBtn.animate().alpha(0f).duration = 300
-//        binding.registerBtn.visibility = View.GONE
-//        binding.registerBtn.alpha = 1f
-//        binding.registerBtn.animate().alpha(0f).duration = 300
         binding.bottomLayout.visibility = View.GONE
         binding.previousBtn.visibility = View.GONE
         binding.swipeRefresh.isEnabled = true

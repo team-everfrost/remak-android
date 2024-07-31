@@ -5,24 +5,29 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.network.model.MainListData
 import com.everfrost.remak.network.model.UserData
 import com.everfrost.remak.repository.NetworkRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.TimeZone
+import javax.inject.Inject
 
-class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
+
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val tokenRepository: TokenRepository,
+    private val networkRepository: NetworkRepository
+) : ViewModel() {
     private var currentDateType: String? = null
     val recyclerState: MutableLiveData<Parcelable> = MutableLiveData()
 
-    private val networkRepository = NetworkRepository()
 
     //메인 리스트
     private val _mainListData = MutableLiveData<List<MainListData.Data>>()
@@ -261,13 +266,3 @@ class MainViewModel(private val tokenRepository: TokenRepository) : ViewModel() 
 
 }
 
-class MainViewModelFactory(private val tokenRepository: TokenRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return MainViewModel(tokenRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

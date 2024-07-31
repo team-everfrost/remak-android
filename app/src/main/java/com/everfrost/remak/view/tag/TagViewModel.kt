@@ -3,16 +3,17 @@ package com.everfrost.remak.view.tag
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.network.model.MainListData
 import com.everfrost.remak.network.model.TagListData
 import com.everfrost.remak.repository.NetworkRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
-    private val networkRepository = NetworkRepository()
+@HiltViewModel
+class TagViewModel @Inject constructor(private val networkRepository: NetworkRepository) :
+    ViewModel() {
     private val _tagList = MutableLiveData<List<TagListData.Data>>()
     val tagList: LiveData<List<TagListData.Data>> = _tagList
     private var offset: Int? = null
@@ -151,13 +152,3 @@ class TagViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
     }
 }
 
-class TagViewModelFactory(private val tokenRepository: TokenRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(TagViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return TagViewModel(tokenRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

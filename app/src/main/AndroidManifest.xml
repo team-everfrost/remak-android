@@ -77,7 +77,8 @@
         <activity
             android:name=".view.account.AccountActivity"
             android:exported="true"
-            android:theme="@style/TransparentStatusBar">
+            android:theme="@style/TransparentStatusBar"
+            android:windowSoftInputMode="adjustResize">
 
 
         </activity>

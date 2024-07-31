@@ -4,15 +4,17 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.repository.NetworkRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import javax.inject.Inject
 
-class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
-    private val networkRepository = NetworkRepository()
+
+@HiltViewModel
+class AddViewModel @Inject constructor(private val networkRepository: NetworkRepository) :
+    ViewModel() {
 
     private val _isMemoComplete = MutableLiveData<Boolean>()
     val isMemoComplete: LiveData<Boolean> = _isMemoComplete
@@ -64,17 +66,6 @@ class AddViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
 
 }
 
-class AddViewModelFactory(private val tokenRepository: TokenRepository) :
-    ViewModelProvider.Factory {
-
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(AddViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return AddViewModel(tokenRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
 
 enum class UploadState {
     LOADING, SUCCESS, FAIL

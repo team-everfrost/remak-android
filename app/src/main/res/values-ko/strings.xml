@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Remak</string>
 
     <string name="emailHint"><font size="14">이메일을 입력해 주세요</font></string>
     <string name="passwordHint"><font size="14">비밀번호를 입력해 주세요</font></string>

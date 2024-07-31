@@ -16,11 +16,14 @@ import com.everfrost.remak.R
 import com.everfrost.remak.UtilityDialog
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.AddFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.InputStream
+
+@AndroidEntryPoint
 
 class AddFragment : Fragment() {
 
@@ -67,7 +70,7 @@ class AddFragment : Fragment() {
             }
         }
 
-    private val viewModel: AddViewModel by activityViewModels { AddViewModelFactory(tokenRepository) }
+    private val viewModel: AddViewModel by activityViewModels()
     private lateinit var binding: AddFragmentBinding
     lateinit var tokenRepository: TokenRepository
 
@@ -76,8 +79,7 @@ class AddFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        tokenRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
         binding = AddFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }

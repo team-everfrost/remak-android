@@ -4,16 +4,21 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.model.TokenData
 import com.everfrost.remak.repository.NetworkRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
 
-    private val networkRepository = NetworkRepository()
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    private val tokenRepository: TokenRepository,
+    private val networkRepository: NetworkRepository
+) : ViewModel() {
+
     private val _userEmail = MutableLiveData<String>()
     val userEmail: LiveData<String> = _userEmail
 
@@ -126,15 +131,4 @@ class SignUpViewModel(private val tokenRepository: TokenRepository) : ViewModel(
         _userPassword.value = password
     }
 
-}
-
-class SignUpViewModelFactory(private val signInRepository: TokenRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(SignUpViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return SignUpViewModel(signInRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
 }

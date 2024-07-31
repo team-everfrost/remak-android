@@ -15,18 +15,19 @@ import androidx.lifecycle.lifecycleScope
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.ImageViewerActivityBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.IOException
 
 
+@AndroidEntryPoint
 class ImageViewerActivity : AppCompatActivity() {
     private lateinit var binding: ImageViewerActivityBinding
-    private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
+    private val viewModel: DetailViewModel by viewModels()
     private lateinit var tokenRepository: TokenRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tokenRepository = TokenRepository((this.application as com.everfrost.remak.App).dataStore)
         binding = ImageViewerActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val imageUrl = intent.getStringExtra("imageUrl")
@@ -39,13 +40,10 @@ class ImageViewerActivity : AppCompatActivity() {
             if (rotation != 0) {
                 val bitmap = getBitmapFromUri(this.contentResolver, it)
                 val rotatedBitmap = rotateBitmap(bitmap)
-                Log.d("rotation", "rotation: $rotation")
                 binding.imageFilterView.setImage(ImageSource.bitmap(rotatedBitmap))
             } else {
                 binding.imageFilterView.setImage(ImageSource.uri(it))
             }
-
-            Log.d("test", "rotation: $rotation")
 
         }
         lifecycleScope.launch {

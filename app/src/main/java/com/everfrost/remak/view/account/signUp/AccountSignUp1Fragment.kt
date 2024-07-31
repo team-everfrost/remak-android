@@ -11,28 +11,22 @@ import com.everfrost.remak.R
 import com.everfrost.remak.UtilityDialog
 import com.everfrost.remak.UtilityLogin
 import com.everfrost.remak.UtilitySystem
-import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.AccountSignup1FragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class AccountSignUp1Fragment : Fragment() {
     private lateinit var binding: AccountSignup1FragmentBinding
 
-    private val viewModel: SignUpViewModel by activityViewModels {
-        SignUpViewModelFactory(
-            signInRepository
-        )
-    }
+    private val viewModel: SignUpViewModel by activityViewModels()
 
-    lateinit var signInRepository: TokenRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        signInRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
         binding = AccountSignup1FragmentBinding.inflate(inflater, container, false)
-
         //상태바 높이만큼 margin적용
         val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
         val statusBarHeight: Int = if (resourceId > 0) {

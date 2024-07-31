@@ -5,20 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.everfrost.remak.R
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.PrivacyPolicyFragmentBinding
-import com.everfrost.remak.view.main.MainViewModel
-import com.everfrost.remak.view.main.MainViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class PrivacyPoliceFragment : Fragment() {
     private lateinit var binding: PrivacyPolicyFragmentBinding
-    private val viewModel: MainViewModel by activityViewModels {
-        MainViewModelFactory(
-            tokenRepository
-        )
-    }
+
     lateinit var tokenRepository: TokenRepository
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,8 +22,6 @@ class PrivacyPoliceFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = PrivacyPolicyFragmentBinding.inflate(inflater, container, false)
-        tokenRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
         return binding.root
     }
 

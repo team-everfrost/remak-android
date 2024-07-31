@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.everfrost.remak.R
@@ -30,11 +29,6 @@ class AccountMainFragment : Fragment() {
     private lateinit var smallIconLayoutManager: LinearLayoutManager
     private lateinit var smallIconAdapter: SmallIconAdapter
 
-    private val viewModel: SignInViewModel by activityViewModels {
-        SignInViewModelFactory(
-            signInRepository
-        )
-    }
     lateinit var signInRepository: TokenRepository
     private val iconData = listOf(
         "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx", "통신문.jpg", "과제.hwp", "잼짤.png", "문서.docx",
@@ -90,8 +84,6 @@ class AccountMainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        signInRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
         binding = AccountMainFragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())

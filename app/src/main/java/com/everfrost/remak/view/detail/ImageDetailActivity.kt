@@ -1,7 +1,5 @@
 package com.everfrost.remak.view.detail
 
-import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -26,13 +24,16 @@ import com.everfrost.remak.view.tag.TagDetailActivity
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 
+
+@AndroidEntryPoint
 class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickListener {
     private lateinit var binding: DetailPageImageActivityBinding
-    private val viewModel: DetailViewModel by viewModels { DetailViewModelFactory(tokenRepository) }
+    private val viewModel: DetailViewModel by viewModels()
     private lateinit var tokenRepository: TokenRepository
     private lateinit var fileName: String
     private var url: String? = null
@@ -43,7 +44,6 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         inputFormat.timeZone = TimeZone.getTimeZone("UTC")
         val outputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-        tokenRepository = TokenRepository((this.application as com.everfrost.remak.App).dataStore)
         binding = DetailPageImageActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val imageId = intent.getStringExtra("docId")
@@ -61,7 +61,6 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
         viewModel.detailData.observe(this) {
             url = it.url
             fileId = it.docId!!
-            Log.d("url", it.toString())
             var summary = it.summary
             //summary의 첫 한줄은 제거
             if (summary != null) {
@@ -191,13 +190,5 @@ class ImageDetailActivity : AppCompatActivity(), LinkTagRVAdapter.OnItemClickLis
         val intent = Intent(this, TagDetailActivity::class.java)
         intent.putExtra("tagName", viewModel.detailData.value!!.tags[position])
         startActivity(intent)
-    }
-}
-
-class CustomDialog(context: Context) : Dialog(context) {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.custom_dialog_collection_long_click)
-
     }
 }

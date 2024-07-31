@@ -13,22 +13,15 @@ import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.EditProfileFragmentBinding
 import com.everfrost.remak.view.account.AccountActivity
 import com.everfrost.remak.view.account.signIn.SignInViewModel
-import com.everfrost.remak.view.account.signIn.SignInViewModelFactory
 import com.everfrost.remak.view.main.MainViewModel
-import com.everfrost.remak.view.main.MainViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class ProfileEditFragment : Fragment() {
     private lateinit var binding: EditProfileFragmentBinding
-    private val viewModel: MainViewModel by activityViewModels {
-        MainViewModelFactory(
-            tokenRepository
-        )
-    }
-    private val signInViewModel: SignInViewModel by activityViewModels {
-        SignInViewModelFactory(
-            tokenRepository
-        )
-    }
+    private val viewModel: MainViewModel by activityViewModels()
+    private val signInViewModel: SignInViewModel by activityViewModels()
     lateinit var tokenRepository: TokenRepository
 
     override fun onCreateView(
@@ -37,8 +30,7 @@ class ProfileEditFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = EditProfileFragmentBinding.inflate(inflater, container, false)
-        tokenRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
         viewModel.getUserData()
         return binding.root
     }

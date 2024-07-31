@@ -4,18 +4,19 @@ plugins {
     id 'kotlin-kapt'
     id 'io.sentry.android.gradle' version '3.12.0'
     id("com.google.gms.google-services")
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
     namespace 'com.everfrost.remak'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         resValue("string", "version_name", project.VERSION_NAME)
         applicationId "com.everfrost.remak"
         minSdk 28
-        targetSdk 33
-        versionCode 7
+        targetSdk 34
+        versionCode 12
         versionName project.VERSION_NAME
         //viewbinding
         viewBinding {
@@ -30,11 +31,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules.pro'
+            resValue("string", "app_name", "Remak Debug")
+            applicationIdSuffix ".debug"
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules.pro'
+            resValue("string", "app_name", "Remak")
         }
     }
     compileOptions {
@@ -123,7 +127,7 @@ dependencies {
     implementation 'io.sentry:sentry-android:6.29.0'
 
     //errorprone
-    implementation 'com.google.errorprone:error_prone_annotations:2.15.0'
+    implementation 'com.google.errorprone:error_prone_annotations:2.18.0'
 
     //amplitude
     implementation 'com.amplitude:analytics-android:1.11.1'
@@ -132,10 +136,10 @@ dependencies {
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
 
     // So, make sure you also include that repository in your project's build.gradle file.
-    implementation 'com.google.android.play:app-update:2.0.1'
+    implementation 'com.google.android.play:app-update:2.1.0'
 
     // For Kotlin users also add the Kotlin extensions library for Play In-App Update:
-    implementation 'com.google.android.play:app-update-ktx:2.0.1'
+    implementation 'com.google.android.play:app-update-ktx:2.1.0'
 
     //eventBus
     implementation "org.greenrobot:eventbus:3.3.1"
@@ -146,7 +150,14 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp-sse:4.11.0")
 
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt "com.google.dagger:hilt-android-compiler:2.44"
 
+
+}
+
+kapt {
+    correctErrorTypes true
 }
 
 sentry {

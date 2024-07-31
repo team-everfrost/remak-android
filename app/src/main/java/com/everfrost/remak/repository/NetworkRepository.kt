@@ -1,7 +1,6 @@
 package com.everfrost.remak.repository
 
 import com.everfrost.remak.network.Api
-import com.everfrost.remak.network.RetrofitInstance
 import com.everfrost.remak.network.model.AddDataInCollectionData
 import com.everfrost.remak.network.model.CollectionListData
 import com.everfrost.remak.network.model.CreateCollectionData
@@ -16,11 +15,9 @@ import com.everfrost.remak.network.model.UpdateData
 import com.everfrost.remak.network.model.UploadFileData
 import okhttp3.MultipartBody
 import retrofit2.Response
+import javax.inject.Inject
 
-class NetworkRepository {
-
-    private val client = RetrofitInstance.getInstance().create(Api::class.java)
-
+class NetworkRepository @Inject constructor(private val client: Api) {
     //로그인
     suspend fun signIn(email: String, password: String): Response<SignInData.ResponseBody> {
         val requestBody = SignInData.RequestBody(email = email, password = password)

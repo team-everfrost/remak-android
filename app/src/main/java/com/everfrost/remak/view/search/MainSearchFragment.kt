@@ -31,15 +31,13 @@ import com.everfrost.remak.view.detail.ImageDetailActivity
 import com.everfrost.remak.view.detail.LinkDetailActivity
 import com.everfrost.remak.view.detail.MemoDetailActivity
 import com.everfrost.remak.view.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
     SearchHistoryRVAdapter.OnItemClickListener {
     private lateinit var binding: MainSearchFragmentBinding
-    private val viewModel: SearchViewModel by viewModels {
-        SearchViewModelFactory(
-            searchHistoryRepository
-        )
-    }
+    private val viewModel: SearchViewModel by viewModels()
     lateinit var tokenRepository: TokenRepository
     private lateinit var adapter: SearchRVAdapter
     private lateinit var historyAdapter: SearchHistoryRVAdapter
@@ -92,12 +90,10 @@ class MainSearchFragment : Fragment(), SearchRVAdapter.OnItemClickListener,
         savedInstanceState: Bundle?
     ): View {
         binding = MainSearchFragmentBinding.inflate(inflater, container, false)
-        tokenRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
         adapter = SearchRVAdapter(mutableListOf(), this)
         historyAdapter = SearchHistoryRVAdapter(mutableListOf(), this)
-        searchHistoryRepository =
-            SearchHistoryRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
 
         //뒤로가기 시 홈 프래그먼트로 이동
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {

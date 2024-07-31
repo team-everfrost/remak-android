@@ -5,13 +5,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
-import okhttp3.OkHttpClient
 import okhttp3.Response
 import org.greenrobot.eventbus.EventBus
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
-class AuthInterceptor(private val tokenRepository: TokenRepository) : Interceptor {
+class AuthInterceptor @Inject constructor(private val tokenRepository: TokenRepository) :
+    Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
 
@@ -38,27 +37,5 @@ class AuthInterceptor(private val tokenRepository: TokenRepository) : Intercepto
 
 }
 
-object RetrofitInstance {
-    private val BASE_URL = "https://api-dev.remak.io/"
-    private val dataStore = com.everfrost.remak.App.context().provideDataStore()
-    private val tokenRepository = TokenRepository(dataStore)
-    private val authInterceptor = AuthInterceptor(tokenRepository)
-
-    private val client = OkHttpClient.Builder()
-        .addInterceptor(authInterceptor)
-        .build()
-
-    private val retrofit = Retrofit
-        .Builder()
-        .baseUrl(BASE_URL)
-        .client(client)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    fun getInstance(): Retrofit {
-        return retrofit
-    }
-
-}
 
 class TokenExpiredEvent

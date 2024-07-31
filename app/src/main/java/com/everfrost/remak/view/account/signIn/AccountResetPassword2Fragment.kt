@@ -13,25 +13,22 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.everfrost.remak.R
 import com.everfrost.remak.UtilitySystem
-import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.databinding.AccountResetPassword2FragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
+
+
+@AndroidEntryPoint
 
 class AccountResetPassword2Fragment : Fragment() {
     private lateinit var binding: AccountResetPassword2FragmentBinding
-    private val viewModel: SignInViewModel by activityViewModels {
-        SignInViewModelFactory(
-            tokenRepository
-        )
-    }
-    lateinit var tokenRepository: TokenRepository
+    private val viewModel: SignInViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        tokenRepository =
-            TokenRepository((requireActivity().application as com.everfrost.remak.App).dataStore)
+
         binding = AccountResetPassword2FragmentBinding.inflate(inflater, container, false)
         binding.root.setOnClickListener {
             UtilitySystem.hideKeyboard(requireActivity())

@@ -28,14 +28,13 @@ import com.everfrost.remak.view.detail.FileDetailActivity
 import com.everfrost.remak.view.detail.ImageDetailActivity
 import com.everfrost.remak.view.detail.LinkDetailActivity
 import com.everfrost.remak.view.detail.MemoDetailActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.OnItemClickListener {
     private lateinit var binding: DetailPageCollectionActivityBinding
-    private val viewModel: CollectionViewModel by viewModels {
-        CollectionViewModelFactory(
-            tokenRepository
-        )
-    }
+    private val viewModel: CollectionViewModel by viewModels()
     lateinit var tokenRepository: TokenRepository
     private lateinit var adapter: CollectionListRVAdapter
     private lateinit var recyclerView: RecyclerView
@@ -43,12 +42,10 @@ class CollectionDetailActivity : AppCompatActivity(), CollectionListRVAdapter.On
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tokenRepository = TokenRepository((this.application as com.everfrost.remak.App).dataStore)
         binding = DetailPageCollectionActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val collectionName = intent.getStringExtra("collectionName")
         val collectionDescription = intent.getStringExtra("collectionDescription")
-        val collectionCount = intent.getIntExtra("collectionCount", 0)
 
         adapter = CollectionListRVAdapter(listOf(), this) { isChecked ->
             if (isChecked) {

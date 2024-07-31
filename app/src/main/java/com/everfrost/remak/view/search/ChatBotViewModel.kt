@@ -1,26 +1,32 @@
 package com.everfrost.remak.view.search
 
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.network.model.ChatData
 import com.everfrost.remak.repository.NetworkRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
 import okhttp3.sse.EventSources
+import org.json.JSONObject
+import javax.inject.Inject
 
 
-class ChatBotViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
-    private val networkRepository = NetworkRepository()
+@HiltViewModel
+class ChatBotViewModel @Inject constructor(
+    private val tokenRepository: TokenRepository,
+    private val networkRepository: NetworkRepository
+) : ViewModel() {
     private lateinit var token: String
 
     private val _chatMessages = MutableLiveData<MutableList<ChatData.ChatMessage>>().apply {
@@ -62,8 +68,11 @@ class ChatBotViewModel(private val tokenRepository: TokenRepository) : ViewModel
 
     fun startChat(query: String) {
         _isBotTyping.value = true
-        val encodedQuery = Uri.encode(query)
-        val url = "https://api-dev.remak.io/chat/rag?query=$encodedQuery"
+        val url = "https://api.remak.io/chat/rag"
+
+        val json = "application/json; charset=utf-8".toMediaTypeOrNull()
+        val requestBody = "{\"query\":\"$query\"}".toRequestBody(json)
+
 
         val userMessage = ChatData.ChatMessage(
             query,
@@ -76,6 +85,7 @@ class ChatBotViewModel(private val tokenRepository: TokenRepository) : ViewModel
         )
         _chatMessages.value?.add(newMessage)
         val request = Request.Builder().url(url)
+            .post(requestBody)
             .addHeader("Authorization", "Bearer $token").build()
         val client = OkHttpClient.Builder().build()
         EventSources.createFactory(client).newEventSource(request, object : EventSourceListener() {
@@ -85,16 +95,26 @@ class ChatBotViewModel(private val tokenRepository: TokenRepository) : ViewModel
                 type: String?,
                 data: String
             ) {
-                currentMessageContent.append(data)
 
-                // 현재 수신 중인 메시지를 업데이트하기 위한 임시 리스트 생성
-                val updatedMessages = _chatMessages.value.orEmpty().toMutableList()
-                val lastMessageIndex = updatedMessages.lastIndex
-                if (lastMessageIndex >= 0) {
-                    // 마지막 메시지의 내용을 업데이트합니다.
-                    updatedMessages[lastMessageIndex] =
-                        ChatData.ChatMessage(currentMessageContent.toString(), ChatData.Role.BOT)
-                    _chatMessages.postValue(updatedMessages) // LiveData 업데이트
+                if (type == "chat") {
+                    val jsonObject = JSONObject(data)
+                    val textMessage = jsonObject.getString("text")
+
+                    currentMessageContent.append(textMessage)
+
+                    // 현재 수신 중인 메시지를 업데이트하기 위한 임시 리스트 생성
+                    val updatedMessages = _chatMessages.value.orEmpty().toMutableList()
+                    val lastMessageIndex = updatedMessages.lastIndex
+                    if (lastMessageIndex >= 0) {
+                        // 마지막 메시지의 내용을 업데이트합니다.
+                        updatedMessages[lastMessageIndex] =
+                            ChatData.ChatMessage(
+                                currentMessageContent.toString(),
+                                ChatData.Role.BOT
+                            )
+                        _chatMessages.postValue(updatedMessages) // LiveData 업데이트
+                    }
+
                 }
 
 
@@ -110,20 +130,12 @@ class ChatBotViewModel(private val tokenRepository: TokenRepository) : ViewModel
             override fun onFailure(eventSource: EventSource, t: Throwable?, response: Response?) {
                 super.onFailure(eventSource, t, response)
                 Log.d("ChatBotViewModel", "onFailure: $t")
-                _isChatTimeout.value = true
+                viewModelScope.launch {
+                    _isChatTimeout.value = true
+                }
             }
 
         })
     }
 }
 
-class ChatBotViewModelFactory(private val tokenRepository: TokenRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ChatBotViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return ChatBotViewModel(tokenRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

@@ -4,18 +4,20 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.everfrost.remak.dataStore.TokenRepository
 import com.everfrost.remak.model.ErrorResponse
 import com.everfrost.remak.network.model.CollectionListData
 import com.everfrost.remak.network.model.MainListData
 import com.everfrost.remak.repository.NetworkRepository
 import com.google.gson.Gson
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewModel() {
-    private val networkRepository = NetworkRepository()
+@HiltViewModel
+
+class CollectionViewModel @Inject constructor(private val networkRepository: NetworkRepository) :
+    ViewModel() {
     private val _isCollectionEmpty = MutableLiveData<Boolean>()
     val isCollectionEmpty: LiveData<Boolean> = _isCollectionEmpty
     private val _collectionList = MutableLiveData<List<CollectionListData.Data>>()
@@ -194,13 +196,3 @@ class CollectionViewModel(private val tokenRepository: TokenRepository) : ViewMo
 
 }
 
-class CollectionViewModelFactory(private val tokenRepository: TokenRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CollectionViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return CollectionViewModel(tokenRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

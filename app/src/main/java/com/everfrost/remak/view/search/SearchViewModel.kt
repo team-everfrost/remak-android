@@ -1,23 +1,29 @@
 package com.everfrost.remak.view.search
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.everfrost.remak.dataStore.SearchHistoryRepository
 import com.everfrost.remak.network.model.MainListData
 import com.everfrost.remak.repository.NetworkRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchViewModel(private val searchHistoryRepository: SearchHistoryRepository) : ViewModel() {
+
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    private val searchHistoryRepository: SearchHistoryRepository,
+    private val networkRepository: NetworkRepository
+) : ViewModel() {
 
     private val _searchResult = MutableLiveData<List<MainListData.Data>>()
     val searchResult: LiveData<List<MainListData.Data>> = _searchResult
     private val _searchHistory = MutableLiveData<List<String>>()
     val searchHistory: LiveData<List<String>> = _searchHistory
     private var isLoadEnd: Boolean = false
-    private val networkRepository = NetworkRepository()
     var searchCursor: String? = null
     var searchDocID: String? = null
     var embeddingOffset: Int? = null
@@ -26,9 +32,11 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
     private var offset = 0
 
     fun getEmbeddingSearchResult(query: String) = viewModelScope.launch {
+        Log.d("SearchViewModel", "getEmbeddingSearchResult: $query")
         lastQuery = query
         val response = networkRepository.getEmbeddingData(query)
         try {
+            Log.d("SearchViewModel", "getEmbeddingSearchResult: $response")
             if (response.isSuccessful) {
                 _searchResult.value = response.body()!!.data
             } else {
@@ -128,16 +136,5 @@ class SearchViewModel(private val searchHistoryRepository: SearchHistoryReposito
     fun deleteSearchHistory(query: String) = viewModelScope.launch {
         searchHistoryRepository.deleteSearchQuery(query)
         getSearchHistory()
-    }
-}
-
-class SearchViewModelFactory(private val searchHistoryRepository: SearchHistoryRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return SearchViewModel(searchHistoryRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

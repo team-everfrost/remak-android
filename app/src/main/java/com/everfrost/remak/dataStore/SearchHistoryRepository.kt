@@ -7,8 +7,9 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
 
-class SearchHistoryRepository(private val dataStore: DataStore<Preferences>) {
+class SearchHistoryRepository @Inject constructor(private val dataStore: DataStore<Preferences>) {
 
     object PreferencesKeys {
         val SEARCH_HISTORY = stringPreferencesKey("search_history")

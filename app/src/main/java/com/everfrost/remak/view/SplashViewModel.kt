@@ -3,12 +3,16 @@ package com.everfrost.remak.view
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.everfrost.remak.dataStore.TokenRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SplashViewModel(private val signInRepository: TokenRepository) : ViewModel() {
+
+@HiltViewModel
+class SplashViewModel @Inject constructor(private val signInRepository: TokenRepository) :
+    ViewModel() {
     private val _isReady = MutableLiveData<Boolean>()
     val isReady: LiveData<Boolean> get() = _isReady
     private val _isToken = MutableLiveData<Boolean>()
@@ -37,15 +41,4 @@ class SplashViewModel(private val signInRepository: TokenRepository) : ViewModel
         return _isReady.value ?: false
     }
 
-}
-
-class SplashViewModelFactory(private val signInRepository: TokenRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(SplashViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return SplashViewModel(signInRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
 }
