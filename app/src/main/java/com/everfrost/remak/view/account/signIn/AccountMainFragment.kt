@@ -125,33 +125,10 @@ class AccountMainFragment : Fragment() {
 
 
         bigIconTimer = Timer()
-        bigIconTimer.scheduleAtFixedRate(object : TimerTask() {
-            override fun run() {
-                activity?.runOnUiThread {
-                    if (layoutManager.findLastCompletelyVisibleItemPosition() == adapter.itemCount) {
-                        // 마지막 아이템에 도달하면 첫 번째 아이템으로 스크롤
-                        binding.bigIconRecyclerView.scrollToPosition(1)
-                    } else {
-                        binding.bigIconRecyclerView.scrollBy(1, 0) // 50 픽셀만큼 오른쪽으로 스크롤
-                    }
-                }
-            }
-        }, 0, 10) // 100ms 마다 스크롤 동작 실행
+
 
         smallIconTimer = Timer()
-        smallIconTimer.scheduleAtFixedRate(object : TimerTask() {
-            override fun run() {
-                activity?.runOnUiThread {
-                    if (smallIconLayoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
-                        // 마지막 아이템에 도달하면 첫 번째 아이템으로 스크롤
-                        binding.smallIconRecyclerView.scrollToPosition(smallIconAdapter.itemCount - 1)
 
-                    } else {
-                        binding.smallIconRecyclerView.scrollBy(-1, 0) // 50 픽셀만큼 오른쪽으로 스크롤
-                    }
-                }
-            }
-        }, 0, 10) // 100ms 마다 스크롤 동작 실행
 
         binding.emailLoginBtn.setOnClickListener {
             findNavController().navigate(R.id.action_accountMainFragment_to_accountEmailSignInFragment)
