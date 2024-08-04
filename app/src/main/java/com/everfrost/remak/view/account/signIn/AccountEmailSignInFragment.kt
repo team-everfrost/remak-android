@@ -5,6 +5,7 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,21 +71,27 @@ class AccountEmailSignInFragment : Fragment() {
 
         viewModel.isEmailValid.observe(viewLifecycleOwner) {
             if (it == true) {
+
                 binding.emailErrorMessage.visibility = View.INVISIBLE
                 binding.pwEditText.visibility = View.VISIBLE
 
                 binding.nextBtn.text = "로그인"
-                binding.nextBtn.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.whiteGray
+
+
+                if (binding.pwEditText.length() == 0) {
+                    binding.nextBtn.isEnabled = false
+                    binding.nextBtn.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.whiteGray
+                        )
                     )
-                )
-                binding.nextBtn.background = ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.custom_ripple_effect
-                )
-                binding.nextBtn.isEnabled = false
+                    binding.nextBtn.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.custom_ripple_effect
+                    )
+                }
+
                 isWritingEmail = false
                 binding.emailEditText.isEnabled = false
                 binding.pwEditText.requestFocus()
@@ -144,7 +151,9 @@ class AccountEmailSignInFragment : Fragment() {
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(p0: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun onTextChanged(p0: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.d("이메일", binding.emailEditText.text.toString())
+            }
         })
 
         binding.pwEditText.addTextChangedListener(object : TextWatcher {
@@ -185,7 +194,26 @@ class AccountEmailSignInFragment : Fragment() {
                 }
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if (binding.pwEditText.length() > 0) {
+                    binding.nextBtn.isEnabled = true
+                    binding.nextBtn.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.custom_ripple_effect_blue_rec
+                    )
+                    binding.nextBtn.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.white
+                        )
+                    )
+                    binding.pwEditText.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.edit_text_round
+                    )
+                }
+            }
+
             override fun onTextChanged(p0: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
